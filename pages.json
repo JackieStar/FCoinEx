@@ -246,12 +246,8 @@
 		{
 			"path": "pages/wallet/wallet",
 			"style": {
-				"navigationBarTitleText": "我的资产",
-				"navigationBarBackgroundColor": "#1866fe",
-				"navigationBarTextStyle": "white",
-				"enablePullDownRefresh": true,
 				"app-plus": {
-					"titleView":false,
+					"bounce": "none",
 					"titleNView": {
 						"type": "transparent"
 					}
@@ -421,23 +417,12 @@
 			"path": "pages/user/user",
 			"style": {
 				"navigationBarTitleText": "我的",
-				// #ifdef MP
 				"navigationStyle": "custom",
-				// #endif
 				"app-plus": {
-					"bounce": "none",
-					"titleNView": {
-						"type": "transparent"
-						// "buttons": [{
-						// 		"fontSrc": "/static/yticon.ttf",
-						// 		"text": "\ue60f",
-						// 		"fontSize": "24",
-						// 		"color": "#303133",
-						// 		"width": "46px",
-						// 		"background": "rgba(0,0,0,0)"
-						// 	}
-						// ]
-					}
+					// "bounce": "none"
+					// "titleNView": {
+					// 	"type": "transparent"
+					// }
 				}
 			}
 		},{

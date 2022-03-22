@@ -658,7 +658,7 @@
 	    bottom: 0;
 	    width: 100%;
 	    height: 1px;
-	    background-color: #585A6D;
+	    background-color: $border-color-base;
 	    /* 如果不用 background-color, 使用 border-top:1px solid blue; */
 	    -webkit-transform: scaleY(.5);
 	    transform:scaleY(.5);

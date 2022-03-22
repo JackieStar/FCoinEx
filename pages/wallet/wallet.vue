@@ -1,191 +1,192 @@
 <template>
 	<view class="container">
-		<u-navbar :is-back="false" height="20">
-			<view class="slot-wrap">
+		<view class="assets-box">
+			<view class="title">资产</view>
+			<view class="money">200.00</view>
+			<view class="tips">余额(USDT)</view>
+		</view>
+		<!-- 充值提现 -->
+		<view class="menu">
+			<view class="fiat m-r" @click="navTo('/pages/prediction/prediction')">
+				<view class="label">
+					<text>{{ i18n.index.prediction.title1 }}</text>
+				</view>
+				<image class="menu-icon" src="../../static/images/makets/recharge.png" mode="widthFix" />
 			</view>
-		</u-navbar>
-		<view class="total-box">
-			<view class="title">{{i18n.wallet.total}}(USDT)</view>
-			<view class="asset">
-				<text class="amount">{{data.totalUsdAmount | fixed(2)}}</text>
-				<text class="cny">≈￥{{data.totalCnyAmount | fixed(2)}}</text>
-			</view>
-			<view class="operat">
-				<view class="btn" @click="navTo('/pages/wallet/deposit')">{{i18n.wallet.recharge}}</view>
-				<view class="btn" @click="navTo('/pages/wallet/withdraw')">{{i18n.wallet.withdraw}}</view>
-				<view class="btn" @click="navTo('/pages/exchange/index')">{{i18n.wallet.exchange}}</view>
+			<view class="fiat m-l" @click="navTo('/pages/prediction/prediction')">
+				<view class="label">
+					<text>{{ i18n.index.prediction.title2 }}</text>
+				</view>
+				<image class="menu-icon" src="../../static/images/makets/withdraw.png" mode="widthFix" />
 			</view>
 		</view>
-		<!-- 列表 -->
-		<view class="coin-section m-t">
-			<view v-for="(item, i) in data.list" :key="item.symbol" class="block little-line" >
-				<view class="s-row">
-					<view class="col">
-						<image :src="item.icon" class="coinLogo"></image>
-						<text class="coin">{{item.symbol}}</text>
-					</view>
-					<view class="col r light">
-						<!--<uni-icons type="forward" size="20" class="gt"></uni-icons>-->
-					</view>
-				</view>
-				<view class="s-row">
-					<view class="col subtitle row-title">{{i18n.wallet.avalible}}</view>
-					<view class="col subtitle row-title">{{i18n.wallet.frozen}}</view>
-					<view class="col r subtitle row-title">{{i18n.wallet.amount}}(CNY)</view>
-				</view>
-				<view class="s-row">
-					<view class="col subtitle row-amount">{{item.normalBalance | fixed(item.showPrecision)}}</view>
-					<view class="col subtitle row-amount">{{item.frozenBalance | fixed(item.showPrecision)}}</view>
-					<view class="col r subtitle row-amount">{{item.priceCny | fixed(2)}}</view>
-				</view>
+		<!-- 交易流水 -->
+		<view class="trade-title">交易流水</view>
+		<view class="trade-list">
+			<view class="trade-money">
+				<text>充值</text>
+				<text>-100.00</text>
 			</view>
-			
+			<view class="trade-time">
+				<text>03-03-2022 12:22:41</text>
+				<text>USDT</text>
+			</view>
 		</view>
 	</view>
 </template>
 
 <script>
-	import {
-		mapState,
-		mapActions
-	} from 'vuex'
-	import {uniIcons} from '@dcloudio/uni-ui'
-	import {authMixin, commonMixin} from '@/common/mixin/mixin.js'
-	export default {
-		components: {uniIcons},
-		mixins: [authMixin, commonMixin],
-		data() {
-			return {
-				data: {
-					list: [],
-					totalUsdAmount: 0,
-					totalCnyAmount: 0
-				}
-			};
-		},
-		onShow(){
-			if(this.loginInfo.hasLogin){
-				this.loadData();
+import { mapState, mapActions } from 'vuex';
+import { uniIcons } from '@dcloudio/uni-ui';
+import { authMixin, commonMixin } from '@/common/mixin/mixin.js';
+export default {
+	components: { uniIcons },
+	mixins: [authMixin, commonMixin],
+	data() {
+		return {
+			bgColor: '#070219',
+			data: {
+				list: [],
+				totalUsdAmount: 0,
+				totalCnyAmount: 0
 			}
-			uni.setNavigationBarTitle({
-				title: this.i18n.wallet.title
-			})
-		},
-		onPullDownRefresh() {
+		};
+	},
+	onShow() {
+		if (this.loginInfo.hasLogin) {
 			this.loadData();
-		},
-		methods: {
-			...mapActions('account', ['accountList']),
-			//请求数据
-			async loadData(){
-				this.accountList().then(res =>{
-					this.data = res.data
+		}
+		uni.setNavigationBarTitle({
+			title: this.i18n.wallet.title
+		});
+	},
+	onPullDownRefresh() {
+		this.loadData();
+	},
+	methods: {
+		...mapActions('account', ['accountList']),
+		//请求数据
+		async loadData() {
+			this.accountList()
+				.then(res => {
+					this.data = res.data;
 					uni.stopPullDownRefresh();
-				}).catch(error =>{
-					
 				})
-			}
-			
+				.catch(error => {});
 		}
 	}
+};
 </script>
 
-<style lang='scss' scoped>
-	.container{
-		padding: 0upx 20upx;
+<style lang="scss" scoped>
+page {
+	background: #070219;
+}
+.container {
+	padding: 40upx 26upx;
+}
+.assets-box {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	margin-top: 30upx;
+	.title {
+		font-size: 36upx;
+		font-weight: 400;
+		color: #ffffff;
+		line-height: 30upx;
 	}
-	.slot-wrap{
-		padding: 20upx 20upx 0 20upx;
-		font-size: 32upx;
-		font-weight: bold;
+	.money {
+		font-size: 56upx;
+		font-family: PingFang SC;
+		font-weight: 500;
+		color: #fefeff;
+		margin-top: 80upx;
 	}
-	.total-box{
-		background: url(../../static/images/wallet/wallet-bg.png);
-		background-repeat: no-repeat;
-		background-size: 100% 100%;
-		font-size: $font-base;
-		padding: 60upx 30upx 40upx 30upx;
-		color: #8db3fe;
-		.title{
-			padding-bottom: 10upx;
-		}
-		.amount{
-			font-size: $font-xxl;
-			font-weight: 100upx;
-			color: #ffffff;
-		}
-		.cny{
+	.tips {
+		font-size: 24upx;
+		font-family: PingFang SC;
+		font-weight: 400;
+		color: #757d89;
+		margin-top: 18upx;
+	}
+}
+.menu {
+	// padding: 20upx 24upx;
+	margin-top: 47upx;
+	display: flex;
+	justify-content: space-between;
+	font-size: $font-base;
+	color: $border-color-light;
+	font-weight: bold;
+	.fiat {
+		width: 330rpx;
+		height: 110rpx;
+		display: flex;
+		flex: 1;
+		align-items: center;
+		background: #1a1b28;
+		border-radius: 10rpx;
+		padding: 0 45upx;
+		justify-content: space-between;
+		.label {
+			display: flex;
+			flex-direction: column;
 			padding-left: 20upx;
 		}
-		.operat{
-			display: flex;
-			flex-direction: row;
-			justify-content: space-between;
-			align-items: middle;
-			padding-top: 40upx;
-			.btn{
-				text-align: center;
-				flex: 0 0 32%;
-				height: 60upx;
-				line-height: 60upx;
-				color: #ffffff;
-				background-color: rgba(255,255,255,0.08);
-			}
+		.sub {
+			font-size: $font-sm;
+			font-weight: normal;
+		}
+		.menu-icon {
+			width: 58rpx;
+		}
+		text {
+			font-size: $font-md;
 		}
 	}
-	.coin-section{
-		background: #fff;
-		.block{
-			padding: 20upx 0;
-			.s-row{
-				display:flex;
-				align-items:center;
-				padding: 10upx 5upx 0upx 5upx;
-				.subtitle{
-					padding: 4upx 0 10upx 0;
-				}
-				.col{
-					font-size: $font-base;
-					color: $font-color-dark;
-					flex:1;
-					.coin{
-						font-weight: bold;
-					}
-				}
-				.coinLogo {
-				    width: 36upx;
-					height: 36upx;
-				    margin-right: 8px;
-				    display: inline-block;
-				    vertical-align: middle;
-				    float: left;
-				}
-				.light{
-					font-weight: bold;
-					font-size: $font-lg;
-					color: $font-color-dark;
-				}
-				.r{
-					text-align: right;
-				}
-				.row-title{
-					font-size: $font-base;
-					font-weight: normal;
-					color: $font-color-light;
-				}
-				.row-amount{
-					font-size: $font-base;
-					font-weight: normal;
-					color: $font-color-dark;
-				}
-				.gt{
-					font-weight: 10;
-				}
-			}
-		}
-		
-		
+	.m-r {
+		margin-right: 14upx;
 	}
-	
-	
+	.m-l {
+		margin-left: 14upx;
+	}
+}
+.trade-title {
+	font-size: 24upx;
+	font-family: PingFang SC;
+	font-weight: 400;
+	color: #8a959f;
+	margin: 34upx 0 28upx 0;
+}
+.trade-list {
+	padding: 20upx 40upx;
+	background-color: #1a1a1a;
+	border-bottom: 1upx solid #303030;
+	.trade-money {
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+		text {
+			font-size: 30upx;
+			font-family: PingFang SC;
+			font-weight: 400;
+			color: #ffffff;
+		}
+	}
+	.trade-time {
+		width: 100%;
+		display: flex;
+		margin-top: 4upx;
+		justify-content: space-between;
+		text {
+			font-size: 24upx;
+			font-family: PingFang SC;
+			font-weight: 400;
+			color: #5c6672;
+		}
+	}
+}
 </style>

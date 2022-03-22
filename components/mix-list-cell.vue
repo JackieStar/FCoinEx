@@ -81,13 +81,13 @@
 
 <style lang='scss'>
 
-	.icon .mix-list-cell.b-b:after{
+/* 	.icon .mix-list-cell.b-b:after{
 		left: 90upx;
-	}
+	} */
 	.mix-list-cell{
 		display:flex;
 		align-items:center;
-		padding: 20upx $page-row-spacing;
+		padding: 20upx 28upx ;
 		line-height:60upx;
 		position:relative;
 		
@@ -113,7 +113,7 @@
 		.cell-tit{
 			flex: 1;
 			font-size: $font-base;
-			color: $font-color-dark;
+			color: #8D8E9B;
 			margin-right:10upx;
 		}
 		.cell-tip{
@@ -121,9 +121,9 @@
 			color: $font-color-light;
 		}
 		.cell-image{
-			width: 50upx;
-			height: 50upx;
-			margin-right: 20upx;
+			width: 26upx;
+			height: 26upx;
+			margin-right: 25upx;
 		}
 	}
 </style>

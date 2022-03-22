@@ -7,26 +7,20 @@
 			<view class="left-top-sign">LOGIN</view>-->
 			<view class="welcome">
 				<image mode="widthFix" src="../../static/images/public/logo.png" class="logo"></image>
-				<view class="txt">
-					<text class="b">{{i18n.login.welcome}} FexCoin</text>
-					<!--<text>Welcome to fexcoin</text>-->
-				</view>
 			</view>
 			<view class="input-content">
 				<view class="input-item">
-					<image src="../../static/images/public/icon-mobile.png" class="icon"></image>
-					<input placeholder-style="color: #ffffff"
-						type="mobile" 
+					<u-image src="../../static/images/public/email.png" width="42upx" height="30upx" />
+					<input placeholder-style="color: #435687"
 						v-model="form.username" 
 						:placeholder="i18n.login.inputUserName"
-						maxlength="11"
 						data-key="username"
 						@input="inputChange"
 					/>
 				</view>
 				<view class="input-item">
-					<image src="../../static/images/public/icon-pwd.png" class="icon"></image>
-					<input placeholder-style="color: #ffffff"
+					<u-image src="../../static/images/public/password.png" width="31upx" height="35upx" />
+					<input placeholder-style="color: #435687"
 						type="password" 
 						v-model="form.password" 
 						:placeholder="i18n.login.pwdRule"
@@ -44,7 +38,8 @@
 					忘记密码?
 				</view>
 			</view>
-			<button class="confirm-btn" @click="useVerify" :disabled="logining">登录</button>
+			<view @click="useVerify" class="confirm-btn">登录</view>
+			<!-- <button class="confirm-btn" @click="useVerify" :disabled="logining">登录</button> -->
 		</view>
 		<view class="register-section">
 			{{i18n.login.noAccount}}
@@ -241,10 +236,12 @@
 	}
 	.welcome{
 		position:relative;
-		padding-left: 40upx;
-		padding-bottom: 50upx;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-bottom: 60upx;
 		.logo{
-			width: 150upx;
+			width: 184upx;
 		}
 		.txt{
 			display: flex;
@@ -269,15 +266,10 @@
 		justify-content: center;
 		padding: 0 10upx;
 		height: 80upx;
-		line-height: 80upx;
 		margin-bottom: 50upx;
-		border-bottom: 1px solid rgba(255,255,255,0.6);
+		border-bottom: 1px solid #0B2771;
 		&:last-child{
 			margin-bottom: 0;
-		}
-		.icon{
-			width: 13px;
-			height: 17px;
 		}
 		.tit{
 			height: 50upx;
@@ -294,39 +286,37 @@
 		}	
 	}
 	.link{
-		display: flex;
+		/* display: flex; */
 		padding: 30upx 60upx;
-		color: #ffffff;
+		
 	}
 	.confirm-btn{
 		width: 630upx;
 		height: 76upx;
 		line-height: 76upx;
-		border-radius: 50px;
 		margin-top: 40upx;
-		background: #FFFFFF;
-		color: #4E46D2;
+		margin: 40upx auto;
+		background: url(../../static/images/public/login-btn.png);
+		background-size: 100% 100%;
+		color: #fff;
 		font-size: $font-lg;
-		&:after{
-			border-radius: 100px;
-		}
+		display: flex;
+		align-items: center;
+		justify-content: center;
 	}
 	.forget-section{
 		font-size: $font-sm+2upx;
-		color: $font-color-spec;
-		text-align: center;
-		margin-top: 40upx;
+		color: #C9D8FF;
+		float: right;
+		margin: 40upx 0;
 	}
 	.register-section{
-		position:absolute;
-		left: 0;
-		bottom: 50upx;
 		width: 100%;
 		font-size: $font-sm+2upx;
-		color: #4E46D2;
+		color: #fff;
 		text-align: center;
 		text{
-			color: #ffffff;
+			color: #7A39FF;
 			margin-left: 10upx;
 		}
 	}
