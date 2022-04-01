@@ -1,299 +1,284 @@
 <template>
 	<view class="container">
-		<!-- 列表 -->
-		<view class="coin-section m-t">
-			<view class="s-row">
-				<view class="col">
-					<image :src="coin.icon" mode="widthFix" class="icon"></image>
-					<text class="coin">{{coin.symbol}}</text>
-				</view>
-				<view class="col r light" @click="navTo('/pages/public/coinList')">
-					<text class="subtitle">{{i18n.withdraw.selectCoin}}</text>
-					<uni-icons type="forward" size="20" class="arrow"></uni-icons>
-				</view>
-			</view>
-			<view class="chain" v-show="isChain">
-				<view class="label">{{i18n.withdraw.chainName}}</view>
-				<view class="row">
-					<view @click="selectChain(item)" class="item" :class="{'selected': item.tokenBase == chain.tokenBase}" v-for="(item, i) in config.chains">{{item.chain}}</view>
-				</view>
-			</view>
-			<view class="form">
-				<text class="label">{{i18n.withdraw.withdrawwAddr}}</text>
-				<view class="input little-line">
-					<input type="text" v-model="form.address" :placeholder="i18n.withdraw.inputAddr" class="address"/>
-				</view>
-				<text class="label">{{i18n.withdraw.vol}}</text>
-				<view class="input little-line">
-					<input type="number" v-model="form.amount" :placeholder="`${i18n.withdraw.minWithdrawVol}${config.minWithdraw}`" class="volume"/>
-					<view class="all" @click="all">{{i18n.withdraw.all}}</view>
-				</view>
-				<view class="balance">{{i18n.withdraw.avalible}} {{account.normalBalance | fixD(config.showPrecision)}} {{account.symbol}}</view>
-				<text class="label">{{i18n.withdraw.fee}} {{config.fee}} {{coin.symbol}}</text>
-			</view>
-			<button class="submit" @click="handleSubmit">{{i18n.common.ok}}</button>
-			<view class="desc">
-				{{i18n.withdraw.tip1}}：{{config.minWithdraw}} {{coin.symbol}} <span v-if="isChain">({{chain.chain}})</span>。<br/>
-				{{i18n.withdraw.tip2}}。<br/>
-				{{i18n.withdraw.tip3}}。
+		<view class="market-header">
+			<u-icon class="arrow-left" @click="openPage(0)" name="arrow-left" color="#ffffff" size="44" />
+			<view class="market-text">充值</view>
+			<image  @click="openPage(1)" src="../../static/images/wallet/list.png" class="right-icon" />
+		</view>
+		<view class="user-info">
+			<image src="../../static/images/public/header.png" class="user-avatar" />
+			<view class="info">
+				<text>USID</text>
+				<view>网络：USTD_324</view>
 			</view>
 		</view>
-		<uni-valid-popup ref="validPopup" @ok="ok"></uni-valid-popup>
+		<image class="user-bg" src="../../static/images/wallet/bg.png" />
+		<view class="code-wrapper">
+			<image src="../../static/images/public/header.png" class="code-img" />
+		</view>
+		<view class="title">
+			<text>充值地址</text>
+			<u-image class="title-bg" src="../../static/images/wallet/title-long-bg.png" width="144upx" height="12upx" mode="" />
+		</view>
+		<view class="input-wrapper">
+			<text class="address-input">adskjfhawkjhewealkjb</text>
+			<view class="copy-btn">粘贴</view>
+		</view>
+		<view class="title">
+			<text>充值金额</text>
+			<u-image class="title-bg" src="../../static/images/wallet/title-bg.png" width="144upx" height="12upx" mode="" />
+		</view>
+		<view class="money-wrapper">
+			<input type="text" class="money-input" placeholder-style="color: #454D73;font-size: 26upx;" placeholder="请输入充值金额"  />
+		</view>
+		<view >
+			<c-tips text="如果您发送了除USTD-324之外的任何其他加密，您我拿不回来了" />
+			<c-tips text="这项存款需要1个区块链确认，至少再一次确认后才能到达" />
+		</view>
+		<view class="confirm-btn">我已转账</view>
 	</view>
 </template>
-
 <script>
-	import { mapState, mapActions } from 'vuex'
-	import uniValidPopup from '@/components/uni-valid-popup.vue';
-	import {uniIcons} from '@dcloudio/uni-ui'
-	import {commonMixin, authMixin} from '@/common/mixin/mixin.js'
-	export default {
-		components: {uniIcons, uniValidPopup},
-		mixins: [commonMixin, authMixin],
-		data() {
-			return {
-				coin: {},
-				account: {},
-				coins: [],
-				tips: {},
-				config: {},
-				chain: {},
-				isChain: false,
-				form: {
-					symbol: undefined,
-					amount: undefined,
-					address: undefined,
-					authCode: ''
-				}
-			};
-		},
-		onNavigationBarButtonTap(e) {
-			this.navTo(`/pages/wallet/detail?coin=${this.coin.symbol}&filterIndex=0`);
-		},
-		onUnload(){
-			uni.$off('selectCoin', this.selectCoin)
-		},
-		onShow() {
-			uni.setNavigationBarTitle({
-				title: this.i18n.wallet.withdraw
-			})
-		},
-		onLoad(){
-			uni.$on('selectCoin', this.selectCoin)
-			this.coinList().then(res =>{
-				this.coins = res.data
-				this.coin = res.data[0]
-				
-				this.loadData()
-			})
-		},
-		methods: {
-			...mapActions('common', ['coinList', 'coinTips']),
-			...mapActions('account', ['getAccount']),
-			...mapActions('user', ['withdraw', 'withdrawConfig']),
-			//请求数据
-			async loadData(){
-				
-				this.coinTips(this.coin.symbol).then(res =>{
-					this.tips = res.data
-				})
-				this.withdrawConfig(this.coin.symbol).then(res =>{
-					this.config = res.data
-					this.isChain = (this.config.chains && this.config.chains.length > 0)
-					if(this.isChain){
-						this.chain = this.config.chains[0]
-					}
-					
-					this.getAccount(this.coin.symbol).then(res =>{
-						this.account = res.data
-					})
-				})
-			},
-			selectChain(item){
-				this.chain = item
-				this.config.fee = item.withdrawFee
-				this.config.minWithdraw = item.minWithdraw
-				this.form.address = undefined
-				this.form.amount = undefined
-			},
-			selectCoin(data){
-				for(let i = 0; i < this.coins.length; i++){
-					let item = this.coins[i]
-					if(item.symbol === data.coin.item.name){
-						this.coin = item;
-						break;
-					}
-				}
-				this.loadData()
-			},
-			handleSubmit(){
-				this.form.symbol = this.coin.symbol
-				if(!this.form.symbol){
-					this.$api.msg(this.i18n.withdraw.selectCoin)
-					return;
-				}
-				if(!this.form.address){
-					this.$api.msg(this.i18n.withdraw.inputAddr)
-					return;
-				}
-				if(!this.form.amount){
-					this.$api.msg(this.i18n.withdraw.inputAmount)
-					return;
-				}
-				this.$refs.validPopup.open('capitalPasswd')
-				
-			},
-			ok(data){
-				if(!data.code){
-					this.$api.msg(this.i18n.toast.inputCapthError)
-					return;
-				}
-				
-				this.form.capitalPasswd = data.code
-				uni.showLoading();
-				this.form.chain = this.chain.tokenBase ? this.chain.tokenBase : ''
-				this.withdraw(this.form).then(res =>{
-					uni.hideLoading()
-					this.$refs.validPopup.close()
-					this.$api.msg(this.i18n.toast.withdrawSuccess, 1000, false, 'none', function() {})
-				}).catch(error => {
-					uni.hideLoading()
-					this.$refs.validPopup.enable()
-				})
-			},
-			all(){
-				this.form.amount = this.account.normalBalance
+import { mapState, mapActions } from 'vuex';
+import tkiQrcode from '@/components/tki-qrcode/tki-qrcode.vue';
+import { uniIcons } from '@dcloudio/uni-ui';
+import { commonMixin, authMixin } from '@/common/mixin/mixin.js';
+import CTips from '@/components/c-tips/c-tips.vue'
+export default {
+	components: { tkiQrcode, uniIcons, CTips },
+	mixins: [commonMixin, authMixin],
+	data() {
+		return {
+			coin: {},
+			chain: '',
+			isChain: false,
+			fee: 0,
+			showPrecision: 0,
+			chains: [],
+			account: {},
+			coins: [],
+			tips: {},
+			deposit: {},
+			qrcode: {
+				val: ''
 			}
+		};
+	},
+	onUnload() {
+		uni.$off('selectCoin', this.selectCoin);
+	},
+	onShow() {
+		uni.setNavigationBarTitle({
+			title: this.i18n.wallet.recharge
+		});
+	},
+	onLoad() {
+		uni.$on('selectCoin', this.selectCoin);
+		this.coinList().then(res => {
+			this.coins = res.data;
+			this.coin = res.data[0];
+			this.loadData();
+		});
+	},
+	onNavigationBarButtonTap(e) {
+		this.navTo(`/pages/wallet/detail?coin=${this.coin.symbol}&filterIndex=1`);
+	},
+	methods: {
+		...mapActions('common', ['coinList', 'coinTips']),
+		...mapActions('user', ['depositAddress']),
+		async loadData() {
+			this.depositAddress({ coin: this.coin.symbol, chain: this.chain }).then(res => {
+				this.deposit = res.data;
+				this.isChain = this.deposit.chains && this.deposit.chains.length > 0;
+				this.qrcode.val = res.data.address;
+				this.$refs.qrcode & this.$refs.qrcode._makeCode();
+			});
+			this.coinTips(this.coin.symbol).then(res => {
+				this.tips = res.data;
+			});
+		},
+		selectChain(item) {
+			this.chain = item.tokenBase;
+			this.loadData();
+		},
+		selectCoin(data) {
+			for (let i = 0; i < this.coins.length; i++) {
+				let item = this.coins[i];
+				if (item.symbol === data.coin.item.name) {
+					this.coin = item;
+					break;
+				}
+			}
+			this.loadData();
+		},
+		save() {
+			this.$refs.qrcode._saveCode();
+		},
+		paste() {
+			let $this = this;
+			uni.setClipboardData({
+				data: this.deposit.address,
+				success: function() {
+					$this.$api.msg($this.toast.copySuccess);
+				}
+			});
+		},
+		openPage(type) {
+			if (type === 0) uni.navigateBack();
+			if (type === 1)
+				uni.navigateTo({
+					url: '/pages/wallet/record'
+				});
 		}
 	}
+};
 </script>
 
-<style lang='scss' scoped>
-	.container{
-		padding: $page-row-spacing;
-	}
-	.coin-section{
-		background: #fff;
-		.chain{
-			padding: 30upx 0upx 10upx 0upx;
+<style lang="scss" scoped>
+.container {
+	padding: 20upx 0 100upx 0;
+	.market-header {
+		width: 100%;
+		height: 88upx;
+		text-align: center;
+		left: 0;
+		top: 0;
+		right: 0;
+		background-color: #111111;
+		padding: 0 41upx;
+		position: fixed;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		z-index: 1000;
+		.market-text {
+			height: 80upx;
+			font-size: 36upx;
+			font-family: PingFang SC;
+			font-weight: 400;
+			color: #ffffff;
+			line-height: 88upx;
 		}
-		.chain .label{
-			font-size: $font-sm;
-		}
-		.chain .row{
-			display: flex;
-			padding-top: 20upx;
-			.item{
-				width: 160upx;
-				height: 70upx;
-				line-height: 70upx;
-				background-color: $uni-color-subbg;
-				border-radius: 10upx;
-				margin-right: 20upx;
-				text-align: center;
-			}
-			.selected{
-				border: 1upx solid #007AFF;
-				background-color: #ffffff;
-				color: #007AFF;
-			}
-		}
-		.s-row{
-			background-color: $uni-color-subbg;
-			display:flex;
-			align-items:center;
-			padding: 20upx 10upx 20upx 10upx;
-			.col{
-				font-size: $font-lg;
-				color: $font-color-dark;
-				flex:1;
-				.icon{
-					width: 60upx;
-					height: 60upx;
-					vertical-align: middle;
-					margin-right: 10upx;
-				}
-				.coin{
-					font-weight: 400;
-					vertical-align: middle;
-				}
-				.subtitle{
-					font-size: $font-sm;
-					font-weight: 400;
-				}
-			}
-			.coinLogo {
-			    width: 46upx;
-				height: 46upx;
-			    margin-right: 8px;
-			    display: inline-block;
-			    vertical-align: middle;
-			    float: left;
-			}
-			.light{
-				font-weight: 100;
-				font-size: $font-lg;
-				color: $font-color-dark;
-			}
-			.r{
-				text-align: right;
-			}
-			.arrow{
-				vertical-align: middle;
-			}
-		}
-		.form{
-			padding: 10upx 0;
-			display: flex;
-			flex-direction: column;
-			.label{
-				margin-top: 30upx;
-				color: $font-color-dark;
-				font-size: $font-sm;
-			}
-			.balance{
-				margin-top: 10upx;
-				color: $font-color-light;
-				font-size: $font-sm;
-			}
-			.address{
-				width: 100%;
-			}
-			.volume{
-				width: 400upx;
-			}
-			.input{
-				padding: 10upx 0;
-				display: flex;
-				flex-direction: row;
-				justify-content: space-between;
-				.all{
-					flex: 0.5;
-					text-align: right;
-					font-size: $font-base;
-					color: $font-color-dark;
-					font-weight: bold;
-				}
-			}
-			input{
-				color: $font-color-light;
-				font-size: $font-base;
-			}
-		}
-		.desc{
-			margin-top: 30upx;
-			margin-bottom: 20upx;
-			font-size: $font-base;
-			color: $font-color-light;
-			display: flex;
-			flex-direction: column;
+		.right-icon {
+			width: 35upx;
+			height: 40upx;
 		}
 	}
-	.submit{
-		margin: 60upx 0upx;
-		background: $uni-color-blue;
+	.user-info {
+		width: 100%;
+		display: flex;
+		margin-top: 83upx;
+		padding-left: 50upx;
+		.user-avatar {
+			width: 112upx;
+			height: 112upx;
+			margin-right: 38upx;
+		}
+		.info {
+			display: flex;
+			flex-direction: column;
+			text {
+				font-size: 30upx;
+				font-family: PingFang SC;
+				font-weight: 500;
+				color: #FFFFFF;
+				margin-top: 14upx;
+			}
+			view {
+				font-size: 24upx;
+				font-family: PingFang SC;
+				font-weight: 400;
+				color: #85A0B2;
+				margin-top: 5upx;
+			}
+		}
+	}
+	.user-bg {
+		width: 750upx;
+		height: 171upx;
+		margin-top: -50upx;
+	}
+	.code-wrapper {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-bottom: 20upx;
+		.code-img {
+			width: 280upx;
+			height: 280upx;
+		}
+	}
+	.title {
+		width: 100%;
+		height: 28upx;
+		font-size: 30upx;
+		font-family: PingFang SC;
+		font-weight: 500;
+		color: #FFFFFF;
+		padding: 0 26upx;
+		display: flex;
+		flex-direction: column;
+		text {
+			margin-left: 6upx;
+			z-index: 10;
+		}
+		.title-bg {
+			margin-top: -30upx;
+		}
+	}
+	.input-wrapper {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 0 29upx;
+		margin: 40upx 0;
+		.address-input {
+			font-size: 32upx;
+			font-family: PingFang SC;
+			font-weight: 400;
+			text-decoration: underline;
+			color: #fff;
+			margin-left: 80upx;
+		}
+		.copy-btn {
+			width: 154upx;
+			height: 70upx;
+			line-height: 70upx;
+			background: url(../../static/images/wallet/copy-btn.png);
+			background-size: 100% 100%;
+			color: #fff;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 26upx;
+		}
+	}
+	.money-wrapper {
+		width: 100%;
+		padding: 0 29upx;
+		margin: 40upx 0;
+		.money-input {
+			width: 690upx;
+			padding: 0 30upx;
+			height: 76upx;
+			border: 2upx solid #554472;
+			border-radius: 4upx;
+		}
+	}
+	.confirm-btn {
+		width: 610upx;
+		height: 76upx;
+		line-height: 76upx;
+		margin: 50upx auto;
+		background: url(../../static/images/public/login-btn.png);
+		background-size: 100% 100%;
 		color: #fff;
-		font-size: $font-md;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 26upx;
 	}
-	
+}
 </style>

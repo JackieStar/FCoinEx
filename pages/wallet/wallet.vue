@@ -7,13 +7,13 @@
 		</view>
 		<!-- 充值提现 -->
 		<view class="menu">
-			<view class="fiat m-r" @click="navTo('/pages/prediction/prediction')">
+			<view class="fiat m-r" @click="navTo('/pages/wallet/deposit')">
 				<view class="label">
 					<text>{{ i18n.index.prediction.title1 }}</text>
 				</view>
 				<image class="menu-icon" src="../../static/images/makets/recharge.png" mode="widthFix" />
 			</view>
-			<view class="fiat m-l" @click="navTo('/pages/prediction/prediction')">
+			<view class="fiat m-l" @click="navTo('/pages/wallet/withdraw')">
 				<view class="label">
 					<text>{{ i18n.index.prediction.title2 }}</text>
 				</view>

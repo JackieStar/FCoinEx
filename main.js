@@ -9,7 +9,7 @@ import Json from './Json' //测试用数据
 import lottery from './utils/lottery.js'
 // #endif
 
-import uView from "uview-ui";
+import uView from 'uview-ui'
 Vue.use(uView);
 
 import MescrollBody from "@/components/mescroll-uni/mescroll-body.vue"
@@ -20,7 +20,6 @@ Vue.use(require('vue-moment'));
 
 let Chinese = require('./static/locales/zh-CN.js')
 let English = require('./static/locales/en-US.js')
-let Tradition = require('./static/locales/zh-HK.js')
 
 // VueI18n
 import VueI18n from 'vue-i18n'
@@ -36,8 +35,7 @@ const i18n = new VueI18n({
 	// 引入语言文件
 	messages: {
 		'zh_CN': Chinese,
-		'en_US': English,
-        'zh_TW': Tradition
+		'en_US': English
 	}
 })
 /**

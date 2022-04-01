@@ -1,7 +1,7 @@
 <template>
 	<view class="container">
 		<view class="market-header">
-			<u-image class="avatar" @click="openPage" src="../../static/images/makets/avatar.png" width="56rpx" height="56rpx" mode="widthFix" />
+			<u-image class="avatar" @click="openPage" src="../../static/images/makets/avatar.png" width="76rpx" height="76rpx" mode="widthFix" />
 			<view class="market-text">市场</view>
 		</view>
 		<!-- 头部轮播 -->
@@ -14,13 +14,13 @@
 		<view class="cate-section"><noticeSwiper :list="notices"></noticeSwiper></view>
 
 		<view class="menu">
-			<view class="fiat m-r" @click="navTo('/pages/prediction/prediction')">
+			<view class="fiat m-r" @click="navTo('/pages/wallet/deposit')">
 				<view class="label">
 					<text>{{ i18n.index.prediction.title1 }}</text>
 				</view>
 				<image class="menu-icon" src="../../static/images/makets/recharge.png" mode="widthFix" />
 			</view>
-			<view class="fiat m-l" @click="navTo('/pages/prediction/prediction')">
+			<view class="fiat m-l" @click="navTo('/pages/wallet/withdraw')">
 				<view class="label">
 					<text>{{ i18n.index.prediction.title2 }}</text>
 				</view>
@@ -237,7 +237,7 @@ export default {
 <style lang="scss">
 page {
 	background: #070219;
-	padding-top: 50upx;
+	padding-top: 140upx;
 }
 .container {
 	// #ifdef H5
@@ -246,20 +246,28 @@ page {
 }
 .market-header {
 	width: 100%;
+	height: 158upx;
 	text-align: center;
-	padding: 0 24rpx 24rpx 24rpx;
-	box-sizing: border-box;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	background: #111111;
+	z-index: 10000;
 	.avatar {
 		float: left;
+		margin-top: 50upx;
+		margin-left: 24upx;
 	}
 	.market-text {
-		height: 80rpx;
-		font-size: 36rpx;
+		height: 158upx;
+		font-size: 36upx;
 		font-family: PingFang SC;
 		font-weight: 400;
 		color: #ffffff;
-		line-height: 80rpx;
-		margin-right: 40rpx;
+		margin-top: 10upx;
+		line-height: 158upx;
+		margin-right: 54rpx;
 	}
 }
 .m-t {

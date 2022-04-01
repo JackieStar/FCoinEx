@@ -3,18 +3,18 @@
 		<view class="user-section">
 			<image mode="widthFix" class="bg" src="../../static/images/user/user_bg.png"></image>
 			<view class="market-header">
-				<u-icon class="arrow-left" @click="openPage" name="arrow-left" color="#ffffff" size="44" />
+				<u-icon class="arrow-left" @click="openPage(0)" name="arrow-left" color="#ffffff" size="44" />
 				<view class="market-text">我的</view>
 			</view>
 			<view class="user-info-box">
 				<view class="portrait-box"><image class="portrait" :src="'/static/missing-face.png'"></image></view>
 				<view class="info-box" @click="toLogin">
-					<view class="username">
+					<view class="username" @click="openPage(1)">
 						{{ loginInfo.mobile || i18n.my.login }}
 						<u-image class="edit" src="../../static/images/my/edit.png" width="26upx" height="29upx" />
 					</view>
 					<view class="tip">{{ i18n.my.sentence }} FEXCOIN.COM</view>
-					<view class="tip">
+					<view class="tip" @click="handleCopy">
 						UID: {{ i18n.my.sentence }}
 						<u-image class="copy" src="../../static/images/my/copy.png" width="28upx" height="29upx" />
 					</view>
@@ -25,14 +25,14 @@
 		<view class="cover-container">
 			<!-- 浏览历史 -->
 			<view class="history-section icon">
-				<list-cell image="/static/images/my/password.png" @eventClick="navTo('/pages/user/safe', true)" :title="i18n.my.password"></list-cell>
+				<list-cell image="/static/images/my/password.png" @eventClick="navTo('/pages/user/updateLoginPwd', true)" :title="i18n.my.password"></list-cell>
 				<list-cell
 					image="/static/images/my/referral.png"
 					@eventClick="navTo('/pages/user/realname', true)"
 					:tips="authStatusMap[authStatus]"
 					:title="i18n.my.referral"
 				></list-cell>
-				<list-cell image="/static/images/my/language.png" @eventClick="navTo('/pages/user/encrypAddress', true)" :title="i18n.my.language"></list-cell>
+				<list-cell image="/static/images/my/language.png" @eventClick="changeLang" :title="i18n.my.language"></list-cell>
 				<list-cell image="/static/images/my/community.png" @eventClick="navTo('/pages/user/payType', true)" :title="i18n.my.community"></list-cell>
 				<list-cell image="/static/images/my/help-center.png" @eventClick="navTo('/pages/otc/merchant/apply', true)" :title="i18n.my.help"></list-cell>
 				<list-cell image="/static/images/my/about-as.png" @eventClick="navTo('/pages/otc/merchant/merchant', true)" :title="i18n.my.about"></list-cell>
@@ -43,7 +43,7 @@
 			</view>
 		</view>
 
-		<u-action-sheet :cancel-text="i18n.common.cancel" :list="langList" @click="clickLang" v-model="showLang"></u-action-sheet>
+		<u-action-sheet :cancel-text="i18n.common.cancel" :border-radius="20" :list="langList" @click="clickLang" v-model="showLang"></u-action-sheet>
 	</view>
 </template>
 <script>
@@ -95,10 +95,6 @@ export default {
 			{
 				text: this.i18n.common.lang.zh,
 				lang: 'zh_CN'
-			},
-			{
-				text: this.i18n.common.lang.hk,
-				lang: 'zh_TW'
 			}
 		];
 	},
@@ -135,9 +131,6 @@ export default {
 				});
 			}
 		},
-		openPage() {
-			uni.navigateBack();
-		},
 		loadAuthInfo() {
 			this.getAuthInfo().then(res => {
 				this.authStatus = res.data ? res.data.status + '' : '';
@@ -156,19 +149,11 @@ export default {
 			});
 			uni.setTabBarItem({
 				index: 1,
-				text: this.$t('message').tabBar.news
+				text: this.$t('message').tabBar.trade
 			});
 			uni.setTabBarItem({
 				index: 2,
-				text: this.$t('message').tabBar.miner
-			});
-			uni.setTabBarItem({
-				index: 3,
-				text: this.$t('message').tabBar.wallet
-			});
-			uni.setTabBarItem({
-				index: 4,
-				text: this.$t('message').tabBar.me
+				text: this.$t('message').tabBar.assets
 			});
 			this.authStatusMap = {
 				'': this.i18n.audit.status.no,
@@ -176,6 +161,26 @@ export default {
 				'1': this.i18n.audit.status.pass,
 				'2': this.i18n.audit.status.reject
 			};
+		},
+		openPage(type) {
+			if (type === 0) {
+				uni.navigateBack();
+			}
+			if (type === 1) {
+				uni.navigateTo({
+					url: '/pages/user/updateName'
+				});
+			}
+		},
+		// 复制
+		handleCopy() {
+			let _this = this
+			uni.setClipboardData({
+			    data: '22222222',
+			    success: function () {
+			        _this.$api.msg('UID已复制')
+			    }
+			});
 		}
 	}
 };
@@ -206,22 +211,21 @@ page {
 }
 .market-header {
 	width: 100%;
-	height: 130rpx;
+	height: 130upx;
 	text-align: center;
-	padding: 0 24rpx 24rpx 24rpx;
 	box-sizing: border-box;
 	.arrow-left {
-		margin-top: 44rpx;
-		float: left;
+		top: 44upx;
+		left: 41upx;
+		position: fixed;
 	}
 	.market-text {
-		height: 80rpx;
-		font-size: 36rpx;
+		height: 80upx;
+		font-size: 36upx;
 		font-family: PingFang SC;
 		font-weight: 400;
 		color: #ffffff;
-		line-height: 130rpx;
-		margin-right: 40rpx;
+		line-height: 130upx;
 	}
 }
 .user-section {

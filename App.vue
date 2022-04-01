@@ -72,7 +72,8 @@
 	}
 	page{
 		width: 100%;
-		height: 100%;
+		height: 100;
+		background: #070219;
 	}
 	/*
 		全局公共样式和字体图标

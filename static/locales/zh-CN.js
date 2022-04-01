@@ -785,6 +785,11 @@ module.exports = {
 			setpaypwdtext: '请设置资金密码',
 			deletetext: '是否确认删除?',
 			submittext: '是否确认提交?'
+		},
+		updateName: {
+			placeholder: '最多输入10个字符',
+			tips: 'Limited  a-z、A-Z、-、0-9',
+			btn: '确定'
 		}
 	}
 }
