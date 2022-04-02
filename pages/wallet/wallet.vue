@@ -67,12 +67,12 @@ export default {
 		...mapActions('account', ['accountList']),
 		//请求数据
 		async loadData() {
-			this.accountList()
-				.then(res => {
-					this.data = res.data;
-					uni.stopPullDownRefresh();
-				})
-				.catch(error => {});
+			// this.accountList()
+			// 	.then(res => {
+			// 		this.data = res.data;
+			// 		uni.stopPullDownRefresh();
+			// 	})
+			// 	.catch(error => {});
 		}
 	}
 };

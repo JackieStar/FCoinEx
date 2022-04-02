@@ -50,10 +50,10 @@
 				index: 0,
 				text: this.$t('message').tabBar.market
 			})
-			uni.setTabBarItem({
-				index: 1,
-				text: this.$t('message').tabBar.trade
-			})
+			// uni.setTabBarItem({
+			// 	index: 1,
+			// 	text: this.$t('message').tabBar.trade
+			// })
 			uni.setTabBarItem({
 				index: 2,
 				text: this.$t('message').tabBar.assets

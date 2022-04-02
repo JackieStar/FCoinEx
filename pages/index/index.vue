@@ -171,11 +171,11 @@ export default {
 				this.notices = res.rows;
 			});
 		},
-		getMaketList() {
-			this.marketList().then(res => {
-				this.markets = res.data;
-			});
-		},
+		// getMaketList() {
+		// 	this.marketList().then(res => {
+		// 		this.markets = res.data;
+		// 	});
+		// },
 		//轮播图切换修改背景色
 		swiperChange(e) {
 			const index = e.detail.current;

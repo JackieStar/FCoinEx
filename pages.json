@@ -266,12 +266,12 @@
 				"selectedIconPath": "static/images/tabbar/markets_active.png",
 				"text": "行情"
 			},
-			{
-				"pagePath": "pages/public/kline",
-				"iconPath": "static/images/tabbar/trade.png",
-				"selectedIconPath": "static/images/tabbar/trade_active.png",
-				"text": "交易"
-			},
+			// {
+			// 	"pagePath": "pages/public/kline",
+			// 	"iconPath": "static/images/tabbar/trade.png",
+			// 	"selectedIconPath": "static/images/tabbar/trade_active.png",
+			// 	"text": "交易"
+			// },
 			{
 				"pagePath": "pages/wallet/wallet",
 				"iconPath": "static/images/tabbar/assets.png",
