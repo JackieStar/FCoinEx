@@ -52,7 +52,7 @@ export function sendSms(data) {
 // 广告列表
 export function adList() {
   return request({
-    url: '/v1/ad/list',
+    url: '/api/banners',
     method: 'GET'
   })
 }

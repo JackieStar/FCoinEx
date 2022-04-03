@@ -186,7 +186,7 @@ export default {
 		left: 0;
 		top: 0;
 		right: 0;
-		background-color: #111111;
+		background-color: #070219;
 		padding: 0 41upx;
 		position: fixed;
 		display: flex;

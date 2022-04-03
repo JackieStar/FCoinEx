@@ -3,8 +3,6 @@
 		<view class="back-btn yticon icon-zuojiantou-up" @click="navBack"></view>
 		<!-- 设置白色背景防止软键盘把下部绝对定位元素顶上来盖住输入框等 -->
 		<view class="wrapper">
-			<!--
-			<view class="left-top-sign">LOGIN</view>-->
 			<view class="welcome">
 				<image mode="widthFix" src="../../static/images/public/logo.png" class="logo"></image>
 			</view>
@@ -12,9 +10,9 @@
 				<view class="input-item">
 					<u-image src="../../static/images/public/email.png" width="42upx" height="30upx" />
 					<input placeholder-style="color: #435687"
-						v-model="form.username" 
+						v-model="form.email" 
 						:placeholder="i18n.login.inputUserName"
-						data-key="username"
+						data-key="email"
 						@input="inputChange"
 					/>
 				</view>
@@ -28,7 +26,6 @@
 						maxlength="20"
 						password 
 						data-key="password"
-						@input="inputChange"
 						@confirm="toLogin"
 					/>
 				</view>
@@ -38,21 +35,12 @@
 					忘记密码?
 				</view>
 			</view>
-			<view @click="useVerify" class="confirm-btn">登录</view>
-			<!-- <button class="confirm-btn" @click="useVerify" :disabled="logining">登录</button> -->
+			<view @click="toLogin" class="confirm-btn">登录</view>
 		</view>
 		<view class="register-section">
 			{{i18n.login.noAccount}}
 			<text @click="toRegist">{{i18n.login.registration}}</text>
 		</view>
-		<Verify
-				:title="verifyTitle"
-				:explain="explain"
-				@success="success"
-				:mode="'pop'"
-				:captchaType="'blockPuzzle'"
-				:imgSize="{ width: '300px', height: '155px' }"
-				ref="verify"></Verify>
 	</view>
 </template>
 
@@ -62,67 +50,23 @@
 		mapActions
 	} from 'vuex'
 	import {isMobile, isPassword} from '../../utils/validate'
-	import Verify from "../../components/verifition/verify/verify";
 	import {commonMixin} from '@/common/mixin/mixin.js'
 	export default{
-		components: {
-			Verify
-		},
 		mixins: [commonMixin],
 		data(){
 			return {
 				form: {
-					username: '13999999999',
-					password: 'Aa123456',
-					captchaVerify: ''
+					email: '702242999@qq.com',
+					password: '123456'
 				},
-				logining: false,
 				redirect: undefined,
-				verifyTitle: '',
-				explain: '',
-				verifySuccess: '',
-				verifyFail: ''
 			}
-		},
-		onShow() {
-			this.verifyTitle = this.i18n.common.verifyTitle;
-			this.explain = this.i18n.common.explain;
-			this.verifySuccess = this.i18n.common.verifySuccess;
-			this.verifyFail = this.i18n.common.verifyFail;
 		},
 		onLoad(options) {
 			this.redirect = options.redirect
 		},
 		methods: {
 			...mapActions('user', ['login']),
-			success(params){
-				this.form.captchaVerify = params.captchaVerification
-				console.log("success: ", params)
-				this.toLogin()
-			},
-			useVerify(){
-				this.logining = true;
-				if(this.form.username == ''){
-					this.$api.msg(this.i18n.login.inputUserName)
-					this.logining = false
-					return;
-				}
-				if (!isMobile(this.form.username)) {
-					this.$api.msg(this.i18n.login.mobileError)
-					this.logining = false
-					return;
-				}
-				if(this.form.password == ''){
-					this.$api.msg(this.i18n.login.password)
-					this.logining = false
-					return;
-				}
-				this.$refs.verify.show()
-			},
-			inputChange(e){
-				const key = e.currentTarget.dataset.key;
-				this[key] = e.detail.value;
-			},
 			navBack(){
 				uni.switchTab({
 					url: '/pages/index/index'
@@ -136,11 +80,8 @@
 			toLogin(){
 				let $this = this
 				this.login(this.form).then(res => {
-					
 					this.$api.msg(this.i18n.login.loginSuccess, 1000, false, 'none', function() {
-						$this.$refs.verify.hiddle()
 						setTimeout(function() {
-							$this.logining = false
 							if($this.redirect && $this.redirect == 'register'){
 								uni.switchTab({
 									url: '/pages/index/index'
@@ -157,8 +98,6 @@
 							}
 						}, 1000)
 					})
-				}).catch(error => {
-					this.logining = false
 				})
 			}
 		},

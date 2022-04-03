@@ -10,7 +10,7 @@
 				<view class="portrait-box"><image class="portrait" :src="'/static/missing-face.png'"></image></view>
 				<view class="info-box" @click="toLogin">
 					<view class="username" @click="openPage(1)">
-						{{ loginInfo.mobile || i18n.my.login }}
+						{{ loginInfo.name || i18n.my.login }}
 						<u-image class="edit" src="../../static/images/my/edit.png" width="26upx" height="29upx" />
 					</view>
 					<view class="tip">{{ i18n.my.sentence }} FEXCOIN.COM</view>

@@ -1,8 +1,8 @@
 <template>
 	<view class="container">
 		<view class="input-wrapper">
-			<input class="input-item" placeholder-style="color: #4F5B87; font-size: 26upx" v-model="username" :placeholder="i18n.updateName.placeholder" maxlength="10" type="text" />
-			<text class="num">{{username.length}}/10</text>
+			<input class="input-item" placeholder-style="color: #4F5B87; font-size: 26upx" v-model="name" :placeholder="i18n.updateName.placeholder" maxlength="10" type="text" />
+			<text class="num">{{name.length}}/10</text>
 		</view>
 		<view class="tips">{{ i18n.updateName.tips }}</view>
 		<view @click="handleSubmit" class="confirm-btn">{{ i18n.updateName.btn }}</view>
@@ -11,16 +11,22 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex';
 import { commonMixin } from '@/common/mixin/mixin.js';
 export default {
 	mixins: [commonMixin],
 	data() {
 		return {
-			username: ''
+			name: ''
 		};
 	},
 	methods: {
-		handleSubmit() {}
+		...mapActions('user', ['updateUserName']),
+		handleSubmit() {
+			this.updateUserName({name: this.name}).then((res)=> {
+				this.$api.msg('修改成功');
+			})
+		}
 	}
 };
 </script>

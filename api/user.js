@@ -11,7 +11,7 @@ export function register(data) {
 //登录
 export function login(data) {
   return request({
-    url: '/v1/login',
+    url: '/api/login',
     method: 'POST',
     data: data
   })
@@ -24,37 +24,15 @@ export function updatePwd(data) {
     data: data
   })
 }
-//修改资金密码
-export function updatePayPwd(data) {
+//昵称
+export function updateUserName(data) {
   return request({
-    url: '/v1/user/update/payPwd',
+    url: '/api/user/change-name',
     method: 'POST',
     data: data
   })
 }
-//查询加密地址簿列表
-export function encryptBookList(data) {
-  return request({
-    url: '/v1/encrypt/book/list',
-    method: 'GET',
-    data: data
-  })
-}
-//添加加密地址
-export function addEncryptBook(data) {
-  return request({
-    url: '/v1/encrypt/book',
-    method: 'POST',
-    data: data
-  })
-}
-//删除加密地址
-export function deleteEncryptBook(id) {
-  return request({
-    url: `/v1/encrypt/book/${id}`,
-    method: 'DELETE'
-  })
-}
+
 //提币
 export function withdraw(data) {
   return request({

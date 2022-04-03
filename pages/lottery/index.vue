@@ -121,7 +121,7 @@
 		height: 100%;
 		background-size: 100% 100%;
 		background-color: blue;
-		background-image: url(http://cdn.choujiangle.cn/themes/marquee/choujiang_bg.jpg);
+		background-image: url(../../static/images/lottey/cj_bg.png);
 		padding-top: 100upx;
 	}
 	.count-bg{
@@ -144,7 +144,7 @@
 		height: 153px;
 		margin: 0 auto;
 		background-size: 100% 100%;
-		background-image: url(http://cdn.choujiangle.cn/themes/marquee/choujiang_text.png);
+		background-image: url(../../static/images/lottey/cj_text_cn.png);
 	}
 	.lottery{
 		width: 300px;

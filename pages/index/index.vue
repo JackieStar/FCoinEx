@@ -8,7 +8,7 @@
 		<view class="carousel-section">
 			<!-- 背景色区域 -->
 			<swiper class="carousel" circular @change="swiperChange" autoplay="true">
-				<swiper-item @click="open(item)" v-for="(item, index) in carousels" :key="index" class="carousel-item"><image :src="item.url" /></swiper-item>
+				<swiper-item @click="open(item)" v-for="(item, index) in carousels" :key="index" class="carousel-item"><image :src="item" /></swiper-item>
 			</swiper>
 		</view>
 		<view class="cate-section"><noticeSwiper :list="notices"></noticeSwiper></view>
@@ -99,13 +99,13 @@ export default {
 		}
 	},
 	onShow() {
-		this.getMaketList();
-		setInterval(() => {
-			this.getMaketList();
-		}, 3000);
-		setTimeout(() => {
-			this.loadTopMarket();
-		}, 500);
+		// this.getMaketList();
+		// setInterval(() => {
+		// 	this.getMaketList();
+		// }, 3000);
+		// setTimeout(() => {
+		// 	this.loadTopMarket();
+		// }, 500);
 		this.swiperCurrent = 0;
 		this.swiperLength = 0;
 		this.carousels = [];
@@ -115,7 +115,7 @@ export default {
 	},
 	onPullDownRefresh() {
 		this.loadData();
-		this.getMaketList();
+		// this.getMaketList();
 	},
 	onLoad() {},
 	onHide() {
@@ -160,10 +160,10 @@ export default {
 		},
 		async loadData() {
 			this.adList().then(res => {
-				let casrousels = res.data.casrousels;
-				this.swiperLength = casrousels.length;
+				let casrousels = res.data;
+				// this.swiperLength = casrousels.length;
 				this.carousels = casrousels;
-				this.ads = res.data.ads;
+				// this.ads = res.data.ads;
 
 				uni.stopPullDownRefresh();
 			});
@@ -252,7 +252,7 @@ page {
 	top: 0;
 	left: 0;
 	right: 0;
-	background: #111111;
+	background: #070219;
 	z-index: 10000;
 	.avatar {
 		float: left;

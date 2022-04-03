@@ -10,7 +10,7 @@ export default function $http(options) {
     // 拦截请求
 	let token = uni.getStorageSync('token')
 	if(token){
-		_config.header.Authorization = token;
+		_config.header.Authorization = 'Bearer' + ' ' + token;
 	}
 	
 	const lang = uni.getStorageSync('language');
