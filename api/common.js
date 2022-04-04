@@ -43,7 +43,7 @@ export function marketTicker(data) {
 // 手机验证码
 export function sendSms(data) {
   return request({
-    url: '/v1/common/captcha/sms',
+    url: '/api/get-email-code',
     method: 'POST',
     data: data
   })

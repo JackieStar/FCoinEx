@@ -10,29 +10,59 @@
 				<text :style="{'color': tabIndex === 2 ? '#fff' : '#646F7B', 'margin-top': tabIndex === 2 ? '' : '-10upx'}">充值记录</text>
 			</view>
 		</view>
-		<view class="trade-list">
+		<view class="trade-list" v-show="tabIndex === 1" v-for="item in rechargeData" :key="item.id">
 			<view class="trade-money">
-				<text>充值</text>
-				<text>-100.00</text>
+				<text>{{item.status_text}}</text>
+				<text>{{item.amount}}</text>
 			</view>
 			<view class="trade-time">
-				<text>03-03-2022 12:22:41</text>
-				<text>USDT</text>
+				<text>{{item.created_at}}</text>
+				<text>{{item.coin_type}}</text>
+			</view>
+		</view>
+		<view class="trade-list" v-show="tabIndex === 2" v-for="item in withdrawData" :key="item.id">
+			<view class="trade-money">
+				<text>{{item.status_text}}</text>
+				<text>{{item.amount}}</text>
+			</view>
+			<view class="trade-time">
+				<text>{{item.created_at}}</text>
+				<text>{{item.coin_type}}</text>
 			</view>
 		</view>
 	</view>
 </template>
 
 <script>
+	import { mapState, mapActions } from 'vuex';
+	import { commonMixin } from '@/common/mixin/mixin.js';
 	export default {
+		mixins: [commonMixin],
 		data() {
 			return {
-				tabIndex: 1
+				tabIndex: 1,
+				rechargeData: [],
+				withdrawData: []
 			};
 		},
+		onShow() {
+			this.getWithDrawList()
+			this.getRechargeList()
+		},
 		methods: {
+			...mapActions('user', ['withdrawList', 'rechargeList']),
 			handleChange(type) {
 				this.tabIndex = type
+			},
+			getWithDrawList() {
+				this.withdrawList().then(res=> {
+					this.withdrawData = res.data.data
+				})
+			},
+			getRechargeList() {
+				this.rechargeList().then(res=> {
+					this.rechargeData = res.data.data
+				})
 			}
 		}
 		

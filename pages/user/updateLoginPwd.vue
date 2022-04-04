@@ -1,20 +1,20 @@
 <template>
 	<view class="container">
-		<input class="input-item" type="password"  placeholder-style="color: #4F5B87; font-size: 26upx" v-model="form.oldPwd" :placeholder="i18n.updateName.placeholder" maxlength="10" />
-		<input class="input-item" type="password"  placeholder-style="color: #4F5B87; font-size: 26upx" v-model="form.newPwd" :placeholder="i18n.updateName.placeholder" maxlength="10" />
-		<input class="input-item" type="password"  placeholder-style="color: #4F5B87; font-size: 26upx" v-model="form.vlidNewPwd" :placeholder="i18n.updateName.placeholder" maxlength="10" />
+		<input class="input-item" type="password"  placeholder-style="color: #4F5B87; font-size: 26upx" v-model="form.old_password" :placeholder="i18n.updateName.placeholder" maxlength="10" />
+		<input class="input-item" type="password"  placeholder-style="color: #4F5B87; font-size: 26upx" v-model="form.password" :placeholder="i18n.updateName.placeholder" maxlength="10" />
+		<input class="input-item" type="password"  placeholder-style="color: #4F5B87; font-size: 26upx" v-model="form.password_confirm" :placeholder="i18n.updateName.placeholder" maxlength="10" />
 		<view class="input-wrapper">
 			<input
 				class="input-item"
 				placeholder-style="color: #4F5B87; font-size: 26upx"
-				v-model="form.code"
+				v-model="form.email_code"
 				:placeholder="i18n.updateName.placeholder"
 				maxlength="10"
 				style="padding-right: 150upx;"
 				type="text"
 			/>
 			<view>
-				<u-verification-code :seconds="seconds" @end="end" @start="start" ref="uCode" @change="codeChange"></u-verification-code>
+				<u-verification-code :seconds="seconds" ref="uCode" @change="codeChange"></u-verification-code>
 				<view @tap="getCode" class="code-btn">{{tips}}</view>
 			</view>
 		</view>
@@ -25,7 +25,6 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import { isPassword } from '../../utils/validate';
 import { commonMixin } from '@/common/mixin/mixin.js';
 export default {
 	mixins: [commonMixin],
@@ -34,15 +33,11 @@ export default {
 			loading: false,
 			seconds: 60,
 			tips: '',
-			authCode: {
-				captchaCode: undefined,
-				token: undefined
-			},
 			form: {
-				oldPwd: undefined,
-				newPwd: undefined,
-				vlidNewPwd: undefined,
-				code: undefined
+				old_password: undefined,
+				password: undefined,
+				password_confirm: undefined,
+				email_code: undefined
 			}
 		};
 	},
@@ -62,60 +57,46 @@ export default {
 		},
 		getCode() {
 			if (this.$refs.uCode.canGetCode) {
-				// 模拟向后端请求验证码
 				uni.showLoading({
 					title: this.i18n.toast.coding
 				});
 				let data = {
-					type: this.$g.CAPTCHA_TYPE.COMMON,
-					number: this.loginInfo.mobile,
-					countryCode: this.loginInfo.countryCode
+					usage: 'changePwd',
+					email: this.loginInfo.email
 				};
 				this.sendSms(data)
 					.then(res => {
-						this.authCode.token = res.data;
 						uni.hideLoading();
-						// 这里此提示会被this.start()方法中的提示覆盖
 						this.$u.toast(this.i18n.toast.codeSend);
 						// 通知验证码组件内部开始倒计时
 						this.$refs.uCode.start();
 					})
 					.catch(error => {});
-			} else {
-			}
+			} 
 		},
-		end() {},
-		start() {},
-		submit() {
-			if (!this.authCode.captchaCode) {
-				this.$api.msg(this.i18n.toast.inputCode);
-				return;
-			}
-			if (!this.form.newPwd) {
-				this.$api.msg(this.i18n.toast.inputPwd);
-				return;
-			}
-			if (!isPassword(this.form.newPwd)) {
-				this.$api.msg(this.i18n.toast.pwdError);
-				return;
-			}
-			if (!this.form.againPwd) {
-				this.$api.msg(this.i18n.toast.inputPwd);
-				return;
-			}
-			if (this.form.againPwd !== this.form.newPwd) {
-				this.$api.msg(this.i18n.toast.againPwdError);
-				return;
-			}
+		handleSubmit() {
+			// if (!this.form.old_password) {
+			// 	this.$api.msg(this.i18n.toast.inputPwd);
+			// 	return;
+			// }
+			// if (!this.form.againPwd) {
+			// 	this.$api.msg(this.i18n.toast.inputPwd);
+			// 	return;
+			// }
+			// if (this.form.againPwd !== this.form.newPwd) {
+			// 	this.$api.msg(this.i18n.toast.againPwdError);
+			// 	return;
+			// }
 			this.loading = true;
-			this.form.authCode = this.authCode.token + ':' + this.authCode.captchaCode;
 			console.log(this.form);
 			this.updatePwd(this.form)
 				.then(res => {
 					this.$api.msg(this.i18n.toast.updatePwdSuccess, 1000, false, 'none', function() {
 						setTimeout(function() {
 							this.logining = false;
-							uni.navigateBack({});
+							uni.reLaunch({
+								url: '/pages/public/login'
+							});
 						}, 1000);
 					});
 				})

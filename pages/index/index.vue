@@ -1,7 +1,7 @@
 <template>
 	<view class="container">
 		<view class="market-header">
-			<u-image class="avatar" @click="openPage" src="../../static/images/makets/avatar.png" width="76rpx" height="76rpx" mode="widthFix" />
+			<u-image class="avatar" @click="openPage" :src="loginInfo.avatar" shape="circle" width="76rpx" height="76rpx" mode="widthFix" />
 			<view class="market-text">市场</view>
 		</view>
 		<!-- 头部轮播 -->
@@ -14,7 +14,7 @@
 		<view class="cate-section"><noticeSwiper :list="notices"></noticeSwiper></view>
 
 		<view class="menu">
-			<view class="fiat m-r" @click="navTo('/pages/wallet/deposit')">
+			<view class="fiat m-r" @click="navTo('/pages/wallet/recharge')">
 				<view class="label">
 					<text>{{ i18n.index.prediction.title1 }}</text>
 				</view>
@@ -128,6 +128,9 @@ export default {
 		uni.$off(ch, res => {});
 	},
 	onUnload() {},
+	computed: {
+		...mapState('user', ['loginInfo'])
+	},
 	methods: {
 		...mapActions('common', ['marketList', 'adList', 'noticeList']),
 		loadTopMarket() {

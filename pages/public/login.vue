@@ -31,7 +31,7 @@
 				</view>
 			</view>
 			<view class="link">
-				<view class="forget-section">
+				<view class="forget-section" @click="toPassword">
 					忘记密码?
 				</view>
 			</view>
@@ -56,7 +56,7 @@
 		data(){
 			return {
 				form: {
-					email: '702242999@qq.com',
+					email: 'a18859209253@163.com',
 					password: '123456'
 				},
 				redirect: undefined,
@@ -75,6 +75,11 @@
 			toRegist(){
 				uni.navigateTo({
 					url: '/pages/public/register'
+				})
+			},
+			toPassword() {
+				uni.navigateTo({
+					url: '/pages/user/updateLoginPwd'
 				})
 			},
 			toLogin(){

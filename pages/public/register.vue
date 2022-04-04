@@ -4,7 +4,6 @@
 		<!-- 设置白色背景防止软键盘把下部绝对定位元素顶上来盖住输入框等 -->
 		<view class="wrapper">
 			<view class="welcome">
-				<!-- <image mode="widthFix" src="../../static/images/public/logo.png" class="logo"></image> -->
 				<view class="txt">
 					<text class="b">{{ i18n.login.registrTitle }}</text>
 					<text class="tips">{{ i18n.login.registrTips }}</text>
@@ -13,20 +12,24 @@
 			<view class="input-content">
 				<view class="input-item">
 					<u-image src="../../static/images/public/email.png" width="40upx" height="28upx" />
-					<input placeholder-style="color: #435687" v-model="form.username" :placeholder="i18n.login.inputUserName" maxlength="11" @input="inputChange" />
+					<input placeholder-style="color: #435687" v-model="form.email" :placeholder="i18n.login.inputUserName" maxlength="11" @input="inputChange" />
 				</view>
 				<view class="input-item">
 					<u-image src="../../static/images/public/code.png"  width="30upx" height="35upx" />
 					<input
 						placeholder-style="color: #435687"
-						v-model="form.password"
+						v-model="form.email_code"
 						:placeholder="i18n.login.pwdRule"
 						placeholder-class="input-empty"
 						maxlength="20"
-						password
-						data-key="password"
+						style="padding-right: 100upx;"
+						type="text"
 						@input="inputChange"
 					/>
+					<view>
+						<u-verification-code :seconds="seconds" ref="uCode" @change="codeChange"></u-verification-code>
+						<view @tap="getCode" class="code-btn">{{tips}}</view>
+					</view>
 				</view>
 				<view class="input-item">
 					<u-image src="../../static/images/public/password.png" width="32upx" height="35upx" />
@@ -48,7 +51,7 @@
 					<input
 						placeholder-style="color: #435687"
 						type="mobile"
-						v-model="form.confirmPassword"
+						v-model="form.password_confirm"
 						:placeholder="i18n.login.pwdRule"
 						placeholder-class="input-empty"
 						maxlength="20"
@@ -62,7 +65,7 @@
 					<input
 						placeholder-style="color: #435687"
 						type="text"
-						v-model="form.invitCode"
+						v-model="form.tcode"
 						:placeholder="i18n.login.inputInvitCode"
 						placeholder-class="input-empty"
 						maxlength="20"
@@ -83,25 +86,34 @@
 import { mapState, mapActions } from 'vuex';
 import { isMobile, isPassword } from '../../utils/validate';
 import { commonMixin } from '@/common/mixin/mixin.js';
+
 export default {
 	mixins: [commonMixin],
 	data() {
 		return {
 			form: {
-				username: '',
+				email: 'a18859209253@163.com',
 				password: '',
-				confirmPassword: '',
-				invitCode: '',
-				authCode: '1234:abc'
+				password_confirm: '',
+				tcode: '',
+				email_code: ''
 			},
 			mobile: '',
 			password: '',
-			logining: false
+			logining: false,
+			loading: false,
+			seconds: 60,
+			tips: '',
+			authCode: {
+				captchaCode: undefined,
+				token: undefined
+			},
 		};
 	},
 	onLoad() {},
 	methods: {
 		...mapActions('user', ['register']),
+		...mapActions('common', ['sendSms']),
 		inputChange(e) {
 			const key = e.currentTarget.dataset.key;
 			this[key] = e.detail.value;
@@ -114,16 +126,42 @@ export default {
 				url: '/pages/public/login'
 			});
 		},
+		codeChange(text) {
+			this.tips = text;
+		},
+		getCode() {
+			if (this.$refs.uCode.canGetCode) {
+				// 模拟向后端请求验证码
+				uni.showLoading({
+					title: this.i18n.toast.coding
+				});
+				let data = {
+					usage: 'register',
+					email: this.form.email
+				};
+				this.sendSms(data)
+					.then(res => {
+						this.authCode.token = res.data;
+						uni.hideLoading();
+						// 这里此提示会被this.start()方法中的提示覆盖
+						this.$u.toast(this.i18n.toast.codeSend);
+						// 通知验证码组件内部开始倒计时
+						this.$refs.uCode.start();
+					})
+					.catch(error => {});
+			} else {
+			}
+		},
 		toRegist() {
-			if (!isMobile(this.form.username)) {
-				this.$api.msg(this.i18n.login.mobileError);
-				return;
-			}
-			if (!isPassword(this.form.password)) {
-				this.$api.msg(this.i18n.login.pwdError);
-				return;
-			}
-			if (this.form.password != this.form.confirmPassword) {
+			// if (!isMobile(this.form.username)) {
+			// 	this.$api.msg(this.i18n.login.mobileError);
+			// 	return;
+			// }
+			// if (!isPassword(this.form.password)) {
+			// 	this.$api.msg(this.i18n.login.pwdError);
+			// 	return;
+			// }
+			if (this.form.password != this.form.password_confirm) {
 				this.$api.msg(this.i18n.login.pwdNotMatch);
 				return;
 			}
@@ -327,5 +365,17 @@ page {
 		color: #ffffff;
 		margin-left: 10upx;
 	}
+}
+.code-btn {
+	float: right;
+	width: 200upx;
+	text-align: right;
+	color: #4F5B87;
+	font-size: 26upx;
+	font-family: PingFang SC;
+	font-weight: 400;
+	background: linear-gradient(0deg, #3FBBFE 0%, #A541FF 100%);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
 }
 </style>

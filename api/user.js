@@ -2,131 +2,103 @@ import request from '@/utils/request'
 
 // 注册
 export function register(data) {
-  return request({
-    url: '/v1/register',
-    method: 'POST',
-    data: data
-  })
+	return request({
+		url: '/api/register',
+		method: 'POST',
+		data: data
+	})
 }
 //登录
 export function login(data) {
-  return request({
-    url: '/api/login',
-    method: 'POST',
-    data: data
-  })
+	return request({
+		url: '/api/login',
+		method: 'POST',
+		data: data
+	})
 }
 //修改密码
 export function updatePwd(data) {
-  return request({
-    url: '/v1/user/update/pwd',
-    method: 'POST',
-    data: data
-  })
+	return request({
+		url: '/api/user/change-pwd',
+		method: 'POST',
+		data: data
+	})
 }
 //昵称
 export function updateUserName(data) {
-  return request({
-    url: '/api/user/change-name',
-    method: 'POST',
-    data: data
-  })
+	return request({
+		url: '/api/user/change-name',
+		method: 'POST',
+		data: data
+	})
+}
+// 用户信息
+export function userInfo(data) {
+	return request({
+		url: '/api/user/info',
+		method: 'POST',
+		data: data
+	})
+}
+// 充值信息
+export function getFinaceInfo(data) {
+	return request({
+		url: `/api/user/finance/config`,
+		method: 'GET',
+		data
+	})
+}
+// 提交充值
+export function financeRecharge(data) {
+	return request({
+		url: `/api/user/finance/recharge`,
+		method: 'POST',
+		data
+	})
+}
+//提现
+export function withdraw(data) {
+	return request({
+		url: '/api/user/finance/withdraw',
+		method: 'POST',
+		data
+	})
+}
+//提币记录
+export function withdrawList(data) {
+	return request({
+		url: '/api/user/finance/withdraw-logs',
+		method: 'GET',
+		data
+	})
 }
 
-//提币
-export function withdraw(data) {
-  return request({
-    url: '/v1/withdraw',
-    method: 'POST',
-    data: data
-  })
+//充值记录
+export function rechargeList(data) {
+	return request({
+		url: '/api/user/finance/recharge-logs',
+		method: 'GET',
+		data
+	})
 }
-//提币列表
-export function withdrawList(data) {
-  return request({
-    url: '/v1/withdraw/list',
-    method: 'GET',
-    data: data
-  })
+//邀请信息
+export function invitInfo() {
+	return request({
+		url: `/api/user/invite/info`,
+		method: 'GET'
+	})
 }
-//提币配置
-export function withdrawConfig(coin) {
-  return request({
-    url: '/v1/withdraw/config/' + coin,
-    method: 'GET'
-  })
+//邀请记录
+export function invitUserList() {
+	return request({
+		url: '/api/user/invite/logs',
+		method: 'GET'
+	})
 }
-//充币
-export function depositAddress(coin, chain) {
-  return request({
-    url: `/v1/deposit/address/${coin}?chain=${chain}`,
-    method: 'GET'
-  })
-}
-//充币列表
-export function depositList(data) {
-  return request({
-    url: '/v1/deposit/list',
-    method: 'GET',
-    data: data
-  })
-}
-//邀请排行
-export function invitRank() {
-  return request({
-    url: `/v1/user/invit/rank`,
-    method: 'GET'
-  })
-}
-//获取GoogleKey
-export function getGoogleKey() {
-  return request({
-    url: `/v1/user/google/key`,
-    method: 'GET'
-  })
-}
-//绑定Google
-export function bindGoogle(data) {
-  return request({
-    url: '/v1/user/bind/google',
-    method: 'POST',
-    data: data
-  })
-}
-//解绑Google
-export function unbindGoogle(data) {
-  return request({
-    url: '/v1/user/unbind/google',
-    method: 'POST',
-    data: data
-  })
-}
-//签到详情
-export function signinDetail() {
-  return request({
-    url: `/v1/user/signin/detail`,
-    method: 'GET'
-  })
-}
-//签到
-export function signin() {
-  return request({
-    url: `/v1/user/signin`,
-    method: 'GET'
-  })
-}
-//查询认证详情
-export function getAuthInfo() {
-  return request({
-    url: `/v1/user/auth/info`,
-    method: 'GET'
-  })
-}
-//认证申请
-export function authApply(data) {
-  return request({
-    url: '/v1/user/auth',
-    method: 'POST',
-    data: data
-  })
+//邀请奖励记录
+export function invitRewardList() {
+	return request({
+		url: '/api/user/invite/reward-logs',
+		method: 'GET'
+	})
 }

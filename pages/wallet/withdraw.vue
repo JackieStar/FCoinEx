@@ -2,126 +2,169 @@
 	<view class="container">
 		<view class="market-header">
 			<u-icon class="arrow-left" @click="openPage(0)" name="arrow-left" color="#ffffff" size="44" />
-			<view class="market-text">充值</view>
-			<image  @click="openPage(1)" src="../../static/images/wallet/list.png" class="right-icon" />
+			<view class="market-text">提现</view>
+			<image @click="openPage(1)" src="../../static/images/wallet/list.png" class="right-icon" />
 		</view>
 		<view class="user-info">
-			<image src="../../static/images/public/header.png" class="user-avatar" />
+			<image :src="withdrawInfo.coin_icon" class="user-avatar" />
 			<view class="info">
-				<text>USID</text>
-				<view>网络：USTD_324</view>
+				<text>{{ withdrawInfo.coin }}</text>
+				<view>网络：{{ withdrawInfo.coin_type }}</view>
 			</view>
 		</view>
 		<image class="user-bg" src="../../static/images/wallet/bg.png" />
-		<view class="code-wrapper">
-			<image src="../../static/images/public/header.png" class="code-img" />
-		</view>
 		<view class="title">
-			<text>充值地址</text>
-			<u-image class="title-bg" src="../../static/images/wallet/title-long-bg.png" width="144upx" height="12upx" mode="" />
+			<text>地址</text>
+			<u-image class="title-bg" src="../../static/images/wallet/title-bg.png" width="74upx" height="12upx" mode="" />
 		</view>
 		<view class="input-wrapper">
-			<text class="address-input">adskjfhawkjhewealkjb</text>
+			<input type="text" class="address-input" />
 			<view class="copy-btn">粘贴</view>
 		</view>
 		<view class="title">
-			<text>充值金额</text>
-			<u-image class="title-bg" src="../../static/images/wallet/title-bg.png" width="144upx" height="12upx" mode="" />
+			<text>金额</text>
+			<u-image class="title-bg" src="../../static/images/wallet/title-bg.png" width="74upx" height="12upx" mode="" />
 		</view>
 		<view class="money-wrapper">
-			<input type="text" class="money-input" placeholder-style="color: #454D73;font-size: 26upx;" placeholder="请输入充值金额"  />
+			<input type="number" v-model="amount" placeholder-style="color: #818FAB; font-size: 26upx" class="money-input" placeholder="0.00" />
+			<view class="all-btn" @click="handleAll">all</view>
+			<text>USTD</text>
 		</view>
-		<view >
-			<c-tips text="如果您发送了除USTD-324之外的任何其他加密，您我拿不回来了" />
-			<c-tips text="这项存款需要1个区块链确认，至少再一次确认后才能到达" />
+		<view class="tips-wrapper">
+			<text>当前可用余额：{{ userData.balance }}</text>
+			<text style="color:#fff">手续费：{{ withdrawInfo.withdraw_min_fee }}</text>
 		</view>
-		<view class="confirm-btn">我已转账</view>
+		<view><c-tips v-for="(item, index) in withdrawInfo.tips" :text="item" :key="index" /></view>
+		<view class="confirm-btn" @click="openModal">确定</view>
+		<u-popup v-model="showModal" mode="bottom" class="password-modal" :border-radius="20" height="565upx">
+			<view class="title" style="margin-top: 40upx;">
+				<text>提现安全确认</text>
+				<u-image class="title-bg" src="../../static/images/wallet/title-long-bg.png" width="144upx" height="12upx" />
+			</view>
+			<view class="modal-line-title">邮箱验证码</view>
+			<view class="modal-input-wrapper">
+				<input
+					class="input-item"
+					placeholder-style="color: #818FA; font-size: 26upx"
+					v-model="form.email_code"
+					:placeholder="i18n.updateName.placeholder"
+					maxlength="10"
+					style="padding-right: 150upx;"
+					type="text"
+				/>
+				<view>
+					<u-verification-code :seconds="seconds" ref="uCode" @change="codeChange"></u-verification-code>
+					<view @tap="getCode" class="code-btn">{{ tips }}</view>
+				</view>
+			</view>
+			<view class="modal-line-title">登陆密码</view>
+			<view class="modal-input-wrapper">
+				<input
+					class="input-item"
+					placeholder-style="color: #818FA; font-size: 26upx"
+					v-model="form.email_code"
+					:placeholder="i18n.updateName.placeholder"
+					maxlength="10"
+					type="password"
+				/>
+			</view>
+			<view class="submit-btn" @click="handleSubmit">确认充值</view>
+		</u-popup>
 	</view>
 </template>
+
 <script>
 import { mapState, mapActions } from 'vuex';
-import tkiQrcode from '@/components/tki-qrcode/tki-qrcode.vue';
+import uniValidPopup from '@/components/uni-valid-popup.vue';
 import { uniIcons } from '@dcloudio/uni-ui';
-import { commonMixin, authMixin } from '@/common/mixin/mixin.js';
-import CTips from '@/components/c-tips/c-tips.vue'
+import { commonMixin } from '@/common/mixin/mixin.js';
 export default {
-	components: { tkiQrcode, uniIcons, CTips },
-	mixins: [commonMixin, authMixin],
+	components: { uniIcons, uniValidPopup },
+	mixins: [commonMixin],
 	data() {
 		return {
-			coin: {},
-			chain: '',
-			isChain: false,
-			fee: 0,
-			showPrecision: 0,
-			chains: [],
-			account: {},
-			coins: [],
-			tips: {},
-			deposit: {},
-			qrcode: {
-				val: ''
+			withdrawInfo: {},
+			userData: {},
+			coin_type: null, // 网络
+			amount: null, // 提现金额
+			withdraw_addr: null, // 提现地址
+			showModal: false,
+			seconds: 60,
+			tips: '',
+			form: {
+				email_code: null,
+				password: null
 			}
 		};
 	},
-	onUnload() {
-		uni.$off('selectCoin', this.selectCoin);
-	},
+
 	onShow() {
 		uni.setNavigationBarTitle({
-			title: this.i18n.wallet.recharge
+			title: this.i18n.wallet.withdraw
 		});
-	},
-	onLoad() {
-		uni.$on('selectCoin', this.selectCoin);
-		this.coinList().then(res => {
-			this.coins = res.data;
-			this.coin = res.data[0];
-			this.loadData();
-		});
-	},
-	onNavigationBarButtonTap(e) {
-		this.navTo(`/pages/wallet/detail?coin=${this.coin.symbol}&filterIndex=1`);
+		this.loadData();
+		this.getUserInfo();
 	},
 	methods: {
-		...mapActions('common', ['coinList', 'coinTips']),
-		...mapActions('user', ['depositAddress']),
+		...mapActions('common', ['sendSms']),
+		...mapActions('user', ['getFinaceInfo', 'userInfo', 'withdraw']),
+		//请求数据
 		async loadData() {
-			this.depositAddress({ coin: this.coin.symbol, chain: this.chain }).then(res => {
-				this.deposit = res.data;
-				this.isChain = this.deposit.chains && this.deposit.chains.length > 0;
-				this.qrcode.val = res.data.address;
-				this.$refs.qrcode & this.$refs.qrcode._makeCode();
-			});
-			this.coinTips(this.coin.symbol).then(res => {
-				this.tips = res.data;
+			this.getFinaceInfo({ config: 'withdraw' }).then(res => {
+				this.withdrawInfo = res.data;
 			});
 		},
-		selectChain(item) {
-			this.chain = item.tokenBase;
-			this.loadData();
+		// 获取用户信息
+		getUserInfo() {
+			this.userInfo().then(res => {
+				this.userData = res.data;
+			});
 		},
-		selectCoin(data) {
-			for (let i = 0; i < this.coins.length; i++) {
-				let item = this.coins[i];
-				if (item.symbol === data.coin.item.name) {
-					this.coin = item;
-					break;
-				}
+		// 全部
+		handleAll() {
+			this.amount = this.userData.balance;
+		},
+		// 交易密码弹窗
+		openModal() {
+			this.showModal = true;
+		},
+		handleSubmit() {
+			this.form.symbol = this.coin.symbol;
+			if (!this.form.symbol) {
+				this.$api.msg(this.i18n.withdraw.selectCoin);
+				return;
 			}
-			this.loadData();
+			if (!this.form.address) {
+				this.$api.msg(this.i18n.withdraw.inputAddr);
+				return;
+			}
+			if (!this.form.amount) {
+				this.$api.msg(this.i18n.withdraw.inputAmount);
+				return;
+			}
+			this.$refs.validPopup.open('capitalPasswd');
 		},
-		save() {
-			this.$refs.qrcode._saveCode();
+		codeChange(text) {
+			this.tips = text;
 		},
-		paste() {
-			let $this = this;
-			uni.setClipboardData({
-				data: this.deposit.address,
-				success: function() {
-					$this.$api.msg($this.toast.copySuccess);
-				}
-			});
+		getCode() {
+			if (this.$refs.uCode.canGetCode) {
+				uni.showLoading({
+					title: this.i18n.toast.coding
+				});
+				let data = {
+					usage: 'changePwd',
+					email: this.loginInfo.email
+				};
+				this.sendSms(data)
+					.then(res => {
+						uni.hideLoading();
+						this.$u.toast(this.i18n.toast.codeSend);
+						// 通知验证码组件内部开始倒计时
+						this.$refs.uCode.start();
+					})
+					.catch(error => {});
+			}
 		},
 		openPage(type) {
 			if (type === 0) uni.navigateBack();
@@ -136,7 +179,7 @@ export default {
 
 <style lang="scss" scoped>
 .container {
-	padding: 20upx 0 100upx 0;
+	padding-top: 100upx;
 	.market-header {
 		width: 100%;
 		height: 88upx;
@@ -150,7 +193,6 @@ export default {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		z-index: 1000;
 		.market-text {
 			height: 80upx;
 			font-size: 36upx;
@@ -181,14 +223,14 @@ export default {
 				font-size: 30upx;
 				font-family: PingFang SC;
 				font-weight: 500;
-				color: #FFFFFF;
+				color: #ffffff;
 				margin-top: 14upx;
 			}
 			view {
 				font-size: 24upx;
 				font-family: PingFang SC;
 				font-weight: 400;
-				color: #85A0B2;
+				color: #85a0b2;
 				margin-top: 5upx;
 			}
 		}
@@ -198,24 +240,13 @@ export default {
 		height: 171upx;
 		margin-top: -50upx;
 	}
-	.code-wrapper {
-		width: 100%;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		margin-bottom: 20upx;
-		.code-img {
-			width: 280upx;
-			height: 280upx;
-		}
-	}
 	.title {
 		width: 100%;
 		height: 28upx;
 		font-size: 30upx;
 		font-family: PingFang SC;
 		font-weight: 500;
-		color: #FFFFFF;
+		color: #ffffff;
 		padding: 0 26upx;
 		display: flex;
 		flex-direction: column;
@@ -235,18 +266,16 @@ export default {
 		padding: 0 29upx;
 		margin: 40upx 0;
 		.address-input {
-			font-size: 32upx;
-			font-family: PingFang SC;
-			font-weight: 400;
-			text-decoration: underline;
-			color: #fff;
-			margin-left: 80upx;
+			width: 511upx;
+			height: 76upx;
+			border: 2upx solid #554472;
+			border-radius: 4upx;
 		}
 		.copy-btn {
-			width: 154upx;
-			height: 70upx;
-			line-height: 70upx;
-			background: url(../../static/images/wallet/copy-btn.png);
+			width: 153upx;
+			height: 76upx;
+			line-height: 76upx;
+			background: url(../../static/images/public/short-btn.png);
 			background-size: 100% 100%;
 			color: #fff;
 			display: flex;
@@ -258,14 +287,55 @@ export default {
 	.money-wrapper {
 		width: 100%;
 		padding: 0 29upx;
-		margin: 40upx 0;
+		margin-top: 40upx;
 		.money-input {
 			width: 690upx;
-			padding: 0 30upx;
 			height: 76upx;
 			border: 2upx solid #554472;
 			border-radius: 4upx;
+			padding: 0 20upx;
+			padding-right: 300upx;
 		}
+		text {
+			margin-right: 190upx;
+			float: right;
+			font-size: 28upx;
+			font-family: PingFang SC;
+			font-weight: 400;
+			color: #63798f;
+			opacity: 0.6;
+			margin-top: -58upx;
+		}
+		.all-btn {
+			width: 160upx;
+			height: 60upx;
+			line-height: 60upx;
+			border-left: 2upx solid #554472;
+			text-align: center;
+			margin-right: 5upx;
+			float: right;
+			font-size: 32upx;
+			font-family: PingFang SC;
+			margin-top: -68upx;
+			font-weight: 400;
+			color: #ffffff;
+			background: linear-gradient(0deg, #3fbbfe 0%, #a541ff 100%);
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+		}
+	}
+	.tips-wrapper {
+		width: 100%;
+		padding: 0 32upx;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		font-size: 26upx;
+		font-family: PingFang SC;
+		font-weight: 400;
+		color: #818fab;
+		margin-top: 31upx;
+		margin-bottom: 120upx;
 	}
 	.confirm-btn {
 		width: 610upx;
@@ -279,6 +349,66 @@ export default {
 		align-items: center;
 		justify-content: center;
 		font-size: 26upx;
+	}
+	.password-modal {
+		width: 694upx;
+		margin: 0 auto;
+		border-radius: 20upx;
+		margin-bottom: 60upx;
+		::v-deep .u-drawer-bottom {
+			background-color: #262c4a;
+		}
+	}
+	.modal-line-title {
+		font-size: 24upx;
+		font-family: PingFang SC;
+		font-weight: 400;
+		color: #FFFFFF;
+		padding-left: 30upx;
+		margin-top: 40upx;
+		margin-bottom: 20upx;
+	}
+	.modal-input-wrapper {
+		width: 638upx;
+		height: 74upx;
+		background: url(../../static/images/public/login-btn.png);
+		background-size: 100% 100%;
+		margin-left: 30upx;
+		
+		.input-item {
+			width: 440upx;
+			height: 76upx;
+			padding: 0 32upx;
+			color: #fff;
+		}
+		.code-btn {
+			float: right;
+			margin-top: -56upx;
+			margin-right: 50upx;
+			border-left: 1upx solid #DADADA;
+			padding-left: 20upx;
+			color: #4f5b87;
+			font-size: 26upx;
+			font-family: PingFang SC;
+			font-weight: 400;
+			background: linear-gradient(0deg, #3fbbfe 0%, #a541ff 100%);
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+		}
+		
+	}
+	.submit-btn {
+		width: 638upx;
+		height: 80upx;
+		line-height: 80upx;
+		margin: 46upx auto;
+		color: #fff;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 26upx;
+		background: linear-gradient(90deg, #3fbbfe, #a541ff);
+		border-radius: 4upx;
 	}
 }
 </style>

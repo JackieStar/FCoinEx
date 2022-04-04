@@ -7,15 +7,15 @@
 				<view class="market-text">我的</view>
 			</view>
 			<view class="user-info-box">
-				<view class="portrait-box"><image class="portrait" :src="'/static/missing-face.png'"></image></view>
+				<view class="portrait-box"><image class="portrait" :src="loginInfo.avatar"></image></view>
 				<view class="info-box" @click="toLogin">
 					<view class="username" @click="openPage(1)">
 						{{ loginInfo.name || i18n.my.login }}
 						<u-image class="edit" src="../../static/images/my/edit.png" width="26upx" height="29upx" />
 					</view>
-					<view class="tip">{{ i18n.my.sentence }} FEXCOIN.COM</view>
+					<view class="tip">{{ loginInfo.email }}</view>
 					<view class="tip" @click="handleCopy">
-						UID: {{ i18n.my.sentence }}
+						UID: {{ loginInfo.id }}
 						<u-image class="copy" src="../../static/images/my/copy.png" width="28upx" height="29upx" />
 					</view>
 				</view>
@@ -26,21 +26,14 @@
 			<!-- 浏览历史 -->
 			<view class="history-section icon">
 				<list-cell image="/static/images/my/password.png" @eventClick="navTo('/pages/user/updateLoginPwd', true)" :title="i18n.my.password"></list-cell>
-				<list-cell
-					image="/static/images/my/referral.png"
-					@eventClick="navTo('/pages/user/realname', true)"
-					:tips="authStatusMap[authStatus]"
-					:title="i18n.my.referral"
-				></list-cell>
+				<list-cell image="/static/images/my/referral.png" @eventClick="navTo('/pages/user/invite', true)" :title="i18n.my.referral"></list-cell>
 				<list-cell image="/static/images/my/language.png" @eventClick="changeLang" :title="i18n.my.language"></list-cell>
 				<list-cell image="/static/images/my/community.png" @eventClick="navTo('/pages/user/payType', true)" :title="i18n.my.community"></list-cell>
 				<list-cell image="/static/images/my/help-center.png" @eventClick="navTo('/pages/otc/merchant/apply', true)" :title="i18n.my.help"></list-cell>
 				<list-cell image="/static/images/my/about-as.png" @eventClick="navTo('/pages/otc/merchant/merchant', true)" :title="i18n.my.about"></list-cell>
 				<list-cell image="/static/images/my/download.png" border="" :title="i18n.my.download" @eventClick="navTo('/pages/set/help')"></list-cell>
 			</view>
-			<view class="history-section icon">
-				<list-cell image="/static/images/my/logout.png" border="" :title="i18n.my.logout" @eventClick="navTo('/pages/set/help')"></list-cell>
-			</view>
+			<view class="history-section icon"><list-cell image="/static/images/my/logout.png" border="" :title="i18n.my.logout" @eventClick="toLogout"></list-cell></view>
 		</view>
 
 		<u-action-sheet :cancel-text="i18n.common.cancel" :border-radius="20" :list="langList" @click="clickLang" v-model="showLang"></u-action-sheet>
@@ -82,10 +75,10 @@ export default {
 			'2': this.i18n.audit.status.reject
 		};
 		if (this.loginInfo.hasLogin) {
-			this.isMerchant().then(res => {
-				this.isMer = res.data;
-			});
-			this.loadAuthInfo();
+			// this.isMerchant().then(res => {
+			// 	this.isMer = res.data;
+			// });
+			// this.loadAuthInfo();
 		}
 		this.langList = [
 			{
@@ -122,8 +115,7 @@ export default {
 		...mapState('user', ['loginInfo'])
 	},
 	methods: {
-		...mapActions('otc', ['isMerchant']),
-		...mapActions('user', ['getAuthInfo']),
+		...mapActions('user', ['getAuthInfo', 'logout']),
 		toLogin() {
 			if (!this.loginInfo.hasLogin) {
 				uni.navigateTo({
@@ -131,11 +123,11 @@ export default {
 				});
 			}
 		},
-		loadAuthInfo() {
-			this.getAuthInfo().then(res => {
-				this.authStatus = res.data ? res.data.status + '' : '';
-			});
-		},
+		// loadAuthInfo() {
+		// 	this.getAuthInfo().then(res => {
+		// 		this.authStatus = res.data ? res.data.status + '' : '';
+		// 	});
+		// },
 		changeLang() {
 			this.showLang = true;
 		},
@@ -174,12 +166,28 @@ export default {
 		},
 		// 复制
 		handleCopy() {
-			let _this = this
+			let _this = this;
 			uni.setClipboardData({
-			    data: '22222222',
-			    success: function () {
-			        _this.$api.msg('UID已复制')
-			    }
+				data: '22222222',
+				success: function() {
+					_this.$api.msg('UID已复制');
+				}
+			});
+		},
+		//退出登录
+		toLogout() {
+			uni.showModal({
+				content: '确定要退出登录?',
+				success: e => {
+					if (e.confirm) {
+						this.logout();
+						setTimeout(() => {
+							uni.navigateTo({
+								url: '/pages/public/login'
+							});
+						}, 200);
+					}
+				}
 			});
 		}
 	}
@@ -263,7 +271,6 @@ page {
 		font-size: 36upx;
 		color: #ffffff;
 		margin-left: 40upx;
-		margin-bottom: 10upx;
 		margin-top: 30upx;
 		.edit {
 			margin-left: 28upx;
@@ -275,6 +282,7 @@ page {
 		color: #a6a5a7;
 		margin-left: 20upx;
 		margin-top: 5upx;
+		margin-bottom: 5upx;
 		.copy {
 			margin-left: 33upx;
 		}

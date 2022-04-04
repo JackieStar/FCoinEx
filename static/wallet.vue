@@ -7,7 +7,7 @@
 				<text class="cny">≈￥40.5</text>
 			</view>
 			<view class="operat">
-				<view class="btn" @click="navTo('/pages/wallet/deposit')">充币</view>
+				<view class="btn" @click="navTo('/pages/wallet/recharge')">充币</view>
 				<view class="btn" @click="navTo('/pages/wallet/withdraw')">提币</view>
 				<view class="btn" @click="navTo('/pages/exchange/index')">兑换</view>
 			</view>

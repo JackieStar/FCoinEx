@@ -7,7 +7,7 @@
 		</view>
 		<!-- 充值提现 -->
 		<view class="menu">
-			<view class="fiat m-r" @click="navTo('/pages/wallet/deposit')">
+			<view class="fiat m-r" @click="navTo('/pages/wallet/recharge')">
 				<view class="label">
 					<text>{{ i18n.index.prediction.title1 }}</text>
 				</view>

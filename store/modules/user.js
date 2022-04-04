@@ -15,20 +15,16 @@ import {
 	updatePayPwd,
 	updatePwd,
 	updateUserName,
-	encryptBookList,
-	addEncryptBook,
-	deleteEncryptBook,
+	userInfo,
 	withdraw,
-	depositAddress,
 	withdrawList,
-	withdrawConfig,
-	depositList,
-	invitRank,
-	getGoogleKey,
-	bindGoogle,
-	unbindGoogle,
-	signinDetail,
-	signin
+	rechargeList,
+	getFinaceInfo,
+	financeRecharge,
+	invitInfo,
+	invitUserList,
+	invitRewardList,
+	
 } from '@/api/user'
 
 const user = {
@@ -37,7 +33,6 @@ const user = {
 			nickname: null,
 			profile: null,
 			hasLogin: false,
-			isGoogle: false
 		}
 	},
 
@@ -75,16 +70,6 @@ const user = {
 			if (payload.code == 200) {
 				state.loginInfo.isCapitalPasswd = true
 
-			}
-		},
-		[USER_ENABLE_GOOGLE](state, payload) {
-			if (payload.code == 200) {
-				state.loginInfo.isGoogle = true
-			}
-		},
-		[USER_DISABLE_GOOGLE](state, payload) {
-			if (payload.code == 200) {
-				state.loginInfo.isGoogle = false
 			}
 		}
 	},
@@ -155,51 +140,18 @@ const user = {
 				})
 			})
 		},
-		updatePayPwd({
+		userInfo({
 			commit
 		}, data) {
 			return new Promise((resolve, reject) => {
-				updatePayPwd(data).then(res => {
-					commit(USER_UPDATE_PAY_PWD, res)
-					resolve()
-				}).catch(error => {
-					reject(error)
-				})
-			})
-		},
-		encryptBookList({
-			commit
-		}, data) {
-			return new Promise((resolve, reject) => {
-				encryptBookList(data).then(res => {
+				userInfo(data).then(res => {
 					resolve(res)
 				}).catch(error => {
 					reject(error)
 				})
 			})
 		},
-		addEncryptBook({
-			commit
-		}, data) {
-			return new Promise((resolve, reject) => {
-				addEncryptBook(data).then(res => {
-					resolve(res)
-				}).catch(error => {
-					reject(error)
-				})
-			})
-		},
-		deleteEncryptBook({
-			commit
-		}, id) {
-			return new Promise((resolve, reject) => {
-				deleteEncryptBook(id).then(res => {
-					resolve(res)
-				}).catch(error => {
-					reject(error)
-				})
-			})
-		},
+		
 		withdraw({
 			commit
 		}, data) {
@@ -211,22 +163,22 @@ const user = {
 				})
 			})
 		},
-		depositAddress({
+		getFinaceInfo({
 			commit
-		}, coin) {
+		}, data) {
 			return new Promise((resolve, reject) => {
-				depositAddress(coin.coin, coin.chain).then(res => {
+				getFinaceInfo(data).then(res => {
 					resolve(res)
 				}).catch(error => {
 					reject(error)
 				})
 			})
 		},
-		withdrawConfig({
+		financeRecharge({
 			commit
-		}, coin) {
+		}, data) {
 			return new Promise((resolve, reject) => {
-				withdrawConfig(coin).then(res => {
+				financeRecharge(data).then(res => {
 					resolve(res)
 				}).catch(error => {
 					reject(error)
@@ -244,102 +196,44 @@ const user = {
 				})
 			})
 		},
-		depositList({
+		rechargeList({
 			commit
 		}, data) {
 			return new Promise((resolve, reject) => {
-				depositList(data).then(res => {
+				rechargeList(data).then(res => {
 					resolve(res)
 				}).catch(error => {
 					reject(error)
 				})
 			})
 		},
-		invitRank({
+		invitInfo({
 			commit
 		}) {
 			return new Promise((resolve, reject) => {
-				invitRank().then(res => {
+				invitInfo().then(res => {
 					resolve(res)
 				}).catch(error => {
 					reject(error)
 				})
 			})
 		},
-		getGoogleKey({
+		invitUserList({
 			commit
 		}) {
 			return new Promise((resolve, reject) => {
-				getGoogleKey().then(res => {
+				invitUserList().then(res => {
 					resolve(res)
 				}).catch(error => {
 					reject(error)
 				})
 			})
 		},
-		bindGoogle({
-			commit
-		}, data) {
-			return new Promise((resolve, reject) => {
-				bindGoogle(data).then(res => {
-					commit(USER_ENABLE_GOOGLE, res)
-					resolve(res)
-				}).catch(error => {
-					reject(error)
-				})
-			})
-		},
-		unbindGoogle({
-			commit
-		}, data) {
-			return new Promise((resolve, reject) => {
-				unbindGoogle(data).then(res => {
-					commit(USER_DISABLE_GOOGLE, res)
-					resolve(res)
-				}).catch(error => {
-					reject(error)
-				})
-			})
-		},
-		signinDetail({
+		invitRewardList({
 			commit
 		}) {
 			return new Promise((resolve, reject) => {
-				signinDetail().then(res => {
-					resolve(res)
-				}).catch(error => {
-					reject(error)
-				})
-			})
-		},
-		signin({
-			commit
-		}) {
-			return new Promise((resolve, reject) => {
-				signin().then(res => {
-					resolve(res)
-				}).catch(error => {
-					reject(error)
-				})
-			})
-		},
-		getAuthInfo({
-			commit
-		}) {
-			return new Promise((resolve, reject) => {
-				getAuthInfo().then(res => {
-					resolve(res)
-				}).catch(error => {
-					reject(error)
-				})
-			})
-		},
-		authApply({
-			commit
-		}, data) {
-			return new Promise((resolve, reject) => {
-				authApply(data).then(res => {
-					commit(USER_DISABLE_GOOGLE, res)
+				invitRewardList().then(res => {
 					resolve(res)
 				}).catch(error => {
 					reject(error)

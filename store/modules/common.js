@@ -29,9 +29,9 @@ const common = {
 		[COMMON_COIN_LIST](state, payload) {
 			if (payload.code == 200) {
 				state.coins = payload.data,
-				state.coins.forEach((item, i) =>{
-					state.coinMap[item.symbol] = item
-				})
+					state.coins.forEach((item, i) => {
+						state.coinMap[item.symbol] = item
+					})
 			}
 		},
 		[COMMON_CONFIG_LIST](state, payload) {
@@ -98,11 +98,12 @@ const common = {
 				})
 			})
 		},
-		// 手机验证码发送
+		// 邮箱验证码发送
 		sendSms({
 			commit
 		}, data) {
 			return new Promise((resolve, reject) => {
+				console.log('data', data)
 				sendSms(data).then(res => {
 					resolve(res)
 				}).catch(error => {

@@ -151,6 +151,8 @@ export default {
 
 <style lang="scss">
 	.upload-content{
+		width: 127upx;
+		height: 127upx;
 		padding:24upx 0 0 28upx;
 		background-color: #fff;
 		overflow:hidden;
