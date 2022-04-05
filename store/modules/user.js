@@ -10,8 +10,6 @@ import {
 import {
 	register,
 	login,
-	getAuthInfo,
-	authApply,
 	updatePayPwd,
 	updatePwd,
 	updateUserName,
@@ -24,7 +22,7 @@ import {
 	invitInfo,
 	invitUserList,
 	invitRewardList,
-	
+	appConfig
 } from '@/api/user'
 
 const user = {
@@ -234,6 +232,17 @@ const user = {
 		}) {
 			return new Promise((resolve, reject) => {
 				invitRewardList().then(res => {
+					resolve(res)
+				}).catch(error => {
+					reject(error)
+				})
+			})
+		},
+		appConfig({
+			commit
+		}) {
+			return new Promise((resolve, reject) => {
+				appConfig().then(res => {
 					resolve(res)
 				}).catch(error => {
 					reject(error)

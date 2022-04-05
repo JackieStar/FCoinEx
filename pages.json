@@ -8,7 +8,27 @@
 				"navigationStyle": "custom",
 				"enablePullDownRefresh": true
 			}
-		},{
+		},
+		{
+			"path": "pages/public/kline",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#070219"
+			}
+		},
+		{
+			"path": "pages/wallet/wallet",
+			"style": {
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": {
+						"type": "transparent"
+					}
+				}
+			}
+		},
+		{
 			"path": "pages/lottery/index",
 			"style": {
 				"navigationBarTitleText": "抽奖",
@@ -24,16 +44,6 @@
 			}
 		},
 		{
-			"path": "pages/wallet/wallet",
-			"style": {
-				"app-plus": {
-					"bounce": "none",
-					"titleNView": {
-						"type": "transparent"
-					}
-				}
-			}
-		}, {
 			"path": "pages/wallet/recharge",
 			"style": {
 				"navigationBarTextStyle": "white",
@@ -50,37 +60,8 @@
 			"path": "pages/wallet/record",
 			"style": {
 				"navigationBarTextStyle": "white",
-				"navigationBarBackgroundColor": "#181B2A",
+				"navigationBarBackgroundColor": "#070219",
 				"navigationBarTitleText": "资产记录"
-			}
-		},
-		{
-			"path": "pages/set/help",
-			"style": {
-				"navigationBarTitleText": "帮助中心",
-				"navigationBarBackgroundColor": "#4574e8",
-				"navigationBarTextStyle": "white",
-				"enablePullDownRefresh": true,
-				"app-plus": {
-					"titleView": false,
-					"titleNView": {
-						"type": "transparent"
-					}
-				}
-			}
-		},
-		{
-			"path": "pages/set/about",
-			"style": {
-				"navigationBarTitleText": "关于Fex"
-			}
-		},
-		{
-			"path": "pages/public/kline",
-			"style": {
-				"navigationBarTitleText": "",
-				"navigationBarTextStyle": "white",
-				"navigationBarBackgroundColor": "#181B2A"
 			}
 		},
 		{
@@ -88,7 +69,7 @@
 			"style": {
 				"navigationBarTitleText": "",
 				"navigationBarTextStyle": "white",
-				"navigationBarBackgroundColor": "#181B2A"
+				"navigationBarBackgroundColor": "#070219"
 			}
 		},
 		{
@@ -126,9 +107,8 @@
 		}, {
 			"path": "pages/user/invit",
 			"style": {
-				"navigationBarTitleText": "邀请攻略",
 				"navigationBarTextStyle": "white",
-				"navigationBarBackgroundColor": "#1866fe"
+				"navigationStyle": "custom"
 			}
 		}, {
 			"path": "pages/user/updateLoginPwd",
@@ -150,10 +130,12 @@
 			"style": {
 				"navigationBarTitleText": "修改邮箱"
 			}
-		}, {
-			"path": "pages/user/updateMobile",
+		},
+		{
+			"path": "pages/user/webview",
 			"style": {
-				"navigationBarTitleText": "修改手机号"
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
 			}
 		}
 	],

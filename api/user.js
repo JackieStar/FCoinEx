@@ -102,3 +102,11 @@ export function invitRewardList() {
 		method: 'GET'
 	})
 }
+// 站点链接
+export function appConfig() {
+	return request({
+		url: '/api/app/config',
+		method: 'GET'
+	})
+}
+

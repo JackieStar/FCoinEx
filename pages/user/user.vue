@@ -28,10 +28,10 @@
 				<list-cell image="/static/images/my/password.png" @eventClick="navTo('/pages/user/updateLoginPwd', true)" :title="i18n.my.password"></list-cell>
 				<list-cell image="/static/images/my/referral.png" @eventClick="navTo('/pages/user/invite', true)" :title="i18n.my.referral"></list-cell>
 				<list-cell image="/static/images/my/language.png" @eventClick="changeLang" :title="i18n.my.language"></list-cell>
-				<list-cell image="/static/images/my/community.png" @eventClick="navTo('/pages/user/payType', true)" :title="i18n.my.community"></list-cell>
-				<list-cell image="/static/images/my/help-center.png" @eventClick="navTo('/pages/otc/merchant/apply', true)" :title="i18n.my.help"></list-cell>
-				<list-cell image="/static/images/my/about-as.png" @eventClick="navTo('/pages/otc/merchant/merchant', true)" :title="i18n.my.about"></list-cell>
-				<list-cell image="/static/images/my/download.png" border="" :title="i18n.my.download" @eventClick="navTo('/pages/set/help')"></list-cell>
+				<list-cell image="/static/images/my/community.png" @eventClick="openPage(2)" :title="i18n.my.community"></list-cell>
+				<list-cell image="/static/images/my/help-center.png" @eventClick="openPage(3)" :title="i18n.my.help"></list-cell>
+				<list-cell image="/static/images/my/about-as.png" @eventClick="openPage(4)" :title="i18n.my.about"></list-cell>
+				<list-cell image="/static/images/my/download.png" border="" :title="i18n.my.download" @eventClick="openPage(5)"></list-cell>
 			</view>
 			<view class="history-section icon"><list-cell image="/static/images/my/logout.png" border="" :title="i18n.my.logout" @eventClick="toLogout"></list-cell></view>
 		</view>
@@ -68,6 +68,7 @@ export default {
 		uni.setNavigationBarTitle({
 			title: this.i18n.tabBar.me
 		});
+		this.getAppConfig()
 		this.authStatusMap = {
 			'': this.i18n.audit.status.no,
 			'0': this.i18n.audit.status.ing,
@@ -91,31 +92,12 @@ export default {
 			}
 		];
 	},
-	// #ifndef MP
-	onNavigationBarButtonTap(e) {
-		const index = e.index;
-		if (index === 0) {
-			this.navTo('/pages/set/set');
-		} else if (index === 1) {
-			// #ifdef APP-PLUS
-			const pages = getCurrentPages();
-			const page = pages[pages.length - 1];
-			const currentWebview = page.$getAppWebview();
-			currentWebview.hideTitleNViewButtonRedDot({
-				index
-			});
-			// #endif
-			uni.navigateTo({
-				url: '/pages/notice/notice'
-			});
-		}
-	},
-	// #endif
+
 	computed: {
 		...mapState('user', ['loginInfo'])
 	},
 	methods: {
-		...mapActions('user', ['getAuthInfo', 'logout']),
+		...mapActions('user', [ 'appConfig', 'logout']),
 		toLogin() {
 			if (!this.loginInfo.hasLogin) {
 				uni.navigateTo({
@@ -123,11 +105,11 @@ export default {
 				});
 			}
 		},
-		// loadAuthInfo() {
-		// 	this.getAuthInfo().then(res => {
-		// 		this.authStatus = res.data ? res.data.status + '' : '';
-		// 	});
-		// },
+		getAppConfig() {
+			this.appConfig().then((res)=> {
+				this.appConfig = res.data
+			})
+		},
 		changeLang() {
 			this.showLang = true;
 		},
@@ -163,6 +145,31 @@ export default {
 					url: '/pages/user/updateName'
 				});
 			}
+			if (type === 2) {
+				window.location.href = this.appConfig.add_group
+				// uni.navigateTo({
+				// 	url: '/pages/user/webview?url=' + ''
+				// });
+			}
+			if (type === 3) {
+				window.location.href = this.appConfig.help_center
+				// uni.navigateTo({
+				// 	url: '/pages/user/webview?url=' + ''
+				// });
+			}
+			if (type === 4) {
+				window.location.href = this.appConfig.abount_me
+				// uni.navigateTo({
+				// 	url: '/pages/user/webview?url=' + ''
+				// });
+			}
+			if (type === 5) {
+				window.location.href = this.appConfig.kf_url
+				// uni.navigateTo({
+				// 	url: '/pages/user/webview?url=' + ''
+				// });
+			}
+			
 		},
 		// 复制
 		handleCopy() {

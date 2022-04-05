@@ -11,16 +11,16 @@
 	// #endif
 	export default {
 		methods: {
-			...mapActions('common', ['coinList', 'getAppVersion', 'getConfig']),
+			...mapActions('common', ['coinList',  'getConfig']),
 			...mapActions('user', ['initLogin']),
 			refreshConfig(){
-				this.getConfig()
-				setInterval(() => {
-					this.getConfig()
-				}, 10000)
+				// this.getConfig()
+				// setInterval(() => {
+				// 	this.getConfig()
+				// }, 10000)
 			},
 			async connectWs(){
-				let res = await this.getConfig()
+				// let res = await this.getConfig()
 				let ws = 'wss://www.huobi.mw/-/s/pro/ws'
 				if(res.data && res.data.huobiDomain){
 					ws = res.data.huobiDomain
@@ -33,11 +33,11 @@
 			
 			$this.connectWs()
 			
-			$this.coinList()
+			// $this.coinList()
 			
-			this.$fire.$on("refreshCoin", () => {
-				$this.coinList()
-			});
+			// this.$fire.$on("refreshCoin", () => {
+			// 	$this.coinList()
+			// });
 			
 			// #ifdef APP-PLUS
 			APPUpdate();
@@ -50,10 +50,10 @@
 				index: 0,
 				text: this.$t('message').tabBar.market
 			})
-			// uni.setTabBarItem({
-			// 	index: 1,
-			// 	text: this.$t('message').tabBar.trade
-			// })
+			uni.setTabBarItem({
+				index: 1,
+				text: this.$t('message').tabBar.trade
+			})
 			uni.setTabBarItem({
 				index: 2,
 				text: this.$t('message').tabBar.assets
