@@ -4,10 +4,10 @@
 			<view class="lottery_wrap">
 				<ul class="lottery_grid">
 					<li v-for="(item, index) in grid_info_arr" :class="{ active: current_index == index && index != 8 }" :key="index":data-index="index">
-						<image class="grid_img" mode='aspectFit' :src="item.logo" />
-						<view class="weizhongj">{{item.text}}</view>
+						<image class="grid_img" mode='aspectFit' :src="item.icon" />
+						<view class="weizhongj">{{item.name}}</view>
 					</li>
-					<view class="luckDraw" @tap="luck_draw">{{i18n.lottery.tip6}}</view>
+					<view class="luckDraw" @tap="luck_draw"></view>
 				</ul>
 				
 			</view>

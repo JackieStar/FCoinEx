@@ -124,9 +124,9 @@ const common = {
 		},
 		noticeList({
 			commit
-		}) {
+		},data) {
 			return new Promise((resolve, reject) => {
-				noticeList().then(res => {
+				noticeList(data).then(res => {
 					resolve(res)
 				}).catch(error => {
 					reject(error)

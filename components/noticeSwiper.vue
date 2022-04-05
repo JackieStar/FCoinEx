@@ -3,7 +3,7 @@
 		<u-icon name="volume-fill" size="30" class="notice"></u-icon>
 		<swiper vertical="true" autoplay="true" circular="true" interval="3000">
 			<swiper-item v-for="(item, index) in list_" :key="index" @click="navTo(`/pages/notice/detail?id=${item.noticeId}`)">
-				<navigator><view style="padding-right: 10upx;">{{item.noticeTitle}}</view></navigator>
+				<navigator><view style="padding-right: 10upx;">{{item}}</view></navigator>
 			</swiper-item>
 		</swiper>
 		<!-- <u-icon name="list" size="30" class="notice" @click="navTo(`/pages/notice/notice`)"></u-icon> -->

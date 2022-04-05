@@ -7,7 +7,7 @@
 		<!-- 头部轮播 -->
 		<view class="carousel-section">
 			<!-- 背景色区域 -->
-			<swiper class="carousel" circular @change="swiperChange" autoplay="true">
+			<swiper class="carousel" circular autoplay="true">
 				<swiper-item @click="open(item)" v-for="(item, index) in carousels" :key="index" class="carousel-item"><image :src="item" /></swiper-item>
 			</swiper>
 		</view>
@@ -36,14 +36,17 @@
 			</view>
 			<view class="s-row little-line" @click="navTo(`/pages/market/index?code=${item.symbolCode}`)" v-for="(item, i) in markets" :key="item.symbol">
 				<view class="col light">
-					{{ item.symbol }}
-					<view class="subtitle">Vol {{ item.marketcap | formatMarketcap }}</view>
+					{{ item.name }}/USDT 
+					<view class="subtitle">Vol {{ item.volume_format }}</view>
 				</view>
 				<view class="col r light">
-					${{ item.priceCny }}
-					<view class="subtitle">{{ item.priceUsd }}</view>
+					${{ item.price }}
+					<!-- <view class="subtitle">{{ item.priceUsd }}</view> -->
 				</view>
-				<view class="col r"><uni-tag :text="item.changePercent | formatChange" :type="item.changePercent >= 0 ? 'success' : 'error'"></uni-tag></view>
+				<view class="col r">
+					<uni-tag size="large" v-if="item.diff_rate >= 0" :text="`+${item.diff_rate}%`" type="success"></uni-tag>
+					<uni-tag size="large" v-else :text="`${item.diff_rate}%`" type="error"></uni-tag>
+				</view>
 			</view>
 		</view>
 
@@ -70,7 +73,6 @@ export default {
 			swiperCurrent: 0,
 			swiperLength: 0,
 			carousels: [],
-			ads: [],
 			current: 0,
 			mode: 'round',
 			topSymbols: [{ symbol: 'btcusdt', title: 'BTC/USDT' }, { symbol: 'ethusdt', title: 'ETH/USDT' }, { symbol: 'dotusdt', title: 'DOT/USDT' }],
@@ -99,23 +101,19 @@ export default {
 		}
 	},
 	onShow() {
-		// this.getMaketList();
-		// setInterval(() => {
-		// 	this.getMaketList();
-		// }, 3000);
-		// setTimeout(() => {
-		// 	this.loadTopMarket();
-		// }, 500);
+		this.getMaketList();
+		setInterval(() => {
+			this.getMaketList();
+		}, 5000);
 		this.swiperCurrent = 0;
 		this.swiperLength = 0;
 		this.carousels = [];
-		this.ads = [];
 		this.notices = [];
 		this.loadData();
 	},
 	onPullDownRefresh() {
 		this.loadData();
-		// this.getMaketList();
+		this.getMaketList();
 	},
 	onLoad() {},
 	onHide() {
@@ -133,56 +131,20 @@ export default {
 	},
 	methods: {
 		...mapActions('common', ['marketList', 'adList', 'noticeList']),
-		loadTopMarket() {
-			let $this = this;
-			let ch = `market.overviewv2`;
-			let params = {
-				sub: ch
-			};
-			this.$store.dispatch('WEBSOCKET_SEND', JSON.stringify(params));
-			uni.$on('sub.' + ch, res => {
-				let map = res.data.data;
-				for (let i = 0; i < 3; i++) {
-					let symbol = this.topSymbols[i].symbol;
-					if (map[symbol]) {
-						let item = map[symbol];
-						let tick = {
-							open: item.o,
-							close: item.c,
-							low: item.l,
-							high: item.h,
-							vol: item.v,
-							amount: item.a
-						};
-						tick.change = parseFloat(((tick.close - tick.open) / tick.open) * 100).toFixed(2);
-						tick.cny = parseFloat(tick.close * 6.4).toFixed(2);
-						$this.topMakretMap[symbol] = tick;
-					}
-				}
-			});
-		},
 		async loadData() {
 			this.adList().then(res => {
 				let casrousels = res.data;
-				// this.swiperLength = casrousels.length;
 				this.carousels = casrousels;
-				// this.ads = res.data.ads;
-
 				uni.stopPullDownRefresh();
 			});
-			this.noticeList().then(res => {
-				this.notices = res.rows;
+			this.noticeList({limit: 20}).then(res => {
+				this.notices = res.data;
 			});
 		},
-		// getMaketList() {
-		// 	this.marketList().then(res => {
-		// 		this.markets = res.data;
-		// 	});
-		// },
-		//轮播图切换修改背景色
-		swiperChange(e) {
-			const index = e.detail.current;
-			this.swiperCurrent = index;
+		getMaketList() {
+			this.marketList().then(res => {
+				this.markets = res.data.data;
+			});
 		},
 
 		navToKline(item) {
@@ -190,50 +152,13 @@ export default {
 				url: `/pages/public/kline?symbol=${item.symbol}`
 			});
 		},
-		open(item) {
-			if (item.link) {
-				if (item.link.indexOf('http://') < 0 && item.link.indexOf('https://') < 0) {
-					uni.navigateTo({
-						url: item.link
-					});
-				} else {
-					uni.navigateTo({
-						url: `/pages/public/web?url=${item.link}`
-					});
-				}
-			}
-		},
+		open() {},
 		openPage() {
 			uni.navigateTo({
 				url: '/pages/user/user'
 			});
 		}
 	},
-	// #ifndef MP
-	// 标题栏input搜索框点击
-	onNavigationBarSearchInputClicked: async function(e) {
-		this.$api.msg('点击了搜索框');
-	},
-	//点击导航栏 buttons 时触发
-	onNavigationBarButtonTap(e) {
-		const index = e.index;
-		if (index === 0) {
-			this.$api.msg('点击了扫描');
-		} else if (index === 1) {
-			// #ifdef APP-PLUS
-			const pages = getCurrentPages();
-			const page = pages[pages.length - 1];
-			const currentWebview = page.$getAppWebview();
-			currentWebview.hideTitleNViewButtonRedDot({
-				index
-			});
-			// #endif
-			uni.navigateTo({
-				url: '/pages/notice/notice'
-			});
-		}
-	}
-	// #endif
 };
 </script>
 
@@ -278,31 +203,6 @@ page {
 }
 .scroll-view-market {
 	width: 100%;
-}
-.market-item {
-	display: inline-block;
-	width: 33%;
-	.item {
-		padding: 30upx 0 30upx 0;
-		width: 100%;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		text-align: center;
-		.t {
-			font-weight: bold;
-			font-size: $font-sm;
-		}
-		.c {
-			padding: 10upx 0 10upx 0;
-			font-size: $font-xl;
-			font-weight: bold;
-		}
-		.b {
-			font-size: $font-sm;
-			color: $font-color-disabled;
-		}
-	}
 }
 
 .menu {
@@ -418,7 +318,6 @@ page {
 /* 市值排行 */
 .coin-section {
 	padding: 4upx 30upx 24upx;
-	background: #1a1b28;
 	.s-header {
 		display: flex;
 		align-items: center;
@@ -447,20 +346,29 @@ page {
 		}
 		.uni-tag--success {
 			color: #fff;
-			background-color: $uni-color-upper;
+			background-color: #23B57D;
 			border-width: 0.5px;
 			border-style: solid;
-			border-color: $uni-color-upper;
+			border-color: #23B57D;
 			width: 160upx;
+			height: 58upx;
+			display: flex;
+			justify-content: center;
+			align-items: center;
 			float: right;
 		}
 		.uni-tag--error {
 			color: #fff;
-			background-color: $uni-color-lower;
+			background-color: #D83A53;
 			border-width: 0.5px;
 			border-style: solid;
-			border-color: $uni-color-lower;
+			border-color: #D83A53;
 			width: 160upx;
+			height: 58upx;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			line-height: 58upx;
 			float: right;
 		}
 		.col {
@@ -477,9 +385,9 @@ page {
 			float: left;
 		}
 		.light {
-			font-weight: bold;
+			// font-weight: bold;
 			font-size: $font-lg;
-			color: $font-color-light;
+			font-size: 30upx;
 		}
 		.r {
 			text-align: center;
@@ -487,85 +395,4 @@ page {
 	}
 }
 
-.f-header {
-	display: flex;
-	align-items: center;
-	height: 140upx;
-	padding: 6upx 30upx 8upx;
-	background: #fff;
-	image {
-		flex-shrink: 0;
-		width: 80upx;
-		height: 80upx;
-		margin-right: 20upx;
-	}
-	.tit-box {
-		flex: 1;
-		display: flex;
-		flex-direction: column;
-	}
-	.tit {
-		font-size: $font-lg + 2upx;
-		color: #font-color-dark;
-		line-height: 1.3;
-	}
-	.tit2 {
-		font-size: $font-sm;
-		color: $font-color-light;
-	}
-	.icon-you {
-		font-size: $font-lg + 2upx;
-		color: $font-color-light;
-	}
-}
-/* 猜你喜欢 */
-.guess-section {
-	display: flex;
-	flex-wrap: wrap;
-	padding: 0 30upx;
-	background: #fff;
-	.guess-item {
-		display: flex;
-		flex-direction: column;
-		width: 48%;
-		padding-bottom: 40upx;
-		&:nth-child(2n + 1) {
-			margin-right: 4%;
-		}
-	}
-	.image-wrapper {
-		width: 100%;
-		height: 330upx;
-		border-radius: 3px;
-		overflow: hidden;
-		image {
-			width: 100%;
-			height: 100%;
-			opacity: 1;
-		}
-	}
-	.title {
-		font-size: $font-lg;
-		color: $font-color-dark;
-		line-height: 80upx;
-	}
-	.price {
-		font-size: $font-lg;
-		color: $uni-color-primary;
-		line-height: 1;
-	}
-}
-
-.lottery-icon {
-	position: fixed;
-	bottom: 300upx;
-	right: 20upx;
-	z-index: 99999999;
-	width: 100upx;
-	height: 100upx;
-	image {
-		width: 100upx;
-		height: 100upx;
-	}
-}
 </style>

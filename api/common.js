@@ -27,7 +27,7 @@ export function coinTips(coin) {
 // 行情列表
 export function marketList() {
   return request({
-    url: '/v1/market/list',
+    url: '/api/product/list',
     method: 'GET'
   })
 }
@@ -60,9 +60,9 @@ export function adList() {
 // 公告列表
 export function noticeList(data) {
   return request({
-    url: '/v1/notice/list',
+    url: '/api/trade/broadcast',
     method: 'GET',
-	data: data
+	data
   })
 }
 

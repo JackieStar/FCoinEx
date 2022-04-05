@@ -652,18 +652,6 @@
 	
 	
 	.little-line{ position:relative;}
-	.little-line:after {
-	    content: " ";
-	    position: absolute;
-	    left: 0;
-	    bottom: 0;
-	    width: 100%;
-	    height: 1px;
-	    background-color: $border-color-base;
-	    /* 如果不用 background-color, 使用 border-top:1px solid blue; */
-	    -webkit-transform: scaleY(.5);
-	    transform:scaleY(.5);
-	 }
 	 .line{
 		width: 100%;
 		height: 20upx;

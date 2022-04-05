@@ -316,8 +316,8 @@ module.exports = {
 			detail: '公告详情'
 		},
 		lottery: {
-			tip1: '您还有',
-			tip2: '次机会',
+			tip1: '您有',
+			tip2: '次抽奖机会',
 			tip3: '花',
 			tip4: '购买',
 			tip5: '次抽奖',
