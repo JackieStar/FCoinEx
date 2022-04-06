@@ -1,14 +1,14 @@
 <template>
 	<view class="contaier">
 		<view class="tick">
-			<view class="left">
+			<!-- <view class="left">
 				<view class="price" :class="{upText: (tick != undefined && tick.change >= 0),downText: (tick != undefined && tick.change < 0)}">{{tick != undefined ? tick.close : 0.00}}</view>
 				<view class="detail">
 					<text class="cny"> ≈ {{tick != undefined ? tick.cny : 0.00}} CNY</text>
 					<text class="rise" :class="{upText: (tick != undefined && tick.change >= 0),downText: (tick != undefined && tick.change < 0)}">{{tick != undefined ? tick.change : 0.00}}%</text>
 				</view>
-			</view>
-			<view class="right">
+			</view> -->
+		<!-- 	<view class="right">
 				<view class="b">
 					<view class="col">
 						<text>{{tick.high}}</text>
@@ -21,7 +21,7 @@
 						<text class="t">24H</text>
 					</view>
 				</view>
-			</view>
+			</view> -->
 		</view>
 		<view class="tools">
 			<view class="period">

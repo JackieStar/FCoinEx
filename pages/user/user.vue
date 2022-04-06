@@ -14,7 +14,7 @@
 						<u-image class="edit" src="../../static/images/my/edit.png" width="26upx" height="29upx" />
 					</view>
 					<view class="tip">{{ loginInfo.email }}</view>
-					<view class="tip" @click="handleCopy">
+					<view class="tip" @click="handleCopy(loginInfo.id)">
 						UID: {{ loginInfo.id }}
 						<u-image class="copy" src="../../static/images/my/copy.png" width="28upx" height="29upx" />
 					</view>
@@ -26,7 +26,7 @@
 			<!-- 浏览历史 -->
 			<view class="history-section icon">
 				<list-cell image="/static/images/my/password.png" @eventClick="navTo('/pages/user/updateLoginPwd', true)" :title="i18n.my.password"></list-cell>
-				<list-cell image="/static/images/my/referral.png" @eventClick="navTo('/pages/user/invite', true)" :title="i18n.my.referral"></list-cell>
+				<list-cell image="/static/images/my/referral.png" @eventClick="navTo('/pages/user/invit', true)" :title="i18n.my.referral"></list-cell>
 				<list-cell image="/static/images/my/language.png" @eventClick="changeLang" :title="i18n.my.language"></list-cell>
 				<list-cell image="/static/images/my/community.png" @eventClick="openPage(2)" :title="i18n.my.community"></list-cell>
 				<list-cell image="/static/images/my/help-center.png" @eventClick="openPage(3)" :title="i18n.my.help"></list-cell>
@@ -54,12 +54,6 @@ export default {
 	data() {
 		return {
 			userInfo: {},
-			coverTransform: 'translateY(0px)',
-			coverTransition: '0s',
-			moving: false,
-			isMer: false,
-			authStatus: undefined,
-			authStatusMap: {},
 			showLang: false,
 			langList: []
 		};
@@ -69,12 +63,6 @@ export default {
 			title: this.i18n.tabBar.me
 		});
 		this.getAppConfig()
-		this.authStatusMap = {
-			'': this.i18n.audit.status.no,
-			'0': this.i18n.audit.status.ing,
-			'1': this.i18n.audit.status.pass,
-			'2': this.i18n.audit.status.reject
-		};
 		if (this.loginInfo.hasLogin) {
 			// this.isMerchant().then(res => {
 			// 	this.isMer = res.data;
@@ -128,13 +116,7 @@ export default {
 			uni.setTabBarItem({
 				index: 2,
 				text: this.$t('message').tabBar.assets
-			});
-			this.authStatusMap = {
-				'': this.i18n.audit.status.no,
-				'0': this.i18n.audit.status.ing,
-				'1': this.i18n.audit.status.pass,
-				'2': this.i18n.audit.status.reject
-			};
+			})
 		},
 		openPage(type) {
 			if (type === 0) {
@@ -172,12 +154,12 @@ export default {
 			
 		},
 		// 复制
-		handleCopy() {
-			let _this = this;
+		handleCopy(id) {
+			console.log('id', id)
 			uni.setClipboardData({
-				data: '22222222',
-				success: function() {
-					_this.$api.msg('UID已复制');
+				data: id.toString(),
+				success: () => {
+					this.$api.msg('UID已复制');
 				}
 			});
 		},

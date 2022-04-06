@@ -2,15 +2,11 @@ import {
 	USER_LOGIN,
 	USER_UPDATE_NAME,
 	INIT_LOGIN,
-	USER_LOGOUT,
-	USER_UPDATE_PAY_PWD,
-	USER_ENABLE_GOOGLE,
-	USER_DISABLE_GOOGLE
+	USER_LOGOUT
 } from './../mutations_type'
 import {
 	register,
 	login,
-	updatePayPwd,
 	updatePwd,
 	updateUserName,
 	userInfo,
@@ -62,12 +58,6 @@ const user = {
 				nickname: null,
 				profile: null,
 				hasLogin: false
-			}
-		},
-		[USER_UPDATE_PAY_PWD](state, payload) {
-			if (payload.code == 200) {
-				state.loginInfo.isCapitalPasswd = true
-
 			}
 		}
 	},

@@ -47,6 +47,7 @@ export default {
 	},
 	methods: {
 		...mapActions('user', ['getFinaceInfo', 'financeRecharge']),
+		...mapActions('common', ['uploadImg']),
 		//请求数据
 		async loadData() {
 			this.getFinaceInfo({config: 'recharge'}).then(res=> {
@@ -75,6 +76,23 @@ export default {
 		},
 		openPage() {
 			uni.navigateBack()
+		},
+		// 选择图片
+		chooseImage(){
+			uni.chooseImage({
+				count: 1, //最多可以选择的图片张数，9
+				sizeType: ['original', 'compressed'], //original 原图，compressed 压缩图，默认二者都有
+				sourceType: ['album'], //album 从相册选图，camera 使用相机，默认二者都有
+				success: (res)=> {
+					const images = res.tempFilePaths;
+					this.uploadFiles(images);
+				}
+			});
+		},
+		uploadFiles(img) {
+			this.uploadImg({img}).then(res=> {
+				console.log('222')
+			})
 		}
 	},
 	

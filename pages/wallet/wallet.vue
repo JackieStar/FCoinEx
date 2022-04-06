@@ -38,10 +38,10 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import { uniIcons } from '@dcloudio/uni-ui';
-import { authMixin, commonMixin } from '@/common/mixin/mixin.js';
+import { commonMixin } from '@/common/mixin/mixin.js';
 export default {
 	components: { uniIcons },
-	mixins: [authMixin, commonMixin],
+	mixins: [commonMixin],
 	data() {
 		return {
 			bgColor: '#070219',

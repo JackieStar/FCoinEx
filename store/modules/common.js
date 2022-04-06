@@ -3,14 +3,9 @@ import {
 	coinList,
 	coinTips,
 	marketList,
-	marketTicker,
 	adList,
 	noticeList,
-	noticeDetail,
-	currencyList,
-	fiatList,
-	getAppVersion,
-	getConfig
+	uploadImg
 } from '@/api/common'
 import {
 	COMMON_COIN_LIST,
@@ -42,17 +37,6 @@ const common = {
 	},
 
 	actions: {
-		getAppVersion({
-			commit
-		}) {
-			return new Promise((resolve, reject) => {
-				getAppVersion().then(res => {
-					resolve(res)
-				}).catch(error => {
-					reject(error)
-				})
-			})
-		},
 		coinList({
 			commit
 		}) {
@@ -81,17 +65,6 @@ const common = {
 		}) {
 			return new Promise((resolve, reject) => {
 				marketList().then(res => {
-					resolve(res)
-				}).catch(error => {
-					reject(error)
-				})
-			})
-		},
-		marketTicker({
-			commit
-		}, data) {
-			return new Promise((resolve, reject) => {
-				marketTicker(data).then(res => {
 					resolve(res)
 				}).catch(error => {
 					reject(error)
@@ -133,45 +106,11 @@ const common = {
 				})
 			})
 		},
-		noticeDetail({
+		uploadImg({
 			commit
-		}, data) {
+		},data) {
 			return new Promise((resolve, reject) => {
-				noticeDetail(data).then(res => {
-					resolve(res)
-				}).catch(error => {
-					reject(error)
-				})
-			})
-		},
-		currencyList({
-			commit
-		}) {
-			return new Promise((resolve, reject) => {
-				currencyList().then(res => {
-					resolve(res)
-				}).catch(error => {
-					reject(error)
-				})
-			})
-		},
-		fiatList({
-			commit
-		}) {
-			return new Promise((resolve, reject) => {
-				fiatList().then(res => {
-					resolve(res)
-				}).catch(error => {
-					reject(error)
-				})
-			})
-		},
-		getConfig({
-			commit
-		}) {
-			return new Promise((resolve, reject) => {
-				getConfig().then(res => {
-					commit(COMMON_CONFIG_LIST, res)
+				uploadImg(data).then(res => {
 					resolve(res)
 				}).catch(error => {
 					reject(error)

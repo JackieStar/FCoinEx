@@ -10,6 +10,14 @@
 			}
 		},
 		{
+			"path": "pages/trade/trade",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#070219"
+			}
+		},
+		{
 			"path": "pages/public/kline",
 			"style": {
 				"navigationBarTitleText": "",
@@ -49,7 +57,15 @@
 				"navigationBarTextStyle": "white",
 				"navigationStyle": "custom"
 			}
-		}, {
+		}, 
+		{
+			"path": "pages/wallet/submitRecharge",
+			"style": {
+				"navigationBarTextStyle": "white",
+				"navigationStyle": "custom"
+			}
+		}, 
+		{
 			"path": "pages/wallet/withdraw",
 			"style": {
 				"navigationBarTextStyle": "white",
@@ -125,11 +141,6 @@
 				"navigationBarTextStyle": "white",
 				"navigationBarBackgroundColor": "#070219"
 			}
-		}, {
-			"path": "pages/user/updateEmail",
-			"style": {
-				"navigationBarTitleText": "修改邮箱"
-			}
 		},
 		{
 			"path": "pages/user/webview",
@@ -157,7 +168,7 @@
 				"text": "行情"
 			},
 			{
-				"pagePath": "pages/public/kline",
+				"pagePath": "pages/trade/trade",
 				"iconPath": "static/images/tabbar/trade.png",
 				"selectedIconPath": "static/images/tabbar/trade_active.png",
 				"text": "交易"

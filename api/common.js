@@ -1,13 +1,5 @@
 import request from '@/utils/request'
 
-// App版本
-export function getAppVersion(data) {
-  return request({
-    url: '/v1/version/app',
-    method: 'GET'
-  })
-}
-
 // 币种列表
 export function coinList(data) {
   return request({
@@ -29,14 +21,6 @@ export function marketList() {
   return request({
     url: '/api/product/list',
     method: 'GET'
-  })
-}
-
-export function marketTicker(data) {
-  return request({
-    url: '/v1/market/ticker',
-    method: 'GET',
-	data: data
   })
 }
 
@@ -66,34 +50,11 @@ export function noticeList(data) {
   })
 }
 
-//公告详情
-export function noticeDetail(data) {
+// 上传图片
+export function uploadImg(data) {
   return request({
-    url: '/v1/notice/detail',
+    url: '/api/upload',
     method: 'GET',
-	data: data
-  })
-}
-
-// 支付信息列表
-export function currencyList() {
-  return request({
-    url: '/v1/common/currency',
-    method: 'GET'
-  })
-}
-
-// OTC法币列表
-export function fiatList() {
-  return request({
-    url: '/v1/common/fiat',
-    method: 'GET'
-  })
-}
-
-export function getConfig() {
-  return request({
-    url: '/v1/common/config',
-    method: 'GET'
+	data
   })
 }

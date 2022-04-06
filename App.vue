@@ -21,11 +21,11 @@
 			},
 			async connectWs(){
 				// let res = await this.getConfig()
-				let ws = 'wss://www.huobi.mw/-/s/pro/ws'
-				if(res.data && res.data.huobiDomain){
-					ws = res.data.huobiDomain
-				}
-				this.$store.dispatch('WEBSOCKET_INIT', ws)
+				// let ws = 'wss://www.huobi.mw/-/s/pro/ws'
+				// if(res.data && res.data.huobiDomain){
+				// 	ws = res.data.huobiDomain
+				// }
+				// this.$store.dispatch('WEBSOCKET_INIT', ws)
 			}
 		},
 		onLaunch: function() {

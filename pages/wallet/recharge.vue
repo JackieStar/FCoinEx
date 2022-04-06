@@ -8,8 +8,8 @@
 		<view class="user-info">
 			<image :src="loginInfo.avatar" class="user-avatar" />
 			<view class="info">
-				<text>USID</text>
-				<view>网络：USTD_324</view>
+				<text>{{rechargeInfo.coin}}</text>
+				<view>网络：{{rechargeInfo.coin_type}}</view>
 			</view>
 		</view>
 		<image class="user-bg" src="../../static/images/wallet/bg.png" />
@@ -82,6 +82,7 @@ export default {
 			});
 		},
 		openPage(type) {
+			console.log('type', type)
 			if (type === 0) uni.navigateBack();
 			if (type === 1) {
 				uni.navigateTo({

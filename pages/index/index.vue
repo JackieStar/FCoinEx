@@ -58,55 +58,24 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import { formatUnit } from '../../utils/number';
 import { uniNoticeBar, uniTag, uniImage, uniSwiperDot } from '@dcloudio/uni-ui';
 import noticeSwiper from '../../components/noticeSwiper.vue';
 import { commonMixin } from '@/common/mixin/mixin.js';
 export default {
-	components: { uniNoticeBar, uniTag, noticeSwiper, uniSwiperDot },
+	components: { uniNoticeBar, uniTag, noticeSwiper },
 	mixins: [commonMixin],
 	data() {
 		return {
 			markets: [],
 			notices: [],
-			titleNViewBackground: '',
-			swiperCurrent: 0,
-			swiperLength: 0,
-			carousels: [],
-			current: 0,
-			mode: 'round',
-			topSymbols: [{ symbol: 'btcusdt', title: 'BTC/USDT' }, { symbol: 'ethusdt', title: 'ETH/USDT' }, { symbol: 'dotusdt', title: 'DOT/USDT' }],
-			topMakretMap: {
-				btcusdt: {},
-				ethusdt: {},
-				dotusdt: {}
-			}
+			carousels: []
 		};
-	},
-	filters: {
-		formatChange(v) {
-			return (v > 0 ? '+' : '') + parseFloat(v).toFixed(2) + '%';
-		},
-		formatChangeCls(v) {
-			if (v == 0) {
-				return '';
-			} else if (v > 0) {
-				return 'upper-text';
-			} else {
-				return 'lower-text';
-			}
-		},
-		formatMarketcap(v) {
-			return formatUnit(v);
-		}
 	},
 	onShow() {
 		this.getMaketList();
 		setInterval(() => {
 			this.getMaketList();
 		}, 5000);
-		this.swiperCurrent = 0;
-		this.swiperLength = 0;
 		this.carousels = [];
 		this.notices = [];
 		this.loadData();
@@ -116,15 +85,15 @@ export default {
 		this.getMaketList();
 	},
 	onLoad() {},
-	onHide() {
-		let ch = `market.overviewv2`;
-		let data = {
-			unsub: ch,
-			id: Date.now() + ''
-		};
-		this.$store.dispatch('WEBSOCKET_SEND', JSON.stringify(data));
-		uni.$off(ch, res => {});
-	},
+	// onHide() {
+	// 	let ch = `market.overviewv2`;
+	// 	let data = {
+	// 		unsub: ch,
+	// 		id: Date.now() + ''
+	// 	};
+	// 	this.$store.dispatch('WEBSOCKET_SEND', JSON.stringify(data));
+	// 	uni.$off(ch, res => {});
+	// },
 	onUnload() {},
 	computed: {
 		...mapState('user', ['loginInfo'])
@@ -146,7 +115,6 @@ export default {
 				this.markets = res.data.data;
 			});
 		},
-
 		navToKline(item) {
 			uni.navigateTo({
 				url: `/pages/public/kline?symbol=${item.symbol}`
