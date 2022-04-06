@@ -3,70 +3,76 @@
 		<view class="tabs-wrapper">
 			<view class="tabs-item" @click="handleChange(1)">
 				<u-image v-if="tabIndex === 1" class="title-bg" src="../../static/images/wallet/title-long-bg.png" width="144upx" height="12upx" mode="" />
-				<text :style="{'color': tabIndex === 1 ? '#fff' : '#646F7B' , 'margin-top': tabIndex === 1 ? '' : '-10upx'}">充值记录</text>
+				<text :style="{ color: tabIndex === 1 ? '#fff' : '#646F7B', 'margin-top': tabIndex === 1 ? '' : '-10upx' }">{{i18n.record.rechargeList}}</text>
 			</view>
-			<view class="tabs-item"  @click="handleChange(2)">
+			<view class="tabs-item" @click="handleChange(2)">
 				<u-image v-if="tabIndex === 2" class="title-bg" src="../../static/images/wallet/title-long-bg.png" width="144upx" height="12upx" mode="" />
-				<text :style="{'color': tabIndex === 2 ? '#fff' : '#646F7B', 'margin-top': tabIndex === 2 ? '' : '-10upx'}">充值记录</text>
+				<text :style="{ color: tabIndex === 2 ? '#fff' : '#646F7B', 'margin-top': tabIndex === 2 ? '' : '-10upx' }">{{i18n.record.withdrawList}}</text>
 			</view>
 		</view>
-		<view class="trade-list" v-show="tabIndex === 1" v-for="item in rechargeData" :key="item.id">
-			<view class="trade-money">
-				<text>{{item.status_text}}</text>
-				<text>{{item.amount}}</text>
-			</view>
-			<view class="trade-time">
-				<text>{{item.created_at}}</text>
-				<text>{{item.coin_type}}</text>
+		<view class="trade-list-wrapper" v-show="tabIndex === 1">
+			<view class="trade-list" v-for="item in rechargeData" :key="item.id">
+				<view class="trade-money">
+					<text>{{ item.status_text }}</text>
+					<text>{{ item.amount }}</text>
+				</view>
+				<view class="trade-time">
+					<text>{{ item.created_at }}</text>
+					<text>{{ item.coin_type }}</text>
+				</view>
 			</view>
 		</view>
-		<view class="trade-list" v-show="tabIndex === 2" v-for="item in withdrawData" :key="item.id">
-			<view class="trade-money">
-				<text>{{item.status_text}}</text>
-				<text>{{item.amount}}</text>
-			</view>
-			<view class="trade-time">
-				<text>{{item.created_at}}</text>
-				<text>{{item.coin_type}}</text>
+		<view class="trade-list-wrapper" v-show="tabIndex === 2">
+			<view class="trade-list" v-for="item in withdrawData" :key="item.id">
+				<view class="trade-money">
+					<text>{{ item.status_text }}</text>
+					<text>{{ item.amount }}</text>
+				</view>
+				<view class="trade-time">
+					<text>{{ item.created_at }}</text>
+					<text>{{ item.coin_type }}</text>
+				</view>
 			</view>
 		</view>
 	</view>
 </template>
 
 <script>
-	import { mapState, mapActions } from 'vuex';
-	import { commonMixin } from '@/common/mixin/mixin.js';
-	export default {
-		mixins: [commonMixin],
-		data() {
-			return {
-				tabIndex: 1,
-				rechargeData: [],
-				withdrawData: []
-			};
+import { mapState, mapActions } from 'vuex';
+import { commonMixin } from '@/common/mixin/mixin.js';
+export default {
+	mixins: [commonMixin],
+	data() {
+		return {
+			tabIndex: 1,
+			rechargeData: [],
+			withdrawData: []
+		};
+	},
+	onShow() {
+		uni.setNavigationBarTitle({
+			title: this.i18n.record.title
+		});
+		this.getWithDrawList();
+		this.getRechargeList();
+	},
+	methods: {
+		...mapActions('user', ['withdrawList', 'rechargeList']),
+		handleChange(type) {
+			this.tabIndex = type;
 		},
-		onShow() {
-			this.getWithDrawList()
-			this.getRechargeList()
+		getWithDrawList() {
+			this.withdrawList().then(res => {
+				this.withdrawData = res.data.data;
+			});
 		},
-		methods: {
-			...mapActions('user', ['withdrawList', 'rechargeList']),
-			handleChange(type) {
-				this.tabIndex = type
-			},
-			getWithDrawList() {
-				this.withdrawList().then(res=> {
-					this.withdrawData = res.data.data
-				})
-			},
-			getRechargeList() {
-				this.rechargeList().then(res=> {
-					this.rechargeData = res.data.data
-				})
-			}
+		getRechargeList() {
+			this.rechargeList().then(res => {
+				this.rechargeData = res.data.data;
+			});
 		}
-		
-	};
+	}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -93,7 +99,6 @@
 		.title-bg {
 			margin-bottom: -22upx;
 		}
-		
 	}
 }
 .trade-list {
@@ -123,5 +128,10 @@
 			color: #5c6672;
 		}
 	}
+}
+.trade-list-wrapper {
+	width: 100%;
+	height: 90vh;
+	overflow-y: scroll;
 }
 </style>

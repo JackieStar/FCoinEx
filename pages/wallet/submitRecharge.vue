@@ -1,20 +1,37 @@
 <template>
 	<view class="container">
-		<view class="upload-wrapper"><upload-images /></view>
+		<view class="upload-wrapper" flex="main:justify cross:center">
+			<view>
+				<uni-file-picker
+					disable-preview
+					:del-icon="false"
+					return-type="object"
+					@select="select"
+					:image-styles="imageStyles"
+				>
+				<u-image src="../../static/images/wallet/upload_plus.png" width="126upx" height="126upx" />
+				</uni-file-picker>
+				<view class="recharge-img">转账截图</view>
+			</view>
+			<view flex="main:center cross:center">
+				<text style="color: #fff; margin-right: 20upx;">{{i18n.submitRecharge.exImg}}</text>
+				<u-image src="../../static/images/wallet/ex_img.png" width="112upx" height="224upx" />
+			</view>
+		</view>
 		<view class="title">
-			<text>交易哈希值</text>
+			<text>{{i18n.submitRecharge.hash}}</text>
 			<u-image class="title-bg" src="../../static/images/wallet/title-long-bg.png" width="144upx" height="12upx" mode="" />
 		</view>
 		<view class="input-wrapper">
 			<input type="text" v-model="transfer_addr" class="address-input" />
-			<view class="copy-btn" @click="handlePaste">粘贴</view>
+			<view class="copy-btn" @click="handlePaste">{{i18n.submitRecharge.copyBtn}}</view>
 		</view>
 		<view flex="main:justify cross:center" style="padding: 0 30upx;">
-			<view class="submit-btn" @click="handleSubmit">确认充值</view>
-			<view class="close-btn" @click="openPage">取消</view>
+			<view class="submit-btn" @click="handleSubmit">{{i18n.submitRecharge.submitBtn}}</view>
+			<view class="close-btn" @click="openPage">{{i18n.submitRecharge.closeBtn}}</view>
 		</view>
 		<view>
-			<view class="note">Note</view>
+			<view class="note">{{i18n.submitRecharge.note}}</view>
 			<c-tips v-for="(item,index) in rechargeInfo.note" :text="item" :key="index" />
 		</view>
 	</view>
@@ -23,17 +40,22 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import { commonMixin } from '@/common/mixin/mixin.js';
-import UploadImages from '@/components/upload-images';
+// import UploadImages from '@/components/upload-images';
+import UniFilePicker from '@/uni_modules/uni-file-picker/components/uni-file-picker/uni-file-picker'
 export default {
 	mixins: [commonMixin],
-	components: { UploadImages },
+	components: { UniFilePicker },
 	data() {
 		return {
 			tabIndex: 1,
 			rechargeInfo: {},
 			amount: null,
 			transfer_img: '',
-			transfer_addr: null
+			transfer_addr: null,
+			imageStyles: {
+				width:64,
+				height:64
+			}
 		};
 	},
 	computed: {
@@ -43,6 +65,9 @@ export default {
 		this.amount = e.amount
 	},
 	onShow() {
+		uni.setNavigationBarTitle({
+			title: this.i18n.submitRecharge.title
+		});
 		this.loadData()
 	},
 	methods: {
@@ -54,7 +79,19 @@ export default {
 				this.rechargeInfo = res.data
 			})
 		},
+		success(e) {
+			console.log('e',e)
+		},
+		select(e) {
+			console.log('e',e)
+			let file = e.tempFiles[0].file
+			let tempFilePaths = e.tempFilePaths
+			this.uploadImg({img:file}).then(res=> {
+				
+			})
+		},
 		handleSubmit() {
+			// console.log('img', this.transfer_img)
 			let params = {
 				coin_type: 'USDT-TRC20',
 				amount: this.amount,
@@ -76,23 +113,6 @@ export default {
 		},
 		openPage() {
 			uni.navigateBack()
-		},
-		// 选择图片
-		chooseImage(){
-			uni.chooseImage({
-				count: 1, //最多可以选择的图片张数，9
-				sizeType: ['original', 'compressed'], //original 原图，compressed 压缩图，默认二者都有
-				sourceType: ['album'], //album 从相册选图，camera 使用相机，默认二者都有
-				success: (res)=> {
-					const images = res.tempFilePaths;
-					this.uploadFiles(images);
-				}
-			});
-		},
-		uploadFiles(img) {
-			this.uploadImg({img}).then(res=> {
-				console.log('222')
-			})
 		}
 	},
 	
@@ -182,5 +202,13 @@ export default {
 	color: #FFFFFF;
 	margin: 30upx;
 	margin-top: 130upx;
+}
+.recharge-img {
+	font-size: 30upx;
+	font-family: PingFang SC;
+	font-weight: 500;
+	color: #FFFFFF;
+	margin-top: 16upx;
+	margin-left: -10upx;
 }
 </style>

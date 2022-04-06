@@ -2,52 +2,52 @@
 	<view class="container">
 		<view class="market-header">
 			<u-icon class="arrow-left" @click="openPage(0)" name="arrow-left" color="#ffffff" size="44" />
-			<view class="market-text">提现</view>
+			<view class="market-text">{{ i18n.withdraw.title }}</view>
 			<image @click="openPage(1)" src="../../static/images/wallet/list.png" class="right-icon" />
 		</view>
 		<view class="user-info">
 			<image :src="withdrawInfo.coin_icon" class="user-avatar" />
 			<view class="info">
 				<text>{{ withdrawInfo.coin }}</text>
-				<view>网络：{{ withdrawInfo.coin_type }}</view>
+				<view>{{ i18n.withdraw.network }}：{{ withdrawInfo.coin_type }}</view>
 			</view>
 		</view>
 		<image class="user-bg" src="../../static/images/wallet/bg.png" />
 		<view class="title">
-			<text>地址</text>
+			<text>{{ i18n.withdraw.withdrawwAddr }}</text>
 			<u-image class="title-bg" src="../../static/images/wallet/title-bg.png" width="74upx" height="12upx" mode="" />
 		</view>
 		<view class="input-wrapper">
-			<input type="text" class="address-input" />
-			<view class="copy-btn">粘贴</view>
+			<input type="text" placeholder-style="color: #818FA; font-size: 26upx" :placeholder="i18n.withdraw.inputAddr" v-model="withdraw_addr" class="address-input" />
+			<view class="copy-btn" @click="handlePaste">{{ i18n.withdraw.copyBtn }}</view>
 		</view>
 		<view class="title">
-			<text>金额</text>
+			<text>{{ i18n.withdraw.money }}</text>
 			<u-image class="title-bg" src="../../static/images/wallet/title-bg.png" width="74upx" height="12upx" mode="" />
 		</view>
 		<view class="money-wrapper">
 			<input type="number" v-model="amount" placeholder-style="color: #818FAB; font-size: 26upx" class="money-input" placeholder="0.00" />
-			<view class="all-btn" @click="handleAll">all</view>
+			<view class="all-btn" @click="handleAll">{{ i18n.withdraw.all }}</view>
 			<text>USTD</text>
 		</view>
 		<view class="tips-wrapper">
-			<text>当前可用余额：{{ userData.balance }}</text>
-			<text style="color:#fff">手续费：{{ withdrawInfo.withdraw_min_fee }}</text>
+			<text>{{ i18n.withdraw.balance }}：{{ userData.balance }}</text>
+			<text style="color:#fff">{{ i18n.withdraw.fee }}：{{ withdrawInfo.withdraw_min_fee }}</text>
 		</view>
 		<view><c-tips v-for="(item, index) in withdrawInfo.tips" :text="item" :key="index" /></view>
-		<view class="confirm-btn" @click="openModal">确定</view>
+		<view class="confirm-btn" @click="openModal">{{ i18n.withdraw.btn }}</view>
 		<u-popup v-model="showModal" mode="bottom" class="password-modal" :border-radius="20" height="565upx">
 			<view class="title" style="margin-top: 40upx;">
-				<text>提现安全确认</text>
+				<text>{{ i18n.withdraw.safe }}</text>
 				<u-image class="title-bg" src="../../static/images/wallet/title-long-bg.png" width="144upx" height="12upx" />
 			</view>
-			<view class="modal-line-title">邮箱验证码</view>
+			<view class="modal-line-title">{{ i18n.withdraw.emailCode }}</view>
 			<view class="modal-input-wrapper">
 				<input
 					class="input-item"
 					placeholder-style="color: #818FA; font-size: 26upx"
 					v-model="form.email_code"
-					:placeholder="i18n.updateName.placeholder"
+					:placeholder="i18n.withdraw.placeholder"
 					maxlength="10"
 					style="padding-right: 150upx;"
 					type="text"
@@ -57,29 +57,28 @@
 					<view @tap="getCode" class="code-btn">{{ tips }}</view>
 				</view>
 			</view>
-			<view class="modal-line-title">登陆密码</view>
+			<view class="modal-line-title">{{ i18n.withdraw.loginPwd }}</view>
 			<view class="modal-input-wrapper">
 				<input
 					class="input-item"
 					placeholder-style="color: #818FA; font-size: 26upx"
-					v-model="form.email_code"
-					:placeholder="i18n.updateName.placeholder"
+					v-model="form.password"
+					:placeholder="i18n.withdraw.placeholder1"
 					maxlength="10"
 					type="password"
 				/>
 			</view>
-			<view class="submit-btn" @click="handleSubmit">确认充值</view>
+			<view class="submit-btn" @click="handleSubmit">{{ i18n.withdraw.submitBtn }}</view>
 		</u-popup>
 	</view>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import uniValidPopup from '@/components/uni-valid-popup.vue';
 import { uniIcons } from '@dcloudio/uni-ui';
 import { commonMixin } from '@/common/mixin/mixin.js';
 export default {
-	components: { uniIcons, uniValidPopup },
+	components: { uniIcons },
 	mixins: [commonMixin],
 	data() {
 		return {
@@ -100,7 +99,7 @@ export default {
 
 	onShow() {
 		uni.setNavigationBarTitle({
-			title: this.i18n.wallet.withdraw
+			title: this.i18n.withdraw.title
 		});
 		this.loadData();
 		this.getUserInfo();
@@ -126,23 +125,39 @@ export default {
 		},
 		// 交易密码弹窗
 		openModal() {
+			if (!this.withdraw_addr) {
+				this.$api.msg(this.i18n.withdraw.noWithdrawAddr);
+				return;
+			}
+			if (!this.amount) {
+				this.$api.msg(this.i18n.withdraw.noAmount);
+				return;
+			}
+			this.form = {
+				email_code: null,
+				password: null
+			}
 			this.showModal = true;
 		},
 		handleSubmit() {
-			this.form.symbol = this.coin.symbol;
-			if (!this.form.symbol) {
-				this.$api.msg(this.i18n.withdraw.selectCoin);
+			if (!this.form.email_code) {
+				this.$api.msg(this.i18n.withdraw.noEmailCode);
 				return;
 			}
-			if (!this.form.address) {
-				this.$api.msg(this.i18n.withdraw.inputAddr);
+			if (!this.form.password) {
+				this.$api.msg(this.i18n.withdraw.noPwd);
 				return;
 			}
-			if (!this.form.amount) {
-				this.$api.msg(this.i18n.withdraw.inputAmount);
-				return;
-			}
-			this.$refs.validPopup.open('capitalPasswd');
+			let params = {
+				coin_type: this.withdrawInfo.coin_type,
+				withdraw_addr: this.withdraw_addr,
+				amount: this.amount,
+				...this.form
+			};
+			this.withdraw(params).then(res => {
+				this.$api.msg(this.i18n.withdraw.withdrawSuccess);
+				this.showModal = false;
+			});
 		},
 		codeChange(text) {
 			this.tips = text;
@@ -153,7 +168,7 @@ export default {
 					title: this.i18n.toast.coding
 				});
 				let data = {
-					usage: 'changePwd',
+					usage: 'withdraw',
 					email: this.loginInfo.email
 				};
 				this.sendSms(data)
@@ -165,6 +180,15 @@ export default {
 					})
 					.catch(error => {});
 			}
+		},
+		// 粘贴
+		handlePaste() {
+			uni.getClipboardData({
+				success: res => {
+					this.withdraw_addr = res.data;
+					console.log(res.data);
+				}
+			});
 		},
 		openPage(type) {
 			if (type === 0) uni.navigateBack();
@@ -270,6 +294,8 @@ export default {
 			height: 76upx;
 			border: 2upx solid #554472;
 			border-radius: 4upx;
+			color: #fff;
+			padding-left: 24upx;
 		}
 		.copy-btn {
 			width: 153upx;
@@ -295,6 +321,7 @@ export default {
 			border-radius: 4upx;
 			padding: 0 20upx;
 			padding-right: 300upx;
+			color: #fff;
 		}
 		text {
 			margin-right: 190upx;
@@ -363,7 +390,7 @@ export default {
 		font-size: 24upx;
 		font-family: PingFang SC;
 		font-weight: 400;
-		color: #FFFFFF;
+		color: #ffffff;
 		padding-left: 30upx;
 		margin-top: 40upx;
 		margin-bottom: 20upx;
@@ -374,7 +401,7 @@ export default {
 		background: url(../../static/images/public/login-btn.png);
 		background-size: 100% 100%;
 		margin-left: 30upx;
-		
+
 		.input-item {
 			width: 440upx;
 			height: 76upx;
@@ -385,7 +412,7 @@ export default {
 			float: right;
 			margin-top: -56upx;
 			margin-right: 50upx;
-			border-left: 1upx solid #DADADA;
+			border-left: 1upx solid #dadada;
 			padding-left: 20upx;
 			color: #4f5b87;
 			font-size: 26upx;
@@ -395,7 +422,6 @@ export default {
 			-webkit-background-clip: text;
 			-webkit-text-fill-color: transparent;
 		}
-		
 	}
 	.submit-btn {
 		width: 638upx;

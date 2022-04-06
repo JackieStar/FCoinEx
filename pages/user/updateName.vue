@@ -20,11 +20,16 @@ export default {
 			name: ''
 		};
 	},
+	onShow() {
+		uni.setNavigationBarTitle({
+			title: this.i18n.updateName.title
+		});
+	},
 	methods: {
 		...mapActions('user', ['updateUserName']),
 		handleSubmit() {
 			this.updateUserName({name: this.name}).then((res)=> {
-				this.$api.msg('修改成功');
+				this.$u.toast(this.i18n.toast.updateNameSuccess)
 			})
 		}
 	}

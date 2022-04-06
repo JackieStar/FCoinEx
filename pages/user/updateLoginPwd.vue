@@ -1,24 +1,45 @@
 <template>
 	<view class="container">
-		<input class="input-item" type="password"  placeholder-style="color: #4F5B87; font-size: 26upx" v-model="form.old_password" :placeholder="i18n.updateName.placeholder" maxlength="10" />
-		<input class="input-item" type="password"  placeholder-style="color: #4F5B87; font-size: 26upx" v-model="form.password" :placeholder="i18n.updateName.placeholder" maxlength="10" />
-		<input class="input-item" type="password"  placeholder-style="color: #4F5B87; font-size: 26upx" v-model="form.password_confirm" :placeholder="i18n.updateName.placeholder" maxlength="10" />
+		<input
+			class="input-item"
+			type="password"
+			placeholder-style="color: #4F5B87; font-size: 26upx"
+			v-model="form.old_password"
+			:placeholder="i18n.updatePwd.oldPwd"
+			maxlength="10"
+		/>
+		<input
+			class="input-item"
+			type="password"
+			placeholder-style="color: #4F5B87; font-size: 26upx"
+			v-model="form.password"
+			:placeholder="i18n.updatePwd.newPwd"
+			maxlength="10"
+		/>
+		<input
+			class="input-item"
+			type="password"
+			placeholder-style="color: #4F5B87; font-size: 26upx"
+			v-model="form.password_confirm"
+			:placeholder="i18n.updatePwd.newPwdAgain"
+			maxlength="10"
+		/>
 		<view class="input-wrapper">
 			<input
 				class="input-item"
 				placeholder-style="color: #4F5B87; font-size: 26upx"
 				v-model="form.email_code"
-				:placeholder="i18n.updateName.placeholder"
+				:placeholder="i18n.updatePwd.emailCode"
 				maxlength="10"
 				style="padding-right: 150upx;"
 				type="text"
 			/>
 			<view>
 				<u-verification-code :seconds="seconds" ref="uCode" @change="codeChange"></u-verification-code>
-				<view @tap="getCode" class="code-btn">{{tips}}</view>
+				<view @tap="getCode" class="code-btn">{{ tips }}</view>
 			</view>
 		</view>
-		<view @click="handleSubmit" class="confirm-btn">{{ i18n.updateName.btn }}</view>
+		<view @click="handleSubmit" class="confirm-btn">{{ i18n.updatePwd.btn }}</view>
 		<image src="../../static/images/public/update-pwd.png" class="bg"></image>
 	</view>
 </template>
@@ -46,7 +67,7 @@ export default {
 	},
 	onShow() {
 		uni.setNavigationBarTitle({
-			title: this.i18n.common.update
+			title: this.i18n.updatePwd.title
 		});
 	},
 	methods: {
@@ -72,7 +93,7 @@ export default {
 						this.$refs.uCode.start();
 					})
 					.catch(error => {});
-			} 
+			}
 		},
 		handleSubmit() {
 			// if (!this.form.old_password) {
@@ -158,11 +179,11 @@ export default {
 	float: right;
 	margin-top: -60upx;
 	margin-right: 50upx;
-	color: #4F5B87;
+	color: #4f5b87;
 	font-size: 26upx;
 	font-family: PingFang SC;
 	font-weight: 400;
-	background: linear-gradient(0deg, #3FBBFE 0%, #A541FF 100%);
+	background: linear-gradient(0deg, #3fbbfe 0%, #a541ff 100%);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 }

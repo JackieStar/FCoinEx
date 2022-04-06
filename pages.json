@@ -62,7 +62,8 @@
 			"path": "pages/wallet/submitRecharge",
 			"style": {
 				"navigationBarTextStyle": "white",
-				"navigationStyle": "custom"
+				"navigationBarBackgroundColor": "#070219",
+				"navigationBarTitleText": "充值凭证"
 			}
 		}, 
 		{

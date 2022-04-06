@@ -44,6 +44,7 @@
 			<view class="rise-btn">买/涨</view>
 			<view class="down-btn">卖/跌</view>
 		</view>
+		<view></view>
 	</view>
 </template>
 

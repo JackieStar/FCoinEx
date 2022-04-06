@@ -53,12 +53,12 @@ export default {
 		};
 	},
 	onShow() {
-		if (this.loginInfo.hasLogin) {
-			this.loadData();
-		}
 		uni.setNavigationBarTitle({
 			title: this.i18n.wallet.title
 		});
+		if (this.loginInfo.hasLogin) {
+			this.loadData();
+		}
 	},
 	onPullDownRefresh() {
 		this.loadData();

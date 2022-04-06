@@ -54,7 +54,7 @@ export function noticeList(data) {
 export function uploadImg(data) {
   return request({
     url: '/api/upload',
-    method: 'GET',
-	data
+    method: 'POST',
+	data: data
   })
 }

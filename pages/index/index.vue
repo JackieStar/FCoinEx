@@ -72,13 +72,17 @@ export default {
 		};
 	},
 	onShow() {
+		uni.setNavigationBarTitle({
+			title: this.i18n.index.title
+		});
 		this.getMaketList();
-		setInterval(() => {
-			this.getMaketList();
-		}, 5000);
+		// setInterval(() => {
+		// 	this.getMaketList();
+		// }, 5000);
 		this.carousels = [];
 		this.notices = [];
 		this.loadData();
+		
 	},
 	onPullDownRefresh() {
 		this.loadData();

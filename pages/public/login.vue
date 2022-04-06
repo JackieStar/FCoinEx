@@ -11,31 +11,44 @@
 					<u-image src="../../static/images/public/email.png" width="42upx" height="30upx" />
 					<input placeholder-style="color: #435687"
 						v-model="form.email" 
-						:placeholder="i18n.login.inputUserName"
+						:placeholder="i18n.login.email"
 						data-key="email"
-						@input="inputChange"
 					/>
 				</view>
 				<view class="input-item">
-					<u-image src="../../static/images/public/password.png" width="31upx" height="35upx" />
+					<u-image style="flex-shrink:0" src="../../static/images/public/password.png" width="36upx" height="39upx" />
 					<input placeholder-style="color: #435687"
+						v-if="isOpenEyes"
 						type="password" 
 						v-model="form.password" 
-						:placeholder="i18n.login.pwdRule"
+						:placeholder="i18n.login.password"
 						placeholder-class="input-empty"
 						maxlength="20"
-						password 
 						data-key="password"
 						@confirm="toLogin"
 					/>
+					<input placeholder-style="color: #435687"
+						v-else
+						type="text" 
+						v-model="form.password" 
+						:placeholder="i18n.login.password"
+						placeholder-class="input-empty"
+						maxlength="20"
+						data-key="password"
+						@confirm="toLogin"
+					/>
+					<view>
+						<u-image v-if="isOpenEyes" src="../../static/images/public/open_eyes.png" @click="handleChange(false)" width="33upx" height="21upx" />
+						<u-image v-else src="../../static/images/public/close_eyes.png" width="33upx" @click="handleChange(true)" height="21upx" />
+					</view>
 				</view>
 			</view>
 			<view class="link">
 				<view class="forget-section" @click="toPassword">
-					忘记密码?
+					{{i18n.login.forget}}
 				</view>
 			</view>
-			<view @click="toLogin" class="confirm-btn">登录</view>
+			<view @click="toLogin" class="confirm-btn">{{i18n.login.login}}</view>
 		</view>
 		<view class="register-section">
 			{{i18n.login.noAccount}}
@@ -49,16 +62,16 @@
 		mapState,
 		mapActions
 	} from 'vuex'
-	import {isMobile, isPassword} from '../../utils/validate'
 	import {commonMixin} from '@/common/mixin/mixin.js'
 	export default{
 		mixins: [commonMixin],
 		data(){
 			return {
 				form: {
-					email: 'a18859209253@163.com',
+					email: '702242999@qq.com',
 					password: '123456'
 				},
+				isOpenEyes: false,
 				redirect: undefined,
 			}
 		},
@@ -81,6 +94,9 @@
 				uni.navigateTo({
 					url: '/pages/user/updateLoginPwd'
 				})
+			},
+			handleChange(type) {
+				this.isOpenEyes = type
 			},
 			toLogin(){
 				let $this = this

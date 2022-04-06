@@ -5,21 +5,21 @@
 		<view class="wrapper">
 			<view class="welcome">
 				<view class="txt">
-					<text class="b">{{ i18n.login.registrTitle }}</text>
-					<text class="tips">{{ i18n.login.registrTips }}</text>
+					<text class="b">{{ i18n.register.registrTitle }}</text>
+					<text class="tips">{{ i18n.register.registrTips }}</text>
 				</view>
 			</view>
 			<view class="input-content">
 				<view class="input-item">
 					<u-image src="../../static/images/public/email.png" width="40upx" height="28upx" />
-					<input placeholder-style="color: #435687" v-model="form.email" :placeholder="i18n.login.inputUserName" maxlength="11" @input="inputChange" />
+					<input placeholder-style="color: #435687" v-model="form.email" :placeholder="i18n.register.email" maxlength="11" @input="inputChange" />
 				</view>
 				<view class="input-item">
 					<u-image src="../../static/images/public/code.png"  width="30upx" height="35upx" />
 					<input
 						placeholder-style="color: #435687"
 						v-model="form.email_code"
-						:placeholder="i18n.login.pwdRule"
+						:placeholder="i18n.register.emailCode"
 						placeholder-class="input-empty"
 						maxlength="20"
 						style="padding-right: 100upx;"
@@ -35,30 +35,53 @@
 					<u-image src="../../static/images/public/password.png" width="32upx" height="35upx" />
 					<input
 						placeholder-style="color: #435687"
-						type="mobile"
+						type="password"
+						v-if="!isOpen"
 						v-model="form.password"
-						:placeholder="i18n.login.pwdRule"
+						:placeholder="i18n.register.password"
 						placeholder-class="input-empty"
 						maxlength="20"
-						password
-						data-key="password"
-						@input="inputChange"
-					>
-					</input>
+					/>
+					<input
+						placeholder-style="color: #435687"
+						v-else
+						type="text"
+						v-model="form.password"
+						:placeholder="i18n.register.password"
+						placeholder-class="input-empty"
+						maxlength="20"
+					/>
+					<view>
+						<u-image v-if="isOpen" src="../../static/images/public/open_eyes.png" @click="handleChange(false)" width="33upx" height="21upx" />
+						<u-image v-else src="../../static/images/public/close_eyes.png" width="33upx" @click="handleChange(true)" height="21upx" />
+					</view>
 				</view>
 				<view class="input-item">
 					<u-image src="../../static/images/public/password.png" width="32upx" height="35upx" />
 					<input
 						placeholder-style="color: #435687"
-						type="mobile"
+						v-if="!isOpenEyes"
+						type="password"
 						v-model="form.password_confirm"
-						:placeholder="i18n.login.pwdRule"
+						:placeholder="i18n.register.passwordAgain"
 						placeholder-class="input-empty"
 						maxlength="20"
-						password
-						data-key="password"
 						@input="inputChange"
 					/>
+					<input
+						placeholder-style="color: #435687"
+						v-else
+						type="text"
+						v-model="form.password_confirm"
+						:placeholder="i18n.register.passwordAgain"
+						placeholder-class="input-empty"
+						maxlength="20"
+						@input="inputChange"
+					/>
+					<view>
+						<u-image v-if="isOpenEyes" src="../../static/images/public/open_eyes.png" @click="handleChangeEyes(false)" width="33upx" height="21upx" />
+						<u-image v-else src="../../static/images/public/close_eyes.png" width="33upx" @click="handleChangeEyes(true)" height="21upx" />
+					</view>
 				</view>
 				<view class="input-item">
 					<u-image src="../../static/images/public/invite.png" width="36upx" height="36upx" />
@@ -66,18 +89,18 @@
 						placeholder-style="color: #435687"
 						type="text"
 						v-model="form.tcode"
-						:placeholder="i18n.login.inputInvitCode"
+						:placeholder="i18n.register.invitCode"
 						placeholder-class="input-empty"
 						maxlength="20"
 					/>
 				</view>
 			</view>
-			<view  @click="toRegist" class="confirm-btn">{{ i18n.login.registration }}</view>
+			<view  @click="toRegist" class="confirm-btn">{{ i18n.register.registration }}</view>
 			<!-- <button class="confirm-btn" @click="toRegist" :disabled="logining">{{ i18n.login.registration }}</button> -->
 		</view>
 		<view class="register-section">
-			{{ i18n.login.hasAccount }}
-			<text @click="navToLogin">{{ i18n.login.logining }}</text>
+			{{ i18n.register.hasAccount }}
+			<text @click="navToLogin">{{ i18n.register.logining }}</text>
 		</view>
 	</view>
 </template>
@@ -98,6 +121,8 @@ export default {
 				tcode: '',
 				email_code: ''
 			},
+			isOpen: false,
+			isOpenEyes: false,
 			mobile: '',
 			password: '',
 			logining: false,
@@ -151,6 +176,12 @@ export default {
 					.catch(error => {});
 			} else {
 			}
+		},
+		handleChange(type) {
+			this.isOpen = type
+		},
+		handleChangeEyes(type) {
+			this.isOpenEyes = type
 		},
 		toRegist() {
 			// if (!isMobile(this.form.username)) {

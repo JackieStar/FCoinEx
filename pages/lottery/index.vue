@@ -6,20 +6,17 @@
 				{{ i18n.lottery.tip1 }}
 				<text class="count">{{ drawCount }}</text>
 				{{ i18n.lottery.tip2 }}
-				<!-- <view class="draw-tips">{{drawTips}}</view> -->
 			</view>
-			<view class="lottery">
-				<LotteryDraw @get_winingIndex="gridStart" :grid_info_arr="list" @luck_draw_finish="luckDrawFinish"></LotteryDraw>
-			</view>
+			<view class="lottery"><LotteryDraw @get_winingIndex="gridStart" :grid_info_arr="list" @luck_draw_finish="luckDrawFinish"></LotteryDraw></view>
 		</view>
-		<view class="lottery-btn" @click="openPage">去交易</view>
+		<view class="lottery-btn" @click="openPage">{{ i18n.lottery.tip3 }}</view>
 	</view>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex';
 import LotteryDraw from '../../components/SJ-LotteryDraw/SJ-LotteryDraw.vue';
-import { authMixin, commonMixin } from '@/common/mixin/mixin.js';
+import { commonMixin } from '@/common/mixin/mixin.js';
 export default {
 	components: {
 		LotteryDraw
@@ -31,7 +28,6 @@ export default {
 			list: [],
 			drawCount: 0,
 			drawTips: '',
-			drawResult: {},
 			lottery_draw_param: {
 				startIndex: 0, //开始抽奖位置，从0开始
 				totalCount: 6, //一共要转的圈数
@@ -41,7 +37,7 @@ export default {
 		};
 	},
 	onShow() {
-	this.getConfig();
+		this.getConfig();
 	},
 	methods: {
 		...mapActions('lottery', ['lotteryConfig', 'lotteryDraw']),
@@ -49,8 +45,6 @@ export default {
 			this.lotteryConfig().then(res => {
 				this.list = res.data.lotteries;
 				this.drawCount = res.data.count;
-				this.buyTip =
-					this.i18n.lottery.tip3 + ' ' + res.data.buyPrice + res.data.buyCoin + ' ' + this.i18n.lottery.tip4 + ' ' + res.data.buyCount + ' ' + this.i18n.lottery.tip5;
 			});
 		},
 		gridStart(callback) {
@@ -60,19 +54,18 @@ export default {
 					this.lottery_draw_param.winingIndex = res.data.lottery.lotterIndex;
 					//props修改在小程序和APP端不成功，所以在这里使用回调函数传参，
 					callback(this.lottery_draw_param);
-					setTimeout(()=> {
+					setTimeout(() => {
 						this.$api.msg(res.data.lottery.tips);
-						this.drawTips = res.data.lottery.tips
+						this.drawTips = res.data.lottery.tips;
 						this.drawCount = this.drawCount - 1;
-					}, 3000)
-					
+					}, 3000);
 				});
 			}
 		},
 		openPage() {
 			uni.switchTab({
 				url: '/pages/index/index'
-			})
+			});
 		}
 	}
 };
@@ -100,7 +93,7 @@ page {
 	font-size: 33upx;
 	font-family: Source Han Sans CN;
 	font-weight: 400;
-	color: #FFFFFF;
+	color: #ffffff;
 	.count {
 		color: #ff4a4c;
 		font-size: 30upx;
@@ -120,7 +113,6 @@ page {
 	margin: 0 auto;
 }
 .draw-tips {
-	
 }
 .lottery-bg {
 	width: 696upx;

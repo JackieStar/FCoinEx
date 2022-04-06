@@ -4,52 +4,68 @@
 		<view class="invite-bg">
 			<view flex="main:justify cross:center" style="padding: 0 90upx;">
 				<view flex="dir:top main:center cross:center">
-					<text>{{invitData.friends_count}}</text>
-					<view class="invite-text">我的好友数</view>
+					<text>{{ invitData.friends_count }}</text>
+					<view class="invite-text">{{ i18n.invit.friends }}</view>
 				</view>
 				<view flex="dir:top main:center cross:center">
-					<text>{{invitData.total_reward}}</text>
-					<view class="invite-text">累计奖励</view>
+					<text>{{ invitData.total_reward }}</text>
+					<view class="invite-text">{{ i18n.invit.totalReward }}</view>
 				</view>
 			</view>
 			<view class="input-item" flex="main:justify cross:center">
-				<text class="input-item-title">推荐码</text>
+				<text class="input-item-title">{{ i18n.invit.tCode }}</text>
 				<view flex>
-					<text class="invite-code">{{invitData.tcode}}</text>
-					<u-image src="../../static/images/my/copy.png" width="33upx" height="33upx" />
+					<text class="invite-code">{{ invitData.tcode }}</text>
+					<u-image @click="handleCopy(invitData.tcode)" src="../../static/images/my/copy.png" width="33upx" height="33upx" />
 				</view>
 			</view>
 			<view class="input-item" flex="main:justify cross:center">
-				<text class="input-item-title">推荐连接</text>
+				<text class="input-item-title">{{ i18n.invit.tLink }}</text>
 				<view flex>
-					<text class="invite-link">{{invitData.tlink}}</text>
-					<u-image src="../../static/images/my/copy.png" width="33upx" height="33upx" />
+					<text class="invite-link">{{ invitData.tlink }}</text>
+					<u-image @click="handleCopy(invitData.tlink)" src="../../static/images/my/copy.png" width="33upx" height="33upx" />
 				</view>
+			</view>
+			<view class="invit-tips-wrapper">
+				<view class="invit-tips" v-for="(item, index) in invitData.tips" :key="index">{{ item }}</view>
 			</view>
 		</view>
+		
 		<view class="list-bg">
 			<view class="tabs-wrapper">
 				<view class="tabs-item" @click="handleChange(1)">
 					<u-image v-if="tabIndex === 1" class="title-bg" src="../../static/images/wallet/title-long-bg.png" width="144upx" height="12upx" mode="" />
-					<text :style="{ opacity: tabIndex === 1 ? '1' : '0.6', 'margin-top': tabIndex === 1 ? '' : '-10upx' }">我的邀请</text>
+					<text :style="{ opacity: tabIndex === 1 ? '1' : '0.6', 'margin-top': tabIndex === 1 ? '' : '-10upx' }">{{ i18n.invit.myInvit }}</text>
 				</view>
 				<view class="tabs-item" @click="handleChange(2)">
 					<u-image v-if="tabIndex === 2" class="title-bg" src="../../static/images/wallet/title-long-bg.png" width="144upx" height="12upx" mode="" />
-					<text :style="{ opacity: tabIndex === 2 ? '1' : '0.6', 'margin-top': tabIndex === 2 ? '' : '-10upx' }">邀请奖励</text>
+					<text :style="{ opacity: tabIndex === 2 ? '1' : '0.6', 'margin-top': tabIndex === 2 ? '' : '-10upx' }">{{ i18n.invit.tReward }}</text>
 				</view>
 			</view>
 			<view class="list-header" flex="main:justify cross:center">
-				<text class="header-1">邀请人</text>
-				<text class="header-2">邀请UID</text>
-				<text class="header-3">累计奖励</text>
+				<text class="header-1">{{ i18n.invit.inviter }}</text>
+				<text class="header-2">{{ i18n.invit.uid }}</text>
+				<text class="header-3">{{ i18n.invit.totalReward }}</text>
 			</view>
-			<view class="list-content" flex="main:justify cross:center">
-				<view class="invite-name header-1" flex="dir:top">
-					<text>1231***@1.com</text>
-					<view>2022-01-02 11:22</view>
+			<view class="invit-list-wrapper" v-if="tabIndex === 1">
+				<view class="list-content" flex="main:justify cross:center" v-for="item in userList" :key="item.id">
+					<view class="invite-name header-1" flex="dir:top">
+						<text>{{item.s_user_name}}</text>
+						<view>{{item.cdate}}</view>
+					</view>
+					<view class="invite-uid header-2">{{item.s_user_id}}</view>
+					<view class="invite-prize header-3">{{item.reward}}</view>
 				</view>
-				<view class="invite-uid header-2">1231***@243.com</view>
-				<view class="invite-prize header-3">33</view>
+			</view>
+			<view class="invit-list-wrapper" v-if="tabIndex === 2">
+				<view class="list-content" flex="main:justify cross:center" v-for="item in rewardList" :key="item.id">
+					<view class="invite-name header-1" flex="dir:top">
+						<text>{{item.s_user_name}}</text>
+						<view>{{item.cdate}}</view>
+					</view>
+					<view class="invite-uid header-2">{{item.s_user_id}}</view>
+					<view class="invite-prize header-3">{{item.amount}}</view>
+				</view>
 			</view>
 		</view>
 	</view>
@@ -65,7 +81,9 @@ export default {
 	data() {
 		return {
 			tabIndex: 1,
-			invitData: {}
+			invitData: {},
+			userList: [],
+			rewardList: []
 		};
 	},
 	computed: {
@@ -79,7 +97,7 @@ export default {
 	onShow() {
 		// this.qrcode.val = this.loginInfo.registerUrl;
 		this.getInvitInfo();
-		this.getInviteUserList()
+		this.getInviteUserList();
 		// this.getInvitRewardList()
 	},
 	methods: {
@@ -92,77 +110,28 @@ export default {
 		// 邀请用户列表
 		getInviteUserList() {
 			this.invitUserList().then(res => {
-				this.userList = res.data;
+				this.userList = res.data.data;
 			});
 		},
 		// 邀请奖励列表
 		getInvitRewardList() {
 			this.invitRewardList().then(res => {
-				this.rewardList = res.data;
+				this.rewardList = res.data.data;
 			});
 		},
 		handleChange(type) {
 			this.tabIndex = type;
 			if (type === 1) {
-				this.getInviteUserList()
+				this.getInviteUserList();
 			} else {
-				this.getInvitRewardList()
+				this.getInvitRewardList();
 			}
 		},
-		toSave() {
-			// #ifdef APP-PLUS
-			uni.showLoading({
-				title: this.i18n.common.request
-			});
-			// #endif
-			const painter = this.$refs.painter;
-			painter.canvasToTempFilePath().then(res => {
-				this.path = res.tempFilePath;
-				// #ifdef H5
-				return;
-				// #endif
-				uni.previewImage({
-					current: this.path,
-					urls: [this.path]
-				});
-				uni.hideLoading();
-			});
-		},
-		copy() {
-			let _this = this;
+		handleCopy(e) {
 			uni.setClipboardData({
-				data: _this.loginInfo.invitCode,
-				success: function() {
-					_this.$api.msg(_this.i18n.toast.copySuccess);
-				}
-			});
-		},
-		shareImageShare() {
-			const painter = this.$refs.painter;
-			painter.render(this.posterObj);
-			this.showImgShare = !this.showImgShare;
-		},
-		shareFace() {
-			this.showFace = !this.showFace;
-			setTimeout(() => {
-				this.$refs.qrcode._makeCode();
-			}, 100);
-		},
-		shareLink() {
-			let _this = this;
-			uni.setClipboardData({
-				data: _this.loginInfo.registerUrl,
-				success: function() {
-					_this.$api.msg(_this.i18n.toast.copySuccess);
-				}
-			});
-		},
-		shareWord() {
-			let _this = this;
-			uni.setClipboardData({
-				data: `[${_this.loginInfo.registerUrl}] ${_this.i18n.invit.tip5}【${_this.loginInfo.invitCode}】【FEXCOIN APP】`,
-				success: function() {
-					_this.$api.msg(_this.i18n.toast.copySuccess);
+				data: e.toString(),
+				success: () => {
+					this.$api.msg(this.i18n.toast.copySuccess);
 				}
 			});
 		}
@@ -173,6 +142,14 @@ export default {
 <style lang="scss" scoped>
 .container {
 	padding-bottom: 80upx;
+}
+.invit-tips-wrapper {
+	margin-top: 30upx;
+	.invit-tips {
+		font-size: 24upx;
+		color: #fff;
+	}
+	
 }
 .invite-bg {
 	width: 688upx;
@@ -228,6 +205,11 @@ export default {
 		}
 	}
 }
+.invit-list-wrapper {
+	width: 100%;
+	height: 450upx;
+	overflow-y:scroll
+}
 .list-bg {
 	width: 688upx;
 	height: 680upx;
@@ -268,10 +250,10 @@ export default {
 		margin-bottom: 20upx;
 	}
 	.header-1 {
-		width: 230upx;
+		width: 300upx;
 	}
 	.header-2 {
-		width: 260upx;
+		width: 220upx;
 	}
 	.header-3 {
 		width: 120upx;

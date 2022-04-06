@@ -2,14 +2,14 @@
 	<view class="container">
 		<view class="market-header">
 			<u-icon class="arrow-left" @click="openPage(0)" name="arrow-left" color="#ffffff" size="44" />
-			<view class="market-text">充值</view>
+			<view class="market-text">{{i18n.recharge.title}}</view>
 			<image  @click="openPage(1)" src="../../static/images/wallet/list.png" class="right-icon" />
 		</view>
 		<view class="user-info">
 			<image :src="loginInfo.avatar" class="user-avatar" />
 			<view class="info">
 				<text>{{rechargeInfo.coin}}</text>
-				<view>网络：{{rechargeInfo.coin_type}}</view>
+				<view>{{ i18n.withdraw.network }}：{{rechargeInfo.coin_type}}</view>
 			</view>
 		</view>
 		<image class="user-bg" src="../../static/images/wallet/bg.png" />
@@ -17,24 +17,24 @@
 			<image :src="rechargeInfo.recharge_qr" class="code-img" />
 		</view>
 		<view class="title">
-			<text>充值地址</text>
+			<text>{{i18n.recharge.rechargeAddr}}</text>
 			<u-image class="title-bg" src="../../static/images/wallet/title-long-bg.png" width="144upx" height="12upx" mode="" />
 		</view>
 		<view class="input-wrapper">
 			<text class="address-input">{{rechargeInfo.recharge_addr}}</text>
-			<view class="copy-btn" @click="handleCopy">复制地址</view>
+			<view class="copy-btn" @click="handleCopy">{{i18n.recharge.copyBtn}}</view>
 		</view>
 		<view class="title">
-			<text>充值金额</text>
+			<text>{{i18n.recharge.amount}}</text>
 			<u-image class="title-bg" src="../../static/images/wallet/title-bg.png" width="144upx" height="12upx" mode="" />
 		</view>
 		<view class="money-wrapper">
-			<input type="number" v-model="amount" class="money-input" placeholder-style="color: #454D73;font-size: 26upx;" placeholder="请输入充值金额"  />
+			<input type="number" v-model="amount" class="money-input" placeholder-style="color: #454D73;font-size: 26upx;" :placeholder="i18n.recharge.placeholder"  />
 		</view>
 		<view >
 			<c-tips v-for="(item,index) in rechargeInfo.tips" :text="item" :key="index" />
 		</view>
-		<view class="confirm-btn" @click="openPage(3)">我已转账</view>
+		<view class="confirm-btn" @click="openPage(3)">{{i18n.recharge.submitBtn}}</view>
 	</view>
 </template>
 <script>
@@ -54,7 +54,7 @@ export default {
 	},
 	onShow() {
 		uni.setNavigationBarTitle({
-			title: this.i18n.wallet.recharge
+			title: this.i18n.recharge.title
 		});
 		this.loadData();
 	},
@@ -90,6 +90,7 @@ export default {
 				});
 			}
 			if (type === 3) {
+				if (!this.amount) return this.$api.msg('请填写充值金额')
 				uni.navigateTo({
 					url: '/pages/wallet/submitRecharge?amount=' + this.amount
 				});

@@ -4,13 +4,13 @@
 			<image mode="widthFix" class="bg" src="../../static/images/user/user_bg.png"></image>
 			<view class="market-header">
 				<u-icon class="arrow-left" @click="openPage(0)" name="arrow-left" color="#ffffff" size="44" />
-				<view class="market-text">我的</view>
+				<view class="market-text">{{i18n.user.title}}</view>
 			</view>
 			<view class="user-info-box">
 				<view class="portrait-box"><image class="portrait" :src="loginInfo.avatar"></image></view>
 				<view class="info-box" @click="toLogin">
 					<view class="username" @click="openPage(1)">
-						{{ loginInfo.name || i18n.my.login }}
+						{{ loginInfo.name || i18n.user.login }}
 						<u-image class="edit" src="../../static/images/my/edit.png" width="26upx" height="29upx" />
 					</view>
 					<view class="tip">{{ loginInfo.email }}</view>
@@ -25,15 +25,15 @@
 		<view class="cover-container">
 			<!-- 浏览历史 -->
 			<view class="history-section icon">
-				<list-cell image="/static/images/my/password.png" @eventClick="navTo('/pages/user/updateLoginPwd', true)" :title="i18n.my.password"></list-cell>
-				<list-cell image="/static/images/my/referral.png" @eventClick="navTo('/pages/user/invit', true)" :title="i18n.my.referral"></list-cell>
-				<list-cell image="/static/images/my/language.png" @eventClick="changeLang" :title="i18n.my.language"></list-cell>
-				<list-cell image="/static/images/my/community.png" @eventClick="openPage(2)" :title="i18n.my.community"></list-cell>
-				<list-cell image="/static/images/my/help-center.png" @eventClick="openPage(3)" :title="i18n.my.help"></list-cell>
-				<list-cell image="/static/images/my/about-as.png" @eventClick="openPage(4)" :title="i18n.my.about"></list-cell>
-				<list-cell image="/static/images/my/download.png" border="" :title="i18n.my.download" @eventClick="openPage(5)"></list-cell>
+				<list-cell image="/static/images/my/password.png" @eventClick="navTo('/pages/user/updateLoginPwd', true)" :title="i18n.user.password"></list-cell>
+				<list-cell image="/static/images/my/referral.png" @eventClick="navTo('/pages/user/invit', true)" :title="i18n.user.invit"></list-cell>
+				<list-cell image="/static/images/my/language.png" @eventClick="changeLang" :title="i18n.user.language"></list-cell>
+				<list-cell image="/static/images/my/community.png" @eventClick="openPage(2)" :title="i18n.user.community"></list-cell>
+				<list-cell image="/static/images/my/help-center.png" @eventClick="openPage(3)" :title="i18n.user.help"></list-cell>
+				<list-cell image="/static/images/my/about-as.png" @eventClick="openPage(4)" :title="i18n.user.about"></list-cell>
+				<list-cell image="/static/images/my/download.png" border="" :title="i18n.user.download" @eventClick="openPage(5)"></list-cell>
 			</view>
-			<view class="history-section icon"><list-cell image="/static/images/my/logout.png" border="" :title="i18n.my.logout" @eventClick="toLogout"></list-cell></view>
+			<view class="history-section icon"><list-cell image="/static/images/my/logout.png" border="" :title="i18n.user.logout" @eventClick="toLogout"></list-cell></view>
 		</view>
 
 		<u-action-sheet :cancel-text="i18n.common.cancel" :border-radius="20" :list="langList" @click="clickLang" v-model="showLang"></u-action-sheet>
