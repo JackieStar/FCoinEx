@@ -26,13 +26,13 @@
 			<u-image class="title-bg" src="../../static/images/wallet/title-bg.png" width="74upx" height="12upx" mode="" />
 		</view>
 		<view class="money-wrapper">
-			<input type="number" v-model="amount" placeholder-style="color: #818FAB; font-size: 26upx" class="money-input" placeholder="0.00" />
+			<input type="number" v-model="amount" @input="inputChange" placeholder-style="color: #818FAB; font-size: 26upx" class="money-input" placeholder="0.00" />
 			<view class="all-btn" @click="handleAll">{{ i18n.withdraw.all }}</view>
 			<text>USTD</text>
 		</view>
 		<view class="tips-wrapper">
 			<text>{{ i18n.withdraw.balance }}：{{ userData.balance }}</text>
-			<text style="color:#fff">{{ i18n.withdraw.fee }}：{{ withdrawInfo.withdraw_min_fee }}</text>
+			<text style="color:#fff">{{ i18n.withdraw.fee }}：{{ withdraw_fee || withdrawInfo.withdraw_min_fee }}</text>
 		</view>
 		<view><c-tips v-for="(item, index) in withdrawInfo.tips" :text="item" :key="index" /></view>
 		<view class="confirm-btn" @click="openModal">{{ i18n.withdraw.btn }}</view>
@@ -77,10 +77,26 @@
 import { mapState, mapActions } from 'vuex';
 import { uniIcons } from '@dcloudio/uni-ui';
 import { commonMixin } from '@/common/mixin/mixin.js';
+// 函数防抖 (只执行最后一次点击)
+const debounce = (fn, t) => {
+	let delay = t || 500;
+	let timer;
+	return function() {
+		let args = arguments;
+		if (timer) {
+			clearTimeout(timer);
+		}
+		timer = setTimeout(() => {
+			timer = null;
+			fn.apply(this, args);
+		}, delay);
+	};
+};
 export default {
 	components: { uniIcons },
 	mixins: [commonMixin],
 	data() {
+		this.inputChange = debounce(this.inputChange, 800);
 		return {
 			withdrawInfo: {},
 			userData: {},
@@ -93,7 +109,8 @@ export default {
 			form: {
 				email_code: null,
 				password: null
-			}
+			},
+			withdraw_fee: null // 提现手续费，计算
 		};
 	},
 
@@ -106,7 +123,7 @@ export default {
 	},
 	methods: {
 		...mapActions('common', ['sendSms']),
-		...mapActions('user', ['getFinaceInfo', 'userInfo', 'withdraw']),
+		...mapActions('user', ['getFinaceInfo', 'userInfo', 'withdraw', 'withdrawFee']),
 		//请求数据
 		async loadData() {
 			this.getFinaceInfo({ config: 'withdraw' }).then(res => {
@@ -136,7 +153,7 @@ export default {
 			this.form = {
 				email_code: null,
 				password: null
-			}
+			};
 			this.showModal = true;
 		},
 		handleSubmit() {
@@ -196,6 +213,14 @@ export default {
 				uni.navigateTo({
 					url: '/pages/wallet/record'
 				});
+		},
+		inputChange(e) {
+			console.log('e', e.detail.value);
+
+			this.withdrawFee({ amount: e.detail.value }).then(res => {
+				this.withdraw_fee = res.data.fee;
+				console.log('e2222', this.withdraw_fee);
+			});
 		}
 	}
 };

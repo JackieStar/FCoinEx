@@ -56,6 +56,14 @@ export function financeRecharge(data) {
 		data
 	})
 }
+// 计算手续费
+export function withdrawFee(data) {
+	return request({
+		url: `/api/user/finance/withdraw-fee`,
+		method: 'POST',
+		data
+	})
+}
 //提现
 export function withdraw(data) {
 	return request({

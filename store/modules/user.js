@@ -11,6 +11,7 @@ import {
 	updateUserName,
 	userInfo,
 	withdraw,
+	withdrawFee,
 	withdrawList,
 	rechargeList,
 	getFinaceInfo,
@@ -145,6 +146,17 @@ const user = {
 		}, data) {
 			return new Promise((resolve, reject) => {
 				withdraw(data).then(res => {
+					resolve(res)
+				}).catch(error => {
+					reject(error)
+				})
+			})
+		},
+		withdrawFee({
+			commit
+		}, data) {
+			return new Promise((resolve, reject) => {
+				withdrawFee(data).then(res => {
 					resolve(res)
 				}).catch(error => {
 					reject(error)
