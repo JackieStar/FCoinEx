@@ -799,9 +799,10 @@
 						hqChartData.data.push(newItem);
 					}
 					console.log(hqChartData)
-					internalChart.RecvMinuteRealtimeData({
-						data: hqChartData
-					});
+					// internalChart.RecvMinuteRealtimeData({
+					// 	data: hqChartData
+					// });
+					callback({data:hqChartData});
 				});
 
 

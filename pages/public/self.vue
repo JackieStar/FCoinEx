@@ -18,7 +18,7 @@
 		</view>
 		<!--  #endif -->
 
-		<!-- <div class="button-sp-area">
+		<div class="button-sp-area">
 			<button class="mini-btn" type="default" size="mini"
 				@click="ChangeMinutePeriod(MINUTE_PERIOD_ID.MINUTE_ID)">分时</button>
 			<button class="mini-btn" type="default" size="mini"
@@ -31,7 +31,7 @@
 				@click="ChangeKLinePeriod(KLINE_PERIOD_ID.KLINE_MINUTE_ID)">1分钟</button>
 			<button class="mini-btn" type="default" size="mini"
 				@click="ChangeKLinePeriod(KLINE_PERIOD_ID.KLINE_15MINUTE_ID)">15分钟</button>
-		</div> -->
+		</div>
 
 	</div>
 </template>
