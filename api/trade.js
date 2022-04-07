@@ -15,9 +15,10 @@ export function getProductList(data) {
   })
 }
 // 产品详情
-export function getProductInfo() {
+export function productInfo(data) {
   return request({
     url: '/api/product/info',
-    method: 'GET'
+    method: 'GET',
+	data
   })
 }

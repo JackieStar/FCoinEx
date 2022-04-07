@@ -57,7 +57,7 @@ export default {
 		this.getRechargeList();
 	},
 	methods: {
-		...mapActions('user', ['withdrawList', 'rechargeList']),
+		...mapActions('wallet', ['withdrawList', 'rechargeList']),
 		handleChange(type) {
 			this.tabIndex = type;
 		},

@@ -18,6 +18,7 @@ export default function $http(options) {
 	
     _config.complete = (response) => {
        // 登录失效这边后台是返回403看情况
+	   console.log('response', response)
 	   if(response.data.code === 403 || response.data.code === 401){
 		   uni.setStorageSync('token', '');
 		   uni.setStorageSync('loginInfo', '');

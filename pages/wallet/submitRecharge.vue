@@ -71,7 +71,7 @@ export default {
 		this.loadData()
 	},
 	methods: {
-		...mapActions('user', ['getFinaceInfo', 'financeRecharge']),
+		...mapActions('wallet', ['getFinaceInfo', 'financeRecharge']),
 		...mapActions('common', ['uploadImg']),
 		//请求数据
 		async loadData() {

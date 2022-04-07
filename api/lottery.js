@@ -15,11 +15,3 @@ export function lotteryDraw(data) {
 	data
   })
 }
-
-// 抽奖次数
-export function lotteryCount() {
-  return request({
-    url: '/v1/lottery/count',
-    method: 'GET'
-  })
-}

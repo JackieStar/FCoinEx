@@ -1,37 +1,41 @@
 <template>
 	<view class="container">
 		<view class="assets-box">
-			<view class="title">资产</view>
-			<view class="money">200.00</view>
-			<view class="tips">余额(USDT)</view>
+			<view class="title">{{i18n.wallet.title}}</view>
+			<view class="money">{{userData.balance}}</view>
+			<view class="tips">{{i18n.wallet.balance}}(USDT)</view>
 		</view>
 		<!-- 充值提现 -->
 		<view class="menu">
 			<view class="fiat m-r" @click="navTo('/pages/wallet/recharge')">
 				<view class="label">
-					<text>{{ i18n.index.prediction.title1 }}</text>
+					<text>{{ i18n.wallet.recharge }}</text>
 				</view>
 				<image class="menu-icon" src="../../static/images/makets/recharge.png" mode="widthFix" />
 			</view>
 			<view class="fiat m-l" @click="navTo('/pages/wallet/withdraw')">
 				<view class="label">
-					<text>{{ i18n.index.prediction.title2 }}</text>
+					<text>{{ i18n.wallet.withdraw }}</text>
 				</view>
 				<image class="menu-icon" src="../../static/images/makets/withdraw.png" mode="widthFix" />
 			</view>
-		</view>
+		</view>	
 		<!-- 交易流水 -->
-		<view class="trade-title">交易流水</view>
-		<view class="trade-list">
-			<view class="trade-money">
-				<text>充值</text>
-				<text>-100.00</text>
-			</view>
-			<view class="trade-time">
-				<text>03-03-2022 12:22:41</text>
-				<text>USDT</text>
+		<view class="trade-title">{{ i18n.wallet.tradeList }}</view>
+		<view class="trade-list-wrapper">
+			<view class="trade-list" v-for="(item,index) in tradeList" :key="index">
+				<view class="trade-money">
+					<text>{{item.description}}</text>
+					<text v-if="item.atype == 'out'"> - {{item.amount}}</text>
+					<text v-else>{{item.amount}}</text>
+				</view>
+				<view class="trade-time">
+					<text>{{item.cdate}}</text>
+					<text>USDT</text>
+				</view>
 			</view>
 		</view>
+		
 	</view>
 </template>
 
@@ -45,34 +49,37 @@ export default {
 	data() {
 		return {
 			bgColor: '#070219',
-			data: {
-				list: [],
-				totalUsdAmount: 0,
-				totalCnyAmount: 0
-			}
+			userData: {},
+			tradeList: []
 		};
 	},
 	onShow() {
 		uni.setNavigationBarTitle({
 			title: this.i18n.wallet.title
 		});
-		if (this.loginInfo.hasLogin) {
-			this.loadData();
-		}
+
+		this.getUserInfo();
+		this.loadData();
 	},
 	onPullDownRefresh() {
 		this.loadData();
 	},
 	methods: {
-		...mapActions('account', ['accountList']),
+		...mapActions('user', ['userInfo']),
+		...mapActions('wallet', ['getAccountLogs']),
 		//请求数据
 		async loadData() {
-			// this.accountList()
-			// 	.then(res => {
-			// 		this.data = res.data;
-			// 		uni.stopPullDownRefresh();
-			// 	})
-			// 	.catch(error => {});
+			this.getAccountLogs()
+				.then(res => {
+					this.tradeList = res.data.data;
+				})
+				.catch(error => {});
+		},
+		// 获取用户信息
+		getUserInfo() {
+			this.userInfo().then(res => {
+				this.userData = res.data;
+			});
 		}
 	}
 };

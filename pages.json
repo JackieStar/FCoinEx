@@ -12,9 +12,14 @@
 		{
 			"path": "pages/trade/trade",
 			"style": {
-				"navigationBarTitleText": "",
 				"navigationBarTextStyle": "white",
-				"navigationBarBackgroundColor": "#070219"
+				"navigationBarBackgroundColor": "#070219",
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": {
+						"type": "transparent"
+					}
+				}
 			}
 		},
 		{
@@ -28,6 +33,8 @@
 		{
 			"path": "pages/wallet/wallet",
 			"style": {
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#070219",
 				"app-plus": {
 					"bounce": "none",
 					"titleNView": {

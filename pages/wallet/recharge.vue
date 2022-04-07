@@ -62,7 +62,7 @@ export default {
 		...mapState('user', ['loginInfo'])
 	},
 	methods: {
-		...mapActions('user', ['getFinaceInfo']),
+		...mapActions('wallet', ['getFinaceInfo']),
 		//请求数据
 		async loadData() {
 			this.getFinaceInfo({config: 'recharge'}).then(res=> {

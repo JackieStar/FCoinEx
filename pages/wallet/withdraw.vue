@@ -123,7 +123,8 @@ export default {
 	},
 	methods: {
 		...mapActions('common', ['sendSms']),
-		...mapActions('user', ['getFinaceInfo', 'userInfo', 'withdraw', 'withdrawFee']),
+		...mapActions('wallet', ['getFinaceInfo','withdraw', 'withdrawFee']),
+		...mapActions('user', [ 'userInfo' ]),
 		//请求数据
 		async loadData() {
 			this.getFinaceInfo({ config: 'withdraw' }).then(res => {

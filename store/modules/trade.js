@@ -1,9 +1,9 @@
 import {
 	getProductLine,
 	getProductList,
-	getProductInfo
+	productInfo
 } from '@/api/trade'
-import {} from './../mutations_type'
+// import {} from './../mutations_type'
 
 
 const trade = {
@@ -38,11 +38,11 @@ const trade = {
 				})
 			})
 		},
-		getProductInfo({
+		productInfo({
 			commit
 		}, data) {
 			return new Promise((resolve, reject) => {
-				getProductInfo(data).then(res => {
+				productInfo(data).then(res => {
 					resolve(res)
 				}).catch(error => {
 					reject(error)

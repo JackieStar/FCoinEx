@@ -1,21 +1,5 @@
 import request from '@/utils/request'
 
-// 币种列表
-export function coinList(data) {
-  return request({
-    url: '/v1/coin/list',
-    method: 'GET'
-  })
-}
-
-// 币种提示
-export function coinTips(coin) {
-  return request({
-    url: `/v1/coin/tips/${coin}`,
-    method: 'GET'
-  })
-}
-
 // 行情列表
 export function marketList() {
   return request({
