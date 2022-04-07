@@ -8,7 +8,7 @@
 					<text class="rise" :class="{upText: (tick != undefined && tick.change >= 0),downText: (tick != undefined && tick.change < 0)}">{{tick != undefined ? tick.change : 0.00}}%</text>
 				</view>
 			</view> -->
-		<!-- 	<view class="right">
+			<!-- 	<view class="right">
 				<view class="b">
 					<view class="col">
 						<text>{{tick.high}}</text>
@@ -25,8 +25,8 @@
 		</view>
 		<view class="tools">
 			<view class="period">
-				<u-tabs :list="list" class="klineId" bg-color="rgb(16, 23, 37)" inactive-color="rgb(88,116,152)" :bold="false"
-				 :is-scroll="false" :current="current" @change="periodTabChange"></u-tabs>
+				<u-tabs :list="list" class="klineId" bg-color="rgb(16, 23, 37)" inactive-color="rgb(88,116,152)"
+					:bold="false" :is-scroll="false" :current="current" @change="periodTabChange"></u-tabs>
 			</view>
 			<view class="flexBox">
 				<view class="more" @click="showSet = !showSet">更多</view>
@@ -35,32 +35,41 @@
 				<view class="row">
 					<text class="title">类型</text>
 					<view class="items">
-						<view class="item" :class="{active: defaultPeriod == '5min'}" @tap="ChangeKLinePeriod('5min')">5min</view>
-						<view class="item" :class="{active: defaultPeriod == '15min'}" @tap="ChangeKLinePeriod('15min')">15min</view>
-						<view class="item" :class="{active: defaultPeriod == '30min'}" @tap="ChangeKLinePeriod('30min')">30min</view>
+						<view class="item" :class="{active: defaultPeriod == '5min'}" @tap="ChangeKLinePeriod('5min')">
+							5min</view>
+						<view class="item" :class="{active: defaultPeriod == '15min'}"
+							@tap="ChangeKLinePeriod('15min')">15min</view>
+						<view class="item" :class="{active: defaultPeriod == '30min'}"
+							@tap="ChangeKLinePeriod('30min')">30min</view>
 					</view>
 				</view>
 				<view class="row">
 					<text class="title">主图</text>
 					<view class="items">
-						<view class="item" :class="{active: mainIndex == '0'}" @tap="ChangeKLineIndex('0', mainIndex)">MA</view>
-						<view class="item" :class="{active: mainIndex == '1'}" @tap="ChangeKLineIndex('1', mainIndex)">BOLL</view>
+						<view class="item" :class="{active: mainIndex == '0'}" @tap="ChangeKLineIndex('0', mainIndex)">
+							MA</view>
+						<view class="item" :class="{active: mainIndex == '1'}" @tap="ChangeKLineIndex('1', mainIndex)">
+							BOLL</view>
 					</view>
 				</view>
 				<view class="row">
 					<text class="title">副图</text>
 					<view class="items">
-						<view class="item" :class="{active: subIndex == '2'}" @tap="ChangeKLineIndex('2', subIndex)">MACD</view>
-						<view class="item" :class="{active: subIndex == '3'}" @tap="ChangeKLineIndex('3', subIndex)">RSI</view>
-						<view class="item" :class="{active: subIndex == '4'}" @tap="ChangeKLineIndex('4', subIndex)">VOL</view>
+						<view class="item" :class="{active: subIndex == '2'}" @tap="ChangeKLineIndex('2', subIndex)">
+							MACD</view>
+						<view class="item" :class="{active: subIndex == '3'}" @tap="ChangeKLineIndex('3', subIndex)">RSI
+						</view>
+						<view class="item" :class="{active: subIndex == '4'}" @tap="ChangeKLineIndex('4', subIndex)">VOL
+						</view>
 					</view>
 				</view>
 			</view>
 		</view>
 		<view>
 			<view>
-				<canvas id="kline2" canvas-id='kline2' class='kline2' v-bind:style="{width: KLine.Width+'px', height: KLine.Height+'px'}" 
-				  @touchstart="KLineTouchStart" @touchmove='KLineTouchMove' @touchend='KLineTouchEnd' ></canvas>
+				<canvas id="kline2" canvas-id='kline2' class='kline2'
+					v-bind:style="{width: KLine.Width+'px', height: KLine.Height+'px'}" @touchstart="KLineTouchStart"
+					@touchmove='KLineTouchMove' @touchend='KLineTouchEnd'></canvas>
 			</view>
 		</view>
 	</view>
@@ -68,10 +77,18 @@
 </template>
 
 <script>
-	import {JSCommon} from '../../static/js/umychart.wechat.3.0.js'
-	import {JSCommonHQStyle} from '../../static/js/umychart.style.wechat.js'
-	
+	import {
+		JSCommon
+	} from '../../static/js/umychart.wechat.3.0.js'
+	import {
+		JSCommonHQStyle
+	} from '../../static/js/umychart.style.wechat.js'
+	import {
+		mapState,
+		mapActions
+	} from 'vuex';
 	import pako from '../../utils/pako.js'
+
 	function DefaultData() {}
 
 	DefaultData.GetKLineOption = function() {
@@ -127,17 +144,14 @@
 
 			Frame: //子框架设置 (Height 窗口高度比例值)
 				[{
-						SplitCount:4,			//最多输出5个分隔线
-					  //Height:4,
-					  IsShowLeftText:false, 	//不显示左边刻度文字
-					  IsShowRightText:true,    	//显示右边刻度文字                      
-					  Custom:
-					  [
-						  { 
-							  Type:0,
-							  Position:'right',
-						  }
-					  ]
+						SplitCount: 4, //最多输出5个分隔线
+						//Height:4,
+						IsShowLeftText: false, //不显示左边刻度文字
+						IsShowRightText: true, //显示右边刻度文字                      
+						Custom: [{
+							Type: 0,
+							Position: 'right',
+						}]
 					},
 					{
 						SplitCount: 2,
@@ -274,20 +288,21 @@
 
 			return data;
 		},
-		computed: {
-		},
+		computed: {},
 		onLoad(options) {
 			let that = this
-			if(options.symbol){
+
+			if (options.symbol) {
 				this.Symbol = options.symbol
 			}
+
 			//this.Symbol = 'ethusdt'
 			//this.syncSubRealtimeKline()
 			uni.setNavigationBarTitle({
 				title: this.Symbol.toUpperCase()
 			})
 		},
-		
+
 		//隐藏的时候 停止定时器和清空hqchart的实例
 		onHide() {
 			if (g_KLine.JSChart) {
@@ -305,8 +320,7 @@
 			this.syncCancelRealtimeKline();
 			this.syncCancelMarketTicker();
 		},
-		onReady()
-		{	
+		onReady() {
 			console.log("[KLineChart::onReady]");
 			// #ifdef H5
 			//this.OnSize();
@@ -327,6 +341,15 @@
 		},
 
 		methods: {
+			...mapActions('trade', ['getProductLine']),
+			getLine() {
+				this.getProductLine({
+					code: 'btc',
+					k: '1min'
+				}).then(res => {
+					console.log(res)
+				});
+			},
 			capture() {
 				var pages = getCurrentPages();
 				var page = pages[pages.length - 1];
@@ -359,61 +382,123 @@
 				let that = this
 				let ch = `market.${this.Symbol}.kline.${this.defaultPeriod}`
 				let params = {
-				  "id": new Date().getTime(),
-				  "sub": ch,
+					"id": new Date().getTime(),
+					"sub": ch,
 				}
 				this.$store.dispatch('WEBSOCKET_SEND', JSON.stringify(params))
-				uni.$on("sub."+ch, (res) => {
+				// uni.$on("sub."+ch, (res) => {
+				// 	if (this.chartPeriod[this.defaultPeriod] > 3) {
+				// 		that.RecvMinuteRealtimeData(res.data, ch)
+				// 	} else {
+				// 		that.RecvRealtimeData(res.data, ch)
+				// 	}
+				// })
+				this.getProductLine({
+					code: 'btc',
+					k: '1min'
+				}).then(res => {
+					console.log(res)
 					if (this.chartPeriod[this.defaultPeriod] > 3) {
 						that.RecvMinuteRealtimeData(res.data, ch)
 					} else {
 						that.RecvRealtimeData(res.data, ch)
 					}
-				})
+				});
+
 			},
 			syncCancelRealtimeKline() {
 				let ch = `market.${this.Symbol}.kline.${this.defaultPeriod}`
 				let params = {
-				  "id": new Date().getTime(),
-				  "unsub": ch,
+					"id": new Date().getTime(),
+					"unsub": ch,
 				}
 				this.$store.dispatch('WEBSOCKET_SEND', JSON.stringify(params))
 			},
 			syncSubMarketTicker() {
 				let that = this
 				let ch = "market.overviewv2"
-				let params = {"sub": ch}
-				this.$store.dispatch('WEBSOCKET_SEND', JSON.stringify(params))
-				uni.$on("sub."+ch, (res) => {
-					if(!this.tick.close){
-						let map = res.data.data
-						if(map[this.Symbol]){
-							let item = map[this.Symbol]
-							let tick = {
-								open: item.o,
-								close: item.c,
-								low: item.l,
-								high: item.h,
-								vol: item.v,
-								amount: item.a
-							}
-							tick.change = parseFloat((tick.close - tick.open) / tick.open * 100).toFixed(2);
-							tick.cny = parseFloat(tick.close * 6.4).toFixed(2)
-							this.tick = tick
-							this.syncSubMarketDetail()
-						}
-					}
-				})
+				let params = {
+					"sub": ch
+				}
+				// this.$store.dispatch('WEBSOCKET_SEND', JSON.stringify(params))
+
+				// let tick = {
+				// 	open: item.o,
+				// 	close: item.c,
+				// 	low: item.l,
+				// 	high: item.h,
+				// 	vol: item.v,
+				// 	amount: item.a
+				// }
+				let tick = {
+					open: 1,
+					close: 2.9,
+					low: 0.9,
+					high: 3,
+					vol: 3,
+					amount: 8
+				}
+				tick.change = parseFloat((tick.close - tick.open) / tick.open * 100).toFixed(2);
+				tick.cny = parseFloat(tick.close * 6.4).toFixed(2)
+				this.tick = tick
+				this.syncSubMarketDetail()
+
+				// this.getProductLine({
+				// 	code: 'btc',
+				// 	k: '1min'
+				// }).then(res => {
+				// 	console.log(res.data)
+				// 	if(!this.tick.close){
+				// 		let map = res.data
+				// 		console.log(this.Symbol)
+				// 		if(map[this.Symbol]){
+				// 			let item = map[this.Symbol]
+
+				// 			let tick = {
+				// 				open: item.o,
+				// 				close: item.c,
+				// 				low: item.l,
+				// 				high: item.h,
+				// 				vol: item.v,
+				// 				amount: item.a
+				// 			}
+				// 			tick.change = parseFloat((tick.close - tick.open) / tick.open * 100).toFixed(2);
+				// 			tick.cny = parseFloat(tick.close * 6.4).toFixed(2)
+				// 			this.tick = tick
+				// 			this.syncSubMarketDetail()
+				// 		}
+				// 	}
+				// });
+				// uni.$on("sub."+ch, (res) => {
+				// 	if(!this.tick.close){
+				// 		let map = res.data.data
+				// 		if(map[this.Symbol]){
+				// 			let item = map[this.Symbol]
+				// 			let tick = {
+				// 				open: item.o,
+				// 				close: item.c,
+				// 				low: item.l,
+				// 				high: item.h,
+				// 				vol: item.v,
+				// 				amount: item.a
+				// 			}
+				// 			tick.change = parseFloat((tick.close - tick.open) / tick.open * 100).toFixed(2);
+				// 			tick.cny = parseFloat(tick.close * 6.4).toFixed(2)
+				// 			this.tick = tick
+				// 			this.syncSubMarketDetail()
+				// 		}
+				// 	}
+				// })
 			},
-			syncSubMarketDetail(){
+			syncSubMarketDetail() {
 				let that = this
 				let ch = `market.${this.Symbol}.detail`
 				let params = {
-				  "id": new Date().getTime(),
-				  "sub": ch,
+					"id": new Date().getTime(),
+					"sub": ch,
 				}
 				this.$store.dispatch('WEBSOCKET_SEND', JSON.stringify(params))
-				uni.$on("sub."+ch, (res) => {
+				uni.$on("sub." + ch, (res) => {
 					let open = this.tick.open
 					let tick = res.data.tick
 					tick.open = open
@@ -423,71 +508,70 @@
 				})
 			},
 			syncCancelMarketTicker() {
-				this.$store.dispatch('WEBSOCKET_SEND', JSON.stringify({"unsub": "market.overviewv2"}))
+				this.$store.dispatch('WEBSOCKET_SEND', JSON.stringify({
+					"unsub": "market.overviewv2"
+				}))
 				let ch = `market.${this.Symbol}.detail`
 				let params = {
-				  "id": new Date().getTime(),
-				  "unsub": ch,
+					"id": new Date().getTime(),
+					"unsub": ch,
 				}
 				this.$store.dispatch('WEBSOCKET_SEND', JSON.stringify(params))
 			},
-			OnSize()
-			{
+			OnSize() {
 				// #ifdef H5
 				this.OnSize_h5();
 				// #endif
 			},
-			
-			OnSize_h5()
-			{
+
+			OnSize_h5() {
 				var chartHeight = this.KLine.Height;
 				var chartWidth = this.KLine.Width;
-				 
-				var kline=this.$refs.kline;
-				kline.style.width=chartWidth+'px';
-				kline.style.height=chartHeight+'px';
+
+				var kline = this.$refs.kline;
+				kline.style.width = chartWidth + 'px';
+				kline.style.height = chartHeight + 'px';
 				if (g_KLine.JSChart) g_KLine.JSChart.OnSize();
 			},
-			CreateKLineChart_app()
-			{
+			CreateKLineChart_app() {
 				if (this.KLine.JSChart) return;
-				
+
 				let element = new JSCommon.JSCanvasElement();
 				element.IsUniApp = true; //canvas需要指定下 是uniapp的app
 				element.ID = 'kline2';
 				element.Height = this.KLine.Height; //高度宽度需要手动绑定!!
 				element.Width = this.KLine.Width;
-				
+
 				g_KLine.JSChart = JSCommon.JSChart.Init(element);
-				
+
 				var blackStyle = JSCommonHQStyle.GetStyleConfig(JSCommonHQStyle.STYLE_TYPE_ID.BLACK_ID);
-				blackStyle.BGColor='rgb(12,23,37)';                 //背景
-				blackStyle.FrameTitleBGColor='rgb(16,28,45)';       //指标标题背景
-				blackStyle.FrameSplitTextColor='rgb(101,117,138)';  //刻度颜色
-			
+				blackStyle.BGColor = 'rgb(12,23,37)'; //背景
+				blackStyle.FrameTitleBGColor = 'rgb(16,28,45)'; //指标标题背景
+				blackStyle.FrameSplitTextColor = 'rgb(101,117,138)'; //刻度颜色
+
 				//K线颜色
-				blackStyle.UpBarColor='rgb(37,175,142)';   			//K线上涨柱子颜色
-				blackStyle.UpTextColor= blackStyle.UpBarColor;		//上涨价格颜色
-				blackStyle.DownBarColor='rgb(210,73,99)';			//K线下跌柱子颜色
-				blackStyle.DownTextColor=blackStyle.DownBarColor;	//下跌价格颜色
-			
+				blackStyle.UpBarColor = 'rgb(37,175,142)'; //K线上涨柱子颜色
+				blackStyle.UpTextColor = blackStyle.UpBarColor; //上涨价格颜色
+				blackStyle.DownBarColor = 'rgb(210,73,99)'; //K线下跌柱子颜色
+				blackStyle.DownTextColor = blackStyle.DownBarColor; //下跌价格颜色
+
 				//指标线段颜色
-				blackStyle.Index.LineColor[0]='rgb(88,106,126)';    
-				blackStyle.Index.LineColor[1]='rgb(222,217,167)';
-				blackStyle.Index.LineColor[2]='rgb(113,161,164)';
-			
+				blackStyle.Index.LineColor[0] = 'rgb(88,106,126)';
+				blackStyle.Index.LineColor[1] = 'rgb(222,217,167)';
+				blackStyle.Index.LineColor[2] = 'rgb(113,161,164)';
+
 				//最新价格刻度颜色
-				blackStyle.FrameLatestPrice.UpBarColor='rgb(37,175,142)';
-				blackStyle.FrameLatestPrice.DownBarColor='rgb(210,73,99)';
-			
+				blackStyle.FrameLatestPrice.UpBarColor = 'rgb(37,175,142)';
+				blackStyle.FrameLatestPrice.DownBarColor = 'rgb(210,73,99)';
+
 				//面积图颜色
-				blackStyle.CloseLineColor='rgb(113,121,133)';   //收盘价线颜色
-				blackStyle.CloseLineAreaColor=['rgba(36,41,57,0.8)','rgba(22,34,53,0.3)'];  //收盘价面积图颜色
-				
+				blackStyle.CloseLineColor = 'rgb(113,121,133)'; //收盘价线颜色
+				blackStyle.CloseLineAreaColor = ['rgba(36,41,57,0.8)', 'rgba(22,34,53,0.3)']; //收盘价面积图颜色
+
 				//最高最低价颜色
-				blackStyle.KLine.MaxMin.Color='rgb(255,250,240)';
+				blackStyle.KLine.MaxMin.Color = 'rgb(255,250,240)';
 				JSCommon.JSChart.SetStyle(blackStyle);
-				
+
 				this.KLine.Option.NetworkFilter = this.NetworkFilter;
 				this.KLine.Option.Symbol = this.Symbol;
 				this.KLine.Option.IsCorssOnlyDrawKLine = true; //十字光标只能在K线上
@@ -500,15 +584,14 @@
 					Name: 'KLineTooltip'
 				}];
 				g_KLine.JSChart.SetOption(this.KLine.Option);
-				
+
 				g_KLine.JSChart.AddEventCallback({
 					event: JSCommon.JSCHART_EVENT_ID.ON_TITLE_DRAW,
 					callback: this.OnTitleDraw
 				});
 			},
-			
-			CreateKLineChart()
-			{
+
+			CreateKLineChart() {
 				this.CreateKLineChart_app();
 			},
 			OnTitleDraw(event, data, obj) //K线信息
@@ -553,39 +636,49 @@
 				g_KLine.JSChart.ChangeSymbol(symbol);
 			},
 			RecvRealtimeData: function(recvData, ch) {
-				if (recvData.ch != ch) return;
-				
-				var internalChart=g_KLine.JSChart.JSChartContainer;
-				var period=internalChart.Period;
-				var symbol=internalChart.Symbol;
-	
-				var hqChartData={code:0, stock:[]};
+				// if (recvData.ch != ch) return;
+
+				var internalChart = g_KLine.JSChart.JSChartContainer;
+				var period = internalChart.Period;
+				var symbol = internalChart.Symbol;
+
+				var hqChartData = {
+					code: 0,
+					stock: []
+				};
 				//TODO:把recvData => hqchart内部格式 格式看教程
 				//HQChart使用教程30-K线图如何对接第3方数据14-轮询增量更新日K数据
-	
-				var stock={symbol:internalChart.Symbol, name:internalChart.OriginalSymbol};
-				var item=recvData.tick;
-				var dateTime = new Date();
-				dateTime.setTime(item.id*1000);
-				var date=dateTime.getFullYear()*10000+(dateTime.getMonth()+1)*100+dateTime.getDate();
-				var time=dateTime.getHours()*100+dateTime.getMinutes();
-	
-				stock.date=date;
-				stock.yclose=null;
-				stock.open=item.open;
-				stock.high=item.high;
-				stock.low=item.low;
-				stock.price=item.close;
-				stock.vol=item.vol;
-				stock.amount=item.amount;
-	
-				hqChartData.stock.push(stock);
-				
-				internalChart.RecvRealtimeData({data: hqChartData});
+				for (var i = 0; i < recvData.length; i++) {
+					var stock = {
+						symbol: internalChart.Symbol,
+						name: internalChart.OriginalSymbol
+					};
+					var item = recvData.tick;
+					var dateTime = new Date();
+					dateTime.setTime(item.id * 1000);
+					var date = dateTime.getFullYear() * 10000 + (dateTime.getMonth() + 1) * 100 + dateTime.getDate();
+					var time = dateTime.getHours() * 100 + dateTime.getMinutes();
+
+					stock.date = date;
+					stock.yclose = null;
+					stock.open = item.open;
+					stock.high = item.high;
+					stock.low = item.low;
+					stock.price = item.close;
+					stock.vol = item.vol;
+					stock.amount = item.amount;
+
+					hqChartData.stock.push(stock);
+
+					internalChart.RecvRealtimeData({
+						data: hqChartData
+					});
+				}
+
 			},
 			RecvMinuteRealtimeData: function(recvData, ch) {
-				//console.log("=========RecvMinuteRealtimeData", ch, recvData)
-				if (recvData.ch!=ch) return;
+				console.log("=========RecvMinuteRealtimeData", ch, recvData)
+				// if (recvData.ch!=ch) return;
 				var internalChart = g_KLine.JSChart.JSChartContainer;
 				var period = internalChart.Period;
 				var symbol = internalChart.Symbol;
@@ -600,18 +693,25 @@
 				//TODO:把recvData => hqchart内部格式 格式看教程
 				//HQChart使用教程30-K线图如何对接第3方数据15-轮询增量更新1分钟K线数据
 
-				var item = recvData.tick;
+				// var item = recvData.tick;
+				for (var i = 0; i < recvData.length; i++) {
+					var item = recvData[i];
+					var timestamp = item.id * 1000;
+					var dateTime = new Date();
+					dateTime.setTime(timestamp);
+					var date = dateTime.getFullYear() * 10000 + (dateTime.getMonth() + 1) * 100 + dateTime.getDate();
+					var time = dateTime.getHours() * 100 + dateTime.getMinutes();
+
+					var newItem = [date, null, item.open, item.high, item.low, item.close, item.vol, item.amount,
+					time];
+					hqChartData.data.push(newItem);
+
+					internalChart.RecvMinuteRealtimeData({
+						data: hqChartData
+					});
+				}
 				//console.log("=========RecvMinuteRealtimeData", item)
-				var timestamp = item.id * 1000;
-				var dateTime = new Date();
-				dateTime.setTime(timestamp);
-				var date = dateTime.getFullYear() * 10000 + (dateTime.getMonth() + 1) * 100 + dateTime.getDate();
-				var time = dateTime.getHours() * 100 + dateTime.getMinutes();
-				
-				var newItem = [date, null, item.open, item.high, item.low, item.close, item.vol, item.amount, time];
-				hqChartData.data.push(newItem);
-				
-				internalChart.RecvMinuteRealtimeData({data: hqChartData});
+
 				//console.log("=========RecvMinuteRealtimeData", recvData)
 			},
 			periodTabChange(index) {
@@ -632,38 +732,83 @@
 			7=成交金额
 			8=时间格式 */
 			NetworkFilter: function(data, callback) {
-				//console.log('========================[HQChart:NetworkFilter] data', data);
+				console.log('========================[HQChart:NetworkFilter] data', data);
 				data.PreventDefault = true;
 				switch (data.Name) {
 					case 'KLineChartContainer::ReqeustHistoryMinuteData': //分钟全量数据下载
 						this.RequestHistoryData(data, callback, true);
 						break;
 					case 'KLineChartContainer::RequestFlowCapitalData': //数字货币不会调用
+						this.RequestHistoryData(data, callback, true);
 						//this.RequestFlowCapitalData(data, callback);
 						break;
 					case 'KLineChartContainer::RequestHistoryData': //日线全量数据下载
-						this.RequestHistoryData(data, callback, false);
+						// this.RequestHistoryData(data, callback, false);
+						this.RequestHistoryData(data, callback, true);
 						break;
 				}
 			},
 			RequestHistoryData: function(data, callback, isMuite) {
-				
+
 				data.PreventDefault = true;
 				let that = this;
 				let ch = `market.${this.Symbol}.kline.${this.defaultPeriod}`
 				let params = {
-				  "id": new Date().getTime(),
-				  "req": ch,
+					"id": new Date().getTime(),
+					"req": ch,
 				}
-				setTimeout(() =>{
-					this.$store.dispatch('WEBSOCKET_SEND', JSON.stringify(params))
-				}, 1000)
-				uni.$on("req." + ch, (res) => {
-					let d = that.transferKlineData(res.data.data, isMuite)
+				// setTimeout(() => {
+				// 	this.$store.dispatch('WEBSOCKET_SEND', JSON.stringify(params))
+				// }, 1000)
+				this.getProductLine({
+					code: 'btc',
+					k: '1min'
+				}).then(res => {
+					console.log(res)
+					let recvData=res.data
+					var internalChart = g_KLine.JSChart.JSChartContainer;
+					var period = internalChart.Period;
+					var symbol = internalChart.Symbol;
 					
-					callback({data: d});
-					this.syncSubRealtimeKline()
-				})
+					var hqChartData = {
+						code: 0,
+						data: [],
+						ver: 2.0
+					}; //更新数据使用2.0版本格式
+					hqChartData.symbol = this.Symbol;
+					hqChartData.name = this.Symbol;
+					//TODO:把recvData => hqchart内部格式 格式看教程
+					//HQChart使用教程30-K线图如何对接第3方数据15-轮询增量更新1分钟K线数据
+					
+					// var item = recvData.tick;
+					for (var i = 0; i < recvData.length; i++) {
+						var item = recvData[i];
+						var timestamp = i * 1000;
+						var dateTime = new Date();
+						// dateTime.setTime(timestamp);
+						var date = dateTime.getFullYear() * 10000 + (dateTime.getMonth() + 1) * 100 + dateTime.getDate();
+						var time = dateTime.getHours() * 100 + dateTime.getMinutes();
+					
+						var newItem = [date, null, Number(item.open), Number(item.hight), Number(item.low),  Number(item.close), Number(item.volume), Number(item.price),
+						time];
+						hqChartData.data.push(newItem);
+					}
+					console.log(hqChartData)
+					internalChart.RecvMinuteRealtimeData({
+						data: hqChartData
+					});
+				});
+				
+				
+				//console.log("=========RecvMinuteRealtimeData", item)
+				// callback({data: d});
+				// this.syncSubRealtimeKline()
+				// uni.$on("req." + ch, (res) => {
+				// 	let d = that.transferKlineData(res.data.data, isMuite)
+
+				// 	callback({data: d});
+				// 	this.syncSubRealtimeKline()
+				// })
 			},
 			transferKlineData: function(data, isMin) {
 				var hqChartData = {
@@ -711,12 +856,15 @@
 	page {
 		background-color: #101725;
 	}
-	.upText{
-		color: rgb(37,175,142);
+
+	.upText {
+		color: rgb(37, 175, 142);
 	}
-	.downText{
-		color: rgb(210,73,99);
+
+	.downText {
+		color: rgb(210, 73, 99);
 	}
+
 	.klineId {
 
 		.u-tab-bar {
@@ -736,9 +884,9 @@
 	.contaier {
 		padding-bottom: 140upx;
 	}
-	.slot-content{
-		
-	}
+
+	.slot-content {}
+
 	.setting {
 		position: absolute;
 		left: 0;
@@ -747,6 +895,7 @@
 		padding: 20upx 20upx 60upx 20upx;
 		width: 100%;
 		z-index: 9999999;
+
 		.row {
 			.title {
 				display: block;
@@ -812,6 +961,7 @@
 					display: flex;
 					flex-direction: column;
 					text-align: right;
+
 					text {
 						display: block;
 						height: 40upx;
@@ -823,6 +973,7 @@
 				.title {
 					width: 60upx;
 					text-align: left;
+
 					.t {
 						color: rgb(88, 116, 152);
 					}
@@ -836,6 +987,7 @@
 		flex-direction: row;
 		position: relative;
 		width: 100%;
+
 		.period {
 			flex: 1;
 		}
@@ -848,9 +1000,9 @@
 			align-items: center;
 			position: relative;
 			color: rgb(88, 116, 152);
-			.more{
-				
-			}
+
+			.more {}
+
 			.dept {
 				display: flex;
 				justify-content: center;

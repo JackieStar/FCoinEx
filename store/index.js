@@ -7,7 +7,7 @@ import common from './modules/common'
 import websocket from './modules/websocket'
 import finance from './modules/finance'
 import lottery from './modules/lottery'
-
+import trade from './modules/trade'
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
@@ -28,6 +28,10 @@ const store = new Vuex.Store({
 	lottery: {
 	  namespaced: true,
 	  ...lottery
+	},
+	trade: {
+		namespaced: true,
+		...trade
 	}
   }
 })

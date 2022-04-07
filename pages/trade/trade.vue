@@ -1,5 +1,6 @@
 <template>
 	<view class="container">
+		<!-- <kLine></kLine> -->
 		<view class="card-item-wrapper" flex="main:justify cross:center">
 			<view class="card-item">
 				<text>100.2</text>
@@ -16,8 +17,8 @@
 				mode="" />
 		</view>
 		<view class="lever-wrapper">
-			<view v-for="item in 6" class="lever-btn" @click="handelChooseMultiple(item)">
-				<view class="lever-text">x2 {{item}}</view>
+			<view v-for="item in 6" :key="item" class="lever-btn" @click="handelChooseMultiple(item)">
+				<view class="lever-text">x{{item+1}}</view>
 				<image v-if="item==multipleValue" class="btn-bg-image" src="../../static/images/trade/btn-radio.png"
 					mode=""></image>
 			</view>
@@ -41,8 +42,8 @@
 				mode="" />
 		</view>
 		<view class="lever-wrapper">
-			<view v-for="item in 8" class="lever-btn" @click="handelChooseAmount(item)">
-				<view class="lever-text">x2 {{item}}</view>
+			<view v-for="item in 8" :key="item" class="lever-btn" @click="handelChooseAmount(item)">
+				<view class="lever-text">{{item}}0</view>
 				<image v-if="item==amountValue" class="btn-bg-image" src="../../static/images/trade/btn-radio.png"
 					mode=""></image>
 			</view>
@@ -263,7 +264,15 @@
 </template>
 
 <script>
+	import {
+		mapState,
+		mapActions
+	} from 'vuex';
+	import kLine from '../public/kline.vue';
 	export default {
+		components: {
+			kLine
+		},
 		data() {
 			return {
 				multipleValue: 1,
@@ -273,7 +282,27 @@
 				inputValue: ''
 			}
 		},
+		onLoad() {
+			this.getLine()
+			this.getProduct()
+		},
 		methods: {
+			...mapActions('trade', ['getProductLine', 'getProductList', 'getProductInfo']),
+			getLine() {
+				this.getProductLine({
+					code: 'btc',
+					k: '5min'
+				}).then(res => {
+					console.log(res)
+				});
+			},
+			getProduct() {
+				this.getProductList({
+					limit: 15
+				}).then(res => {
+					console.log(res)
+				});
+			},
 			handelChooseMultiple(index) {
 				this.multipleValue = index
 			},
@@ -291,17 +320,18 @@
 </script>
 
 <style lang="scss" scoped>
-	  .triangle-box {
-	    width: 0px;
-	    height: 0px;
+	.triangle-box {
+		width: 0px;
+		height: 0px;
 		border-style: solid;
 		border-width: 22rpx 31rpx 0px 0px;
-		border-top-color: #5A9BFE ;
+		border-top-color: #5A9BFE;
 		border-right-color: transparent;
 		position: absolute;
 		top: 0;
 		left: 0;
-	  }
+	}
+
 	.red-text {
 		color: #FF0101;
 	}
@@ -454,14 +484,16 @@
 			margin-right: 32rpx;
 			margin-bottom: 24rpx;
 		}
-		.custom-box{
+
+		.custom-box {
 			width: 101rpx;
 			height: 61rpx;
 			border-radius: 8rpx;
 			border: 1px solid;
 			overflow: hidden;
 			box-sizing: border-box;
-			.custom-btn{
+
+			.custom-btn {
 				width: 100%;
 				height: 100%;
 				background: #1A1B28;
@@ -476,7 +508,7 @@
 				-webkit-text-fill-color: transparent;
 			}
 		}
-		
+
 	}
 
 	.handle-btn-wrapper {
@@ -783,10 +815,12 @@
 					font-weight: 500;
 					color: #77798F;
 				}
-				.left-width{
+
+				.left-width {
 					width: 550rpx;
 				}
-				.arrow-image{
+
+				.arrow-image {
 					width: 22rpx;
 					height: 13rpx;
 				}
