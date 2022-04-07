@@ -1,0 +1,117 @@
+@charset "UTF-8";
+/* 页面左右间距 */
+/* 文字尺寸 */
+/*文字颜色*/
+/* 边框颜色 */
+/* 图片加载中颜色 */
+/* 行为相关颜色 */
+page.data-v-dd5e78b4 {
+  background: #070219;
+}
+.container.data-v-dd5e78b4 {
+  padding: 40rpx 26rpx;
+}
+.assets-box.data-v-dd5e78b4 {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30rpx;
+}
+.assets-box .title.data-v-dd5e78b4 {
+  font-size: 36rpx;
+  font-weight: 400;
+  color: #ffffff;
+  line-height: 30rpx;
+}
+.assets-box .money.data-v-dd5e78b4 {
+  font-size: 56rpx;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: #fefeff;
+  margin-top: 80rpx;
+}
+.assets-box .tips.data-v-dd5e78b4 {
+  font-size: 24rpx;
+  font-family: PingFang SC;
+  font-weight: 400;
+  color: #757d89;
+  margin-top: 18rpx;
+}
+.menu.data-v-dd5e78b4 {
+  margin-top: 47rpx;
+  display: flex;
+  justify-content: space-between;
+  font-size: 28rpx;
+  color: #EBEEF5;
+  font-weight: bold;
+}
+.menu .fiat.data-v-dd5e78b4 {
+  width: 330rpx;
+  height: 110rpx;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  background: #1a1b28;
+  border-radius: 10rpx;
+  padding: 0 45rpx;
+  justify-content: space-between;
+}
+.menu .fiat .label.data-v-dd5e78b4 {
+  display: flex;
+  flex-direction: column;
+  padding-left: 20rpx;
+}
+.menu .fiat .sub.data-v-dd5e78b4 {
+  font-size: 24rpx;
+  font-weight: normal;
+}
+.menu .fiat .menu-icon.data-v-dd5e78b4 {
+  width: 58rpx;
+}
+.menu .fiat text.data-v-dd5e78b4 {
+  font-size: 30rpx;
+}
+.menu .m-r.data-v-dd5e78b4 {
+  margin-right: 14rpx;
+}
+.menu .m-l.data-v-dd5e78b4 {
+  margin-left: 14rpx;
+}
+.trade-title.data-v-dd5e78b4 {
+  font-size: 24rpx;
+  font-family: PingFang SC;
+  font-weight: 400;
+  color: #8a959f;
+  margin: 34rpx 0 28rpx 0;
+}
+.trade-list.data-v-dd5e78b4 {
+  padding: 20rpx 40rpx;
+  background-color: #1a1a1a;
+  border-bottom: 1rpx solid #303030;
+}
+.trade-list .trade-money.data-v-dd5e78b4 {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.trade-list .trade-money text.data-v-dd5e78b4 {
+  font-size: 30rpx;
+  font-family: PingFang SC;
+  font-weight: 400;
+  color: #ffffff;
+}
+.trade-list .trade-time.data-v-dd5e78b4 {
+  width: 100%;
+  display: flex;
+  margin-top: 4rpx;
+  justify-content: space-between;
+}
+.trade-list .trade-time text.data-v-dd5e78b4 {
+  font-size: 24rpx;
+  font-family: PingFang SC;
+  font-weight: 400;
+  color: #5c6672;
+}
+

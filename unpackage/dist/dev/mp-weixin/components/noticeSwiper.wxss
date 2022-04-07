@@ -1,0 +1,40 @@
+@charset "UTF-8";
+/* 页面左右间距 */
+/* 文字尺寸 */
+/*文字颜色*/
+/* 边框颜色 */
+/* 图片加载中颜色 */
+/* 行为相关颜色 */
+.uni-swiper-msg.data-v-950e47aa {
+  padding: 10rpx 10rpx;
+  flex-wrap: nowrap;
+  display: flex;
+  align-items: center;
+  positon: relative;
+  font-size: 26rpx;
+  font-weight: 500;
+  color: #DCE6F1;
+  border-radius: 10rpx;
+}
+.uni-swiper-msg-icon.data-v-950e47aa {
+  width: 50rpx;
+  margin-right: 20rpx;
+}
+.uni-swiper-msg-icon image.data-v-950e47aa {
+  width: 100%;
+  flex-shrink: 0;
+}
+.uni-swiper-msg swiper.data-v-950e47aa {
+  width: 100%;
+  height: 50rpx;
+  line-height: 50rpx;
+  text-align: left;
+}
+.uni-swiper-msg swiper-item.data-v-950e47aa {
+  line-height: 50rpx;
+}
+.notice.data-v-950e47aa {
+  margin-top: 2rpx;
+  margin-right: 10rpx;
+}
+

@@ -1,0 +1,131 @@
+@charset "UTF-8";
+/* 页面左右间距 */
+/* 文字尺寸 */
+/*文字颜色*/
+/* 边框颜色 */
+/* 图片加载中颜色 */
+/* 行为相关颜色 */
+page {
+  background-color: #101725;
+}
+.upText {
+  color: #25af8e;
+}
+.downText {
+  color: #d24963;
+}
+.klineId .u-tab-bar {
+  font-weight: none;
+}
+.solt-right {
+  display: flex;
+  align-items: center;
+}
+.solt-right .u-icon {
+  margin-right: 20rpx;
+}
+.contaier {
+  padding-bottom: 140rpx;
+}
+.setting {
+  position: absolute;
+  left: 0;
+  top: 74rpx;
+  background-color: #091119;
+  padding: 20rpx 20rpx 60rpx 20rpx;
+  width: 100%;
+  z-index: 9999999;
+}
+.setting .row .title {
+  display: block;
+  font-size: 28rpx;
+  padding-bottom: 20rpx;
+  color: #ffffff;
+  padding-top: 20rpx;
+}
+.setting .row .items {
+  display: flex;
+  flex-direction: row;
+}
+.setting .row .items .item {
+  padding: 10rpx 20rpx;
+  background-color: #111e32;
+  margin-right: 20rpx;
+  color: #587498;
+  font-size: 24rpx;
+  border: 2rpx solid transparent;
+}
+.setting .row .items .active {
+  border: 2rpx solid #2979ff;
+}
+.tick {
+  display: flex;
+  flex-direction: row;
+  padding: 30rpx 30rpx;
+}
+.tick .left {
+  flex: 1;
+}
+.tick .left .price {
+  font-size: 50rpx;
+  font-weight: bold;
+}
+.tick .left .detail {
+  display: block;
+  color: #587498;
+  font-size: 24rpx;
+  padding-top: 10rpx;
+}
+.tick .left .detail .rise {
+  margin-left: 20rpx;
+}
+.tick .right {
+  flex: 1;
+}
+.tick .right .b {
+  width: 100%;
+}
+.tick .right .b .col {
+  float: right;
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+}
+.tick .right .b .col text {
+  display: block;
+  height: 40rpx;
+  font-size: 24rpx;
+  color: #ffffff;
+}
+.tick .right .b .title {
+  width: 60rpx;
+  text-align: left;
+}
+.tick .right .b .title .t {
+  color: #587498;
+}
+.tools {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  width: 100%;
+}
+.tools .period {
+  flex: 1;
+}
+.tools .flexBox {
+  width: 180rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  position: relative;
+  color: #587498;
+}
+.tools .flexBox .dept {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #587498;
+}
+

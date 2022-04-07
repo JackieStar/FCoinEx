@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "抽奖",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "lottery-draw": "/components/SJ-LotteryDraw/SJ-LotteryDraw"
+  }
+}

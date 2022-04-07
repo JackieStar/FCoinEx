@@ -1,0 +1,10 @@
+{
+  "navigationBarTextStyle": "white",
+  "navigationBarBackgroundColor": "#070219",
+  "navigationBarTitleText": "充值凭证",
+  "usingComponents": {
+    "uni-file-picker": "/uni_modules/uni-file-picker/components/uni-file-picker/uni-file-picker",
+    "u-image": "/node-modules/uview-ui/components/u-image/u-image",
+    "c-tips": "/components/c-tips/c-tips"
+  }
+}

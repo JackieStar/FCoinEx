@@ -1,0 +1,12 @@
+{
+  "navigationBarTextStyle": "white",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "u-icon": "/node-modules/uview-ui/components/u-icon/u-icon",
+    "u-image": "/node-modules/uview-ui/components/u-image/u-image",
+    "c-tips": "/components/c-tips/c-tips",
+    "u-popup": "/node-modules/uview-ui/components/u-popup/u-popup",
+    "u-verification-code": "/node-modules/uview-ui/components/u-verification-code/u-verification-code",
+    "uni-icons": "/node-modules/@dcloudio/uni-ui/lib/uni-icons/uni-icons"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "navigationBarTextStyle": "white",
+  "navigationBarBackgroundColor": "#070219",
+  "navigationBarTitleText": "资产记录",
+  "usingComponents": {
+    "u-image": "/node-modules/uview-ui/components/u-image/u-image"
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/trade/trade",
+    "pages/public/kline",
+    "pages/wallet/wallet",
+    "pages/lottery/index",
+    "pages/wallet/recharge",
+    "pages/wallet/submitRecharge",
+    "pages/wallet/withdraw",
+    "pages/wallet/record",
+    "pages/public/h5kline",
+    "pages/public/login",
+    "pages/public/self",
+    "pages/public/register",
+    "pages/user/user",
+    "pages/user/invit",
+    "pages/user/updateLoginPwd",
+    "pages/user/updateName",
+    "pages/user/webview"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "",
+    "navigationBarBackgroundColor": "#FFFFFF",
+    "backgroundColor": "#f8f8f8"
+  },
+  "tabBar": {
+    "color": "#636481",
+    "selectedColor": "#A541FF",
+    "borderStyle": "black",
+    "backgroundColor": "#1A1B28",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "static/images/tabbar/markets.png",
+        "selectedIconPath": "static/images/tabbar/markets_active.png",
+        "text": "行情"
+      },
+      {
+        "pagePath": "pages/trade/trade",
+        "iconPath": "static/images/tabbar/trade.png",
+        "selectedIconPath": "static/images/tabbar/trade_active.png",
+        "text": "交易"
+      },
+      {
+        "pagePath": "pages/wallet/wallet",
+        "iconPath": "static/images/tabbar/assets.png",
+        "selectedIconPath": "static/images/tabbar/assets_active.png",
+        "text": "资产"
+      }
+    ]
+  },
+  "usingComponents": {
+    "mescroll-body": "/components/mescroll-uni/mescroll-body",
+    "mescroll-uni": "/components/mescroll-uni/mescroll-uni"
+  },
+  "sitemapLocation": "sitemap.json"
+}

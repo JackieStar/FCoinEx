@@ -703,15 +703,16 @@
 					var time = dateTime.getHours() * 100 + dateTime.getMinutes();
 
 					var newItem = [date, null, item.open, item.high, item.low, item.close, item.vol, item.amount,
-					time];
+						time
+					];
 					hqChartData.data.push(newItem);
 
-					internalChart.RecvMinuteRealtimeData({
-						data: hqChartData
-					});
+
 				}
 				//console.log("=========RecvMinuteRealtimeData", item)
-
+				internalChart.RecvMinuteRealtimeData({
+					data: hqChartData
+				});
 				//console.log("=========RecvMinuteRealtimeData", recvData)
 			},
 			periodTabChange(index) {
@@ -749,6 +750,7 @@
 				}
 			},
 			RequestHistoryData: function(data, callback, isMuite) {
+				console.log(callback)
 
 				data.PreventDefault = true;
 				let that = this;
@@ -764,12 +766,12 @@
 					code: 'btc',
 					k: '1min'
 				}).then(res => {
-					console.log(res)
-					let recvData=res.data
+					// console.log(res)
+					let recvData = res.data
 					var internalChart = g_KLine.JSChart.JSChartContainer;
 					var period = internalChart.Period;
 					var symbol = internalChart.Symbol;
-					
+
 					var hqChartData = {
 						code: 0,
 						data: [],
@@ -779,18 +781,21 @@
 					hqChartData.name = this.Symbol;
 					//TODO:把recvData => hqchart内部格式 格式看教程
 					//HQChart使用教程30-K线图如何对接第3方数据15-轮询增量更新1分钟K线数据
-					
+
 					// var item = recvData.tick;
 					for (var i = 0; i < recvData.length; i++) {
 						var item = recvData[i];
 						var timestamp = i * 1000;
 						var dateTime = new Date();
 						// dateTime.setTime(timestamp);
-						var date = dateTime.getFullYear() * 10000 + (dateTime.getMonth() + 1) * 100 + dateTime.getDate();
+						var date = dateTime.getFullYear() * 10000 + (dateTime.getMonth() + 1) * 100 + dateTime
+							.getDate();
 						var time = dateTime.getHours() * 100 + dateTime.getMinutes();
-					
-						var newItem = [date, null, Number(item.open), Number(item.hight), Number(item.low),  Number(item.close), Number(item.volume), Number(item.price),
-						time];
+
+						var newItem = [date, null, Number(item.open), Number(item.hight), Number(item.low),
+							Number(item.close), Number(item.volume), Number(item.price),
+							time
+						];
 						hqChartData.data.push(newItem);
 					}
 					console.log(hqChartData)
@@ -798,8 +803,8 @@
 						data: hqChartData
 					});
 				});
-				
-				
+
+
 				//console.log("=========RecvMinuteRealtimeData", item)
 				// callback({data: d});
 				// this.syncSubRealtimeKline()

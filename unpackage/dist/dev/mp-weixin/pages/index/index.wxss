@@ -1,0 +1,226 @@
+@charset "UTF-8";
+/* 页面左右间距 */
+/* 文字尺寸 */
+/*文字颜色*/
+/* 边框颜色 */
+/* 图片加载中颜色 */
+/* 行为相关颜色 */
+page {
+  background: #070219;
+  padding-top: 140rpx;
+}
+.market-header {
+  width: 100%;
+  height: 158rpx;
+  text-align: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #070219;
+  z-index: 10000;
+}
+.market-header .avatar {
+  float: left;
+  margin-top: 50rpx;
+  margin-left: 24rpx;
+}
+.market-header .market-text {
+  height: 158rpx;
+  font-size: 36rpx;
+  font-family: PingFang SC;
+  font-weight: 400;
+  color: #ffffff;
+  margin-top: 10rpx;
+  line-height: 158rpx;
+  margin-right: 54rpx;
+}
+.m-t {
+  margin-top: 16rpx;
+}
+.scroll-view-market {
+  width: 100%;
+}
+.menu {
+  padding: 20rpx 24rpx;
+  display: flex;
+  justify-content: space-between;
+  font-size: 28rpx;
+  color: #EBEEF5;
+  font-weight: bold;
+}
+.menu .fiat {
+  width: 340rpx;
+  height: 120rpx;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  background: #1a1b28;
+  border-radius: 10rpx;
+  padding: 0 45rpx;
+  justify-content: space-between;
+}
+.menu .fiat .label {
+  display: flex;
+  flex-direction: column;
+  padding-left: 20rpx;
+}
+.menu .fiat .sub {
+  font-size: 24rpx;
+  font-weight: normal;
+}
+.menu .fiat .menu-icon {
+  width: 58rpx;
+}
+.menu .fiat text {
+  font-size: 30rpx;
+}
+.menu .m-r {
+  margin-right: 14rpx;
+}
+.menu .m-l {
+  margin-left: 14rpx;
+}
+.menu .ex {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.menu .ex .item {
+  width: 100%;
+  height: 100rpx;
+  line-height: 100rpx;
+  background: #ffffff;
+  align-items: center;
+  text-align: center;
+  vertical-align: middle;
+}
+.menu .ex .shop {
+  margin-top: 10rpx;
+}
+.menu .ex image {
+  vertical-align: middle;
+  width: 50rpx;
+  height: 55rpx;
+  margin-right: 20rpx;
+}
+.menu .ex .miner {
+  width: 45rpx;
+  height: 45rpx;
+}
+/* 头部 轮播图 */
+.carousel-section {
+  position: relative;
+  padding-top: 10px;
+}
+.carousel-section .titleNview-placing {
+  height: 25px;
+  padding-top: 44px;
+  box-sizing: content-box;
+}
+.carousel-section .titleNview-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 426rpx;
+  transition: 0.4s;
+}
+.carousel {
+  width: 100%;
+  height: 218rpx;
+}
+.carousel .carousel-item {
+  width: 100%;
+  height: 100%;
+  padding: 0 28rpx;
+  overflow: hidden;
+}
+.carousel image {
+  width: 100%;
+  height: 100%;
+  border-radius: 10rpx;
+}
+/* 公告 */
+.cate-section {
+  padding: 20rpx 22rpx 20rpx 22rpx;
+}
+/* 市值排行 */
+.coin-section {
+  padding: 4rpx 30rpx 24rpx;
+}
+.coin-section .s-header {
+  display: flex;
+  align-items: center;
+  height: 30rpx;
+  line-height: 30rpx;
+  padding-top: 30rpx;
+  padding-bottom: 30rpx;
+}
+.coin-section .s-header .col {
+  font-size: 28rpx;
+  color: #8A959F;
+  flex: 1;
+}
+.coin-section .s-header .r {
+  text-align: center;
+}
+.coin-section .s-row {
+  display: flex;
+  align-items: center;
+  height: 120rpx;
+}
+.coin-section .s-row .subtitle {
+  font-size: 24rpx;
+  font-weight: normal;
+  color: #8A959F;
+  padding: 4rpx 0 10rpx 0;
+}
+.coin-section .s-row .uni-tag--success {
+  color: #fff;
+  background-color: #23B57D;
+  border-width: 0.5px;
+  border-style: solid;
+  border-color: #23B57D;
+  width: 160rpx;
+  height: 58rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  float: right;
+}
+.coin-section .s-row .uni-tag--error {
+  color: #fff;
+  background-color: #D83A53;
+  border-width: 0.5px;
+  border-style: solid;
+  border-color: #D83A53;
+  width: 160rpx;
+  height: 58rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 58rpx;
+  float: right;
+}
+.coin-section .s-row .col {
+  font-size: 28rpx;
+  color: #fff;
+  flex: 1;
+}
+.coin-section .s-row .coinLogo {
+  width: 36rpx;
+  height: 36rpx;
+  margin-right: 8px;
+  display: inline-block;
+  vertical-align: middle;
+  float: left;
+}
+.coin-section .s-row .light {
+  font-size: 34rpx;
+  font-size: 30rpx;
+}
+.coin-section .s-row .r {
+  text-align: center;
+}
+

@@ -1,0 +1,65 @@
+@charset "UTF-8";
+/* 页面左右间距 */
+/* 文字尺寸 */
+/*文字颜色*/
+/* 边框颜色 */
+/* 图片加载中颜色 */
+/* 行为相关颜色 */
+.tabs-wrapper.data-v-2a08effe {
+  width: 100%;
+  height: 140rpx;
+  display: flex;
+  align-items: center;
+}
+.tabs-wrapper .tabs-item.data-v-2a08effe {
+  width: 50%;
+  height: 140rpx;
+  font-size: 30rpx;
+  font-family: PingFang SC;
+  font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 100rpx;
+}
+.tabs-wrapper .tabs-item text.data-v-2a08effe {
+  margin-left: 2rpx;
+  z-index: 10;
+}
+.tabs-wrapper .tabs-item .title-bg.data-v-2a08effe {
+  margin-bottom: -22rpx;
+}
+.trade-list.data-v-2a08effe {
+  padding: 20rpx 40rpx;
+  background-color: #1a1a1a;
+  border-bottom: 1rpx solid #303030;
+}
+.trade-list .trade-money.data-v-2a08effe {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.trade-list .trade-money text.data-v-2a08effe {
+  font-size: 30rpx;
+  font-family: PingFang SC;
+  font-weight: 400;
+  color: #ffffff;
+}
+.trade-list .trade-time.data-v-2a08effe {
+  width: 100%;
+  display: flex;
+  margin-top: 4rpx;
+  justify-content: space-between;
+}
+.trade-list .trade-time text.data-v-2a08effe {
+  font-size: 24rpx;
+  font-family: PingFang SC;
+  font-weight: 400;
+  color: #5c6672;
+}
+.trade-list-wrapper.data-v-2a08effe {
+  width: 100%;
+  height: 90vh;
+  overflow-y: scroll;
+}
+

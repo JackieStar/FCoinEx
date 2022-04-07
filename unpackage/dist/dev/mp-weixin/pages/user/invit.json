@@ -1,0 +1,9 @@
+{
+  "navigationBarTextStyle": "white",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "c-navbar": "/components/c-navbar/c-navbar",
+    "u-image": "/node-modules/uview-ui/components/u-image/u-image",
+    "c-nav-bar": "/components/c-navbar/c-navbar"
+  }
+}
