@@ -112,6 +112,7 @@
 							if (JSON.parse(res.data).code == 200) {
 								let data = JSON.parse(res.data).data
 								this.transfer_img = data.full_url
+								this.$u.toast(JSON.parse(res.data).message)
 								console.log(data)
 							} else {
 								this.$u.toast(JSON.parse(res.data).message)
@@ -127,15 +128,14 @@
 				});
 			},
 			handleSubmit() {
-				// console.log('img', this.transfer_img)
 				let params = {
 					coin_type: 'USDT-TRC20',
 					amount: this.amount,
-					transfer_img: '/static/images/b/BTC.png',
-					transfer_addr: 'ddgg23fser134tgvrw'
+					transfer_img: this.transfer_img,
+					transfer_addr: this.transfer_addr
 				}
 				this.financeRecharge(params).then(res => {
-					this.$api.msg('充值成功')
+					this.$u.toast(res.message)
 				})
 			},
 			// 粘贴
