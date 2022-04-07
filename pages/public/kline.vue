@@ -1,5 +1,11 @@
 <template>
 	<view class="contaier">
+		<view class="head-box">
+			<view class="head-name">
+				btc usdt
+			</view>
+			<image class="head-img" src="../../static/images/trade/qiehuan@2x.png" mode=""></image>
+		</view>
 		<view class="tick">
 			<!-- <view class="left">
 				<view class="price" :class="{upText: (tick != undefined && tick.change >= 0),downText: (tick != undefined && tick.change < 0)}">{{tick != undefined ? tick.close : 0.00}}</view>
@@ -859,6 +865,26 @@
 </script>
 
 <style lang="scss">
+	.head-box{
+		width: 100%;
+		box-sizing: border-box;
+		padding: 21rpx 28rpx;
+		display: flex;
+		align-items: center;
+		.head-name{
+			font-size: 36rpx;
+			font-family: PingFang SC;
+			font-weight: 400;
+			color: #FFFFFF;
+		}
+		.head-img{
+			width: 31rpx;
+			height: 27rpx;
+			margin-left: 20rpx;
+		}
+	}
+	
+	
 	page {
 		background-color: #101725;
 	}
