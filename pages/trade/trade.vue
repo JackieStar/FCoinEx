@@ -81,20 +81,20 @@
 		<!-- 当前、历史 -->
 		<view class="tabs-switch-wrapper flex_between_box">
 			<view class="tabs-left-box">
-				<view class="tab-item" @click="handleChangeType('handup')">
-					<view class="item-color" :class="[activeType == 'handup' ? 'active-color' : '']">
+				<view class="tab-item" @click="handleChangeType('hold')">
+					<view class="item-color" :class="[activeType == 'hold' ? 'active-color' : '']">
 						{{ i18n.trade.now }}
 					</view>
-					<view v-if="activeType == 'handup'" class="text-line-box">
-						<image class="text-line" src="../../static/images/trade/text-line.png" mode=""></image>
-					</view>
-				</view>
-				<view class="tab-item" @click="handleChangeType('hold')">
-					<view class="item-color" :class="[activeType == 'hold' ? 'active-color' : '']">持仓</view>
 					<view v-if="activeType == 'hold'" class="text-line-box">
 						<image class="text-line" src="../../static/images/trade/text-line.png" mode=""></image>
 					</view>
 				</view>
+				<!-- <view class="tab-item mar-left-67" @click="handleChangeType('hold')">
+					<view class="item-color" :class="[activeType == 'hold' ? 'active-color' : '']">持仓</view>
+					<view v-if="activeType == 'hold'" class="text-line-box">
+						<image class="text-line" src="../../static/images/trade/text-line.png" mode=""></image>
+					</view>
+				</view> -->
 				<view class="tab-item mar-left-67" @click="handleChangeType('history')">
 					<view class="item-color" :class="[activeType == 'history' ? 'active-color' : '']">
 						{{ i18n.trade.histroy }}
@@ -112,29 +112,29 @@
 					src="../../static/images/trade/open.png" mode=""></image>
 			</view>
 		</view>
-		<view class="" v-if="activeType == 'handup'">
+		<!-- <view class="" v-if="activeType == 'handup'">
 			<handleup-item v-for="item in orderDate" :key="item.id" :infoItem="item"></handleup-item>
-		</view>
+		</view> -->
 		<view class="" v-if="activeType == 'hold'">
-
+			<handleup-item v-for="item in orderDate" :key="item.id" :infoItem="item"></handleup-item>
 		</view>
 		<view class="" v-if="activeType == 'history'">
 			<view class="item-card-box" v-for="item in orderDate" :key="item.id">
 				<view class="triangle-box"></view>
-				<view class="card-head">BTC_USDT 1.0x</view>
+				<view class="card-head">{{item.product_name}} {{item.lever}}x</view>
 				<view class="card-content-box">
 					<view class="content-item flex_between_box">
 						<view class="content-text-box">
-							<view class="label">开仓数量</view>
-							<view class="amount">100</view>
+							<view class="label">{{ i18n.trade.openNumber }}</view>
+							<view class="amount">{{item.hand_number}}</view>
 						</view>
 						<view class="content-text-box">
-							<view class="label">开仓价格</view>
+							<view class="label">{{ i18n.trade.openPrice }}</view>
 							<view class="amount">100.33</view>
 						</view>
 						<view class="content-text-box">
-							<view class="label">涨跌</view>
-							<view class="amount red-text">Long</view>
+							<view class="label">{{ i18n.trade.riseDown }}</view>
+							<view  class="amount" :class="[item.rise_fall==1?'green-text':'red-text']">{{item.rise_fall_label}}</view>
 						</view>
 					</view>
 					<view class="content-item flex_between_box">
@@ -144,18 +144,18 @@
 						</view>
 						<view class="content-text-box">
 							<view class="label">收益</view>
-							<view class="amount">100</view>
+							<view class="amount">{{item.profit}}</view>
 						</view>
 						<view class="content-text-box">
 							<view class="label">收益率</view>
-							<view class="amount green-text">100</view>
+							<view class="amount green-text">{{item.profit_rate}}</view>
 						</view>
 					</view>
 				</view>
 				<view class="card-footer">
 					<view class="footer-item flex_between_box">
 						<view class="left-text">{{ i18n.trade.fee }}</view>
-						<view class="right-text">5 USDT</view>
+						<view class="right-text">{{item.fee}} USDT</view>
 					</view>
 					<view class="footer-item flex_between_box">
 						<view class="left-text">{{ i18n.trade.openTime }}</view>
@@ -196,13 +196,13 @@
 				amountValue: 1, // 数量
 				price: '', // 价格
 				isOpen: false, // 是否查看全部
-				activeType: 'handup', //  订单类型：hold持仓；handup挂单情况；history历史
+				activeType: 'hold', //  订单类型：hold持仓；handup挂单情况；history历史
 
 				orderDate: [], // 订单列表数据
 				isSendHttp: false, // 是否点击发送请求中
 
 				productCode: 'btc', // 产品code
-				productName:'btc usdt'
+				productName: 'btc usdt'
 
 			};
 		},
@@ -229,6 +229,9 @@
 				};
 				this.productInfo(params).then(res => {
 					this.productData = res.data;
+					this.price = this.productData.price
+					this.amountValue=this.productData.set_amount[0]
+					this.multipleValue=this.productData.lever[0]
 				});
 			},
 			getProduct() {
@@ -251,7 +254,13 @@
 					status: 0
 				}
 				this.orderList(params).then(res => {
-					this.orderDate = res.data;
+					console.log(res)
+					if (this.activeType == 'handup') {
+						this.orderDate = res.data.data;
+					} else {
+						this.orderDate = res.data
+					}
+
 				});
 			},
 			// 开仓买入
@@ -265,8 +274,12 @@
 						lever: this.multipleValue,
 						rise_fall: type
 					}
-					this.submitOrder().then(res => {
+					this.submitOrder(params).then(res => {
+						
 						this.getOrderList()
+						setTimeout(()=>{
+							this.$u.toast(res.message)
+						},1000)
 						this.isSendHttp = false
 					}).catch(err => {
 						this.isSendHttp = false
@@ -286,6 +299,7 @@
 			// 切换是否查看全部
 			handleChangeOpen() {
 				this.isOpen = !this.isOpen;
+				this.getOrderList()
 			},
 			// 切换订单类型
 			handleChangeType(type) {
@@ -471,6 +485,7 @@
 		height: 94rpx;
 		padding: 0 34rpx 0 60rpx;
 		margin-bottom: 34rpx;
+		margin-top: 30rpx;
 
 		.tabs-left-box {
 			height: 94rpx;
@@ -792,10 +807,10 @@
 	}
 
 	.red-text {
-		color: #ff0101;
+		color: #ff0101 !important;
 	}
 
 	.green-text {
-		color: #01ff37;
+		color: #01ff37 !important;
 	}
 </style>

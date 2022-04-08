@@ -2,36 +2,36 @@
 	<view class="history-card-box">
 		<view class="triangle-box"></view>
 		<view class="history-head flex_between_box">
-			<view class="title">BTC_USDT 1.0x</view>
+			<view class="title">{{infoItem.product_name}} {{infoItem.lever}}X</view>
 			<view class="">
-				<view class="num green-text">+1000.22</view>
-				<view class="rate green-text">+180%</view>
+				<view class="num green-text">+{{infoItem.now_price}}</view>
+				<view class="rate green-text">{{infoItem.price_diff}}%</view>
 			</view>
 		</view>
 		<view class="history-content-box">
 			<view class="content-item flex_between_box">
 				<view class="content-text-box">
-					<view class="label">{{ i18n.trade.openNumer }}</view>
-					<view class="amount">100</view>
+					<view class="label">{{ i18n.trade.openNumber }}</view>
+					<view class="amount">{{infoItem.hand_number}}</view>
 				</view>
 				<view class="content-text-box">
 					<view class="label">{{ i18n.trade.openPrice }}</view>
-					<view class="amount">100.33</view>
+					<view class="amount">{{infoItem.price}}</view>
 				</view>
 				<view class="content-text-box">
 					<view class="label">{{ i18n.trade.riseDown }}</view>
-					<view class="amount red-text">Long</view>
+					<view  class="amount" :class="[infoItem.rise_fall==1?'green-text':'red-text']">{{infoItem.rise_fall_label}}</view>
 				</view>
 			</view>
 		</view>
 		<view class="card-info">
 			<view class="info-item flex_between_box">
 				<view class="left-text">{{ i18n.trade.fee }}</view>
-				<view class="right-text">5 USDT</view>
+				<view class="right-text">{{infoItem.fee}} USDT</view>
 			</view>
 			<view class="info-item flex_between_box">
 				<view class="left-text">{{ i18n.trade.openTime }}</view>
-				<view class="right-text">03-04-2022 12:00</view>
+				<view class="right-text">{{infoItem.created_at}}</view>
 			</view>
 		</view>
 		<view class="card-handle-wrapper">
@@ -53,6 +53,9 @@
 
 <script>
 	import {
+		commonMixin
+	} from '@/common/mixin/mixin.js';
+	import {
 		mapState,
 		mapActions
 	} from 'vuex';
@@ -66,6 +69,7 @@
 				}
 			} // 数据
 		},
+		mixins: [commonMixin],
 		data() {
 			return {
 				inputValue: '', // 输入的价格
@@ -76,15 +80,16 @@
 			...mapActions('trade', ['getProductList', 'productInfo', 'submitOrder', 'orderList']),
 			// 选择百分比
 			handleSelectRate() {
+				let that = this
 				let select = ['10%', '20%', '50%', '100%']
 				uni.showActionSheet({
 					itemList: select,
 					success(res) {
-						this.rateValue = select[res.tapIndex]
-						console.log(res.tapIndex)
+						that.rateValue = select[res.tapIndex]
+						console.log(that.rateValue)
 					},
 					fail(res) {
-						
+
 					}
 				})
 			}
@@ -104,6 +109,7 @@
 		top: 0;
 		left: 0;
 	}
+
 	.history-card-box {
 		width: 694rpx;
 		margin: auto;
@@ -274,10 +280,10 @@
 	}
 
 	.red-text {
-		color: #ff0101;
+		color: #ff0101 !important;
 	}
 
 	.green-text {
-		color: #01ff37;
+		color: #01ff37 !important;
 	}
 </style>

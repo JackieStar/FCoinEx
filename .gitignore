@@ -3,7 +3,7 @@
 .vscode
 node_modules
 /dist
-
+/unpackage
 # local env files
 .env.local
 .env.*.local
