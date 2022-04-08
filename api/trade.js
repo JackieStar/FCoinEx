@@ -22,3 +22,19 @@ export function productInfo(data) {
 	data
   })
 }
+// 开仓买入
+export function submitOrder(data) {
+  return request({
+    url: '/api/order/buy',
+    method: 'post',
+	data
+  })
+}
+// 订单列表
+export function orderList(data) {
+  return request({
+    url: `/api/order/list?type=${data.type}&status=${data.status}&code=${data.code}`,
+    method: 'GET',
+	data
+  })
+}

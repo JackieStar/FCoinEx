@@ -2,7 +2,7 @@
 	<div class='divchart'>
 		<view class="head-box">
 			<view class="head-name">
-				btc usdt
+				{{productName}}
 			</view>
 			<image class="head-img" src="../../static/images/trade/qiehuan@2x.png" mode=""></image>
 		</view>
@@ -225,6 +225,14 @@
 		JSChart: null
 	};
 	export default {
+		props: {
+			productName: {
+				type: String,
+				default () {
+					return ''
+				}
+			} // 数据
+		},
 		data() {
 			return {
 				Symbol: '600000.sh',

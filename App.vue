@@ -75,6 +75,40 @@
 		height: 100;
 		background: #070219;
 	}
+	.flex_center_box {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+	}
+	
+	.flex_left_box {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: flex-start;
+	}
+	
+	.flex-r-satrt {
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: flex-start;
+	}
+	
+	.flex_right_box {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: flex-end;
+	}
+	
+	.flex_between_box {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+	}
 	/*
 		全局公共样式和字体图标
 	*/
