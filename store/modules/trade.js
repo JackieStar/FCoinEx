@@ -1,7 +1,9 @@
 import {
 	getProductLine,
 	getProductList,
-	productInfo
+	productInfo,
+	submitOrder,
+	orderList
 } from '@/api/trade'
 // import {} from './../mutations_type'
 
@@ -48,7 +50,30 @@ const trade = {
 					reject(error)
 				})
 			})
-		}
+		},
+		submitOrder({
+			commit
+		}, data) {
+			return new Promise((resolve, reject) => {
+				submitOrder(data).then(res => {
+					resolve(res)
+				}).catch(error => {
+					reject(error)
+				})
+			})
+		},
+		orderList({
+			commit
+		}, data) {
+			return new Promise((resolve, reject) => {
+				orderList(data).then(res => {
+					resolve(res)
+				}).catch(error => {
+					reject(error)
+				})
+			})
+		},
+		
 	}
 }
 
