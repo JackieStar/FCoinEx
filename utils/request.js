@@ -35,7 +35,7 @@ export default function $http(options) {
 	   } else {
 		  uni.showToast({
 		       icon: 'none',
-		       title: response.data.msg
+		       title: response.data.message
 		   });
 		  reject(response.data);
 	   }

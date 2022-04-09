@@ -29,6 +29,7 @@
 	
 // #ifdef H5
 import HQChart from './umychart.uniapp.h5.js'
+import './umychart.resource/font/iconfont.css'
 // #endif
 	
 // #ifndef H5
@@ -37,8 +38,8 @@ import {JSCommonHQStyle} from './umychart.style.wechat.js'
 import {JSConsole} from './umychart.console.wechat.js'
 
 //禁用日志
-//JSConsole.Complier.Log=()=>{ };
-//JSConsole.Chart.Log=()=>{ };
+JSConsole.Complier.Log=()=>{ };
+JSConsole.Chart.Log=()=>{ };
 // #endif
 
 function DefaultData() { }
@@ -281,19 +282,44 @@ export default
 			if (jsChart) jsChart.OnSize();
 		},
 		
+		SetHQChartStyle()
+		{
+			// #ifdef H5
+			this.SetHQChartStyle_h5();
+			// #endif
+			
+			// #ifndef H5
+			this.SetHQChartStyle_app();
+			// #endif
+			
+		},
+		
+		SetHQChartStyle_h5()
+		{
+			var blackStyle=HQChart.HQChartStyle.GetStyleConfig(HQChart.STYLE_TYPE_ID.BLACK_ID);
+			HQChart.JSChart.SetStyle(blackStyle);
+			//this.$refs.kline.style.backgroundColor=blackStyle.BGColor;	//div背景色设置黑色
+		},
+		
+		SetHQChartStyle_app()
+		{
+			var blackStyle=JSCommonHQStyle.GetStyleConfig(JSCommonHQStyle.STYLE_TYPE_ID.BLACK_ID);
+			JSCommon.JSChart.SetStyle(blackStyle);
+		},
+		
 		CreateHQChart()
 		{
-			if (this.ChartType=="Minute") this.CreateMinuteChart();
-			else this.CreateKLineChart();
+			this.SetHQChartStyle();
+			
+			if (this.ChartType=="Minute") 
+				return this.CreateMinuteChart();
+			else 
+				return this.CreateKLineChart();
 		},
 		
 		CreateKLineChart_h5()  //创建K线图
 		{
 		    this.ClearChart();
-			
-			var blackStyle=HQChart.HQChartStyle.GetStyleConfig(HQChart.STYLE_TYPE_ID.BLACK_ID);
-			HQChart.JSChart.SetStyle(blackStyle);
-			//this.$refs.kline.style.backgroundColor=blackStyle.BGColor;	//div背景色设置黑色
 			
 			var chart=HQChart.JSChart.Init(this.$refs.kline);
 			
@@ -318,10 +344,6 @@ export default
 			element.ID = this.KLineID;
 			element.Height = this.ChartHeight;  //高度宽度需要手动绑定!!
 			element.Width = this.ChartWidth;
-			
-			var blackStyle=JSCommonHQStyle.GetStyleConfig(JSCommonHQStyle.STYLE_TYPE_ID.BLACK_ID);
-			
-			JSCommon.JSChart.SetStyle(blackStyle);
 				
 			var chart = JSCommon.JSChart.Init(element);
 			this.KLine.Option.NetworkFilter=this.NetworkFilter;
@@ -352,10 +374,6 @@ export default
 		{
 			this.ClearChart();
 			
-			var blackStyle=HQChart.HQChartStyle.GetStyleConfig(HQChart.STYLE_TYPE_ID.BLACK_ID);
-			HQChart.JSChart.SetStyle(blackStyle);
-			//this.$refs.kline.style.backgroundColor=blackStyle.BGColor;	//div背景色设置黑色
-			
 			var chart=HQChart.JSChart.Init(this.$refs.kline);
 			this.Minute.Option.Symbol=this.Symbol;
 			this.Minute.Option.NetworkFilter=this.NetworkFilter;
@@ -377,12 +395,6 @@ export default
 			element.ID = this.KLineID;
 			element.Height = this.ChartHeight;  //高度宽度需要手动绑定!!
 			element.Width = this.ChartWidth;
-				
-			//用黑色风格
-			//var blackStyle=JSCommonHQStyle.GetStyleConfig(JSCommonHQStyle.STYLE_TYPE_ID.BLACK_ID);	
-			//JSCommon.JSChart.SetStyle(blackStyle);
-			//var testttt=JSCommon.MARKET_SUFFIX_NAME.GetSHODecimal();
-			//JSCommon.MARKET_SUFFIX_NAME.GetSHODecimal=(symbol)=>{ return 4; };	//设置期权代码
 					
 			var chart = JSCommon.JSChart.Init(element);
 			
@@ -479,6 +491,13 @@ export default
 			var jsChart=this.GetJSChart();
 			
 			if (this.IsKLineChart() && jsChart)	jsChart.ChangeRight(right);
+		},
+		
+		ChangeKLineDrawType(id)
+		{
+			var jsChart=this.GetJSChart();
+			
+			if (this.IsKLineChart() && jsChart)	jsChart.ChangeKLineDrawType(id);
 		},
 		
 		///////////////////////////////////////////////

@@ -99,6 +99,7 @@ module.exports = {
 			filter: '筛选',
 			secritKey: '秘钥',
 			noData: '暂无数据',
+			loading:'加载中',
 			lang: {
 				en: '英文',
 				zh: '中文'
@@ -132,13 +133,18 @@ module.exports = {
 			openAmount: '开仓金额',
 			rise: '买/涨',
 			down: '卖/跌',
-			now: '当前',
+			now: '当前委托',
+			hold:'持仓',
 			histroy: '历史',
 			showAll: '显示全部',
 			openNumber: '开仓数量',
 			riseDown: '涨跌',
 			fee: '手续费',
+			sellPrice:'平仓价格',
+			profit:'收益',
+			profitRate:"收益率",
 			openTime: '开仓时间',
+			pingcan:'平仓时间',
 			placeholder: '请输入',
 			btn1: '平仓',
 			btn2: '市场价全平',
@@ -150,7 +156,10 @@ module.exports = {
 			hs: '换手',
 			sz: '总市值',
 			lb: '量比',
-			price: '初始价格'
+			price: '初始价格',
+			errorAmount:'请输入数量',
+			errorRate:'请选择平台比例',
+			cancelOrder:'撤销订单？'
 			
 		},
 		lottery: {

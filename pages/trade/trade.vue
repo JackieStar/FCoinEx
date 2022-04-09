@@ -1,7 +1,7 @@
 <template>
 	<view class="container">
 		<Kline ref="line" @changePro="handleChangePro" :productName="productName" :list="line"
-			:productCode="productCode"></Kline>
+			:productData="productData" :productCode="productCode"></Kline>
 		<!-- <view>
 			<canvas
 				id="kline2"
@@ -27,7 +27,7 @@
  -->
 		<view class="card-item-wrapper" flex="main:justify cross:center">
 			<view class="card-item">
-				<text>100.2</text>
+				<text>{{priceInfo.total_assets}}</text>
 				<view>{{ i18n.trade.totalEquity }}(USDT)</view>
 			</view>
 			<view class="card-item">
@@ -91,20 +91,21 @@
 		<!-- 当前、历史 -->
 		<view class="tabs-switch-wrapper flex_between_box">
 			<view class="tabs-left-box">
-				<view class="tab-item" @click="handleChangeType('hold')">
-					<view class="item-color" :class="[activeType == 'hold' ? 'active-color' : '']">
+				<view class="tab-item" @click="handleChangeType('handup')">
+					<view class="item-color" :class="[activeType == 'handup' ? 'active-color' : '']">
 						{{ i18n.trade.now }}
+					</view>
+					<view v-if="activeType == 'handup'" class="text-line-box">
+						<image class="text-line" src="../../static/images/trade/text-line.png" mode=""></image>
+					</view>
+				</view>
+				<view class="tab-item mar-left-67" @click="handleChangeType('hold')">
+					<view class="item-color" :class="[activeType == 'hold' ? 'active-color' : '']">{{ i18n.trade.hold }}
 					</view>
 					<view v-if="activeType == 'hold'" class="text-line-box">
 						<image class="text-line" src="../../static/images/trade/text-line.png" mode=""></image>
 					</view>
 				</view>
-				<!-- <view class="tab-item mar-left-67" @click="handleChangeType('hold')">
-					<view class="item-color" :class="[activeType == 'hold' ? 'active-color' : '']">持仓</view>
-					<view v-if="activeType == 'hold'" class="text-line-box">
-						<image class="text-line" src="../../static/images/trade/text-line.png" mode=""></image>
-					</view>
-				</view> -->
 				<view class="tab-item mar-left-67" @click="handleChangeType('history')">
 					<view class="item-color" :class="[activeType == 'history' ? 'active-color' : '']">
 						{{ i18n.trade.histroy }}
@@ -122,12 +123,8 @@
 					src="../../static/images/trade/open.png" mode=""></image>
 			</view>
 		</view>
-		<!-- <view class="" v-if="activeType == 'handup'">
-			<handleup-item v-for="item in orderDate" :key="item.id" :infoItem="item"></handleup-item>
-		</view> -->
-		<view class="" v-if="activeType == 'hold'">
-			<handleup-item v-for="item in orderDate" :key="item.id" :infoItem="item"></handleup-item>
-		</view>
+
+
 		<view class="" v-if="activeType == 'history'">
 			<view class="item-card-box" v-for="item in orderDate" :key="item.id">
 				<view class="triangle-box"></view>
@@ -136,11 +133,11 @@
 					<view class="content-item flex_between_box">
 						<view class="content-text-box">
 							<view class="label">{{ i18n.trade.openNumber }}</view>
-							<view class="amount">{{item.hand_number}}</view>
+							<view class="amount">{{item.buy_total_price}}</view>
 						</view>
 						<view class="content-text-box">
 							<view class="label">{{ i18n.trade.openPrice }}</view>
-							<view class="amount">100.33</view>
+							<view class="amount">{{item.price}}</view>
 						</view>
 						<view class="content-text-box">
 							<view class="label">{{ i18n.trade.riseDown }}</view>
@@ -151,16 +148,16 @@
 					</view>
 					<view class="content-item flex_between_box">
 						<view class="content-text-box">
-							<view class="label">平仓价格</view>
-							<view class="amount">100</view>
+							<view class="label">{{i18n.trade.sellPrice}}</view>
+							<view class="amount">{{item.sell_price}}</view>
 						</view>
 						<view class="content-text-box">
-							<view class="label">收益</view>
+							<view class="label">{{i18n.trade.profit}}</view>
 							<view class="amount">{{item.profit}}</view>
 						</view>
 						<view class="content-text-box">
-							<view class="label">收益率</view>
-							<view class="amount green-text">{{item.profit_rate}}</view>
+							<view class="label">{{i18n.trade.profitRate}}</view>
+							<view class="amount " :class="[item.profit_rate>0?'green-text':'red-text']">{{item.profit_rate>0?'+':''}}{{(item.profit_rate*100).toFixed(2)}}%</view>
 						</view>
 					</view>
 				</view>
@@ -171,34 +168,33 @@
 					</view>
 					<view class="footer-item flex_between_box">
 						<view class="left-text">{{ i18n.trade.openTime }}</view>
-						<view class="right-text">03-04-2022 12:00</view>
+						<view class="right-text">{{item.created_at}}</view>
 					</view>
 					<view class="footer-item flex_between_box">
-						<view class="left-text">{{ i18n.trade.openTime }}</view>
-						<view class="right-text">03-04-2022 12:00</view>
+						<view class="left-text">{{ i18n.trade.pingcan }}</view>
+						<view class="right-text">{{item.pingcang_at}}</view>
 					</view>
 				</view>
 			</view>
 		</view>
+		<view v-else>
+			<handleup-item v-for="item in orderDate" @refreshOrder="getOrderList" :key="item.id" :infoItem="item"
+				:type="activeType"></handleup-item>
+		</view>
 
 		<u-popup v-model="productPopup" mode="top">
 			<view class="top-popup-box">
-
-				<!-- v-for="(item, i) in markets" :key="item.symbol" -->
-				<!-- markets -->
 				<view class="popup-coin-section">
 					<view class="s-header">
 						<view class="col">{{ i18n.index.market.title1 }}</view>
 						<view class="col r">{{ i18n.index.market.title2 }}</view>
 						<view class="col r">{{ i18n.index.market.title3 }}</view>
 					</view>
-					<scroll-view scroll-y="true" style="height: 456rpx;">
+					<scroll-view scroll-y="true" style="max-height: 80vh;">
 						<product-item :item="item" v-for="(item, i) in markets" @handleChoose="chooseProduct"
 							:key="item.symbol"></product-item>
 					</scroll-view>
-
 				</view>
-
 			</view>
 		</u-popup>
 	</view>
@@ -232,7 +228,7 @@
 				amountValue: 1, // 数量
 				price: '', // 价格
 				isOpen: false, // 是否查看全部
-				activeType: 'hold', //  订单类型：hold持仓；handup挂单情况；history历史
+				activeType: 'handup', //  订单类型：hold持仓；handup挂单情况；history历史
 
 				orderDate: [], // 订单列表数据
 				isSendHttp: false, // 是否点击发送请求中
@@ -241,27 +237,41 @@
 				productName: 'btc usdt',
 
 				markets: [],
-				line: []
+				line: [],
+				priceInfo: {},
+				clear: '',
+				isHavePage: false,
+				isSendLoading: false,
+				page: 1
 
 			};
 		},
 		onLoad(e) {
-
 			this.getUserInfo();
-			this.getProductInfo();
-
-			this.getOrderList()
-		},
-		onShow() {
 			this.getMaketList();
 		},
-		onReady() {
+		onShow() {
 
+
+			this.clear = setInterval(this.getProductInfo, 5000)
 		},
-		onReachBottom() {},
+		//隐藏的时候 停止定时器和清空hqchart的实例
+		onHide() {
+			clearInterval(this.clear);
+		},
+		//退出的时候 停止定时器和清空hqchart的实例
+		onUnload() {
+			clearInterval(this.clear);
+		},
+		onReachBottom() {
+			if (!this.isSendLoading) {
+				this.page++
+				this.getOrderList()
+			}
+		},
 		methods: {
 			...mapActions('user', ['userInfo']),
-			...mapActions('trade', ['getProductList', 'productInfo', 'submitOrder', 'orderList']),
+			...mapActions('trade', ['getProductList', 'productInfo', 'submitOrder', 'orderList', 'productPrice']),
 			...mapActions('common', ['marketList']),
 			handleChangePro() {
 				this.productPopup = true
@@ -269,7 +279,7 @@
 			chooseProduct(item) {
 				this.productCode = item.code
 				this.productName = item.name
-				this.getProductInfo();
+				this.getProductInfo(1);
 				if (!this.isOpen) {
 					this.getOrderList()
 				}
@@ -278,9 +288,27 @@
 			getMaketList() {
 				this.marketList().then(res => {
 					this.markets = res.data.data;
+					this.productCode = this.markets[0].code
+					this.productName = this.markets[0].name
+					this.getProductInfo(1);
+					this.getOrderList()
+					this.getProductPrice()
 				});
 			},
-			getProductInfo() {
+			getProductPrice() {
+
+				this.productPrice({
+					code: this.productCode
+				}).then(res => {
+
+					this.priceInfo = res.data
+
+				});
+			},
+			getProductInfo(type) {
+				if (!this.productCode) {
+					return
+				}
 				let params = {
 					code: this.productCode
 				};
@@ -290,10 +318,14 @@
 					this.amountValue = this.productData.set_amount[0]
 					this.multipleValue = this.productData.lever[0]
 					this.line = res.data.line
-					setTimeout(() => {
-						this.$refs.line.CreateKLineChart()
-						// this.$refs.line.ChangeKLinePeriod(4)
-					}, 500)
+					if (type == 1) {
+						setTimeout(() => {
+							this.$refs.line.CreateMinuteChart_app()
+							this.$refs.line.CreateKLineChart()
+
+						}, 500)
+					}
+
 				});
 			},
 
@@ -304,19 +336,35 @@
 				});
 			},
 			getOrderList() {
+				this.isSendLoading = true
 				let params = {
 					type: this.activeType,
 					code: this.isOpen ? '' : this.productCode,
-					status: 0
+					status: 0,
+					page: this.page,
+					limit: 10
 				}
-				this.orderList(params).then(res => {
-					console.log(res)
-					if (this.activeType == 'handup') {
-						this.orderDate = res.data.data;
-					} else {
-						this.orderDate = res.data
-					}
 
+				this.orderList(params).then(res => {
+					console.log(res.data)
+					this.isSendLoading = false
+					if (this.activeType == 'hold') {
+						this.orderDate = res.data;
+					} else {
+						let records = res.data.data
+						if (this.page == 1) {
+							this.orderDate = records
+						} else {
+							if (records && records.length > 0) {
+								if (records.length >= 10) {
+									this.isHavePage = true
+								} else {
+									this.isHavePage = false
+								}
+								this.orderDate = this.orderDate.concat(records)
+							}
+						}
+					}
 				});
 			},
 			// 开仓买入
@@ -355,11 +403,13 @@
 			// 切换是否查看全部
 			handleChangeOpen() {
 				this.isOpen = !this.isOpen;
+				this.page = 1
 				this.getOrderList()
 			},
 			// 切换订单类型
 			handleChangeType(type) {
 				this.activeType = type;
+				this.page = 1
 				this.getOrderList()
 			},
 			handleChoosePrice(price) {
@@ -474,7 +524,7 @@
 		flex-wrap: wrap;
 
 		.lever-btn {
-			width: 100upx;
+			// width: 100upx;
 			height: 60upx;
 			background: #1a1a1a;
 			border-radius: 8upx;
@@ -487,18 +537,22 @@
 			margin-right: 47rpx;
 			margin-bottom: 24rpx;
 			position: relative;
+			min-width: 100rpx;
+
 
 			.lever-text {
-				width: 100upx;
+				width: 100%;
 				height: 60upx;
 				line-height: 60upx;
 				position: absolute;
 				text-align: center;
 				z-index: 20;
+				box-sizing: border-box;
+				padding: 0 12rpx;
 			}
 
 			.btn-bg-image {
-				width: 100upx;
+				width: 100%;
 				height: 60upx;
 				position: absolute;
 				top: 0;
@@ -506,9 +560,9 @@
 				z-index: 10;
 			}
 
-			&:nth-child(5n) {
-				margin-right: 0px;
-			}
+			// &:nth-child(5n) {
+			// 	margin-right: 0px;
+			// }
 		}
 
 		.open-btn {
