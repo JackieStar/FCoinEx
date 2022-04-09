@@ -1,6 +1,7 @@
 <template>
 	<view class="container">
-		<Kline ref="line" :productName="productName"></Kline>
+		<Kline ref="line" @changePro="handleChangePro" :productName="productName" :list="line"
+			:productCode="productCode"></Kline>
 		<!-- <view>
 			<canvas
 				id="kline2"
@@ -52,8 +53,16 @@
 				mode="" />
 		</view>
 		<view class="lever-wrapper">
-			<view class="open-btn">{{productData.price}}</view>
-			<view class="open-btn">Market</view>
+			<view class="open-btn">
+				<view @click="handleChoosePrice(productData.price)" class="lever-text"
+					:class="[price == productData.price?'bg-btn':'']">{{productData.price}}</view>
+				<!-- <image v-if="price == productData.price" class="btn-bg-image"
+					src="../../static/images/trade/btn-radio.png" mode=""></image> -->
+			</view>
+
+			<view class="open-btn" @click="handleChoosePrice('Market')" :class="[price == 'Market'?'bg-btn':'']">
+				<view class="lever-text">Market</view>
+			</view>
 		</view>
 		<view class="title">
 			<text>{{ i18n.trade.openAmount }}</text>
@@ -67,11 +76,12 @@
 				<image v-if="item == amountValue" class="btn-bg-image" src="../../static/images/trade/btn-radio.png"
 					mode=""></image>
 			</view>
-			<view class="custom-box">
+			<view class="custom-box" :class="[amountValue == amount?'bg-btn':'']" @click="handelChooseAmount(amount)">
 				<view class="custom-btn flex_left_box">
 					<input type="number" v-model="amount" placeholder="自定义" placeholder-style="background: linear-gradient(-51deg, #3FBBFE 0%, #A541FF 100%);-webkit-background-clip: text;
 -webkit-text-fill-color: transparent;font-size: 30upx" />
 				</view>
+
 			</view>
 		</view>
 		<view class="handle-btn-wrapper" flex="main:justify cross:center">
@@ -134,7 +144,9 @@
 						</view>
 						<view class="content-text-box">
 							<view class="label">{{ i18n.trade.riseDown }}</view>
-							<view  class="amount" :class="[item.rise_fall==1?'green-text':'red-text']">{{item.rise_fall_label}}</view>
+							<view class="amount" :class="[item.rise_fall==1?'green-text':'red-text']">
+								{{item.rise_fall_label}}
+							</view>
 						</view>
 					</view>
 					<view class="content-item flex_between_box">
@@ -168,12 +180,34 @@
 				</view>
 			</view>
 		</view>
+
+		<u-popup v-model="productPopup" mode="top">
+			<view class="top-popup-box">
+
+				<!-- v-for="(item, i) in markets" :key="item.symbol" -->
+				<!-- markets -->
+				<view class="popup-coin-section">
+					<view class="s-header">
+						<view class="col">{{ i18n.index.market.title1 }}</view>
+						<view class="col r">{{ i18n.index.market.title2 }}</view>
+						<view class="col r">{{ i18n.index.market.title3 }}</view>
+					</view>
+					<scroll-view scroll-y="true" style="height: 456rpx;">
+						<product-item :item="item" v-for="(item, i) in markets" @handleChoose="chooseProduct"
+							:key="item.symbol"></product-item>
+					</scroll-view>
+
+				</view>
+
+			</view>
+		</u-popup>
 	</view>
 </template>
 
 <script>
 	import Kline from './kline.vue'
 	import handleupItem from './handup-item.vue'
+	import productItem from '../../components/product-item.vue'
 	import {
 		mapState,
 		mapActions
@@ -185,10 +219,12 @@
 		mixins: [commonMixin],
 		components: {
 			Kline,
-			handleupItem
+			handleupItem,
+			productItem
 		},
 		data() {
 			return {
+				productPopup: false, // 切换产品弹层
 				userData: {}, // 用户信息
 				productData: {}, // 产品详情
 				amount: null, // 自定义价格
@@ -202,19 +238,22 @@
 				isSendHttp: false, // 是否点击发送请求中
 
 				productCode: 'btc', // 产品code
-				productName: 'btc usdt'
+				productName: 'btc usdt',
+
+				markets: [],
+				line: []
 
 			};
 		},
 		onLoad(e) {
-			this.getProduct();
+
 			this.getUserInfo();
 			this.getProductInfo();
-			setTimeout(() => {
-				this.$refs.line.CreateKLineChart()
-				// this.$refs.line.ChangeKLinePeriod(4)
-			}, 500)
+
 			this.getOrderList()
+		},
+		onShow() {
+			this.getMaketList();
 		},
 		onReady() {
 
@@ -223,6 +262,24 @@
 		methods: {
 			...mapActions('user', ['userInfo']),
 			...mapActions('trade', ['getProductList', 'productInfo', 'submitOrder', 'orderList']),
+			...mapActions('common', ['marketList']),
+			handleChangePro() {
+				this.productPopup = true
+			},
+			chooseProduct(item) {
+				this.productCode = item.code
+				this.productName = item.name
+				this.getProductInfo();
+				if (!this.isOpen) {
+					this.getOrderList()
+				}
+				this.productPopup = false
+			},
+			getMaketList() {
+				this.marketList().then(res => {
+					this.markets = res.data.data;
+				});
+			},
 			getProductInfo() {
 				let params = {
 					code: this.productCode
@@ -230,17 +287,16 @@
 				this.productInfo(params).then(res => {
 					this.productData = res.data;
 					this.price = this.productData.price
-					this.amountValue=this.productData.set_amount[0]
-					this.multipleValue=this.productData.lever[0]
+					this.amountValue = this.productData.set_amount[0]
+					this.multipleValue = this.productData.lever[0]
+					this.line = res.data.line
+					setTimeout(() => {
+						this.$refs.line.CreateKLineChart()
+						// this.$refs.line.ChangeKLinePeriod(4)
+					}, 500)
 				});
 			},
-			getProduct() {
-				this.getProductList({
-					limit: 15
-				}).then(res => {
-					console.log(res);
-				});
-			},
+
 			// 获取用户信息
 			getUserInfo() {
 				this.userInfo().then(res => {
@@ -275,11 +331,11 @@
 						rise_fall: type
 					}
 					this.submitOrder(params).then(res => {
-						
+
 						this.getOrderList()
-						setTimeout(()=>{
+						setTimeout(() => {
 							this.$u.toast(res.message)
-						},1000)
+						}, 1000)
 						this.isSendHttp = false
 					}).catch(err => {
 						this.isSendHttp = false
@@ -306,11 +362,49 @@
 				this.activeType = type;
 				this.getOrderList()
 			},
+			handleChoosePrice(price) {
+				this.price = price
+			}
 		}
 	};
 </script>
 
 <style lang="scss" scoped>
+	.popup-coin-section {
+		padding: 4upx 30upx 24upx;
+
+		.s-header {
+			display: flex;
+			align-items: center;
+			height: 30upx;
+			line-height: 30upx;
+			padding-top: 30upx;
+			padding-bottom: 30upx;
+
+			.col {
+				font-size: $font-base;
+				color: $font-color-dark;
+				flex: 1;
+			}
+
+			.r {
+				text-align: center;
+			}
+		}
+	}
+
+	.top-popup-box {
+		width: 750rpx;
+		background-color: #000000;
+		margin: auto;
+		margin-top: 30rpx;
+		color: #fff;
+	}
+
+	/deep/.u-drawer-top {
+		background-color: #000000 !important;
+	}
+
 	.triangle-box {
 		width: 0px;
 		height: 0px;
@@ -430,6 +524,23 @@
 			text-align: center;
 			margin-right: 32rpx;
 			margin-bottom: 24rpx;
+			position: relative;
+
+			.lever-text {
+				width: 299upx;
+				height: 61upx;
+				line-height: 61upx;
+				position: absolute;
+				text-align: center;
+				z-index: 20;
+			}
+
+
+		}
+
+		.bg-btn {
+			border-radius: 8upx;
+			background: linear-gradient(31deg, #3FBBFE, #A541FF);
 		}
 
 		.custom-box {
@@ -439,6 +550,7 @@
 			border: 1px solid;
 			overflow: hidden;
 			box-sizing: border-box;
+			position: relative;
 
 			.custom-btn {
 				width: 100%;
@@ -452,6 +564,7 @@
 				text-align: center;
 				color: #fff;
 			}
+
 		}
 	}
 

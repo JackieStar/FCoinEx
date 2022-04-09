@@ -20,7 +20,8 @@
 				</view>
 				<view class="content-text-box">
 					<view class="label">{{ i18n.trade.riseDown }}</view>
-					<view  class="amount" :class="[infoItem.rise_fall==1?'green-text':'red-text']">{{infoItem.rise_fall_label}}</view>
+					<view class="amount" :class="[infoItem.rise_fall==1?'green-text':'red-text']">
+						{{infoItem.rise_fall_label}}</view>
 				</view>
 			</view>
 		</view>
@@ -44,8 +45,8 @@
 				<image class="arrow-image" src="../../static/images/trade/xiala@2x.png" mode=""></image>
 			</view>
 			<view class="handle-flex flex_center_box">
-				<view class="handle-green">{{ i18n.trade.btn1 }}</view>
-				<view class="handle-red">{{ i18n.trade.btn2 }}</view>
+				<view class="handle-green" @click="handleSubmitSell(1)">{{ i18n.trade.btn1 }}</view>
+				<view class="handle-red" @click="handleSubmitSell(2)">{{ i18n.trade.btn2 }}</view>
 			</view>
 		</view>
 	</view>
@@ -77,11 +78,27 @@
 			}
 		},
 		methods: {
-			...mapActions('trade', ['getProductList', 'productInfo', 'submitOrder', 'orderList']),
+			...mapActions('trade', ['orderSell']),
+			handleSubmitSell(type) {
+				let num = 1
+				switch (this.rateValue) {
+					case '20%':
+						num = 0.2;
+						break;
+				}
+				let params = {
+					order_id: this.infoItem.id,
+					price: type == 2 ? 'market' : this.inputValue,
+					number: ''
+				}
+				orderSell(params).then(res => {
+					console.log(res)
+				})
+			},
 			// 选择百分比
 			handleSelectRate() {
 				let that = this
-				let select = ['10%', '20%', '50%', '100%']
+				let select = ['20%', '50%', '100%']
 				uni.showActionSheet({
 					itemList: select,
 					success(res) {

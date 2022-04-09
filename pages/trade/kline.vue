@@ -1,16 +1,15 @@
 <template>
 	<div class='divchart'>
-		<view class="head-box">
+		<view class="head-box" @click="handleChangeProduct">
 			<view class="head-name">
-				{{productName}}
+				{{productName}}  USDT
 			</view>
 			<image class="head-img" src="../../static/images/trade/qiehuan@2x.png" mode=""></image>
 		</view>
 		<view class="self-tabs-box">
-			<view class="tab-item-default" v-for="(item,index) in list" :key="index"
-				@click="ChangeKLinePeriod(index)">
-				<view class="tab-text-name" :class="[index==activeId?'current-tab':'']">
-					{{item}}
+			<view class="tab-item-default" v-for="(item,index) in list" :key="index" @click="ChangeKLinePeriod(index+4)">
+				<view class="tab-text-name" :class="[index+4==activeId?'current-tab':'']">
+					{{item.name}}
 				</view>
 			</view>
 		</view>
@@ -24,7 +23,7 @@
 		</view>
 
 
-	<!-- 	<div class="button-sp-area">
+		<!-- 	<div class="button-sp-area">
 			<button class="mini-btn" type="default" size="mini"
 				@click="ChangeKLinePeriod(MINUTE_PERIOD_ID.MINUTE_ID)">分时</button>
 			<button class="mini-btn" type="default" size="mini"
@@ -231,7 +230,19 @@
 				default () {
 					return ''
 				}
-			} // 数据
+			},
+			productCode: {
+				type: String,
+				default () {
+					return ''
+				}
+			},
+			list: {
+				type: Array,
+				default () {
+					return []
+				}
+			},
 		},
 		data() {
 			return {
@@ -252,19 +263,22 @@
 				MINUTE_PERIOD_ID: MINUTE_PERIOD_ID,
 				KLINE_PERIOD_ID: KLINE_PERIOD_ID,
 				activeId: 4,
-				activeName:'1min',
+				activeName: '1min',
 
 
-				list: {
-					4:'1min',
-					5:'5min',
-					6:'15min',
-					7:'30min',
-					8:'60min',
-					9:'4h',
-				},
-				
-				
+				// list: {
+				// 	4: '1min',
+				// 	5: '5min',
+				// 	6: '15min',
+				// 	7: '30min',
+				// 	8: '1h',
+				// 	9: '4h',
+				// },
+			}
+		},
+		watch: {
+			productCode(val) {
+				this.ChangeKLinePeriod(this.activeId)
 			}
 		},
 
@@ -281,6 +295,9 @@
 
 		methods: {
 			...mapActions('trade', ['getProductLine']),
+			handleChangeProduct() {
+				this.$emit('changePro')
+			},
 
 			OnSize_h5() {
 				var chartHeight = this.ChartHeight;
@@ -378,7 +395,8 @@
 			//K线周期切换
 			ChangeKLinePeriod(period) {
 				this.activeId = period
-				this.activeName=this.list[period]
+				
+				this.activeName = this.list[this.activeId - 4].name
 				console.log(period, 'period')
 				this.Minute.IsShow = false;
 				this.KLine.IsShow = true;
@@ -452,12 +470,13 @@
 				}
 			},
 			RequestHistoryData: function(data, callback, isMuite) {
+				// console.log(this.activeId,this.list)
 				data.PreventDefault = true;
 				let that = this;
 
 				this.getProductLine({
-					code: 'btc',
-					k: this.activeName
+					code: this.productCode,
+					k: this.list[Number(this.activeId)-4].k
 				}).then(res => {
 					// console.log(res)
 					let recvData = res.data;
@@ -548,6 +567,8 @@
 		padding: 21rpx 28rpx;
 		display: flex;
 		align-items: center;
+		position: relative;
+		top: 20;
 
 		.head-name {
 			font-size: 36rpx;
@@ -566,10 +587,12 @@
 	.self-tabs-box {
 		width: 100%;
 		display: flex;
-		height: 80rpx;
+		// height: 80rpx;
+		margin-bottom: 20rpx;
+		flex-wrap: wrap;
 
 		.tab-item-default {
-			padding: 0 28rpx;
+			padding: 0 16rpx;
 			height: 80rpx;
 			box-sizing: border-box;
 			line-height: 80rpx;

@@ -38,3 +38,11 @@ export function orderList(data) {
 	data
   })
 }
+// 平仓
+export function orderSell(data) {
+  return request({
+    url: 'api/order/sell',
+    method: 'post',
+	data
+  })
+}
