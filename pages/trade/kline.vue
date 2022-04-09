@@ -2,7 +2,7 @@
 	<div class='divchart'>
 		<view class="head-box" @click="handleChangeProduct">
 			<view class="head-name">
-				{{productName}}  USDT
+				{{productName}} USTD
 			</view>
 			<image class="head-img" src="../../static/images/trade/qiehuan@2x.png" mode=""></image>
 		</view>
@@ -96,7 +96,7 @@
 			//边框
 			Border: {
 				Left: 1,
-				Right: 1, //右边间距
+				Right: 50, //右边间距
 				Top: 0,
 				Bottom: 25
 			},
@@ -246,6 +246,7 @@
 		},
 		data() {
 			return {
+				// 000001.sz
 				Symbol: '600000.sh',
 				ChartWidth: uni.upx2px(750),
 				ChartHeight: uni.upx2px(789),
@@ -567,8 +568,6 @@
 		padding: 21rpx 28rpx;
 		display: flex;
 		align-items: center;
-		position: relative;
-		top: 20;
 
 		.head-name {
 			font-size: 36rpx;
