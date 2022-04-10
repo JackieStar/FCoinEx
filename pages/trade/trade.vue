@@ -157,7 +157,8 @@
 						</view>
 						<view class="content-text-box">
 							<view class="label">{{i18n.trade.profitRate}}</view>
-							<view class="amount " :class="[item.profit_rate>0?'green-text':'red-text']">{{item.profit_rate>0?'+':''}}{{(item.profit_rate*100).toFixed(2)}}%</view>
+							<view class="amount " :class="[item.profit_rate>0?'green-text':'red-text']">
+								{{item.profit_rate>0?'+':''}}{{(item.profit_rate*100).toFixed(2)}}%</view>
 						</view>
 					</view>
 				</view>
@@ -178,7 +179,7 @@
 			</view>
 		</view>
 		<view v-else>
-			<handleup-item v-for="item in orderDate" @refreshOrder="getOrderList" :key="item.id" :infoItem="item"
+			<handleup-item v-for="item in orderDate" @refreshOrder="getNewOrderList" :key="item.id" :infoItem="item"
 				:type="activeType"></handleup-item>
 		</view>
 
@@ -281,12 +282,14 @@
 				this.productName = item.name
 				this.getProductInfo(1);
 				if (!this.isOpen) {
+					this.page = 1
 					this.getOrderList()
 				}
 				this.productPopup = false
 			},
 			getMaketList() {
 				this.marketList().then(res => {
+					this.page = 1
 					this.markets = res.data.data;
 					this.productCode = this.markets[0].code
 					this.productName = this.markets[0].name
@@ -334,6 +337,10 @@
 				this.userInfo().then(res => {
 					this.userData = res.data;
 				});
+			},
+			getNewOrderList(){
+				this.page=1
+				this.getOrderList()
 			},
 			getOrderList() {
 				this.isSendLoading = true

@@ -174,25 +174,20 @@
 			Border: //边框
 			{
 				Left: 1, //左边间距
-				Right: 1, //右边间距
+				Right: 4, //右边间距
 				Bottom: 25, //底部间距
 				Top: 0 //顶部间距
 			},
 
 			Frame: //子框架设置
 				[{
-						SplitCount: 10,
-						StringFormat: 0
+						SplitCount: 3
 					},
 					{
-						SplitCount: 0,
-						StringFormat: 0,
-						height: 0
+						SplitCount: 0
 					},
 					{
-						SplitCount: 0,
-						StringFormat: 0,
-						height: 0
+						SplitCount: 3
 					},
 				],
 
@@ -307,7 +302,6 @@
 				this.changeLine(4)
 			}, 500)
 		},
-
 		onReady() {
 
 		},
@@ -509,14 +503,13 @@
 				console.log(this.activeId, 'period')
 				this.Minute.IsShow = true;
 				this.KLine.IsShow = false;
-				console.log(g_Minute.JSChart)
-				// if (!g_Minute.JSChart) {
-				// 	//不存在创建
-				// 	this.Minute.Option.DayCount = 1;
-				// 	this.CreateMinuteChart();
-				// } else {
-				// 	g_Minute.JSChart.ChangeDayCount(1);
-				// }
+				if (!g_Minute.JSChart) {
+					//不存在创建
+					this.Minute.Option.DayCount = 1;
+					this.CreateMinuteChart();
+				} else {
+					g_Minute.JSChart.ChangeDayCount(1);
+				}
 			},
 
 			NetworkFilter: function(data, callback) {
@@ -567,8 +560,6 @@
 					hqChartData.name = this.Symbol;
 					//TODO:把recvData => hqchart内部格式 格式看教程
 					//HQChart使用教程30-K线图如何对接第3方数据15-轮询增量更新1分钟K线数据
-
-					// var item = recvData.tick;
 					if (this.activeId == 4) {
 						let arr = []
 						for (let i = 0; i < recvData.length; i++) {
@@ -585,10 +576,12 @@
 							// "risefall": 0.06
 							let newItem = {
 								"price": Number(item.price),
+								"close": Number(item.close),
 								"open": Number(item.open),
 								"high": Number(item.high),
 								"low": Number(item.low),
 								"vol": Number(item.volume),
+								"risefall": Number(item.volume),
 								"amount": Number(item.volume) / Number(item.price),
 								"time": time,
 							};
