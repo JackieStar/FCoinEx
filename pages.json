@@ -19,14 +19,6 @@
 			}
 		},
 		{
-			"path": "pages/public/kline",
-			"style": {
-				"navigationBarTitleText": "",
-				"navigationBarTextStyle": "white",
-				"navigationBarBackgroundColor": "#070219"
-			}
-		},
-		{
 			"path": "pages/wallet/wallet",
 			"style": {
 				"navigationBarTextStyle": "white",
@@ -82,14 +74,6 @@
 				"navigationBarTextStyle": "white",
 				"navigationBarBackgroundColor": "#070219",
 				"navigationBarTitleText": "资产记录"
-			}
-		},
-		{
-			"path": "pages/public/h5kline",
-			"style": {
-				"navigationBarTitleText": "",
-				"navigationBarTextStyle": "white",
-				"navigationBarBackgroundColor": "#070219"
 			}
 		},
 		{
