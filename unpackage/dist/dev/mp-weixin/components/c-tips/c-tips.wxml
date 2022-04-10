@@ -1,1 +1,0 @@
-<view class="tips-container data-v-deee43f8"><image class="tips-icon data-v-deee43f8" src="../../static/images/public/tips-icon.png"></image><text class="data-v-deee43f8">{{text}}</text></view>

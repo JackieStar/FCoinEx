@@ -1,9 +1,0 @@
-{
-  "navigationBarTitleText": "",
-  "navigationBarTextStyle": "white",
-  "navigationBarBackgroundColor": "#070219",
-  "usingComponents": {
-    "u-image": "/node-modules/uview-ui/components/u-image/u-image",
-    "k-line": "/pages/public/kline"
-  }
-}
