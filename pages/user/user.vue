@@ -158,11 +158,11 @@ export default {
 			}
 			if (type === 5) {
 				// #ifdef H5
-				window.location.href = this.appData.kf_url;
+				window.location.href = this.appData.app_download;
 				// #endif
 				// #ifdef APP-PLUS
 				uni.navigateTo({
-					url: '/pages/user/webview?url=' + this.appData.kf_url
+					url: '/pages/user/webview?url=' + this.appData.app_download
 				});
 				// #endif
 			}

@@ -16,6 +16,13 @@ export function login(data) {
 		data: data
 	})
 }
+
+export function logout() {
+	return request({
+		url: '/api/logout',
+		method: 'POST'
+	})
+}
 //修改密码
 export function updatePwd(data) {
 	return request({

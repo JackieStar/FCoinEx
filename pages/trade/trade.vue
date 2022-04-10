@@ -31,7 +31,7 @@
 				<view>{{ i18n.trade.totalEquity }}(USDT)</view>
 			</view>
 			<view class="card-item">
-				<text>{{ userData.balance }}</text>
+				<text>{{ userData.balance || 0 }}</text>
 				<view>{{ i18n.trade.balance }}(USDT)</view>
 			</view>
 		</view>
@@ -89,7 +89,7 @@
 			<view class="down-btn" @click="handleTransaction(2)">{{ i18n.trade.down }}</view>
 		</view>
 		<!-- 当前、历史 -->
-		<view class="tabs-switch-wrapper flex_between_box">
+		<view class="tabs-switch-wrapper flex_between_box" >
 			<view class="tabs-left-box">
 				<view class="tab-item" @click="handleChangeType('handup')">
 					<view class="item-color" :class="[activeType == 'handup' ? 'active-color' : '']">
@@ -249,12 +249,12 @@
 			};
 		},
 		onLoad(e) {
-			this.getUserInfo();
 			this.getMaketList();
 		},
 		onShow() {
-
-
+			if (this.loginInfo.hasLogin) {
+				this.getUserInfo();
+			}
 			this.clear = setInterval(this.getProductInfo, 5000)
 		},
 		//隐藏的时候 停止定时器和清空hqchart的实例
@@ -270,6 +270,9 @@
 				this.page++
 				this.getOrderList()
 			}
+		},
+		computed: {
+			...mapState('user', ['loginInfo'])
 		},
 		methods: {
 			...mapActions('user', ['userInfo']),
@@ -295,7 +298,9 @@
 					this.productCode = this.markets[0].code
 					this.productName = this.markets[0].name
 					this.getProductInfo(1);
-					this.getOrderList()
+					if (this.loginInfo.hasLogin) {
+						this.getOrderList()
+					}
 					this.getProductPrice()
 				});
 			},

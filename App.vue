@@ -6,42 +6,10 @@
 		mapState,
 		mapActions
 	} from 'vuex'
-	// #ifdef APP-PLUS
-	import APPUpdate from '@/uni_modules/zhouWei-APPUpdate/js_sdk/appUpdate';
-	// #endif
 	export default {
 		methods: {
 			...mapActions('common', ['coinList',  'getConfig']),
-			...mapActions('user', ['initLogin']),
-			refreshConfig(){
-				// this.getConfig()
-				// setInterval(() => {
-				// 	this.getConfig()
-				// }, 10000)
-			},
-			async connectWs(){
-				// let res = await this.getConfig()
-				// let ws = 'wss://www.huobi.mw/-/s/pro/ws'
-				// if(res.data && res.data.huobiDomain){
-				// 	ws = res.data.huobiDomain
-				// }
-				// this.$store.dispatch('WEBSOCKET_INIT', ws)
-			}
-		},
-		onLaunch: function() {
-			let $this = this
-			
-			$this.connectWs()
-			
-			// $this.coinList()
-			
-			// this.$fire.$on("refreshCoin", () => {
-			// 	$this.coinList()
-			// });
-			
-			// #ifdef APP-PLUS
-			APPUpdate();
-			// #endif
+			...mapActions('user', ['initLogin'])
 		},
 		onShow: function() {
 			console.log('App Show')

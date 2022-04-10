@@ -7,6 +7,7 @@ import {
 import {
 	register,
 	login,
+	logout,
 	updatePwd,
 	updateUserName,
 	userInfo,
@@ -98,7 +99,15 @@ const user = {
 		logout({
 			commit
 		}) {
-			commit(USER_LOGOUT)
+			return new Promise((resolve, reject) => {
+				logout().then(res => {
+					commit(USER_LOGOUT)
+					resolve()
+				}).catch(error => {
+					reject(error)
+				})
+			})
+			
 		},
 		updatePwd({
 			commit
