@@ -12,7 +12,7 @@
 			<view class="input-content">
 				<view class="input-item">
 					<u-image src="../../static/images/public/email.png" width="40upx" height="28upx" />
-					<input placeholder-style="color: #435687" v-model="form.email" :placeholder="i18n.register.email" maxlength="11" @input="inputChange" />
+					<input placeholder-style="color: #435687" v-model="form.email" :placeholder="i18n.register.email" @input="inputChange" />
 				</view>
 				<view class="input-item">
 					<u-image src="../../static/images/public/code.png"  width="30upx" height="35upx" />
@@ -115,7 +115,7 @@ export default {
 	data() {
 		return {
 			form: {
-				email: 'a18859209253@163.com',
+				email: '',
 				password: '',
 				password_confirm: '',
 				tcode: '',
@@ -137,7 +137,7 @@ export default {
 	},
 	onLoad() {},
 	methods: {
-		...mapActions('user', ['register']),
+		...mapActions('user', ['register', 'login']),
 		...mapActions('common', ['sendSms']),
 		inputChange(e) {
 			const key = e.currentTarget.dataset.key;
@@ -200,14 +200,19 @@ export default {
 			this.logining = true;
 			this.register(this.form)
 				.then(res => {
-					this.$api.msg(this.i18n.login.registSuccess, 1000, false, 'none', function() {
-						setTimeout(function() {
-							this.logining = false;
+					this.$api.msg(this.i18n.login.registSuccess, 1000, false, 'none');
+					setTimeout(() => {
+						this.logining = false;
+						let params = {
+							email: this.form.email,
+							password: this.form.password
+						}
+						this.login(params).then(res => {
 							uni.navigateTo({
-								url: '/pages/public/login?redirect=register'
+								url: '/pages/lottery/index'
 							});
-						}, 1000);
-					});
+						})
+					}, 1000);
 				})
 				.catch(error => {
 					this.logining = false;

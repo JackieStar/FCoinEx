@@ -156,7 +156,8 @@ module.exports = {
 		lottery: {
 			tip1: '您有',
 			tip2: '次抽奖机会',
-			tip3: '去交易'
+			tip3: '去交易',
+			noCount: '抽奖次数为0，不能抽奖'
 		},
 		wallet: {
 			title: '资产',
@@ -194,7 +195,8 @@ module.exports = {
 			copyBtn: '复制地址',
 			amount: '充值金额',
 			placeholder: '请输入充值金额',
-			submitBtn: '我已转账'
+			submitBtn: '我已转账',
+			saveCode: '保存二维码'
 		},
 		submitRecharge: {
 			title: '充值凭证',

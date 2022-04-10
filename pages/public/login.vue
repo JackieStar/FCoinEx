@@ -18,7 +18,7 @@
 				<view class="input-item">
 					<u-image style="flex-shrink:0" src="../../static/images/public/password.png" width="36upx" height="39upx" />
 					<input placeholder-style="color: #435687"
-						v-if="isOpenEyes"
+						v-if="!isOpenEyes"
 						type="password" 
 						v-model="form.password" 
 						:placeholder="i18n.login.password"

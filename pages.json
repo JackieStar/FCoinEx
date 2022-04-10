@@ -108,17 +108,6 @@
 			}
 		},
 		{
-			"path": "pages/public/self",
-			"style": {
-				"navigationBarTitleText": "",
-				"navigationStyle": "custom",
-				"app-plus": {
-					"titleNView": false,
-					"animationType": "slide-in-bottom"
-				}
-			}
-		},
-		{
 			"path": "pages/public/register",
 			"style": {
 				"navigationBarTitleText": "",

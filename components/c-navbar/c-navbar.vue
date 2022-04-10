@@ -3,7 +3,8 @@
 		<view class="market-header">
 			<u-icon class="arrow-left" @click="openPage(0)" name="arrow-left" color="#ffffff" size="44" />
 			<view class="market-text">{{title}}</view>
-			<image  @click="openPage(1)" src="../../static/images/wallet/list.png" class="right-icon" />
+			<image v-if="isRightIcon" @click="openPage(1)" src="../../static/images/wallet/list.png" class="right-icon" />
+			<view v-else></view>
 		</view>
 	</view>
 </template>
@@ -14,12 +15,22 @@ export default {
 		title: {
 			type: String,
 			default: ''
+		},
+		isRightIcon: {
+			type: Boolean,
+			default: true
 		}
 	},
 	data() {
 		return {
+			
 		};
 	},
+	methods: {
+		openPage() {
+			uni.navigateBack()
+		}
+	}
 	
 };
 </script>

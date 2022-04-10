@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<c-navbar title="邀请好友" />
+		<c-navbar title="邀请好友" :isRightIcon="false" />
 		<view class="invite-bg">
 			<view flex="main:justify cross:center" style="padding: 0 90upx;">
 				<view flex="dir:top main:center cross:center">

@@ -92,7 +92,7 @@
 		position:relative;
 		
 		&.cell-hover{
-			background:#fafafa;
+			background: $page-color-base;
 		}
 		&.b-b:after{
 			left: 30upx;

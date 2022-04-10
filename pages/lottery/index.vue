@@ -48,8 +48,9 @@ export default {
 			});
 		},
 		gridStart(callback) {
-			// let $this = this;
-			if (this.isLogin()) {
+			if(this.drawCount === 0) {
+				return this.$api.msg(this.i18n.lottery.noCount);
+			}
 				this.lotteryDraw().then(res => {
 					this.lottery_draw_param.winingIndex = res.data.lottery.lotterIndex;
 					//props修改在小程序和APP端不成功，所以在这里使用回调函数传参，
@@ -60,7 +61,6 @@ export default {
 						this.drawCount = this.drawCount - 1;
 					}, 3000);
 				});
-			}
 		},
 		openPage() {
 			uni.switchTab({
