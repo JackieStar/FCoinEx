@@ -3,7 +3,10 @@ import {
 	getProductList,
 	productInfo,
 	submitOrder,
-	orderList
+	orderList,
+	orderSell,
+	orderCancel,
+	productPrice
 } from '@/api/trade'
 // import {} from './../mutations_type'
 
@@ -73,7 +76,37 @@ const trade = {
 				})
 			})
 		},
-		
+		orderSell({
+			commit
+		}, data) {
+			return new Promise((resolve, reject) => {
+				orderSell(data).then(res => {
+					resolve(res)
+				}).catch(error => {
+					reject(error)
+				})
+			})
+		},
+		orderCancel({
+			commit
+		}, data) {
+			return new Promise((resolve, reject) => {
+				orderCancel(data).then(res => {
+					resolve(res)
+				}).catch(error => {
+					reject(error)
+				})
+			})
+		},
+		productPrice({commit},data){
+			return new Promise((resolve, reject) => {
+				productPrice(data).then(res => {
+					resolve(res)
+				}).catch(error => {
+					reject(error)
+				})
+			})
+		}
 	}
 }
 

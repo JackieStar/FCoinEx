@@ -3,16 +3,19 @@
 		<view class="triangle-box"></view>
 		<view class="history-head flex_between_box">
 			<view class="title">{{infoItem.product_name}} {{infoItem.lever}}X</view>
-			<view class="">
+			<view class="" v-if="type=='hold'">
 				<view class="num green-text">+{{infoItem.now_price}}</view>
 				<view class="rate green-text">{{infoItem.price_diff}}%</view>
+			</view>
+			<view class="" v-if="type=='handup'" @click="handleCancel">
+				撤单
 			</view>
 		</view>
 		<view class="history-content-box">
 			<view class="content-item flex_between_box">
 				<view class="content-text-box">
 					<view class="label">{{ i18n.trade.openNumber }}</view>
-					<view class="amount">{{infoItem.hand_number}}</view>
+					<view class="amount">{{infoItem.buy_total_price}}</view>
 				</view>
 				<view class="content-text-box">
 					<view class="label">{{ i18n.trade.openPrice }}</view>
@@ -20,7 +23,9 @@
 				</view>
 				<view class="content-text-box">
 					<view class="label">{{ i18n.trade.riseDown }}</view>
-					<view  class="amount" :class="[infoItem.rise_fall==1?'green-text':'red-text']">{{infoItem.rise_fall_label}}</view>
+					<view class="amount" :class="[infoItem.rise_fall==1?'green-text':'red-text']">
+						{{infoItem.rise_fall_label}}
+					</view>
 				</view>
 			</view>
 		</view>
@@ -34,7 +39,7 @@
 				<view class="right-text">{{infoItem.created_at}}</view>
 			</view>
 		</view>
-		<view class="card-handle-wrapper">
+		<view v-if="type=='hold'" class="card-handle-wrapper">
 			<view class="form-item-box flex_left_box">
 				<input v-model="inputValue" class="login-input" placeholder-class="dart-input" type="text" value=""
 					placeholder="请输入" />
@@ -44,8 +49,8 @@
 				<image class="arrow-image" src="../../static/images/trade/xiala@2x.png" mode=""></image>
 			</view>
 			<view class="handle-flex flex_center_box">
-				<view class="handle-green">{{ i18n.trade.btn1 }}</view>
-				<view class="handle-red">{{ i18n.trade.btn2 }}</view>
+				<view class="handle-green" @click="handleSubmitSell(1)">{{ i18n.trade.btn1 }}</view>
+				<view class="handle-red" @click="handleSubmitSell(2)">{{ i18n.trade.btn2 }}</view>
 			</view>
 		</view>
 	</view>
@@ -62,6 +67,7 @@
 	export default {
 		name: 'handup-item',
 		props: {
+			type: String,
 			infoItem: {
 				type: Object,
 				default () {
@@ -77,11 +83,64 @@
 			}
 		},
 		methods: {
-			...mapActions('trade', ['getProductList', 'productInfo', 'submitOrder', 'orderList']),
+			...mapActions('trade', ['orderSell', 'orderCancel']),
+			handleSubmitSell(type) {
+				let num = 1
+				switch (this.rateValue) {
+					case '20%':
+						num = 0.2;
+						break;
+					case '50%':
+						num = 0.5;
+						break;
+					case '100%':
+						num = 2;
+						break;
+				}
+				if (type == 1) {
+					if (!this.inputValue) {
+						this.$u.toast(this.i18n.trade.errorAmount);
+						return
+					}
+					if (!this.rateValue) {
+						this.$u.toast(this.i18n.trade.errorRate);
+						return
+					}
+				}
+				let params = {
+					order_id: this.infoItem.id,
+					price: type == 2 ? 'market' : this.inputValue,
+					number: num
+				}
+				this.orderSell(params).then(res => {
+					this.$u.toast(res.message);
+					console.log(res)
+					this.$emit('refreshOrder')
+				})
+			},
+			handleCancel() {
+				let that = this
+				uni.showModal({
+					title: this.i18n.common.tip,
+					content: this.i18n.trade.cancelOrder,
+					success: function(res) {
+						if (res.confirm) {
+							that.orderCancel({
+								order_id: that.infoItem.id
+							}).then(res => {
+								that.$u.toast(res.message);
+								that.$emit('refreshOrder')
+							})
+						} else if (res.cancel) {
+							// 取消弹窗
+						}
+					}
+				})
+			},
 			// 选择百分比
 			handleSelectRate() {
 				let that = this
-				let select = ['10%', '20%', '50%', '100%']
+				let select = ['20%', '50%', '100%']
 				uni.showActionSheet({
 					itemList: select,
 					success(res) {
@@ -188,7 +247,7 @@
 		.card-info {
 			width: 100%;
 			box-sizing: border-box;
-			border-bottom: 1rpx solid #484e65;
+
 			padding: 12rpx 18rpx 16rpx 31rpx;
 
 			.info-item {
@@ -212,6 +271,7 @@
 
 		.card-handle-wrapper {
 			padding: 27rpx 27rpx 41rpx 27rpx;
+			border-top: 1rpx solid #484e65;
 
 			.form-item-box {
 				width: 639rpx;

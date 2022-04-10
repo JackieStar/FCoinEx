@@ -300,12 +300,14 @@ function ChartData()
         return result;
     }
 
-    this.GetVol=function()
+    this.GetVol=function(unit)
     {
-        var result=new Array();
+        var value=1;
+        if (ChartData.IsNumber(unit)) value=unit;
+        var result=[];
         for(var i in this.Data)
         {
-            result[i]=this.Data[i].Vol;
+            result[i]=this.Data[i].Vol/value;
         }
 
         return result;
@@ -1914,7 +1916,29 @@ var JSCHART_EVENT_ID =
     ON_PHONE_TOUCH:27,                   //手势点击事件 包含 TouchStart 和 TouchEnd
 
     ON_SPLIT_YCOORDINATE:29,             //分割Y轴及格式化刻度文字
+    
+    ON_DRAW_KLINE_LAST_POINT:35,          //K线图绘制回调事件,返回最后一个点的坐标
+
+    ON_DRAW_COUNTDOWN:41,                 //K线倒计时
+    ON_BIND_DRAWTEXT:42,                  //绑定DRAWTEXT回调
 }
+
+var HQ_DATA_TYPE=
+{
+    KLINE_ID:0,         //K线
+    MINUTE_ID:2,        //当日走势图
+    HISTORY_MINUTE_ID:3,//历史分钟走势图
+    MULTIDAY_MINUTE_ID:4,//多日走势图
+};
+
+//K线叠加 支持横屏
+var OVERLAY_STATUS_ID=
+{
+    STATUS_NONE_ID:0,           //空闲状态
+    STATUS_REQUESTDATA_ID:1,    //请求数据
+    STATUS_RECVDATA_ID:2,       //接收到数据
+    STATUS_FINISHED_ID:3,       //数据下载完成
+};
 
 function PhoneDBClick()
 {
@@ -1983,6 +2007,8 @@ module.exports =
         DataPlus: DataPlus,
         JSCHART_EVENT_ID:JSCHART_EVENT_ID,
         PhoneDBClick:PhoneDBClick,
+        HQ_DATA_TYPE:HQ_DATA_TYPE,
+        OVERLAY_STATUS_ID:OVERLAY_STATUS_ID,
     },
 
     //单个类导出
@@ -2003,4 +2029,6 @@ module.exports =
     JSCommon_ToFixedRect: ToFixedRect,
     JSCommon_JSCHART_EVENT_ID:JSCHART_EVENT_ID,
     JSCommon_PhoneDBClick:PhoneDBClick,
+    JSCommon_HQ_DATA_TYPE:HQ_DATA_TYPE,
+    JSCommon_OVERLAY_STATUS_ID:OVERLAY_STATUS_ID,
 };

@@ -1,30 +1,38 @@
 <template>
 	<div class='divchart'>
-		<view class="head-box">
+		<view class="head-box" @click="handleChangeProduct">
 			<view class="head-name">
-				{{productName}}
+				{{productName}} USTD
 			</view>
 			<image class="head-img" src="../../static/images/trade/qiehuan@2x.png" mode=""></image>
 		</view>
+		<view class="high-text">
+			{{productData.high}}
+		</view>
 		<view class="self-tabs-box">
-			<view class="tab-item-default" v-for="(item,index) in list" :key="index"
-				@click="ChangeKLinePeriod(index)">
-				<view class="tab-text-name" :class="[index==activeId?'current-tab':'']">
-					{{item}}
+			<view class="tab-item-default" v-for="(item,index) in list" :key="index" @click="changeLine(index+4)">
+				<view class="tab-text-name" :class="[index+4==activeId?'current-tab':'']">
+					{{item.name}}
 				</view>
 			</view>
 		</view>
-		<view>
-			<canvas id="kline2" canvas-id='kline2' class='kline2'
-				v-bind:style="{width: ChartWidth+'px', height: ChartHeight+'px'}" v-show="KLine.IsShow"
-				@touchstart="KLineTouchStart" @touchmove='KLineTouchMove' @touchend='KLineTouchEnd'></canvas>
-			<canvas id="minute2" canvas-id='minute2' class='minute'
-				v-bind:style="{width: ChartWidth+'px', height: ChartHeight+'px'}" v-show="Minute.IsShow"
-				@touchstart="MinuteTouchStart" @touchmove='MinuteTouchMove' @touchend='MinuteTouchEnd'></canvas>
+		<view :style="{width: ChartWidth+'px', height: ChartHeight+'px'}" style="position: relative;">
+			<view class="" style="position: absolute;top: 0;
+			left: 0;" :style="{left:KLine.IsShow?'0px':'-10000rpx'}">
+				<canvas style="position: absolute;" id="kline2" canvas-id='kline2' class='kline2'
+					v-bind:style="{width: ChartWidth+'px', height: ChartHeight+'px'}" @touchstart="KLineTouchStart"
+					@touchmove='KLineTouchMove' @touchend='KLineTouchEnd'></canvas>
+			</view>
+			<view class="" style="position: absolute;top: 0;
+			left: 0;" :style="{left:Minute.IsShow?'0px':'-10000rpx'}">
+				<canvas style="position: absolute;" id="minute2" canvas-id='minute2' class='minute'
+					v-bind:style="{width: ChartWidth+'px', height: ChartHeight+'px'}" @touchstart="MinuteTouchStart"
+					@touchmove='MinuteTouchMove' @touchend='MinuteTouchEnd'></canvas>
+			</view>
 		</view>
 
 
-	<!-- 	<div class="button-sp-area">
+		<!-- 	<div class="button-sp-area">
 			<button class="mini-btn" type="default" size="mini"
 				@click="ChangeKLinePeriod(MINUTE_PERIOD_ID.MINUTE_ID)">分时</button>
 			<button class="mini-btn" type="default" size="mini"
@@ -60,7 +68,6 @@
 	DefaultData.GetKLineOption = function() {
 		var data = {
 			Type: '历史K线图',
-
 			//窗口指标
 			Windows: [{
 					Index: 'MA',
@@ -73,7 +80,6 @@
 					Change: false
 				}
 			],
-
 			IsCorssOnlyDrawKLine: true,
 			IsAutoUpdate: true, //是自动更新数据
 			AutoUpdateFrequency: 3000,
@@ -82,12 +88,11 @@
 			IsShowCorssCursorInfo: false, //是否显示十字光标的刻度信息
 			CorssCursorInfo: {
 				Left: 1,
-				Right: 1,
+				Right: 40,
 				Bottom: 1,
 				IsShowCorss: true,
 				PressTime: 300
 			}, //十字光标刻度设置
-
 			//标题设置
 			KLineTitle: {
 				IsShow: false,
@@ -101,7 +106,6 @@
 				Top: 0,
 				Bottom: 25
 			},
-
 			KLine: {
 				Right: 1, //复权 0 不复权 1 前复权 2 后复权
 				Period: 0, //周期: 0 日线 1 周线 2 月线 3 年线
@@ -110,12 +114,10 @@
 				IsShowTooltip: true,
 				DrawType: 0
 			},
-
 			ExtendChart: [{
 					Name: 'KLineTooltip'
 				} //开启手机端tooltip
 			],
-
 			//子框架设置 (Height 窗口高度比例值)
 			Frame: [{
 					SplitCount: 4, //最多输出5个分隔线
@@ -152,43 +154,47 @@
 		var option = {
 			Type: '分钟走势图', //创建图形类型
 
-			//窗口指标
-			Windows: [],
+			Windows: //窗口指标
+				[{
+					Index: "MACD",
+					Modify: false,
+					Change: false
+				}, ],
+
+			Symbol: '000001.sz',
 			IsAutoUpdate: true, //是自动更新数据
-			AutoUpdateFrequency: 3000,
 			DayCount: 1, //1 最新交易日数据 >1 多日走势图
-			IsShowRightMenu: false, //是否显示右键菜单
-			CorssCursorTouchEnd: true,
+			IsShowCorssCursorInfo: true, //是否显示十字光标的刻度信息
+			IsShowRightMenu: true, //是否显示右键菜单
 
 			MinuteLine: {
 				//IsDrawAreaPrice:false,      //是否画价格面积图
 			},
 
-			//边框
-			Border: {
+			Border: //边框
+			{
 				Left: 1, //左边间距
-				Right: 1, //右边间距
-				Top: 20,
-				Bottom: 20
+				Right: 4, //右边间距
+				Bottom: 25, //底部间距
+				Top: 0 //顶部间距
 			},
 
-			//子框架设置
-			Frame: [{
-					SplitCount: 3
-				},
-				{
-					SplitCount: 2
-				},
-				{
-					SplitCount: 3
-				}
-			],
+			Frame: //子框架设置
+				[{
+						SplitCount: 3
+					},
+					{
+						SplitCount: 0
+					},
+					{
+						SplitCount: 3
+					},
+				],
 
-			//扩展图形
-			ExtendChart: [{
-					Name: 'MinuteTooltip'
-				} //手机端tooltip
-			]
+			Overlay: //叠加股票 目前只支持1只股票
+				[
+					//{Symbol:'000001.sh'}
+				]
 		};
 
 		return option;
@@ -231,56 +237,80 @@
 				default () {
 					return ''
 				}
-			} // 数据
+			},
+			productCode: {
+				type: String,
+				default () {
+					return ''
+				}
+			},
+			list: {
+				type: Array,
+				default () {
+					return []
+				}
+			},
+			productData: {
+				type: Object,
+				default () {
+					return {}
+				}
+			}
 		},
 		data() {
 			return {
+				// 000001.sz
 				Symbol: '600000.sh',
 				ChartWidth: uni.upx2px(750),
 				ChartHeight: uni.upx2px(789),
 				KLine: {
-
 					Option: DefaultData.GetKLineOption(),
-					IsShow: true,
+					IsShow: false,
 				},
 				Minute: {
 
 					Option: DefaultData.GetMinuteOption(),
-					IsShow: false,
+					IsShow: true,
 				},
 
 				MINUTE_PERIOD_ID: MINUTE_PERIOD_ID,
 				KLINE_PERIOD_ID: KLINE_PERIOD_ID,
 				activeId: 4,
-				activeName:'1min',
+				activeName: '1min',
 
 
-				list: {
-					4:'1min',
-					5:'5min',
-					6:'15min',
-					7:'30min',
-					8:'60min',
-					9:'4h',
-				},
-				
-				
+				// list: {
+				// 	4: '1min',
+				// 	5: '5min',
+				// 	6: '15min',
+				// 	7: '30min',
+				// 	8: '1h',
+				// 	9: '4h',
+				// },
+			}
+		},
+		watch: {
+			productCode(val) {
+				this.changeLine(this.activeId)
 			}
 		},
 
 		onLoad() {
 			setTimeout(() => {
 				this.CreateKLineChart();
-				this.ChangeKLinePeriod(KLINE_PERIOD_ID.KLINE_MINUTE_ID)
+				this.CreateMinuteChart();
+				this.changeLine(4)
 			}, 500)
 		},
-
 		onReady() {
 
 		},
 
 		methods: {
 			...mapActions('trade', ['getProductLine']),
+			handleChangeProduct() {
+				this.$emit('changePro')
+			},
 
 			OnSize_h5() {
 				var chartHeight = this.ChartHeight;
@@ -378,7 +408,7 @@
 			//K线周期切换
 			ChangeKLinePeriod(period) {
 				this.activeId = period
-				this.activeName=this.list[period]
+				this.activeName = this.list[this.activeId - 4].name
 				console.log(period, 'period')
 				this.Minute.IsShow = false;
 				this.KLine.IsShow = true;
@@ -412,54 +442,110 @@
 				element.Width = this.ChartWidth;
 
 				g_Minute.JSChart = JSCommon.JSChart.Init(element);
+				var blackStyle = JSCommonHQStyle.GetStyleConfig(JSCommonHQStyle.STYLE_TYPE_ID.BLACK_ID);
+				blackStyle.BGColor = 'rgb(12,23,37)'; //背景
+				blackStyle.FrameTitleBGColor = 'rgb(16,28,45)'; //指标标题背景
+				blackStyle.FrameSplitTextColor = 'rgb(101,117,138)'; //刻度颜色
+
+				//K线颜色
+				blackStyle.UpBarColor = 'rgb(0, 176, 124)'; //K线上涨柱子颜色
+				blackStyle.UpTextColor = blackStyle.UpBarColor; //上涨价格颜色
+				blackStyle.DownBarColor = 'rgb(216, 78, 86)'; //K线下跌柱子颜色
+				blackStyle.DownTextColor = blackStyle.DownBarColor; //下跌价格颜色
+
+				//指标线段颜色
+				blackStyle.Index.LineColor[0] = 'rgb(88,106,126)';
+				blackStyle.Index.LineColor[1] = 'rgb(222,217,167)';
+				blackStyle.Index.LineColor[2] = 'rgb(113,161,164)';
+
+				//最新价格刻度颜色
+				blackStyle.FrameLatestPrice.UpBarColor = 'rgb(0, 176, 124)';
+				blackStyle.FrameLatestPrice.DownBarColor = 'rgb(216, 78, 86)';
+
+				//面积图颜色
+				blackStyle.CloseLineColor = 'rgb(113,121,133)'; //收盘价线颜色
+				blackStyle.CloseLineAreaColor = ['rgba(36,41,57,0.8)', 'rgba(22,34,53,0.3)']; //收盘价面积图颜色
+
+				//最高最低价颜色
+				blackStyle.KLine.MaxMin.Color = 'rgb(255,250,240)';
+				JSCommon.JSChart.SetStyle(blackStyle);
+
 				this.Minute.Option.NetworkFilter = this.NetworkFilter;
 				this.Minute.Option.Symbol = this.Symbol;
+				this.Minute.Option.IsCorssOnlyDrawKLine = true; //十字光标只能在K线上
+				this.Minute.Option.CorssCursorTouchEnd = true; //手势结束十字光标自动隐藏
+				this.Minute.Option.IsClickShowCorssCursor = true;
+				this.Minute.Option.IsFullDraw = true;
+				this.Minute.Option.IsApiPeriod = true; //一定要设置为true不然会有意想不到的惊喜
+				// this.KLine.Option.ExtendChart = [{
+				// 	Name: 'KLineTooltip'
+				// }];
 				g_Minute.JSChart.SetOption(this.Minute.Option);
 			},
 
 			CreateMinuteChart() {
 				this.CreateMinuteChart_app();
 			},
+			changeLine(index) {
+				console.log(index)
+				if (index == 4) {
+					this.ChangeMinutePeriod(index)
+				} else {
+					this.ChangeKLinePeriod(index)
+				}
+				// this.ChangeKLinePeriod(index)
+			},
 
 			//走势图多日切换
-			ChangeMinutePeriod: function(period) {
+			ChangeMinutePeriod(period) {
+				this.activeId = period
+				this.activeName = this.list[this.activeId - 4].name
+				console.log(this.activeId, 'period')
 				this.Minute.IsShow = true;
 				this.KLine.IsShow = false;
 				if (!g_Minute.JSChart) {
 					//不存在创建
-					this.Minute.Option.DayCount = period;
+					this.Minute.Option.DayCount = 1;
 					this.CreateMinuteChart();
 				} else {
-					g_Minute.JSChart.ChangeDayCount(period);
+					g_Minute.JSChart.ChangeDayCount(1);
 				}
 			},
 
 			NetworkFilter: function(data, callback) {
 				console.log('========================[HQChart:NetworkFilter] data', data);
 				data.PreventDefault = true;
-				switch (data.Name) {
-					case 'KLineChartContainer::ReqeustHistoryMinuteData': //分钟全量数据下载
-						this.RequestHistoryData(data, callback, true);
-						break;
-					case 'KLineChartContainer::RequestFlowCapitalData': //数字货币不会调用
-						this.RequestHistoryData(data, callback, true);
-						//this.RequestFlowCapitalData(data, callback);
-						break;
-					case 'KLineChartContainer::RequestHistoryData': //日线全量数据下载
-						// this.RequestHistoryData(data, callback, false);
-						this.RequestHistoryData(data, callback, true);
-						break;
-				}
+				// switch (data.Name) {
+				// 	case 'KLineChartContainer::ReqeustHistoryMinuteData': //分钟全量数据下载
+				// 		this.RequestHistoryData(data, callback, true);
+				// 		break;
+				// 	case 'KLineChartContainer::RequestFlowCapitalData': //数字货币不会调用
+
+				// 		//this.RequestFlowCapitalData(data, callback);
+				// 		break;
+				// 	case 'KLineChartContainer::RequestHistoryData': //日线全量数据下载
+				// 		// this.RequestHistoryData(data, callback, false);
+				// 		this.RequestHistoryData(data, callback, true);
+				// 		break;
+				// }
+				this.RequestHistoryData(data, callback, true);
 			},
-			RequestHistoryData: function(data, callback, isMuite) {
+			RequestHistoryData(data, callback, isMuite) {
+				// console.log(this.activeId,this.list)
 				data.PreventDefault = true;
 				let that = this;
+				console.log(this.productCode, this.list[this.activeId - 4].k)
+				uni.showLoading({
+					title: "加载中"
+				})
+
 
 				this.getProductLine({
-					code: 'btc',
-					k: this.activeName
+					code: this.productCode,
+					k: this.list[this.activeId - 4].k
 				}).then(res => {
 					// console.log(res)
+					uni.hideLoading()
 					let recvData = res.data;
 					var internalChart = g_KLine.JSChart.JSChartContainer;
 					var period = internalChart.Period;
@@ -474,39 +560,101 @@
 					hqChartData.name = this.Symbol;
 					//TODO:把recvData => hqchart内部格式 格式看教程
 					//HQChart使用教程30-K线图如何对接第3方数据15-轮询增量更新1分钟K线数据
+					if (this.activeId == 4) {
+						let arr = []
+						for (let i = 0; i < recvData.length; i++) {
+							let item = recvData[i];
+							let timestamp = i * 1000;
+							let dateTime = new Date(item.time);
+							var date = dateTime.getFullYear() * 10000 + (dateTime.getMonth() + 1) * 100 +
+								dateTime
+								.getDate();
+							let time = dateTime.getHours() * 100 + dateTime.getMinutes();
 
-					// var item = recvData.tick;
-					for (var i = 0; i < recvData.length; i++) {
-						var item = recvData[i];
-						var timestamp = i * 1000;
-						var dateTime = new Date(item.time);
-						// dateTime.setTime(timestamp);
-						var date = dateTime.getFullYear() * 10000 + (dateTime.getMonth() + 1) * 100 + dateTime
+							// "avprice": 16.75,
+							// "increase": 0.35949670461354105,
+							// "risefall": 0.06
+							let newItem = {
+								"price": Number(item.price),
+								"close": Number(item.close),
+								"open": Number(item.open),
+								"high": Number(item.high),
+								"low": Number(item.low),
+								"vol": Number(item.volume),
+								"risefall": Number(item.volume),
+								"amount": Number(item.volume) / Number(item.price),
+								"time": time,
+							};
+							arr.push(newItem);
+						}
+						let newDate = new Date();
+						var dateValue = newDate.getFullYear() * 10000 + (newDate.getMonth() + 1) * 100 +
+							newDate
 							.getDate();
-						var time = dateTime.getHours() * 100 + dateTime.getMinutes();
+						let newTime = newDate.getHours() * 100 + newDate.getMinutes();
 
-						var newItem = [
-							date,
-							time,
-							Number(item.open),
-							Number(item.hight),
-							Number(item.low),
-							Number(item.close),
-							Number(item.volume) / Number(item.price),
-							Number(item.volume),
-							Number(item.price)
-						];
-						hqChartData.data.push(newItem);
+						let stockItem = {
+							name: this.Symbol,
+							symbol: '000001.sz',
+							time: newTime,
+							date: dateValue,
+							price: Number(this.productData.price),
+							open: Number(this.productData.open),
+							yclose: Number(this.productData.close),
+							high: Number(this.productData.high),
+							low: Number(this.productData.low),
+							vol: Number(this.productData.volume),
+							amount: Number(this.productData.volume) / Number(this.productData.price),
+							minute: arr
+						};
+
+						let hqMinuteChartData = {
+							code: 0,
+							stock: [stockItem]
+						};
+						// #ifdef H5
+						callback({
+							data: hqMinuteChartData
+						});
+						// #endif
+						// #ifndef H5
+						callback(hqMinuteChartData);
+						// #endif
+					} else {
+						for (let i = 0; i < recvData.length; i++) {
+							let item = recvData[i];
+							let timestamp = i * 1000;
+							let dateTime = new Date(item.time);
+							// dateTime.setTime(timestamp);
+							let date = dateTime.getFullYear() * 10000 + (dateTime.getMonth() + 1) * 100 +
+								dateTime
+								.getDate();
+							let time = dateTime.getHours() * 100 + dateTime.getMinutes();
+							let newItem = [
+								date,
+								time,
+								Number(item.open),
+								Number(item.high),
+								Number(item.low),
+								Number(item.close),
+								Number(item.volume) / Number(item.price),
+								Number(item.volume),
+								time
+							];
+							hqChartData.data.push(newItem);
+						}
+						console.log(hqChartData);
+						// #ifdef H5
+						callback({
+							data: hqChartData
+						});
+						// #endif
+						// #ifndef H5
+						callback(hqChartData);
+						// #endif
 					}
-					console.log(hqChartData);
-					// #ifdef H5
-					callback({
-						data: hqChartData
-					});
-					// #endif
-					// #ifndef H5
-					callback(hqChartData);
-					// #endif
+
+
 				});
 			},
 
@@ -563,13 +711,24 @@
 		}
 	}
 
+	.high-text {
+		font-size: 24rpx;
+		font-family: PingFang SC;
+		font-weight: 400;
+		color: #FF1111;
+		line-height: 30rpx;
+		padding-left: 28rpx;
+	}
+
 	.self-tabs-box {
 		width: 100%;
 		display: flex;
-		height: 80rpx;
+		// height: 80rpx;
+		margin-bottom: 20rpx;
+		flex-wrap: wrap;
 
 		.tab-item-default {
-			padding: 0 28rpx;
+			padding: 0 16rpx;
 			height: 80rpx;
 			box-sizing: border-box;
 			line-height: 80rpx;
