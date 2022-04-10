@@ -1,8 +1,8 @@
 <template>
 	<view class="container">
 		<view class="market-header">
-			<u-image class="avatar" @click="openPage" :src="loginInfo.avatar" shape="circle" width="76rpx" height="76rpx" mode="widthFix" />
-			<view class="market-text">市场</view>
+			<u-image class="avatar" @click="openPage(1)" :src="loginInfo.avatar" shape="circle" width="76rpx" height="76rpx" mode="widthFix" />
+			<view class="market-text">{{i18n.index.title}}</view>
 		</view>
 		<!-- 头部轮播 -->
 		<view class="carousel-section">
@@ -52,7 +52,11 @@
 
 		<!-- <view class="lottery-icon" @click="navTo('/pages/lottery/index')">
 			<image src="../../static/lottery_icon.png"></image>
+			<image src="../../static/lottery_icon.png"></image>
 		</view> -->
+		<view class="kf-icon">
+			<u-image @click="openPage(2)" src="../../static/images/user/kf.png" width="88upx" height="88upx" />
+		</view>
 	</view>
 </template>
 
@@ -68,13 +72,15 @@ export default {
 		return {
 			markets: [],
 			notices: [],
-			carousels: []
+			carousels: [],
+			appData: {}
 		};
 	},
 	onShow() {
 		uni.setNavigationBarTitle({
 			title: this.i18n.index.title
 		});
+		this.getAppConfig();
 		this.getMaketList();
 		// setInterval(() => {
 		// 	this.getMaketList();
@@ -88,23 +94,17 @@ export default {
 		this.loadData();
 		this.getMaketList();
 	},
-	onLoad() {},
-	// onHide() {
-	// 	let ch = `market.overviewv2`;
-	// 	let data = {
-	// 		unsub: ch,
-	// 		id: Date.now() + ''
-	// 	};
-	// 	this.$store.dispatch('WEBSOCKET_SEND', JSON.stringify(data));
-	// 	uni.$off(ch, res => {});
-	// },
+	onLoad() {
+		
+	},
 	onUnload() {},
 	computed: {
 		...mapState('user', ['loginInfo'])
 	},
 	methods: {
 		...mapActions('common', ['marketList', 'adList', 'noticeList']),
-		async loadData() {
+		...mapActions('user', ['appConfig']),
+		loadData() {
 			this.adList().then(res => {
 				let casrousels = res.data;
 				this.carousels = casrousels;
@@ -112,6 +112,11 @@ export default {
 			});
 			this.noticeList({limit: 20}).then(res => {
 				this.notices = res.data;
+			});
+		},
+		getAppConfig() {
+			this.appConfig().then(res => {
+				this.appData = res.data;
 			});
 		},
 		getMaketList() {
@@ -124,11 +129,23 @@ export default {
 				url: `/pages/public/kline?symbol=${item.symbol}`
 			});
 		},
-		open() {},
-		openPage() {
-			uni.navigateTo({
-				url: '/pages/user/user'
-			});
+		openPage(type) {
+			if (type === 1) {
+				uni.navigateTo({
+					url: '/pages/user/user'
+				});
+			}
+			if (type === 2) {
+				// #ifdef H5
+				window.location.href = this.appData.kf_url;
+				// #endif
+				// #ifdef  APP-PLUS
+				uni.navigateTo({
+					url: '/pages/user/webview?url=' + this.appData.kf_url
+				});
+				// #endif
+				
+			}
 		}
 	},
 };
@@ -366,5 +383,9 @@ page {
 		}
 	}
 }
-
+.kf-icon {
+	position: fixed;
+	bottom: 160upx;
+	right: 30upx;
+}
 </style>

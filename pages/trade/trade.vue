@@ -78,7 +78,7 @@
 			</view>
 			<view class="custom-box" :class="[amountValue == amount?'bg-btn':'']" @click="handelChooseAmount(amount)">
 				<view class="custom-btn flex_left_box">
-					<input type="number" v-model="amount" placeholder="自定义" placeholder-style="background: linear-gradient(-51deg, #3FBBFE 0%, #A541FF 100%);-webkit-background-clip: text;
+					<input type="number" v-model="amount" :placeholder="i18n.trade.custom" placeholder-style="background: linear-gradient(-51deg, #3FBBFE 0%, #A541FF 100%);-webkit-background-clip: text;
 -webkit-text-fill-color: transparent;font-size: 30upx" />
 				</view>
 

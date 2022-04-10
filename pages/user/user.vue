@@ -4,19 +4,19 @@
 			<image mode="widthFix" class="bg" src="../../static/images/user/user_bg.png"></image>
 			<view class="market-header">
 				<u-icon class="arrow-left" @click="openPage(0)" name="arrow-left" color="#ffffff" size="44" />
-				<view class="market-text">{{i18n.user.title}}</view>
+				<view class="market-text">{{ i18n.user.title }}</view>
 			</view>
 			<view class="user-info-box">
 				<view class="portrait-box"><image class="portrait" :src="loginInfo.avatar"></image></view>
 				<view class="info-box" @click="toLogin">
 					<view class="username" @click="openPage(1)">
 						{{ loginInfo.name || i18n.user.login }}
-						<u-image class="edit" src="../../static/images/my/edit.png" width="26upx" height="29upx" />
+						<u-image class="edit" src="../../static/images/user/edit.png" width="26upx" height="29upx" />
 					</view>
 					<view class="tip">{{ loginInfo.email }}</view>
 					<view class="tip" @click="handleCopy(loginInfo.id)">
 						UID: {{ loginInfo.id }}
-						<u-image class="copy" src="../../static/images/my/copy.png" width="28upx" height="29upx" />
+						<u-image class="copy" src="../../static/images/user/copy.png" width="28upx" height="29upx" />
 					</view>
 				</view>
 			</view>
@@ -25,15 +25,15 @@
 		<view class="cover-container">
 			<!-- 浏览历史 -->
 			<view class="history-section icon">
-				<list-cell image="/static/images/my/password.png" @eventClick="navTo('/pages/user/updateLoginPwd', true)" :title="i18n.user.password"></list-cell>
-				<list-cell image="/static/images/my/referral.png" @eventClick="navTo('/pages/user/invit', true)" :title="i18n.user.invit"></list-cell>
-				<list-cell image="/static/images/my/language.png" @eventClick="changeLang" :title="i18n.user.language"></list-cell>
-				<list-cell image="/static/images/my/community.png" @eventClick="openPage(2)" :title="i18n.user.community"></list-cell>
-				<list-cell image="/static/images/my/help-center.png" @eventClick="openPage(3)" :title="i18n.user.help"></list-cell>
-				<list-cell image="/static/images/my/about-as.png" @eventClick="openPage(4)" :title="i18n.user.about"></list-cell>
-				<list-cell image="/static/images/my/download.png" border="" :title="i18n.user.download" @eventClick="openPage(5)"></list-cell>
+				<list-cell image="/static/images/user/password.png" @eventClick="navTo('/pages/user/updateLoginPwd', true)" :title="i18n.user.password"></list-cell>
+				<list-cell image="/static/images/user/referral.png" @eventClick="navTo('/pages/user/invit', true)" :title="i18n.user.invit"></list-cell>
+				<list-cell image="/static/images/user/language.png" @eventClick="changeLang" :title="i18n.user.language"></list-cell>
+				<list-cell image="/static/images/user/community.png" @eventClick="openPage(2)" :title="i18n.user.community"></list-cell>
+				<list-cell image="/static/images/user/help-center.png" @eventClick="openPage(3)" :title="i18n.user.help"></list-cell>
+				<list-cell image="/static/images/user/about-as.png" @eventClick="openPage(4)" :title="i18n.user.about"></list-cell>
+				<list-cell image="/static/images/user/download.png" border="" :title="i18n.user.download" @eventClick="openPage(5)"></list-cell>
 			</view>
-			<view class="history-section icon"><list-cell image="/static/images/my/logout.png" border="" :title="i18n.user.logout" @eventClick="toLogout"></list-cell></view>
+			<view class="history-section icon"><list-cell image="/static/images/user/logout.png" border="" :title="i18n.user.logout" @eventClick="toLogout"></list-cell></view>
 		</view>
 
 		<u-action-sheet :cancel-text="i18n.common.cancel" :border-radius="20" :list="langList" @click="clickLang" v-model="showLang"></u-action-sheet>
@@ -55,20 +55,15 @@ export default {
 		return {
 			userInfo: {},
 			showLang: false,
-			langList: []
+			langList: [],
+			appData: {}
 		};
 	},
 	onShow() {
 		uni.setNavigationBarTitle({
 			title: this.i18n.tabBar.me
 		});
-		this.getAppConfig()
-		if (this.loginInfo.hasLogin) {
-			// this.isMerchant().then(res => {
-			// 	this.isMer = res.data;
-			// });
-			// this.loadAuthInfo();
-		}
+		this.getAppConfig();
 		this.langList = [
 			{
 				text: this.i18n.common.lang.en,
@@ -77,6 +72,10 @@ export default {
 			{
 				text: this.i18n.common.lang.zh,
 				lang: 'zh_CN'
+			},
+			{
+				text: this.i18n.common.lang.hk,
+				lang: 'zh_HK'
 			}
 		];
 	},
@@ -85,7 +84,7 @@ export default {
 		...mapState('user', ['loginInfo'])
 	},
 	methods: {
-		...mapActions('user', [ 'appConfig', 'logout']),
+		...mapActions('user', ['appConfig', 'logout']),
 		toLogin() {
 			if (!this.loginInfo.hasLogin) {
 				uni.navigateTo({
@@ -94,9 +93,9 @@ export default {
 			}
 		},
 		getAppConfig() {
-			this.appConfig().then((res)=> {
-				this.appConfig = res.data
-			})
+			this.appConfig().then(res => {
+				this.appData= res.data;
+			});
 		},
 		changeLang() {
 			this.showLang = true;
@@ -116,7 +115,7 @@ export default {
 			uni.setTabBarItem({
 				index: 2,
 				text: this.$t('message').tabBar.assets
-			})
+			});
 		},
 		openPage(type) {
 			if (type === 0) {
@@ -128,45 +127,60 @@ export default {
 				});
 			}
 			if (type === 2) {
-				window.location.href = this.appConfig.add_group
-				// uni.navigateTo({
-				// 	url: '/pages/user/webview?url=' + ''
-				// });
+				// #ifdef H5
+				window.location.href = this.appData.add_group;
+				// #endif
+				// #ifdef APP-PLUS
+				uni.navigateTo({
+					url: '/pages/user/webview?url=' + this.appData.add_group
+				});
+				// #endif
 			}
 			if (type === 3) {
-				window.location.href = this.appConfig.help_center
-				// uni.navigateTo({
-				// 	url: '/pages/user/webview?url=' + ''
-				// });
+				// #ifdef H5
+				window.location.href = this.appData.help_center;
+				// #endif
+				// #ifdef APP-PLUS
+				uni.navigateTo({
+					url: '/pages/user/webview?url=' + this.appData.help_center
+				});
+				// #endif
 			}
 			if (type === 4) {
-				window.location.href = this.appConfig.abount_me
-				// uni.navigateTo({
-				// 	url: '/pages/user/webview?url=' + ''
-				// });
+				// #ifdef H5
+				window.location.href = this.appData.abount_me;
+				// #endif
+				// #ifdef APP-PLUS
+				uni.navigateTo({
+					url: '/pages/user/webview?url=' + this.appData.abount_me
+				});
+				// #endif
 			}
 			if (type === 5) {
-				window.location.href = this.appConfig.kf_url
-				// uni.navigateTo({
-				// 	url: '/pages/user/webview?url=' + ''
-				// });
+				// #ifdef H5
+				window.location.href = this.appData.kf_url;
+				// #endif
+				// #ifdef APP-PLUS
+				uni.navigateTo({
+					url: '/pages/user/webview?url=' + this.appData.kf_url
+				});
+				// #endif
 			}
-			
 		},
 		// 复制
 		handleCopy(id) {
-			console.log('id', id)
+			console.log('id', id);
 			uni.setClipboardData({
 				data: id.toString(),
 				success: () => {
-					this.$api.msg('UID已复制');
+					this.$api.msg(this.i18n.toast.copySuccess);
 				}
 			});
 		},
 		//退出登录
 		toLogout() {
 			uni.showModal({
-				content: '确定要退出登录?',
+				content: this.i18n.user.isLogout,
 				success: e => {
 					if (e.confirm) {
 						this.logout();

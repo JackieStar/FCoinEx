@@ -8,7 +8,7 @@
 				<view class="rate green-text">{{infoItem.price_diff}}%</view>
 			</view>
 			<view class="" v-if="type=='handup'" @click="handleCancel">
-				撤单
+				{{i18n.trade.revoke}}
 			</view>
 		</view>
 		<view class="history-content-box">
@@ -42,7 +42,7 @@
 		<view v-if="type=='hold'" class="card-handle-wrapper">
 			<view class="form-item-box flex_left_box">
 				<input v-model="inputValue" class="login-input" placeholder-class="dart-input" type="text" value=""
-					placeholder="请输入" />
+					:placeholder="i18n.trade.placeholder" />
 			</view>
 			<view class="form-item-box flex_between_box mar-t-22" @click="handleSelectRate()">
 				<view class="dart-input left-width">{{rateValue?rateValue:'AMT'}}</view>

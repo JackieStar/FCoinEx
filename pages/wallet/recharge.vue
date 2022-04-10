@@ -15,7 +15,7 @@
 		<image class="user-bg" src="../../static/images/wallet/bg.png" />
 		<view class="code-wrapper">
 			<img :src="rechargeInfo.recharge_qr" class="code-img" />
-			<view class="save-code" @click="saveImg(rechargeInfo.recharge_qr)">{{i18n.recharge.saveCode}}</view>
+			<view class="save-code" @click="saveImg(rechargeInfo.recharge_qr)">{{ i18n.recharge.saveCode }}</view>
 		</view>
 		<view class="title">
 			<text>{{ i18n.recharge.rechargeAddr }}</text>
@@ -94,27 +94,17 @@ export default {
 		},
 		// 保存图片
 		async saveImg(url) {
-			console.log('url', url)
-			let src = url
-			src = await (uni.getImageInfo({src}));
-			console.log('await uni.getImageInfo({src})', uni.getImageInfo({src}))
-			console.log('src[1].path', src[1].path)
+			// #ifdef H5
+			this.$api.msg(this.i18n.recharge.saveImg);
+			// #endif
+			// #ifndef APP-NVUE
 			uni.saveImageToPhotosAlbum({
-			    filePath: src[1].path,
-			    success: () => {
-			        console.log('save success')
-			    }
+				filePath: url,
+				success: () => {
+					this.$api.msg(this.i18n.recharge.saveSuccess);
+				}
 			});
-			// uni.saveImageToPhotosAlbum({
-			// 	filePath: url,
-			// 	success: function () {
-			// 		uni.showToast({
-			// 			title: '二维码保存成功',
-			// 			icon: 'success',
-			// 			duration: 2000
-			// 		});
-			// 	}
-			// });
+			// #endif
 		}
 	}
 };

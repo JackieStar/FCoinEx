@@ -13,11 +13,7 @@ module.exports = {
 			forget: '忘记密码？',
 			noAccount: '您还没有注册?',
 			registration: '去注册',
-		
-			welcome: '欢迎来到',
-			mobileError: '手机号不正确',
 			loginSuccess: '登录成功',
-			pwdError: '密码格式不正确',
 			pwdNotMatch: '两次密码不一致',
 			registSuccess: '注册成功',
 		},
@@ -58,6 +54,7 @@ module.exports = {
 			help: '帮助中心',
 			about: '关于我们',
 			download: '下载APP',
+			isLogout: '确认退出？',
 			logout: '退出'
 		},
 		invit: {
@@ -86,36 +83,15 @@ module.exports = {
 		},
 		common: {
 			getCode: '获取验证码',
-			retryCode: 'X秒重新获取',
-			overCode: '重新获取',
-			update: '修改',
-			insert: '新增',
-			delete: '删除',
 			ok: '确认',
 			cancel: '取消',
-			copy: '复制',
-			tip: '提示',
-			set: '设置',
-			reset: '重置',
-			filter: '筛选',
-			secritKey: '秘钥',
 			noData: '暂无数据',
 			loading:'加载中',
 			lang: {
 				en: '英文',
-				zh: '中文'
+				zh: '中文',
+				hk: '繁体'
 			},
-			status: '状态',
-			wan: '万',
-			level: '级',
-			time: '时间',
-			amount: '金额',
-			vol: '数量',
-			day: '天',
-			hour: '小时',
-			select: '请选择',
-			open: '开启',
-			stop: '暂停',
 			close: '关闭',
 			request: '请求中...',
 			verifyTitle: '请完成安全验证',
@@ -160,8 +136,9 @@ module.exports = {
 			price: '初始价格',
 			errorAmount:'请输入数量',
 			errorRate:'请选择平台比例',
-			cancelOrder:'撤销订单？'
-			
+			cancelOrder:'撤销订单？',
+			revoke: '撤单',
+			custom: '自定义'
 		},
 		lottery: {
 			tip1: '您有',
@@ -201,12 +178,14 @@ module.exports = {
 		},
 		recharge: {
 			title: '充值',
+			saveImg: '请长按二维码保存图片',
 			rechargeAddr: '充值地址',
 			copyBtn: '复制地址',
 			amount: '充值金额',
 			placeholder: '请输入充值金额',
 			submitBtn: '我已转账',
-			saveCode: '保存二维码'
+			saveCode: '保存二维码',
+			saveSuccess: '二维码保存成功'
 		},
 		submitRecharge: {
 			title: '充值凭证',

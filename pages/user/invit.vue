@@ -17,14 +17,14 @@
 				<text class="input-item-title">{{ i18n.invit.tCode }}</text>
 				<view flex>
 					<text class="invite-code">{{ invitData.tcode }}</text>
-					<u-image @click="handleCopy(invitData.tcode)" src="../../static/images/my/copy.png" width="33upx" height="33upx" />
+					<u-image @click="handleCopy(invitData.tcode)" src="../../static/images/user/copy.png" width="33upx" height="33upx" />
 				</view>
 			</view>
 			<view class="input-item" flex="main:justify cross:center">
 				<text class="input-item-title">{{ i18n.invit.tLink }}</text>
 				<view flex>
 					<text class="invite-link">{{ invitData.tlink }}</text>
-					<u-image @click="handleCopy(invitData.tlink)" src="../../static/images/my/copy.png" width="33upx" height="33upx" />
+					<u-image @click="handleCopy(invitData.tlink)" src="../../static/images/user/copy.png" width="33upx" height="33upx" />
 				</view>
 			</view>
 			<view class="invit-tips-wrapper">
