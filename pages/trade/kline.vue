@@ -155,13 +155,9 @@
 			Type: '分钟走势图', //创建图形类型
 
 			Windows: //窗口指标
-				[{
-					Index: "MACD",
-					Modify: false,
-					Change: false
-				}, ],
+				[ ],
 
-			Symbol: '000001.sz',
+			Symbol: '000001.et',
 			IsAutoUpdate: true, //是自动更新数据
 			DayCount: 1, //1 最新交易日数据 >1 多日走势图
 			IsShowCorssCursorInfo: true, //是否显示十字光标的刻度信息
@@ -632,11 +628,12 @@
 							let time = dateTime.getHours() * 100 + dateTime.getMinutes();
 							let newItem = [
 								date,
-								time,
+								Number(item.price),
 								Number(item.open),
 								Number(item.high),
 								Number(item.low),
 								Number(item.close),
+								
 								Number(item.volume) / Number(item.price),
 								Number(item.volume),
 								time
