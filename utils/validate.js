@@ -21,6 +21,13 @@ export function isMobile (s) {
 export function isPassword (s) {
   return /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,18}$/.test(s)
 }
+// /**
+//  * 名称
+//  * @param {Object} s
+//  */
+// export function isName (s) {
+//   return /^[a-z A-Z0-9._]+$/.test(s)
+// }
 
 /**
  * 支付密码

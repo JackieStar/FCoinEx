@@ -2,7 +2,8 @@
 	<view class="container">
 		<c-navbar title="邀请好友" :isRightIcon="false" />
 		<view class="invite-bg">
-			<view flex="main:justify cross:center" style="padding: 0 90upx;">
+			<view class="invite-title">{{i18n.invit.invitFriends}}</view>
+			<view flex="main:justify cross:center" style="padding: 0 90upx;">	
 				<view flex="dir:top main:center cross:center">
 					<text>{{ invitData.friends_count }}</text>
 					<view class="invite-text">{{ i18n.invit.friends }}</view>
@@ -157,7 +158,19 @@ export default {
 	margin: 80upx auto 20upx auto;
 	background-size: 100% 100%;
 	background-image: url(../../static/images/invit/invite_bg.png);
-	padding: 255upx 50upx 50upx 50upx;
+	padding: 55upx 50upx 50upx 50upx;
+	.invite-title {
+		margin-bottom: 120upx;
+		text-align: center;
+		font-size: 50upx;
+		font-family: Source Han Sans CN;
+		font-weight: 500;
+		color: #78653A;
+		text-shadow: 0px 2px 0px rgba(255, 255, 255, 0.2);
+		background: linear-gradient(129.1836deg, #78653A 0%, #71571C 100%);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent
+	}
 	text {
 		font-size: 60upx;
 		font-family: PingFang SC;

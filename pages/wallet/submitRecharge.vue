@@ -6,7 +6,7 @@
 					:image-styles="imageStyles">
 					<u-image src="../../static/images/wallet/upload_plus.png" width="126upx" height="126upx" />
 				</uni-file-picker>
-				<view class="recharge-img">转账截图</view>
+				<view class="recharge-img">{{i18n.submitRecharge.rechargeImg}}</view>
 			</view>
 			<view flex="main:center cross:center">
 				<text style="color: #fff; margin-right: 20upx;">{{i18n.submitRecharge.exImg}}</text>
@@ -84,9 +84,6 @@
 					this.rechargeInfo = res.data
 				})
 			},
-			success(e) {
-				console.log('e', e)
-			},
 			select(e) {
 				console.log('e', e)
 				let file = e.tempFiles[0].file
@@ -112,14 +109,14 @@
 							if (JSON.parse(res.data).code == 200) {
 								let data = JSON.parse(res.data).data
 								this.transfer_img = data.full_url
-								this.$u.toast(JSON.parse(res.data).message)
+								this.$u.toast(this.i18n.submitRecharge.uploadSuccess)
 								console.log(data)
 							} else {
-								this.$u.toast(JSON.parse(res.data).message)
+								this.$u.toast(this.i18n.submitRecharge.uploadFail)
 							}
 
 						} else {
-							this.$u.toast('上传失败')
+							this.$u.toast(this.i18n.submitRecharge.uploadFail)
 						}
 					},
 					fail: (err) => {
@@ -135,7 +132,7 @@
 					transfer_addr: this.transfer_addr
 				}
 				this.financeRecharge(params).then(res => {
-					this.$u.toast(res.message)
+					this.$u.toast(this.i18n.submitRecharge.rechargeSuccess)
 				})
 			},
 			// 粘贴

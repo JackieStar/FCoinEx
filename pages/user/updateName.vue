@@ -13,6 +13,7 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import { commonMixin } from '@/common/mixin/mixin.js';
+// import {isName} from '@/utils/validate.js'
 export default {
 	mixins: [commonMixin],
 	data() {
@@ -28,6 +29,7 @@ export default {
 	methods: {
 		...mapActions('user', ['updateUserName']),
 		handleSubmit() {
+			// if (!isName(this.name)) return this.$u.toast(this.i18n.updateName.tips)
 			this.updateUserName({name: this.name}).then((res)=> {
 				this.$u.toast(this.i18n.toast.updateNameSuccess)
 			})

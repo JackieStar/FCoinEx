@@ -62,6 +62,7 @@ module.exports = {
 		},
 		invit: {
 			title: '邀请好友',
+			invitFriends: '邀好友领福利',
 			friends: '我的好友数',
 			totalReward: '累计奖励',
 			tCode: '推荐码',
@@ -209,10 +210,14 @@ module.exports = {
 		},
 		submitRecharge: {
 			title: '充值凭证',
+			rechargeImg: '转账截图',
 			exImg: '示列图片',
+			uploadFail: '上传失败',
+			uploadSuccess: '上传成功',
 			hash: '交易哈希值',
 			copyBtn: '粘贴',
 			submitBtn: '确认充值',
+			rechargeSuccess: '充值成功',
 			closeBtn: '取消',
 			note: 'Note'
 		},
@@ -230,8 +235,8 @@ module.exports = {
 			againPwdError: '两次密码输入不一致',
 			updatePwdSuccess: '登录密码修改成功',
 			copySuccess: '复制成功',
-			paySuccess: '付款成功',
-			updateNameSuccess: '修改昵称成功'
+			updateNameSuccess: '修改昵称成功',
+			noMore: '没有更多数据'
 		}
 	}
 }

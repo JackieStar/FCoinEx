@@ -2,7 +2,7 @@ export default {
 	CAPTCHA_TYPE : {
 		COMMON: 'common'
 	},
-	REQUEST_URL: 'http://www.ftcoinex.com'
+	REQUEST_URL: 'https://www.ftcoinex.com'
 	// REQUEST_URL: 'http://8.129.121.67'
 	//REQUEST_URL: 'http://192.168.0.15:8083'
 }

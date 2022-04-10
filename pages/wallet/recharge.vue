@@ -6,7 +6,7 @@
 			<image @click="openPage(1)" src="../../static/images/wallet/list.png" class="right-icon" />
 		</view>
 		<view class="user-info">
-			<image :src="loginInfo.avatar" class="user-avatar" />
+			<image :src="rechargeInfo.coin_icon" class="user-avatar" />
 			<view class="info">
 				<text>{{ rechargeInfo.coin }}</text>
 				<view>{{ i18n.withdraw.network }}：{{ rechargeInfo.coin_type }}</view>
@@ -14,7 +14,7 @@
 		</view>
 		<image class="user-bg" src="../../static/images/wallet/bg.png" />
 		<view class="code-wrapper">
-			<image :src="rechargeInfo.recharge_qr" class="code-img" />
+			<img :src="rechargeInfo.recharge_qr" class="code-img" />
 			<view class="save-code" @click="saveImg(rechargeInfo.recharge_qr)">{{i18n.recharge.saveCode}}</view>
 		</view>
 		<view class="title">
@@ -68,15 +68,12 @@ export default {
 				this.rechargeInfo = res.data;
 			});
 		},
-		save() {
-			this.$refs.qrcode._saveCode();
-		},
 		handleCopy() {
 			let $this = this;
 			uni.setClipboardData({
 				data: this.rechargeInfo.recharge_addr,
 				success: function() {
-					$this.$api.msg($this.toast.copySuccess);
+					$this.$api.msg($this.i18n.toast.copySuccess);
 				}
 			});
 		},
@@ -89,37 +86,35 @@ export default {
 				});
 			}
 			if (type === 3) {
-				if (!this.amount) return this.$api.msg('请填写充值金额');
+				if (!this.amount) return this.$api.msg(this.i18n.recharge.placeholder);
 				uni.navigateTo({
 					url: '/pages/wallet/submitRecharge?amount=' + this.amount
 				});
 			}
 		},
 		// 保存图片
-		saveImg(url) {
-			const lang = uni.getStorageSync('language');
-			uni.downloadFile({
-				url,
-				header: {
-					'Accept-Language': lang ? lang.replace("_", "-") : 'zh-CN',
-					'Authorization': 'Bearer' + ' ' + uni.getStorageSync('token')
-				},
-				success: res => {
-					if (res.statusCode === 200) {
-						uni.saveImageToPhotosAlbum({
-							filePath: res.tempFilePath,
-							success: ()=> {
-								this.$api.msg('保存成功');
-							},
-							fail: () => {
-								this.$api.msg('保存失败，请稍后重试');
-							}
-						});
-					} else {
-						this.$api.msg('保存失败，请稍后重试');
-					}
-				}
+		async saveImg(url) {
+			console.log('url', url)
+			let src = url
+			src = await (uni.getImageInfo({src}));
+			console.log('await uni.getImageInfo({src})', uni.getImageInfo({src}))
+			console.log('src[1].path', src[1].path)
+			uni.saveImageToPhotosAlbum({
+			    filePath: src[1].path,
+			    success: () => {
+			        console.log('save success')
+			    }
 			});
+			// uni.saveImageToPhotosAlbum({
+			// 	filePath: url,
+			// 	success: function () {
+			// 		uni.showToast({
+			// 			title: '二维码保存成功',
+			// 			icon: 'success',
+			// 			duration: 2000
+			// 		});
+			// 	}
+			// });
 		}
 	}
 };
@@ -161,10 +156,10 @@ export default {
 		margin-top: 83upx;
 		padding-left: 50upx;
 		.user-avatar {
-			width: 112upx;
-			height: 112upx;
+			width: 100upx;
+			height: 100upx;
 			margin-right: 38upx;
-			border-radius: 50%;
+			// border-radius: 50%;
 		}
 		.info {
 			display: flex;

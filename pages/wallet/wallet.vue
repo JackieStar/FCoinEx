@@ -1,9 +1,9 @@
 <template>
 	<view class="container">
 		<view class="assets-box">
-			<view class="title">{{i18n.wallet.title}}</view>
-			<view class="money">{{userData.balance}}</view>
-			<view class="tips">{{i18n.wallet.balance}}(USDT)</view>
+			<view class="title">{{ i18n.wallet.title }}</view>
+			<view class="money">{{ userData.balance }}</view>
+			<view class="tips">{{ i18n.wallet.balance }}(USDT)</view>
 		</view>
 		<!-- 充值提现 -->
 		<view class="menu">
@@ -19,23 +19,22 @@
 				</view>
 				<image class="menu-icon" src="../../static/images/makets/withdraw.png" mode="widthFix" />
 			</view>
-		</view>	
+		</view>
 		<!-- 交易流水 -->
 		<view class="trade-title">{{ i18n.wallet.tradeList }}</view>
 		<view class="trade-list-wrapper">
-			<view class="trade-list" v-for="(item,index) in tradeList" :key="index">
+			<view class="trade-list" v-for="(item, index) in tradeList" :key="index">
 				<view class="trade-money">
-					<text>{{item.description}}</text>
-					<text v-if="item.atype == 'out'"> - {{item.amount}}</text>
-					<text v-else>{{item.amount}}</text>
+					<text>{{ item.description }}</text>
+					<text v-if="item.atype == 'out'">- {{ item.amount }}</text>
+					<text v-else>{{ item.amount }}</text>
 				</view>
 				<view class="trade-time">
-					<text>{{item.cdate}}</text>
+					<text>{{ item.cdate }}</text>
 					<text>USDT</text>
 				</view>
 			</view>
 		</view>
-		
 	</view>
 </template>
 
@@ -50,7 +49,10 @@ export default {
 		return {
 			bgColor: '#070219',
 			userData: {},
-			tradeList: []
+			tradeList: [],
+			page: 1,
+			isHavePage: true,
+			isSendLoading: false
 		};
 	},
 	onShow() {
@@ -61,17 +63,30 @@ export default {
 		this.getUserInfo();
 		this.loadData();
 	},
-	onPullDownRefresh() {
-		this.loadData();
-	},
 	methods: {
 		...mapActions('user', ['userInfo']),
 		...mapActions('wallet', ['getAccountLogs']),
 		//请求数据
-		async loadData() {
-			this.getAccountLogs()
+		loadData() {
+			this.isSendLoading = true;
+			let parmas = {
+				page: this.page,
+				limit: 10
+			};
+			if (!this.isHavePage) return this.$api.msg(this.i18n.toast.noMore);
+			this.getAccountLogs(parmas)
 				.then(res => {
-					this.tradeList = res.data.data;
+					this.isSendLoading = false;
+					if (this.page == 1) {
+						this.tradeList = res.data.data;
+					} else {
+						if (res.data.data.length >= 10) {
+							this.isHavePage = true;
+						} else {
+							this.isHavePage = false;
+						}
+						this.tradeList = this.tradeList.concat(res.data.data);
+					}
 				})
 				.catch(error => {});
 		},
@@ -80,6 +95,13 @@ export default {
 			this.userInfo().then(res => {
 				this.userData = res.data;
 			});
+		},
+		onReachBottom() {
+			console.log('3333', this.isSendLoading);
+			if (!this.isSendLoading) {
+				this.page++;
+				this.loadData();
+			}
 		}
 	}
 };

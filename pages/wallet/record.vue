@@ -46,7 +46,13 @@ export default {
 		return {
 			tabIndex: 1,
 			rechargeData: [],
-			withdrawData: []
+			withdrawData: [],
+			pageRe: 1,
+			pageWi: 1,
+			isHavePageRe: true,
+			isHavePageWi: true,
+			isSendLoadingRe: false,
+			isSendLoadingWi: false
 		};
 	},
 	onShow() {
@@ -62,14 +68,57 @@ export default {
 			this.tabIndex = type;
 		},
 		getWithDrawList() {
-			this.withdrawList().then(res => {
-				this.withdrawData = res.data.data;
+			this.isSendLoadingWi = true;
+			let parmas = {
+				page: this.pageWi,
+				limit: 10
+			};
+			if (!this.isHavePageWi) return this.$api.msg(this.i18n.toast.noMore);
+			this.withdrawList(parmas).then(res => {
+				
+				this.isSendLoadingWi = false;
+				if (this.pageWi == 1) {
+					this.withdrawData = res.data.data;
+				} else {
+					if (res.data.data.length >= 10) {
+						this.isHavePageWi = true;
+					} else {
+						this.isHavePageWi = false;
+					}
+					this.withdrawData = this.withdrawData.concat(res.data.data);
+				}
 			});
 		},
 		getRechargeList() {
-			this.rechargeList().then(res => {
-				this.rechargeData = res.data.data;
+			this.isSendLoadingRe = true;
+			let parmas = {
+				page: this.pageRe,
+				limit: 10
+			};
+			if (!this.isHavePageRe) return this.$api.msg(this.i18n.toast.noMore);
+			this.rechargeList(parmas).then(res => {
+				this.isSendLoadingRe = false;
+				if (this.pageRe == 1) {
+					this.rechargeData = res.data.data;
+				} else {
+					if (res.data.data.length >= 10) {
+						this.isHavePageRe = true;
+					} else {
+						this.isHavePageRe = false;
+					}
+					this.rechargeData = this.rechargeData.concat(res.data.data);
+				}
 			});
+		},
+		onReachBottom() {
+			if (!this.isSendLoadingRe) {
+				this.pageRe++;
+				this.getRechargeList();
+			}
+			if (!this.isSendLoadingWi) {
+				this.pageWi++;
+				this.getWithDrawList();
+			}
 		}
 	}
 };
