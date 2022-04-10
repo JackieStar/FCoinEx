@@ -154,8 +154,7 @@
 		var option = {
 			Type: '分钟走势图', //创建图形类型
 
-			Windows: //窗口指标
-				[ ],
+			Windows: [ ],
 
 			Symbol: '000001.et',
 			IsAutoUpdate: true, //是自动更新数据
@@ -177,14 +176,12 @@
 
 			Frame: //子框架设置
 				[{
-						SplitCount: 3
+						SplitCount: 6,
 					},
 					{
-						SplitCount: 0
-					},
-					{
-						SplitCount: 3
-					},
+						SplitCount: 0,
+						Height:0
+					}
 				],
 
 			Overlay: //叠加股票 目前只支持1只股票
@@ -576,9 +573,9 @@
 								"open": Number(item.open),
 								"high": Number(item.high),
 								"low": Number(item.low),
-								"vol": Number(item.volume),
-								"risefall": Number(item.volume),
-								"amount": Number(item.volume) / Number(item.price),
+								// "vol": Number(item.volume),
+								// "risefall": Number(item.diff_rate),
+								// "amount": Number(item.volume) / Number(item.price),
 								"time": time,
 							};
 							arr.push(newItem);
@@ -599,13 +596,12 @@
 							yclose: Number(this.productData.close),
 							high: Number(this.productData.high),
 							low: Number(this.productData.low),
-							vol: Number(this.productData.volume),
-							amount: Number(this.productData.volume) / Number(this.productData.price),
 							minute: arr
 						};
 
 						let hqMinuteChartData = {
 							code: 0,
+							ver: 3.0,
 							stock: [stockItem]
 						};
 						// #ifdef H5
@@ -633,7 +629,6 @@
 								Number(item.high),
 								Number(item.low),
 								Number(item.close),
-								
 								Number(item.volume) / Number(item.price),
 								Number(item.volume),
 								time

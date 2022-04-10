@@ -243,7 +243,8 @@
 				clear: '',
 				isHavePage: false,
 				isSendLoading: false,
-				page: 1
+				page: 1,
+				total:0
 
 			};
 		},
@@ -265,7 +266,7 @@
 			clearInterval(this.clear);
 		},
 		onReachBottom() {
-			if (!this.isSendLoading) {
+			if (this.total>this.orderDate.length&&!this.isSendLoading) {
 				this.page++
 				this.getOrderList()
 			}
@@ -359,17 +360,12 @@
 						this.orderDate = res.data;
 					} else {
 						let records = res.data.data
+						this.total=res.data.total
 						if (this.page == 1) {
 							this.orderDate = records
+							this.isHavePage = true
 						} else {
-							if (records && records.length > 0) {
-								if (records.length >= 10) {
-									this.isHavePage = true
-								} else {
-									this.isHavePage = false
-								}
-								this.orderDate = this.orderDate.concat(records)
-							}
+							this.orderDate = this.orderDate.concat(records)
 						}
 					}
 				});
