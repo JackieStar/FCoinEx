@@ -8,9 +8,9 @@
 				</uni-file-picker>
 				<view class="recharge-img">{{i18n.submitRecharge.rechargeImg}}</view>
 			</view>
-			<view flex="main:center cross:center">
+			<view flex="main:center cross:center" @click="handlePreview">
 				<text style="color: #fff; margin-right: 20upx;">{{i18n.submitRecharge.exImg}}</text>
-				<u-image src="../../static/images/wallet/ex_img.png" width="112upx" height="224upx" />
+				<u-image :src="rechargeInfo.recharge_res_demo" width="112upx" height="224upx" />
 			</view>
 		</view>
 		<view class="title">
@@ -30,6 +30,9 @@
 			<view class="note">{{i18n.submitRecharge.note}}</view>
 			<c-tips v-for="(item,index) in rechargeInfo.note" :text="item" :key="index" />
 		</view>
+		<u-popup v-model="show" mode="top" length="100%" closeable>
+			<image class="recharge-res-demo" @click="show = false" :src="rechargeInfo.recharge_res_demo" mode=""></image>
+		</u-popup>
 	</view>
 </template>
 
@@ -58,7 +61,8 @@
 				imageStyles: {
 					width: 64,
 					height: 64
-				}
+				},
+				show: false
 			};
 		},
 		computed: {
@@ -146,6 +150,10 @@
 			},
 			openPage() {
 				uni.navigateBack()
+			},
+			handlePreview() {
+				console.log('2222')
+				this.show = true
 			}
 		},
 
@@ -253,5 +261,9 @@
 		color: #FFFFFF;
 		margin-top: 16upx;
 		margin-left: -10upx;
+	}
+	.recharge-res-demo {
+		width: 100%;
+		height: 100%;
 	}
 </style>

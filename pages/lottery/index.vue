@@ -1,6 +1,7 @@
 <template>
 	<view class="container">
-		<view class="head-bg-cn"></view>
+		<view class="head-bg-cn" v-if="lang == 'zh_CN'"></view>
+		<view class="head-bg-en" v-if="lang == 'en_US'"></view>
 		<view class="lottery-bg">
 			<view class="count-bg">
 				{{ i18n.lottery.tip1 }}
@@ -33,11 +34,13 @@ export default {
 				totalCount: 6, //一共要转的圈数
 				winingIndex: 0, //中奖的位置，从0开始
 				speed: 50 //抽奖动画的速度 [数字越大越慢,默认100]
-			}
+			},
+			lang: 'zh-CN'
 		};
 	},
 	onShow() {
 		this.getConfig();
+		this.lang = uni.getStorageSync('language');
 	},
 	methods: {
 		...mapActions('lottery', ['lotteryConfig', 'lotteryDraw']),
@@ -97,6 +100,7 @@ page {
 	.count {
 		color: #ff4a4c;
 		font-size: 30upx;
+		margin: 0 10upx;
 	}
 }
 .head-bg-cn {
@@ -106,6 +110,14 @@ page {
 	margin-left: 110upx;
 	background-size: 100% 100%;
 	background-image: url(../../static/images/lottey/cj_text_cn.png);
+}
+.head-bg-en {
+	// margin-top: 60upx;
+	width: 583upx;
+	height: 283upx;
+	margin-left: 110upx;
+	background-size: 100% 100%;
+	background-image: url(../../static/images/lottey/cj_text_en.png);
 }
 .lottery {
 	width: 280px;

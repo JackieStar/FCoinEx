@@ -141,7 +141,7 @@ module.exports = {
 			custom: 'custom'
 		},
 		lottery: {
-			tip1: 'You have',
+			tip1: '',
 			tip2: 'chances to draw',
 			tip3: 'To Trade',
 			noCount: 'The number of lottery draws is 0, and the lottery cannot be drawn'
