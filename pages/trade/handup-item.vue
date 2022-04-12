@@ -2,7 +2,7 @@
 	<view class="history-card-box">
 		<view class="triangle-box"></view>
 		<view class="history-head flex_between_box">
-			<view class="title">{{infoItem.product_name}} {{infoItem.lever}}X</view>
+			<view class="title">{{infoItem.product_name}}_USDT {{infoItem.lever}}x</view>
 			<view class="" v-if="type=='hold'">
 				<view class="num" :class="[infoItem.profit_rate>0?'green-text':'red-text']">{{infoItem.profit}}</view>
 				<view class="rate":class="[infoItem.profit_rate>0?'green-text':'red-text']" >{{infoItem.profit_rate}}%</view>
@@ -107,6 +107,9 @@
 						return
 					}
 				}
+				uni.showLoading({
+					
+				})
 				let params = {
 					order_id: this.infoItem.id,
 					price: type == 2 ? 'market' : this.inputValue,
@@ -114,8 +117,10 @@
 				}
 				this.orderSell(params).then(res => {
 					this.$u.toast(res.message);
-					console.log(res)
+					
 					this.$emit('refreshOrder')
+				}).catch(()=>{
+					uni.hideLoading()
 				})
 			},
 			handleCancel() {
@@ -318,7 +323,7 @@
 					font-size: 28rpx;
 					font-family: PingFang SC;
 					font-weight: 500;
-					color: #1a1b28;
+					color: #FFFFFF;
 					text-align: center;
 					line-height: 80rpx;
 				}
@@ -330,7 +335,7 @@
 					font-size: 28rpx;
 					font-family: PingFang SC;
 					font-weight: 500;
-					color: #1a1b28;
+					color: #FFFFFF;
 					text-align: center;
 					line-height: 80rpx;
 					margin-left: 36rpx;
