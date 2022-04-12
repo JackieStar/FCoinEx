@@ -141,8 +141,9 @@
 		{
 			"path": "pages/user/webview",
 			"style": {
-				"navigationBarTitleText": "",
-				"navigationStyle": "custom"
+				"navigationBarTitleText": "网页",
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#070219"
 			}
 		}
 	],

@@ -47,9 +47,7 @@
 import listCell from '@/components/mix-list-cell';
 import { mapState, mapActions } from 'vuex';
 import { commonMixin } from '@/common/mixin/mixin.js';
-let startY = 0,
-	moveY = 0,
-	pageAtTop = true;
+
 export default {
 	components: {
 		listCell
@@ -130,44 +128,24 @@ export default {
 				});
 			}
 			if (type === 2) {
-				// #ifdef H5
-				window.location.href = this.appData.add_group;
-				// #endif
-				// #ifdef APP-PLUS
 				uni.navigateTo({
-					url: '/pages/user/webview?url=' + this.appData.add_group
+					url: '/pages/user/webview?type=2&url=' + this.appData.add_group
 				});
-				// #endif
 			}
 			if (type == 3) {
-				// #ifdef H5
-				window.location.href = this.appData.help_center;
-				// #endif
-				// #ifdef APP-PLUS
 				uni.navigateTo({
-					url: '/pages/user/webview?url=' + this.appData.help_center
+					url: '/pages/user/webview?type=3&url=' + this.appData.help_center
 				});
-				// #endif
 			}
 			if (type == 4) {
-				// #ifdef H5
-				window.location.href = this.appData.abount_me;
-				// #endif
-				// #ifdef APP-PLUS
 				uni.navigateTo({
-					url: '/pages/user/webview?url=' + this.appData.abount_me
+					url: '/pages/user/webview?type=4&url=' + this.appData.abount_me
 				});
-				// #endif
 			}
 			if (type === 5) {
-				// #ifdef H5
-				window.location.href = this.appData.app_download;
-				// #endif
-				// #ifdef APP-PLUS
 				uni.navigateTo({
-					url: '/pages/user/webview?url=' + this.appData.app_download
+					url: '/pages/user/webview?type=5&url=' + this.appData.app_download
 				});
-				// #endif
 			}
 			if (type === 6) {
 				if (this.loginInfo.hasLogin) {

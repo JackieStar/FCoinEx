@@ -5,18 +5,32 @@
 </template>
 
 <script>
+	import { commonMixin } from '@/common/mixin/mixin.js';
 	export default {
+		mixins: [commonMixin],
 		data() {
 			return {
 				url: ''
 			}
 		},
 		onLoad(e) {
-			console.log('e', e)
 			this.url = e.url
-		}
+			let title = null
+			if (e.type === '2') title = this.i18n.user.community
+			if (e.type === '3') title = this.i18n.user.help
+			if (e.type === '4') title = this.i18n.user.about
+			if (e.type === '5') title = this.i18n.user.download
+			uni.setNavigationBarTitle({
+				title: title
+			});
+		},
+		
 	}
 </script>
 
-<style>
+<style lang="scss" scoped>
+	page {
+		background: #fff;
+		padding-top: 140upx;
+	}
 </style>

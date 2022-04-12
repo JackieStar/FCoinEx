@@ -11,14 +11,6 @@
 			class="input-item"
 			type="password"
 			placeholder-style="color: #4F5B87; font-size: 26upx"
-			v-model="form.old_password"
-			:placeholder="i18n.updatePwd.oldPwd"
-			maxlength="10"
-		/>
-		<input
-			class="input-item"
-			type="password"
-			placeholder-style="color: #4F5B87; font-size: 26upx"
 			v-model="form.password"
 			:placeholder="i18n.updatePwd.newPwd"
 			maxlength="10"
@@ -70,7 +62,6 @@ export default {
 			tips: '',
 			form: {
 				email: undefined,
-				old_password: undefined,
 				password: undefined,
 				password_confirm: undefined,
 				email_code: undefined
