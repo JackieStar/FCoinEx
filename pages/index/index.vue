@@ -37,7 +37,7 @@
 					<text style="margin-left: 60upx;">{{ i18n.index.market.title3 }}</text>
 				</view>
 			</view>
-			<view class="s-row little-line" @click="navTo(`/pages/market/index?code=${item.symbolCode}`)" v-for="(item, i) in markets" :key="item.symbol">
+			<view class="s-row little-line" @click="navToTrade(item)" v-for="(item, i) in markets" :key="item.symbol">
 				<view class="col light">
 					{{ item.name }}/USDT 
 					<view class="subtitle">Vol {{ item.volume_format }}</view>
@@ -131,6 +131,12 @@ export default {
 			uni.navigateTo({
 				url: `/pages/public/kline?symbol=${item.symbol}`
 			});
+		},
+		navToTrade(item){
+			 uni.setStorageSync('product', {code:item.code,name:item.name});
+			 uni.switchTab({
+			 	url:'/pages/trade/trade'
+			 })
 		},
 		openPage(type) {
 			if (type === 1) {

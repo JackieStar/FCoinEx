@@ -1,7 +1,7 @@
 <template>
 	<view class="container">
 		<Kline ref="line" @changePro="handleChangePro" :productName="productName" :list="line"
-			:productData="productData" :productCode="productCode"></Kline>
+			:productData="productData" :price="priceInfo.price" :productCode="productCode"></Kline>
 		<!-- <view>
 			<canvas
 				id="kline2"
@@ -104,7 +104,8 @@
 					</view>
 				</view>
 				<view class="tab-item mar-left-57" @click="handleChangeType('hold')">
-					<view class="item-color" :class="[activeType == 'hold' ? 'active-color' : '']">{{ i18n.trade.hold }}<text>({{totalHold}})</text>
+					<view class="item-color" :class="[activeType == 'hold' ? 'active-color' : '']">
+						{{ i18n.trade.hold }}<text>({{totalHold}})</text>
 					</view>
 					<view v-if="activeType == 'hold'" class="text-line-box">
 						<image class="text-line" src="../../static/images/trade/text-line.png" mode=""></image>
@@ -241,8 +242,8 @@
 				orderDate: [], // 订单列表数据
 				isSendHttp: false, // 是否点击发送请求中
 
-				productCode: 'btc', // 产品code
-				productName: 'BTC USDT',
+				productCode: '', // 产品code
+				productName: '',
 
 				markets: [],
 				line: [],
@@ -252,21 +253,43 @@
 				isSendLoading: false,
 				page: 1,
 				total: 0,
-				
-				totalHandup:0,
-				totalHold:0
-				
+
+				totalHandup: 0,
+				totalHold: 0
+
 
 			};
 		},
 		onLoad(e) {
-			this.getMaketList();
+
 		},
 		onShow() {
 			if (this.loginInfo.hasLogin) {
 				this.getUserInfo();
 			}
-			this.clear = setInterval(this.getProductInfo, 60 * 1000)
+			console.log(uni.getStorageSync('product'))
+			if (uni.getStorageSync('product')) {
+				
+				let productInfo = uni.getStorageSync('product')
+				var isHave=false
+				if(!this.productCode){
+					isHave=true
+				}
+				this.productCode = productInfo.code
+				this.productName = productInfo.name
+				uni.removeStorageSync('product')
+				if(isHave){
+					this.getMaketList(1);
+				}else{
+					this.getMaketList();
+				}
+				
+			} else {
+				if (!this.productCode) {
+					this.getMaketList(1);
+				}
+			}
+			this.clear = setInterval(this.getProductPrice, 10 * 1000)
 		},
 		//隐藏的时候 停止定时器和清空hqchart的实例
 		onHide() {
@@ -301,7 +324,14 @@
 				this.inputPrice = '' // 开仓价格
 				this.amount = ''
 				this.price = '' // 价格
-				this.getProductInfo(1);
+				clearInterval(this.clear);
+				setTimeout(() => {
+					this.clear = setInterval(this.getProductPrice, 10 * 1000)
+				}, 1000)
+
+				uni.showLoading({})
+				// this.$refs.line.clearLine()
+				this.getProductInfo();
 				if (!this.isOpen) {
 					this.page = 1
 				}
@@ -309,13 +339,17 @@
 				this.getNavTotal()
 				this.productPopup = false
 			},
-			getMaketList() {
+			getMaketList(type) {
 				this.marketList().then(res => {
 					this.page = 1
 					this.markets = res.data.data;
-					this.productCode = this.markets[0].code
-					this.productName = this.markets[0].name
-					this.getProductInfo(1);
+					if (!this.productCode) {
+						this.productCode = this.markets[0].code
+						this.productName = this.markets[0].name
+					}
+					// this.$refs.line.clearLine()
+
+					this.getProductInfo(type);
 					if (this.loginInfo.hasLogin) {
 						this.getOrderList()
 						this.getNavTotal()
@@ -352,7 +386,7 @@
 						setTimeout(() => {
 							this.$refs.line.CreateMinuteChart_app()
 							this.$refs.line.CreateKLineChart()
-						}, 500)
+						}, 1000)
 					}
 				});
 			},

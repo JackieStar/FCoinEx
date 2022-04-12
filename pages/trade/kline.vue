@@ -7,7 +7,7 @@
 			<image class="head-img" src="../../static/images/trade/qiehuan@2x.png" mode=""></image>
 		</view>
 		<view class="high-text">
-			{{productData.high}}
+			{{price}}
 		</view>
 		<view class="self-tabs-box">
 			<view class="tab-item-default" v-for="(item,index) in list" :key="index" @click="changeLine(index+4)">
@@ -30,24 +30,6 @@
 					@touchmove='MinuteTouchMove' @touchend='MinuteTouchEnd'></canvas>
 			</view>
 		</view>
-
-
-		<!-- 	<div class="button-sp-area">
-			<button class="mini-btn" type="default" size="mini"
-				@click="ChangeKLinePeriod(MINUTE_PERIOD_ID.MINUTE_ID)">分时</button>
-			<button class="mini-btn" type="default" size="mini"
-				@click="ChangeKLinePeriod(MINUTE_PERIOD_ID.KLINE_5MINUTE_ID)">5分钟</button>
-			<button class="mini-btn" type="default" size="mini"
-				@click="ChangeKLinePeriod(KLINE_PERIOD_ID.KLINE_15MINUTE_ID)">15分钟</button>
-			<button class="mini-btn" type="default" size="mini"
-				@click="ChangeKLinePeriod(KLINE_PERIOD_ID.KLINE_30MINUTE_ID)">30分钟</button>
-			<button class="mini-btn" type="default" size="mini"
-				@click="ChangeKLinePeriod(KLINE_PERIOD_ID.KLINE_60MINUTE_ID)">1小时</button>
-			<button class="mini-btn" type="default" size="mini"
-				@click="ChangeKLinePeriod(KLINE_PERIOD_ID.KLINE_240MINUTE_ID)">4小时</button>
-
-		</div>
- -->
 	</div>
 </template>
 
@@ -85,7 +67,7 @@
 			],
 			IsCorssOnlyDrawKLine: true,
 			IsAutoUpdate: true, //是自动更新数据
-			AutoUpdateFrequency: 10000,
+			AutoUpdateFrequency: 15*1000,
 			CorssCursorTouchEnd: true,
 			IsShowRightMenu: false, //右键菜单
 			IsShowCorssCursorInfo: false, //是否显示十字光标的刻度信息
@@ -111,7 +93,7 @@
 			},
 			KLine: {
 				Right: 1, //复权 0 不复权 1 前复权 2 后复权
-				Period: 0, //周期: 0 日线 1 周线 2 月线 3 年线
+				Period: 8, //周期: 0 日线 1 周线 2 月线 3 年线
 				PageSize: 30,
 				InfoPosition: 1, //显示位置
 				IsShowTooltip: true,
@@ -161,7 +143,7 @@
 
 			Symbol: '000001.sz',
 			IsAutoUpdate: true, //是自动更新数据
-			AutoUpdateFrequency: 10000,
+			AutoUpdateFrequency: 16*1000,
 			DayCount: 1, //1 最新交易日数据 >1 多日走势图
 			IsShowCorssCursorInfo: true, //是否显示十字光标的刻度信息
 			IsShowRightMenu: true, //是否显示右键菜单
@@ -237,6 +219,12 @@
 					return ''
 				}
 			},
+			price: {
+				type: String,
+				default () {
+					return ''
+				}
+			},
 			productCode: {
 				type: String,
 				default () {
@@ -264,18 +252,18 @@
 				ChartHeight: uni.upx2px(789),
 				KLine: {
 					Option: DefaultData.GetKLineOption(),
-					IsShow: false,
+					IsShow: true,
 				},
 				Minute: {
 
 					Option: DefaultData.GetMinuteOption(),
-					IsShow: true,
+					IsShow: false,
 				},
 
 				MINUTE_PERIOD_ID: MINUTE_PERIOD_ID,
 				KLINE_PERIOD_ID: KLINE_PERIOD_ID,
-				activeId: 4,
-				activeName: '1min',
+				activeId: 9,
+				activeName: '1h',
 				isSend:false
 
 
@@ -297,9 +285,9 @@
 
 		onLoad() {
 			setTimeout(() => {
-				this.CreateKLineChart();
-				this.CreateMinuteChart();
-				this.changeLine(4)
+				// this.CreateKLineChart();
+				// this.CreateMinuteChart();
+				this.changeLine(9)
 			}, 500)
 		},
 		onReady() {
@@ -412,12 +400,16 @@
 
 			//K线周期切换
 			ChangeKLinePeriod(period) {
+				if(this.isSend){
+					return false
+				}
 				this.activeId = period
 				this.activeName = this.list[this.activeId - 4].name
 				console.log(period, 'period')
 				this.Minute.IsShow = false;
 				this.KLine.IsShow = true;
 				let needPeriod = period - 1
+				console.log(needPeriod)
 				if (!g_KLine.JSChart) {
 					//不存在创建
 					this.KLine.Option.Period = needPeriod > 8 ? 12 : needPeriod;
@@ -564,14 +556,45 @@
 			CreateMinuteChart() {
 				this.CreateMinuteChart_app();
 			},
+			clearLine(){
+				console.log(g_KLine.JSChart)
+				if (g_KLine.JSChart) {
+					g_KLine.JSChart.StopAutoUpdate();
+					//如果是WS 需要关闭WS
+					g_KLine.JSChart = null;
+					console.log(g_KLine)
+				}
+				if (g_Minute.JSChart) {
+					g_Minute.JSChart.StopAutoUpdate();
+					//如果是WS 需要关闭WS
+					g_Minute.JSChart = null;
+				}
+			},
 			changeLine(index) {
 				console.log(index)
 				uni.showLoading({
 					title: "加载中"
 				})
 				if (index == 4) {
+					// if (g_KLine.JSChart) {
+					// 	g_KLine.JSChart.StopAutoUpdate();
+					// }
+					// if (g_Minute.JSChart) {
+					// 	g_Minute.JSChart.JSChartContainer.IsAutoUpdate=true; //设置自动更新
+					// 	g_Minute.JSChart.ChangeSymbol(this.Symbol); //重新请求当前得股票
+					// }
 					this.ChangeMinutePeriod(index)
 				} else {
+					// if (g_Minute.JSChart) {
+					// 	g_Minute.JSChart.StopAutoUpdate();
+					// }
+					// if (g_KLine.JSChart) {
+					// 	g_KLine.JSChart.StopAutoUpdate();
+					// 	setTimeout(()=>{
+					// 		g_KLine.JSChart.JSChartContainer.IsAutoUpdate=true; //设置自动更新
+					// 		g_KLine.JSChart.ChangeSymbol(this.Symbol); //重新请求当前得股票
+					// 	},1000)
+					// }
 					this.ChangeKLinePeriod(index)
 				}
 				// this.ChangeKLinePeriod(index)
@@ -617,7 +640,6 @@
 				let that = this;
 				console.log(this.productCode, this.list[this.activeId - 4].k)
 				this.isSend=true
-
 				this.getProductLine({
 					code: this.productCode,
 					k: this.list[this.activeId - 4].k
