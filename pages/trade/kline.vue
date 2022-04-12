@@ -168,7 +168,7 @@
 
 			MinuteLine: {
 				// IsDrawAreaPrice:false,      //是否画价格面积图
-				IsShowAveragePrice:false,
+				IsShowAveragePrice: false,
 			},
 
 			Border: //边框
@@ -210,7 +210,8 @@
 		KLINE_15MINUTE_ID: 6,
 		KLINE_30MINUTE_ID: 7,
 		KLINE_60MINUTE_ID: 8,
-		KLINE_240MINUTE_ID: 9
+		KLINE_240MINUTE_ID: 9,
+		KLINE_300MINUTE_ID: 10
 	};
 
 	//周期枚举
@@ -412,10 +413,10 @@
 				this.KLine.IsShow = true;
 				if (!g_KLine.JSChart) {
 					//不存在创建
-					this.KLine.Option.Period = period;
+					this.KLine.Option.Period = period - 1;
 					this.CreateKLineChart();
 				} else {
-					g_KLine.JSChart.ChangePeriod(period);
+					g_KLine.JSChart.ChangePeriod(period - 1);
 				}
 			},
 			//创建日线图
@@ -448,7 +449,7 @@
 				minuteCoordinateData.GetSHSZData = (upperSymbol, width) => {
 					return this.GetSHSZData(upperSymbol, width)
 				}
-				
+
 				var blackStyle = JSCommonHQStyle.GetStyleConfig(JSCommonHQStyle.STYLE_TYPE_ID.BLACK_ID);
 				blackStyle.BGColor = 'rgb(12,23,37)'; //背景
 				blackStyle.FrameTitleBGColor = 'rgb(16,28,45)'; //指标标题背景
@@ -487,7 +488,7 @@
 				// this.KLine.Option.ExtendChart = [{
 				// 	Name: 'KLineTooltip'
 				// }];
-			
+
 
 				g_Minute.JSChart.SetOption(this.Minute.Option);
 			},

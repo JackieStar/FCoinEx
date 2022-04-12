@@ -54,8 +54,12 @@
 		</view>
 		<view class="lever-wrapper">
 			<view class="open-btn">
-				<view @click="handleChoosePrice(productData.price)" class="lever-text"
-					:class="[price == productData.price?'bg-btn':'']">{{productData.price}}</view>
+				<view @click="handleChoosePrice('inputPrice')" class="lever-text flex_center_box">
+					<input type="number" @input="handleInputPrice" v-model="inputPrice"
+						:placeholder="i18n.trade.placeholder" placeholder-style="background: linear-gradient(-51deg, #3FBBFE 0%, #A541FF 100%);-webkit-background-clip: text;
+					-webkit-text-fill-color: transparent;font-size: 30upx" />
+					<!-- {{productData.price}} -->
+				</view>
 				<!-- <image v-if="price == productData.price" class="btn-bg-image"
 					src="../../static/images/trade/btn-radio.png" mode=""></image> -->
 			</view>
@@ -226,8 +230,10 @@
 				userData: {}, // 用户信息
 				productData: {}, // 产品详情
 				amount: null, // 自定义价格
-				multipleValue: 1, // 倍数
-				amountValue: 1, // 数量
+				multipleValue: '', // 倍数
+				amountValue: '', // 数量
+				firstAmount: '',
+				inputPrice: '', // 开仓价格
 				price: '', // 价格
 				isOpen: false, // 是否查看全部
 				activeType: 'handup', //  订单类型：hold持仓；handup挂单情况；history历史
@@ -285,6 +291,12 @@
 			chooseProduct(item) {
 				this.productCode = item.code
 				this.productName = item.name
+				this.multipleValue = '' // 倍数
+				this.amountValue = '' // 数量
+				this.firstAmount = ''
+				this.inputPrice = '' // 开仓价格
+				this.amount=''
+				this.price = '' // 价格
 				this.getProductInfo(1);
 				if (!this.isOpen) {
 					this.page = 1
@@ -306,13 +318,10 @@
 				});
 			},
 			getProductPrice() {
-
 				this.productPrice({
 					code: this.productCode
 				}).then(res => {
-
 					this.priceInfo = res.data
-
 				});
 			},
 			getProductInfo(type) {
@@ -324,18 +333,21 @@
 				};
 				this.productInfo(params).then(res => {
 					this.productData = res.data;
-					this.price = this.productData.price
-					this.amountValue = this.productData.set_amount[0]
-					this.multipleValue = this.productData.lever[0]
+					// this.price = this.productData.price
+					if (!this.firstAmount) {
+						this.amountValue = this.productData.set_amount[0]
+						this.firstAmount = this.productData.set_amount[0]
+					}
+					if (!this.multipleValue) {
+						this.multipleValue = this.productData.lever[0]
+					}
 					this.line = res.data.line
 					if (type == 1) {
 						setTimeout(() => {
 							this.$refs.line.CreateMinuteChart_app()
 							this.$refs.line.CreateKLineChart()
-
 						}, 500)
 					}
-
 				});
 			},
 
@@ -354,7 +366,7 @@
 				let params = {
 					type: this.activeType == 'hold' ? this.activeType : 'handup',
 					code: this.isOpen ? '' : this.productCode,
-					status:  this.activeType == 'hold' ?"":this.activeType == 'history' ? 2 : 1,
+					status: this.activeType == 'hold' ? "" : this.activeType == 'history' ? 2 : 1,
 					page: this.page,
 					limit: 10
 				}
@@ -376,6 +388,27 @@
 					}
 				});
 			},
+			handleInputPrice(event) {
+				let value = event.detail.value
+				if (value == '.') {
+					this.inputPrice = '0.'
+				} else {
+					let dealNum = this.clearNoNum(value)
+					setTimeout(() => {
+						this.inputPrice = dealNum
+					}, 0)
+				}
+			},
+			clearNoNum(value) {
+				value = value.replace(/[^\d.]/g, ""); //清除“数字”和“.”以外的字符
+				value = value.replace(/\.{2,}/g, "."); //只保留第一个. 清除多余的
+				value = value.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
+				value = value.replace(/^(\-)*(\d+)\.(\d\d\d\d).*$/, '$1$2.$3'); //只能输入两个小数
+				if (value.indexOf(".") < 0 && value != "") { //以上已经过滤，此处控制的是如果没有小数点，首位不能为类似于 01、02的金额
+					value = parseFloat(value);
+				}
+				return value
+			},
 			// 开仓买入
 			handleTransaction(type) {
 				if (!this.isSendHttp) {
@@ -383,7 +416,7 @@
 					let params = {
 						code: this.productCode,
 						amount: this.amountValue,
-						price: this.price,
+						price: this.price == 'Market' ? this.price : this.inputPrice,
 						lever: this.multipleValue,
 						rise_fall: type
 					}
@@ -597,9 +630,9 @@
 				position: absolute;
 				text-align: center;
 				z-index: 20;
+				box-sizing: border-box;
+				padding: 0 12rpx;
 			}
-
-
 		}
 
 		.bg-btn {
