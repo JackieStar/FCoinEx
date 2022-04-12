@@ -178,7 +178,7 @@ module.exports = {
 		},
 		recharge: {
 			title: '充值',
-			saveImg: '请长按二维码保存图片',
+			saveImg: '长按保存二维码',
 			rechargeAddr: '充值地址',
 			copyBtn: '复制地址',
 			amount: '充值金额',
@@ -193,7 +193,7 @@ module.exports = {
 			exImg: '示列图片',
 			uploadFail: '上传失败',
 			uploadSuccess: '上传成功',
-			hash: '交易哈希值',
+			address: '地址',
 			copyBtn: '粘贴',
 			submitBtn: '确认充值',
 			rechargeSuccess: '充值成功',

@@ -170,7 +170,7 @@ page {
 			font-weight: normal;
 		}
 		.menu-icon {
-			width: 58rpx;
+			width: 44rpx;
 		}
 		text {
 			font-size: $font-md;

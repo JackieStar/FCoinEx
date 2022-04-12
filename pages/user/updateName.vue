@@ -32,6 +32,7 @@ export default {
 			// if (!isName(this.name)) return this.$u.toast(this.i18n.updateName.tips)
 			this.updateUserName({name: this.name}).then((res)=> {
 				this.$u.toast(this.i18n.toast.updateNameSuccess)
+				uni.navigateBack()
 			})
 		}
 	}

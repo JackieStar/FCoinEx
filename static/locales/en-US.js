@@ -55,7 +55,7 @@ module.exports = {
 			about: 'About us',
 			download: 'Download App',
 			isLogout: 'Confirm exit？',
-			logout: 'exit'
+			logout: 'Exit'
 		},
 		invit: {
 			title: 'Referral',
@@ -178,7 +178,7 @@ module.exports = {
 		},
 		recharge: {
 			title: 'Deposit',
-			saveImg: 'Please long press the QR code to save the picture',
+			saveImg: 'long press save the QR code',
 			rechargeAddr: 'Address',
 			copyBtn: 'Copy',
 			amount: 'Amount',
@@ -193,7 +193,7 @@ module.exports = {
 			exImg: 'List pictures',
 			uploadFail: 'Upload failed',
 			uploadSuccess: 'Uploaded successfully',
-			hash: 'Transaction hash',
+			address: 'Address',
 			copyBtn: 'Paste',
 			submitBtn: 'Submit',
 			rechargeSuccess: 'successful',

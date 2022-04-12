@@ -114,7 +114,7 @@ export default {
 				.then(res => {
 					this.$api.msg(this.i18n.toast.updatePwdSuccess, 1000, false, 'none', function() {
 						setTimeout(function() {
-							this.logining = false;
+							this.loading = false;
 							uni.reLaunch({
 								url: '/pages/public/login'
 							});

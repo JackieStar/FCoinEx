@@ -35,7 +35,7 @@ export default {
 				winingIndex: 0, //中奖的位置，从0开始
 				speed: 50 //抽奖动画的速度 [数字越大越慢,默认100]
 			},
-			lang: 'zh-CN'
+			lang: 'zh_CN'
 		};
 	},
 	onShow() {

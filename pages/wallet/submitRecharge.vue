@@ -14,7 +14,7 @@
 			</view>
 		</view>
 		<view class="title">
-			<text>{{i18n.submitRecharge.hash}}</text>
+			<text>{{i18n.submitRecharge.address}}</text>
 			<u-image class="title-bg" src="../../static/images/wallet/title-long-bg.png" width="144upx" height="12upx"
 				mode="" />
 		</view>
@@ -62,7 +62,7 @@
 					width: 64,
 					height: 64
 				},
-				show: false
+				show: false,
 			};
 		},
 		computed: {
@@ -99,6 +99,7 @@
 			sendUpload(tempFilePaths) {
 				// 拦截请求
 				const lang = uni.getStorageSync('language');
+				uni.showLoading();
 				uni.uploadFile({
 					url: this.$g.REQUEST_URL + '/api/upload',
 					filePath: tempFilePaths,
@@ -109,6 +110,7 @@
 					},
 					success: (res) => {
 						console.log(res, 'res')
+						uni.hideLoading();
 						if (res.statusCode == 200) {
 							if (JSON.parse(res.data).code == 200) {
 								let data = JSON.parse(res.data).data
@@ -124,6 +126,7 @@
 						}
 					},
 					fail: (err) => {
+						uni.hideLoading();
 						console.log(err)
 					}
 				});
@@ -137,6 +140,11 @@
 				}
 				this.financeRecharge(params).then(res => {
 					this.$u.toast(this.i18n.submitRecharge.rechargeSuccess)
+					setTimeout(()=> {
+						uni.switchTab({
+							url: '/pages/wallet/wallet'
+						})
+					}, 1500);
 				})
 			},
 			// 粘贴

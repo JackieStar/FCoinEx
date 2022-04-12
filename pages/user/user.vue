@@ -33,7 +33,7 @@
 				<list-cell image="/static/images/user/about-as.png" @eventClick="openPage(4)" :title="i18n.user.about"></list-cell>
 				<list-cell image="/static/images/user/download.png" border="" :title="i18n.user.download" @eventClick="openPage(5)"></list-cell>
 			</view>
-			<view class="history-section icon"><list-cell image="/static/images/user/logout.png" border="" :title="i18n.user.logout" @eventClick="toLogout"></list-cell></view>
+			<view class="history-section icon" v-if="loginInfo.hasLogin"><list-cell image="/static/images/user/logout.png" border="" :title="i18n.user.logout" @eventClick="toLogout"></list-cell></view>
 		</view>
 
 		<u-action-sheet :cancel-text="i18n.common.cancel" :border-radius="20" :list="langList" @click="clickLang" v-model="showLang"></u-action-sheet>
@@ -43,9 +43,6 @@
 import listCell from '@/components/mix-list-cell';
 import { mapState, mapActions } from 'vuex';
 import { commonMixin } from '@/common/mixin/mixin.js';
-let startY = 0,
-	moveY = 0,
-	pageAtTop = true;
 export default {
 	components: {
 		listCell

@@ -155,6 +155,9 @@ export default {
 			this.tips = text;
 		},
 		getCode() {
+			if (!this.form.email) {
+				return this.$api.msg(this.i18n.register.email);
+			}
 			if (this.$refs.uCode.canGetCode) {
 				// 模拟向后端请求验证码
 				uni.showLoading({

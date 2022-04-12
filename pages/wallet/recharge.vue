@@ -15,7 +15,12 @@
 		<image class="user-bg" src="../../static/images/wallet/bg.png" />
 		<view class="code-wrapper">
 			<img :src="rechargeInfo.recharge_qr" class="code-img" />
+			<!-- #ifdef H5 -->
+			<view class="save-code" @click="saveImg(rechargeInfo.recharge_qr)">{{ i18n.recharge.saveImg }}</view>
+			<!-- #endif -->
+			<!-- #ifdef APP-PLUS -->
 			<view class="save-code" @click="saveImg(rechargeInfo.recharge_qr)">{{ i18n.recharge.saveCode }}</view>
+			<!-- #endif -->
 		</view>
 		<view class="title">
 			<text>{{ i18n.recharge.rechargeAddr }}</text>
@@ -94,9 +99,9 @@ export default {
 		},
 		// 保存图片
 		async saveImg(url) {
-			// #ifdef H5
-			this.$api.msg(this.i18n.recharge.saveImg);
-			// #endif
+			// // #ifdef H5
+			// this.$api.msg(this.i18n.recharge.saveImg);
+			// // #endif
 			// #ifndef APP-NVUE
 			uni.saveImageToPhotosAlbum({
 				filePath: url,

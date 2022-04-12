@@ -32,7 +32,9 @@
 			<view class="s-header">
 				<view class="col">{{ i18n.index.market.title1 }}</view>
 				<view class="col r">{{ i18n.index.market.title2 }}</view>
-				<view class="col r">{{ i18n.index.market.title3 }}</view>
+				<view class="col r">
+					<text style="margin-left: 60upx;">{{ i18n.index.market.title3 }}</text>
+				</view>
 			</view>
 			<view class="s-row little-line" @click="navTo(`/pages/market/index?code=${item.symbolCode}`)" v-for="(item, i) in markets" :key="item.symbol">
 				<view class="col light">
@@ -222,7 +224,7 @@ page {
 			font-weight: normal;
 		}
 		.menu-icon {
-			width: 58rpx;
+			width: 44upx;
 		}
 		text {
 			font-size: $font-md;
@@ -315,7 +317,7 @@ page {
 		padding-top: 30upx;
 		padding-bottom: 30upx;
 		.col {
-			font-size: $font-base;
+			font-size: 24upx;;
 			color: $font-color-dark;
 			flex: 1;
 		}
