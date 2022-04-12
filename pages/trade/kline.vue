@@ -85,7 +85,7 @@
 			],
 			IsCorssOnlyDrawKLine: true,
 			IsAutoUpdate: true, //是自动更新数据
-			AutoUpdateFrequency: 3000,
+			AutoUpdateFrequency: 10000,
 			CorssCursorTouchEnd: true,
 			IsShowRightMenu: false, //右键菜单
 			IsShowCorssCursorInfo: false, //是否显示十字光标的刻度信息
@@ -161,6 +161,7 @@
 
 			Symbol: '000001.sz',
 			IsAutoUpdate: true, //是自动更新数据
+			AutoUpdateFrequency: 10000,
 			DayCount: 1, //1 最新交易日数据 >1 多日走势图
 			IsShowCorssCursorInfo: true, //是否显示十字光标的刻度信息
 			IsShowRightMenu: true, //是否显示右键菜单
