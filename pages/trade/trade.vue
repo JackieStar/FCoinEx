@@ -42,7 +42,7 @@
 		</view>
 		<view class="lever-wrapper">
 			<view v-for="item in productData.lever" :key="item" class="lever-btn" @click="handelChooseMultiple(item)">
-				<view class="lever-text">x{{ item }}</view>
+				<view class="lever-text">{{ item }}x</view>
 				<image v-if="item == multipleValue" class="btn-bg-image" src="../../static/images/trade/btn-radio.png"
 					mode=""></image>
 			</view>
@@ -97,20 +97,20 @@
 			<view class="tabs-left-box">
 				<view class="tab-item" @click="handleChangeType('handup')">
 					<view class="item-color" :class="[activeType == 'handup' ? 'active-color' : '']">
-						{{ i18n.trade.now }}
+						{{ i18n.trade.now }}<text>({{totalHandup}})</text>
 					</view>
 					<view v-if="activeType == 'handup'" class="text-line-box">
 						<image class="text-line" src="../../static/images/trade/text-line.png" mode=""></image>
 					</view>
 				</view>
-				<view class="tab-item mar-left-67" @click="handleChangeType('hold')">
-					<view class="item-color" :class="[activeType == 'hold' ? 'active-color' : '']">{{ i18n.trade.hold }}
+				<view class="tab-item mar-left-57" @click="handleChangeType('hold')">
+					<view class="item-color" :class="[activeType == 'hold' ? 'active-color' : '']">{{ i18n.trade.hold }}<text>({{totalHold}})</text>
 					</view>
 					<view v-if="activeType == 'hold'" class="text-line-box">
 						<image class="text-line" src="../../static/images/trade/text-line.png" mode=""></image>
 					</view>
 				</view>
-				<view class="tab-item mar-left-67" @click="handleChangeType('history')">
+				<view class="tab-item mar-left-57" @click="handleChangeType('history')">
 					<view class="item-color" :class="[activeType == 'history' ? 'active-color' : '']">
 						{{ i18n.trade.histroy }}
 					</view>
@@ -132,7 +132,7 @@
 		<view class="" v-if="activeType == 'history'">
 			<view class="item-card-box" v-for="item in orderDate" :key="item.id">
 				<view class="triangle-box"></view>
-				<view class="card-head">{{item.product_name}} {{item.lever}}x</view>
+				<view class="card-head">{{item.product_name}}_USDT {{item.lever}}x</view>
 				<view class="card-content-box">
 					<view class="content-item flex_between_box">
 						<view class="content-text-box">
@@ -157,7 +157,7 @@
 						</view>
 						<view class="content-text-box">
 							<view class="label">{{i18n.trade.profit}}</view>
-							<view class="amount">{{item.profit}}</view>
+							<view class="amount">{{item.profit}}(USDT)</view>
 						</view>
 						<view class="content-text-box">
 							<view class="label">{{i18n.trade.profitRate}}</view>
@@ -242,7 +242,7 @@
 				isSendHttp: false, // 是否点击发送请求中
 
 				productCode: 'btc', // 产品code
-				productName: 'btc usdt',
+				productName: 'BTC USDT',
 
 				markets: [],
 				line: [],
@@ -251,7 +251,11 @@
 				isHavePage: false,
 				isSendLoading: false,
 				page: 1,
-				total: 0
+				total: 0,
+				
+				totalHandup:0,
+				totalHold:0
+				
 
 			};
 		},
@@ -262,7 +266,7 @@
 			if (this.loginInfo.hasLogin) {
 				this.getUserInfo();
 			}
-			this.clear = setInterval(this.getProductInfo, 5000)
+			this.clear = setInterval(this.getProductInfo, 60 * 1000)
 		},
 		//隐藏的时候 停止定时器和清空hqchart的实例
 		onHide() {
@@ -295,13 +299,14 @@
 				this.amountValue = '' // 数量
 				this.firstAmount = ''
 				this.inputPrice = '' // 开仓价格
-				this.amount=''
+				this.amount = ''
 				this.price = '' // 价格
 				this.getProductInfo(1);
 				if (!this.isOpen) {
 					this.page = 1
-					this.getOrderList()
 				}
+				this.getOrderList()
+				this.getNavTotal()
 				this.productPopup = false
 			},
 			getMaketList() {
@@ -313,6 +318,7 @@
 					this.getProductInfo(1);
 					if (this.loginInfo.hasLogin) {
 						this.getOrderList()
+						this.getNavTotal()
 					}
 					this.getProductPrice()
 				});
@@ -358,8 +364,31 @@
 				});
 			},
 			getNewOrderList() {
+				this.getNavTotal()
 				this.page = 1
 				this.getOrderList()
+			},
+			getNavTotal() {
+				let paramsHold = {
+					type: 'hold',
+					code: this.isOpen ? '' : this.productCode,
+					status: '',
+					page: this.page,
+					limit: 10
+				}
+				this.orderList(paramsHold).then(res => {
+					this.totalHold = res.data.length
+				});
+				let paramsHandup = {
+					type: 'handup',
+					code: this.isOpen ? '' : this.productCode,
+					status: 1,
+					page: this.page,
+					limit: 10
+				}
+				this.orderList(paramsHandup).then(res => {
+					this.totalHandup = res.data.total
+				});
 			},
 			getOrderList() {
 				this.isSendLoading = true
@@ -423,6 +452,7 @@
 					this.submitOrder(params).then(res => {
 
 						this.getOrderList()
+						this.getNavTotal()
 						setTimeout(() => {
 							this.$u.toast(res.message)
 						}, 1000)
@@ -446,6 +476,7 @@
 			handleChangeOpen() {
 				this.isOpen = !this.isOpen;
 				this.page = 1
+				this.getNavTotal()
 				this.getOrderList()
 			},
 			// 切换订单类型
@@ -455,7 +486,12 @@
 				this.getOrderList()
 			},
 			handleChoosePrice(price) {
-				this.price = price
+				if (this.price == 'Market') {
+					this.price = 'inputPrice'
+				} else {
+					this.price = price
+				}
+
 			}
 		}
 	};
@@ -676,6 +712,7 @@
 			border-radius: 14upx;
 			text-align: center;
 			line-height: 88upx;
+			color: #FFFFFF;
 		}
 
 		.down-btn {
@@ -685,6 +722,7 @@
 			border-radius: 14upx;
 			text-align: center;
 			line-height: 88upx;
+			color: #FFFFFF;
 		}
 	}
 
@@ -741,8 +779,8 @@
 				}
 			}
 
-			.mar-left-67 {
-				margin-left: 67rpx;
+			.mar-left-57 {
+				margin-left: 57rpx;
 			}
 		}
 

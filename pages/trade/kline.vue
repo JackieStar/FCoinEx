@@ -2,7 +2,7 @@
 	<div class='divchart'>
 		<view class="head-box" @click="handleChangeProduct">
 			<view class="head-name">
-				{{productName}} USTD
+				{{productName}} USDT
 			</view>
 			<image class="head-img" src="../../static/images/trade/qiehuan@2x.png" mode=""></image>
 		</view>
@@ -276,6 +276,7 @@
 				KLINE_PERIOD_ID: KLINE_PERIOD_ID,
 				activeId: 4,
 				activeName: '1min',
+				isSend:false
 
 
 				// list: {
@@ -343,7 +344,9 @@
 					Name: 'KLineTooltip'
 				}];
 				chart.SetOption(this.KLine.Option);
+
 				g_KLine.JSChart = chart;
+				// JSCommon.MARKET_SUFFIX_NAME.GetMarketStatus = function (this.Symbol) { return 2; }
 			},
 
 			CreateKLineChart_app() {
@@ -397,6 +400,9 @@
 				this.KLine.Option.ExtendChart = [{
 					Name: 'KLineTooltip'
 				}];
+				JSCommon.MARKET_SUFFIX_NAME.GetMarketStatus = function(symbol) {
+					return 2;
+				}
 				g_KLine.JSChart.SetOption(this.KLine.Option);
 			},
 
@@ -411,12 +417,13 @@
 				console.log(period, 'period')
 				this.Minute.IsShow = false;
 				this.KLine.IsShow = true;
+				let needPeriod = period - 1
 				if (!g_KLine.JSChart) {
 					//不存在创建
-					this.KLine.Option.Period = period - 1;
+					this.KLine.Option.Period = needPeriod > 8 ? 12 : needPeriod;
 					this.CreateKLineChart();
 				} else {
-					g_KLine.JSChart.ChangePeriod(period - 1);
+					g_KLine.JSChart.ChangePeriod(needPeriod > 8 ? 12 : needPeriod);
 				}
 			},
 			//创建日线图
@@ -489,7 +496,9 @@
 				// 	Name: 'KLineTooltip'
 				// }];
 
-
+				JSCommon.MARKET_SUFFIX_NAME.GetMarketStatus = function(symbol) {
+					return 2;
+				}
 				g_Minute.JSChart.SetOption(this.Minute.Option);
 			},
 
@@ -516,7 +525,7 @@
 							[361, 0, "RGB(200,200,200)", "06:00"],
 							[541, 0, "RGB(200,200,200)", "09:00"],
 							[722, 1, "RGB(200,200,200)", "12:00"],
-							[962, 0, "RGB(200,200,200)", "15:00"],
+							[902, 0, "RGB(200,200,200)", "15:00"],
 							[1082, 0, "RGB(200,200,200)", "18:00"],
 							[1260, 0, "RGB(200,200,200)", "21:00"],
 							[1442, 1, "RGB(200,200,200)", "24:00"], // 15:00
@@ -557,6 +566,9 @@
 			},
 			changeLine(index) {
 				console.log(index)
+				uni.showLoading({
+					title: "加载中"
+				})
 				if (index == 4) {
 					this.ChangeMinutePeriod(index)
 				} else {
@@ -604,16 +616,14 @@
 				data.PreventDefault = true;
 				let that = this;
 				console.log(this.productCode, this.list[this.activeId - 4].k)
-				// uni.showLoading({
-				// 	title: "加载中"
-				// })
-
+				this.isSend=true
 
 				this.getProductLine({
 					code: this.productCode,
 					k: this.list[this.activeId - 4].k
 				}).then(res => {
 					// console.log(res)
+					this.isSend=false
 					uni.hideLoading()
 					let recvData = res.data;
 					var internalChart = g_KLine.JSChart.JSChartContainer;
@@ -649,9 +659,9 @@
 								"open": Number(item.open),
 								"high": Number(item.high),
 								"low": Number(item.low),
-								// "vol": Number(item.volume),
-								// "risefall": Number(item.diff_rate),
-								// "amount": Number(item.volume) / Number(item.price),
+								"vol": Number(item.volume),
+								"risefall": Number(item.diff_rate),
+								"amount": Number(item.volume) / Number(item.price),
 								"time": time,
 							};
 							arr.push(newItem);
@@ -722,6 +732,8 @@
 						callback(hqChartData);
 						// #endif
 					}
+				}).catch(()=>{
+					this.isSend=false
 				});
 			},
 
