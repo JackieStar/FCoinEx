@@ -15,7 +15,7 @@
 					<input placeholder-style="color: #435687" v-model="form.email" :placeholder="i18n.register.email" @input="inputChange" />
 				</view>
 				<view class="input-item">
-					<u-image src="../../static/images/public/code.png"  width="30upx" height="35upx" />
+					<u-image src="../../static/images/public/code.png" width="30upx" height="35upx" />
 					<input
 						placeholder-style="color: #435687"
 						v-model="form.email_code"
@@ -27,8 +27,15 @@
 						@input="inputChange"
 					/>
 					<view>
-						<u-verification-code :seconds="seconds" ref="uCode" @change="codeChange"></u-verification-code>
-						<view @tap="getCode" class="code-btn">{{tips}}</view>
+						<u-verification-code
+							:start-text="i18n.common.getCode"
+							:change-text="i18n.common.seconds"
+							:end-text="i18n.common.again"
+							:seconds="seconds"
+							ref="uCode"
+							@change="codeChange"
+						></u-verification-code>
+						<view @tap="getCode" class="code-btn">{{ tips }}</view>
 					</view>
 				</view>
 				<view class="input-item">
@@ -95,7 +102,7 @@
 					/>
 				</view>
 			</view>
-			<view  @click="toRegist" class="confirm-btn">{{ i18n.register.registration }}</view>
+			<view @click="toRegist" class="confirm-btn">{{ i18n.register.registration }}</view>
 			<!-- <button class="confirm-btn" @click="toRegist" :disabled="logining">{{ i18n.login.registration }}</button> -->
 		</view>
 		<view class="register-section">
@@ -132,7 +139,7 @@ export default {
 			authCode: {
 				captchaCode: undefined,
 				token: undefined
-			},
+			}
 		};
 	},
 	onLoad() {},
@@ -181,10 +188,10 @@ export default {
 			}
 		},
 		handleChange(type) {
-			this.isOpen = type
+			this.isOpen = type;
 		},
 		handleChangeEyes(type) {
-			this.isOpenEyes = type
+			this.isOpenEyes = type;
 		},
 		toRegist() {
 			// if (!isMobile(this.form.username)) {
@@ -209,12 +216,12 @@ export default {
 						let params = {
 							email: this.form.email,
 							password: this.form.password
-						}
+						};
 						this.login(params).then(res => {
 							uni.navigateTo({
 								url: '/pages/lottery/index'
 							});
-						})
+						});
 					}, 1000);
 				})
 				.catch(error => {
@@ -342,7 +349,7 @@ page {
 	padding: 0 10upx;
 	height: 80upx;
 	margin-bottom: 50upx;
-	border-bottom: 1px solid #0B2771;
+	border-bottom: 1px solid #0b2771;
 	color: #ffffff;
 	&:last-child {
 		margin-bottom: 0;
@@ -370,20 +377,20 @@ page {
 	padding: 30upx 60upx;
 	color: #ffffff;
 }
-.confirm-btn{
-		width: 630upx;
-		height: 76upx;
-		line-height: 76upx;
-		margin-top: 40upx;
-		margin: 40upx auto;
-		background: url(../../static/images/public/login-btn.png);
-		background-size: 100% 100%;
-		color: #fff;
-		font-size: $font-lg;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	}
+.confirm-btn {
+	width: 630upx;
+	height: 76upx;
+	line-height: 76upx;
+	margin-top: 40upx;
+	margin: 40upx auto;
+	background: url(../../static/images/public/login-btn.png);
+	background-size: 100% 100%;
+	color: #fff;
+	font-size: $font-lg;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
 
 .forget-section {
 	font-size: $font-sm + 2upx;
@@ -409,11 +416,11 @@ page {
 	float: right;
 	width: 200upx;
 	text-align: right;
-	color: #4F5B87;
+	color: #4f5b87;
 	font-size: 26upx;
 	font-family: PingFang SC;
 	font-weight: 400;
-	background: linear-gradient(0deg, #3FBBFE 0%, #A541FF 100%);
+	background: linear-gradient(0deg, #3fbbfe 0%, #a541ff 100%);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 }

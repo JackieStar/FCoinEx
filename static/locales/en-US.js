@@ -83,6 +83,8 @@ module.exports = {
 		},
 		common: {
 			getCode: 'Get Code',
+			seconds: 'xS',
+			again: 'Again',
 			ok: 'Sure',
 			cancel: 'Cancel',
 			noData: 'No data',

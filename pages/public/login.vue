@@ -68,15 +68,15 @@
 		data(){
 			return {
 				form: {
-					email: '702242999@qq.com',
-					password: '123456'
+					email: '', // 702242999@qq.com
+					password: '' // 123456
 				},
 				isOpenEyes: false,
 				redirect: undefined,
 			}
 		},
 		onLoad(options) {
-			this.redirect = options.redirect
+			// this.redirect = options.redirect
 		},
 		methods: {
 			...mapActions('user', ['login']),
@@ -103,20 +103,23 @@
 				this.login(this.form).then(res => {
 					this.$api.msg(this.i18n.login.loginSuccess, 1000, false, 'none', function() {
 						setTimeout(function() {
-							if($this.redirect && $this.redirect == 'register'){
-								uni.switchTab({
-									url: '/pages/index/index'
-								})
-							} else {
-								let pages = getCurrentPages();
-								if(pages && pages.length == 1){
-									uni.switchTab({
-										url: '/pages/index/index'
-									})
-								} else {
-									uni.navigateBack({})
-								}
-							}
+							uni.switchTab({
+								url: '/pages/index/index'
+							})
+							// if($this.redirect && $this.redirect == 'register'){
+							// 	uni.switchTab({
+							// 		url: '/pages/index/index'
+							// 	})
+							// } else {
+							// 	let pages = getCurrentPages();
+							// 	if(pages && pages.length == 1){
+							// 		uni.switchTab({
+							// 			url: '/pages/index/index'
+							// 		})
+							// 	} else {
+							// 		uni.navigateBack({})
+							// 	}
+							// }
 						}, 1000)
 					})
 				})

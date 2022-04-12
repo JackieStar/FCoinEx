@@ -11,10 +11,10 @@
 				<view class="info-box" @click="toLogin">
 					<view class="username" @click="openPage(1)">
 						{{ loginInfo.name || i18n.user.login }}
-						<u-image class="edit" src="../../static/images/user/edit.png" width="26upx" height="29upx" />
+						<u-image v-if="loginInfo.hasLogin" class="edit" src="../../static/images/user/edit.png" width="26upx" height="29upx" />
 					</view>
 					<view class="tip">{{ loginInfo.email }}</view>
-					<view class="tip" @click="handleCopy(loginInfo.id)">
+					<view class="tip" @click="handleCopy(loginInfo.id)" v-if="loginInfo.hasLogin">
 						UID: {{ loginInfo.id }}
 						<u-image class="copy" src="../../static/images/user/copy.png" width="28upx" height="29upx" />
 					</view>
@@ -32,7 +32,7 @@
 				<list-cell image="/static/images/user/help-center.png" @eventClick="openPage(3)" :title="i18n.user.help"></list-cell>
 				<list-cell image="/static/images/user/about-as.png" @eventClick="openPage(4)" :title="i18n.user.about"></list-cell>
 				<list-cell image="/static/images/user/download.png" border="" :title="i18n.user.download" @eventClick="openPage(5)"></list-cell>
-			</view>
+			</view>	
 			<view class="history-section icon" v-if="loginInfo.hasLogin"><list-cell image="/static/images/user/logout.png" border="" :title="i18n.user.logout" @eventClick="toLogout"></list-cell></view>
 		</view>
 
@@ -43,6 +43,9 @@
 import listCell from '@/components/mix-list-cell';
 import { mapState, mapActions } from 'vuex';
 import { commonMixin } from '@/common/mixin/mixin.js';
+let startY = 0,
+	moveY = 0,
+	pageAtTop = true;
 export default {
 	components: {
 		listCell
@@ -270,7 +273,7 @@ page {
 		display: flex;
 		font-size: 36upx;
 		color: #ffffff;
-		margin-left: 40upx;
+		// margin-left: 40upx;
 		margin-top: 30upx;
 		.edit {
 			margin-left: 28upx;

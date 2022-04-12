@@ -53,7 +53,14 @@
 					type="text"
 				/>
 				<view>
-					<u-verification-code :seconds="seconds" ref="uCode" @change="codeChange"></u-verification-code>
+					<u-verification-code
+						:start-text="i18n.common.getCode"
+						:change-text="i18n.common.seconds"
+						:end-text="i18n.common.again"
+						:seconds="seconds"
+						ref="uCode"
+						@change="codeChange"
+					></u-verification-code>
 					<view @tap="getCode" class="code-btn">{{ tips }}</view>
 				</view>
 			</view>
@@ -123,8 +130,8 @@ export default {
 	},
 	methods: {
 		...mapActions('common', ['sendSms']),
-		...mapActions('wallet', ['getFinaceInfo','withdraw', 'withdrawFee']),
-		...mapActions('user', [ 'userInfo' ]),
+		...mapActions('wallet', ['getFinaceInfo', 'withdraw', 'withdrawFee']),
+		...mapActions('user', ['userInfo']),
 		//请求数据
 		async loadData() {
 			this.getFinaceInfo({ config: 'withdraw' }).then(res => {

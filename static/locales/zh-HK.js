@@ -83,6 +83,8 @@ module.exports = {
 		},
 		common: {
 			getCode: '獲取驗證碼',
+			seconds: 'xS',
+			again: '重新获取',
 			ok: '確認',
 			cancel: '取消',
 			noData: '暫無數據',

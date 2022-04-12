@@ -35,7 +35,14 @@
 				type="text"
 			/>
 			<view>
-				<u-verification-code :seconds="seconds" ref="uCode" @change="codeChange"></u-verification-code>
+				<u-verification-code
+					:start-text="i18n.common.getCode"
+					:change-text="i18n.common.seconds"
+					:end-text="i18n.common.again"
+					:seconds="seconds"
+					ref="uCode"
+					@change="codeChange"
+				></u-verification-code>
 				<view @tap="getCode" class="code-btn">{{ tips }}</view>
 			</view>
 		</view>
@@ -74,6 +81,7 @@ export default {
 		...mapActions('common', ['sendSms']),
 		...mapActions('user', ['updatePwd']),
 		codeChange(text) {
+			console.log('text', text);
 			this.tips = text;
 		},
 		getCode() {
