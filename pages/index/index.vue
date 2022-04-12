@@ -1,7 +1,8 @@
 <template>
 	<view class="container">
 		<view class="market-header">
-			<u-image class="avatar" @click="openPage(1)" :src="loginInfo.avatar" shape="circle" width="76rpx" height="76rpx" mode="widthFix" />
+			<u-image v-if="loginInfo.hasLogin" class="avatar" @click="openPage(1)" :src="loginInfo.avatar" shape="circle" width="76rpx" height="76rpx" mode="widthFix" />
+			<u-image v-else class="avatar" @click="openPage(1)" src="../../static/images/user/avatar.png" shape="circle" width="76rpx" height="76rpx" mode="widthFix" />
 			<view class="market-text">{{i18n.index.title}}</view>
 		</view>
 		<!-- 头部轮播 -->
@@ -14,13 +15,13 @@
 		<view class="cate-section"><noticeSwiper :list="notices"></noticeSwiper></view>
 
 		<view class="menu">
-			<view class="fiat m-r" @click="navTo('/pages/wallet/recharge')">
+			<view class="fiat m-r" @click="openPage(3)">
 				<view class="label">
 					<text>{{ i18n.index.prediction.title1 }}</text>
 				</view>
 				<image class="menu-icon" src="../../static/images/makets/recharge.png" mode="widthFix" />
 			</view>
-			<view class="fiat m-l" @click="navTo('/pages/wallet/withdraw')">
+			<view class="fiat m-l" @click="openPage(4)">
 				<view class="label">
 					<text>{{ i18n.index.prediction.title2 }}</text>
 				</view>
@@ -146,6 +147,30 @@ export default {
 					url: '/pages/user/webview?url=' + this.appData.kf_url
 				});
 				// #endif
+				
+			}
+			if (type === 3) {
+				if (this.loginInfo.hasLogin) {
+					uni.navigateTo({
+						url: '/pages/wallet/recharge'
+					});
+				} else {
+					uni.navigateTo({
+						url: '/pages/public/login'
+					});
+				}
+				
+			}
+			if (type === 4) {
+				if (this.loginInfo.hasLogin) {
+					uni.navigateTo({
+						url: '/pages/wallet/withdraw'
+					});
+				} else {
+					uni.navigateTo({
+						url: '/pages/public/login'
+					});
+				}
 				
 			}
 		}

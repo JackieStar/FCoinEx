@@ -31,6 +31,14 @@ export function updatePwd(data) {
 		data: data
 	})
 }
+//修改密码
+export function resetPwd(data) {
+	return request({
+		url: '/api/reset-pwd',
+		method: 'POST',
+		data: data
+	})
+}
 //昵称
 export function updateUserName(data) {
 	return request({

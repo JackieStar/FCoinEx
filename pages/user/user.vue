@@ -7,7 +7,11 @@
 				<view class="market-text">{{ i18n.user.title }}</view>
 			</view>
 			<view class="user-info-box">
-				<view class="portrait-box"><image class="portrait" :src="loginInfo.avatar"></image></view>
+				<view class="portrait-box">
+					<image v-if="loginInfo.hasLogin" class="portrait" :src="loginInfo.avatar"></image>
+					<image v-else class="portrait" src="../../static/images/user/avatar.png" mode="widthFix" />
+				</view>
+				
 				<view class="info-box" @click="toLogin">
 					<view class="username" @click="openPage(1)">
 						{{ loginInfo.name || i18n.user.login }}
@@ -25,8 +29,8 @@
 		<view class="cover-container">
 			<!-- 浏览历史 -->
 			<view class="history-section icon">
-				<list-cell image="/static/images/user/password.png" @eventClick="navTo('/pages/user/updateLoginPwd', true)" :title="i18n.user.password"></list-cell>
-				<list-cell image="/static/images/user/referral.png" @eventClick="navTo('/pages/user/invit', true)" :title="i18n.user.invit"></list-cell>
+				<list-cell image="/static/images/user/password.png" @eventClick="openPage(6)" :title="i18n.user.password"></list-cell>
+				<list-cell image="/static/images/user/referral.png" @eventClick="openPage(7)" :title="i18n.user.invit"></list-cell>
 				<list-cell image="/static/images/user/language.png" @eventClick="changeLang" :title="i18n.user.language"></list-cell>
 				<list-cell image="/static/images/user/community.png" @eventClick="openPage(2)" :title="i18n.user.community"></list-cell>
 				<list-cell image="/static/images/user/help-center.png" @eventClick="openPage(3)" :title="i18n.user.help"></list-cell>
@@ -79,7 +83,6 @@ export default {
 			}
 		];
 	},
-
 	computed: {
 		...mapState('user', ['loginInfo'])
 	},
@@ -136,7 +139,7 @@ export default {
 				});
 				// #endif
 			}
-			if (type === 3) {
+			if (type == 3) {
 				// #ifdef H5
 				window.location.href = this.appData.help_center;
 				// #endif
@@ -146,7 +149,7 @@ export default {
 				});
 				// #endif
 			}
-			if (type === 4) {
+			if (type == 4) {
 				// #ifdef H5
 				window.location.href = this.appData.abount_me;
 				// #endif
@@ -165,6 +168,28 @@ export default {
 					url: '/pages/user/webview?url=' + this.appData.app_download
 				});
 				// #endif
+			}
+			if (type === 6) {
+				if (this.loginInfo.hasLogin) {
+					uni.navigateTo({
+						url: '/pages/user/updateLoginPwd'
+					});
+				} else {
+					uni.navigateTo({
+						url: '/pages/public/login'
+					});
+				}
+			}
+			if (type === 7) {
+				if (this.loginInfo.hasLogin) {
+					uni.navigateTo({
+						url: '/pages/user/invit'
+					});
+				} else {
+					uni.navigateTo({
+						url: '/pages/public/login'
+					});
+				}
 			}
 		},
 		// 复制

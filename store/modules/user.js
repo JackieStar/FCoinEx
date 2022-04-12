@@ -9,6 +9,7 @@ import {
 	login,
 	logout,
 	updatePwd,
+	resetPwd,
 	updateUserName,
 	userInfo,
 	invitInfo,
@@ -114,6 +115,17 @@ const user = {
 		}, data) {
 			return new Promise((resolve, reject) => {
 				updatePwd(data).then(res => {
+					resolve()
+				}).catch(error => {
+					reject(error)
+				})
+			})
+		},
+		resetPwd({
+			commit
+		}, data) {
+			return new Promise((resolve, reject) => {
+				resetPwd(data).then(res => {
 					resolve()
 				}).catch(error => {
 					reject(error)

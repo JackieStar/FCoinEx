@@ -38,6 +38,8 @@ module.exports = {
 		},
 		updatePwd: {
 			title: '修改密碼',
+			title1: '忘记密碼',
+			email: '請輸入郵箱',
 			oldPwd: '舊密碼',
 			newPwd: '新密碼',
 			newPwdAgain: '再次輸入密碼',

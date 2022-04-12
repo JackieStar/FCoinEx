@@ -59,9 +59,18 @@ export default {
 		uni.setNavigationBarTitle({
 			title: this.i18n.wallet.title
 		});
-
-		this.getUserInfo();
-		this.loadData();
+		if (this.loginInfo.hasLogin) {
+			this.getUserInfo();
+			this.loadData();
+		} else {
+			uni.navigateTo({
+				url: '/pages/public/login'
+			})
+		}
+		
+	},
+	computed: {
+		...mapState('user', ['loginInfo'])
 	},
 	methods: {
 		...mapActions('user', ['userInfo']),

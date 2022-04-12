@@ -44,7 +44,7 @@
 				</view>
 			</view>
 			<view class="link">
-				<view class="forget-section" @click="toPassword">
+				<view class="forget-section" @click="toForgetPassword">
 					{{i18n.login.forget}}
 				</view>
 			</view>
@@ -90,9 +90,9 @@
 					url: '/pages/public/register'
 				})
 			},
-			toPassword() {
+			toForgetPassword() {
 				uni.navigateTo({
-					url: '/pages/user/updateLoginPwd'
+					url: '/pages/public/forget'
 				})
 			},
 			handleChange(type) {

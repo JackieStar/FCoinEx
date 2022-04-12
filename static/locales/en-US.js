@@ -38,6 +38,8 @@ module.exports = {
 		},
 		updatePwd: {
 			title: 'Change Password',
+			title1: 'Forget Password',
+			email: 'Email address',
 			oldPwd: 'Old password',
 			newPwd: 'New password',
 			newPwdAgain: 'Enter the password again',

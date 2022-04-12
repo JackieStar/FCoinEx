@@ -123,6 +123,14 @@
 			}
 		},
 		{
+			"path": "pages/public/forget",
+			"style": {
+				"navigationBarTitleText": "忘记密码",
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#070219"
+			}
+		},
+		{
 			"path": "pages/user/updateName",
 			"style": {
 				"navigationBarTitleText": "修改昵称",
