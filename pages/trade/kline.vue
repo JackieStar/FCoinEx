@@ -602,9 +602,9 @@
 				data.PreventDefault = true;
 				let that = this;
 				console.log(this.productCode, this.list[this.activeId - 4].k)
-				uni.showLoading({
-					title: "加载中"
-				})
+				// uni.showLoading({
+				// 	title: "加载中"
+				// })
 
 
 				this.getProductLine({
