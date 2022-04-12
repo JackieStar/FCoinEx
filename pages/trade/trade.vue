@@ -89,7 +89,7 @@
 			<view class="down-btn" @click="handleTransaction(2)">{{ i18n.trade.down }}</view>
 		</view>
 		<!-- 当前、历史 -->
-		<view class="tabs-switch-wrapper flex_between_box" >
+		<view class="tabs-switch-wrapper flex_between_box">
 			<view class="tabs-left-box">
 				<view class="tab-item" @click="handleChangeType('handup')">
 					<view class="item-color" :class="[activeType == 'handup' ? 'active-color' : '']">
@@ -133,7 +133,7 @@
 					<view class="content-item flex_between_box">
 						<view class="content-text-box">
 							<view class="label">{{ i18n.trade.openNumber }}</view>
-							<view class="amount">{{item.buy_total_price}}</view>
+							<view class="amount">{{item.hand_number}}</view>
 						</view>
 						<view class="content-text-box">
 							<view class="label">{{ i18n.trade.openPrice }}</view>
@@ -158,7 +158,8 @@
 						<view class="content-text-box">
 							<view class="label">{{i18n.trade.profitRate}}</view>
 							<view class="amount " :class="[item.profit_rate>0?'green-text':'red-text']">
-								{{item.profit_rate>0?'+':''}}{{(item.profit_rate*100).toFixed(2)}}%</view>
+								{{item.profit_rate>0?'+':''}}{{item.profit_rate}}%
+							</view>
 						</view>
 					</view>
 				</view>
@@ -244,7 +245,7 @@
 				isHavePage: false,
 				isSendLoading: false,
 				page: 1,
-				total:0
+				total: 0
 
 			};
 		},
@@ -266,7 +267,7 @@
 			clearInterval(this.clear);
 		},
 		onReachBottom() {
-			if (this.total>this.orderDate.length&&!this.isSendLoading) {
+			if (this.total > this.orderDate.length && !this.isSendLoading) {
 				this.page++
 				this.getOrderList()
 			}
@@ -344,16 +345,16 @@
 					this.userData = res.data;
 				});
 			},
-			getNewOrderList(){
-				this.page=1
+			getNewOrderList() {
+				this.page = 1
 				this.getOrderList()
 			},
 			getOrderList() {
 				this.isSendLoading = true
 				let params = {
-					type: this.activeType,
+					type: this.activeType == 'hold' ? this.activeType : 'handup',
 					code: this.isOpen ? '' : this.productCode,
-					status: 0,
+					status:  this.activeType == 'hold' ?"":this.activeType == 'history' ? 2 : 1,
 					page: this.page,
 					limit: 10
 				}
@@ -365,7 +366,7 @@
 						this.orderDate = res.data;
 					} else {
 						let records = res.data.data
-						this.total=res.data.total
+						this.total = res.data.total
 						if (this.page == 1) {
 							this.orderDate = records
 							this.isHavePage = true
@@ -527,7 +528,8 @@
 
 	.lever-wrapper {
 		margin-top: 30upx;
-		padding: 20upx 26upx;
+		box-sizing: border-box;
+		padding: 20upx 0upx 20rpx 26rpx;
 		display: flex;
 		flex-wrap: wrap;
 

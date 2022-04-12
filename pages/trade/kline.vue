@@ -59,6 +59,9 @@
 		JSCommonHQStyle
 	} from '../../static/js/umychart.style.wechat.js'
 	import {
+		JSCommonCoordinateData
+	} from '../../static/js/umychart.coordinatedata.wechat.js'
+	import {
 		mapState,
 		mapActions
 	} from 'vuex';
@@ -154,16 +157,17 @@
 		var option = {
 			Type: '分钟走势图', //创建图形类型
 
-			Windows: [ ],
+			Windows: [],
 
-			Symbol: '000001.et',
+			Symbol: '000001.sz',
 			IsAutoUpdate: true, //是自动更新数据
 			DayCount: 1, //1 最新交易日数据 >1 多日走势图
 			IsShowCorssCursorInfo: true, //是否显示十字光标的刻度信息
 			IsShowRightMenu: true, //是否显示右键菜单
 
 			MinuteLine: {
-				//IsDrawAreaPrice:false,      //是否画价格面积图
+				// IsDrawAreaPrice:false,      //是否画价格面积图
+				IsShowAveragePrice:false,
 			},
 
 			Border: //边框
@@ -180,7 +184,7 @@
 					},
 					{
 						SplitCount: 0,
-						Height:0
+						Height: 0
 					}
 				],
 
@@ -435,6 +439,15 @@
 				element.Width = this.ChartWidth;
 
 				g_Minute.JSChart = JSCommon.JSChart.Init(element);
+				let minuteCoordinateData = JSCommonCoordinateData.MinuteCoordinateData
+				let minuteStringData = JSCommonCoordinateData.MinuteTimeStringData
+				minuteStringData.CreateSHSZData = () => {
+					return this.CreateSHSZData();
+				} //替换交易时间段
+				minuteCoordinateData.GetSHSZData = (upperSymbol, width) => {
+					return this.GetSHSZData(upperSymbol, width)
+				}
+				
 				var blackStyle = JSCommonHQStyle.GetStyleConfig(JSCommonHQStyle.STYLE_TYPE_ID.BLACK_ID);
 				blackStyle.BGColor = 'rgb(12,23,37)'; //背景
 				blackStyle.FrameTitleBGColor = 'rgb(16,28,45)'; //指标标题背景
@@ -473,7 +486,68 @@
 				// this.KLine.Option.ExtendChart = [{
 				// 	Name: 'KLineTooltip'
 				// }];
+			
+
 				g_Minute.JSChart.SetOption(this.Minute.Option);
+			},
+
+			CreateSHSZData() {
+				const TIME_SPLIT = [{
+						Start: 0,
+						End: 1200
+					},
+					{
+						Start: 1200,
+						End: 2400
+					}
+				]
+				var minuteStringData = JSCommonCoordinateData.MinuteTimeStringData()
+				return minuteStringData.CreateTimeData(TIME_SPLIT)
+			},
+
+			GetSHSZData(upperSymbol, width) {
+				const SHZE_MINUTE_X_COORDINATE = {
+					Full: //完整模式
+						[
+							[0, 0, "rgb(200,200,200)", "00:00"],
+							[181, 0, "RGB(200,200,200)", "03:00"],
+							[361, 0, "RGB(200,200,200)", "06:00"],
+							[541, 0, "RGB(200,200,200)", "09:00"],
+							[722, 1, "RGB(200,200,200)", "12:00"],
+							[962, 0, "RGB(200,200,200)", "15:30"],
+							[1082, 0, "RGB(200,200,200)", "18:00"],
+							[1260, 0, "RGB(200,200,200)", "21:00"],
+							[1442, 1, "RGB(200,200,200)", "24:00"], // 15:00
+						],
+					Simple: //简洁模式
+						[
+							[0, 0, "rgb(200,200,200)", "00:00"],
+							[241, 0, "RGB(200,200,200)", "04:00"],
+							[481, 0, "RGB(200,200,200)", "08:00"],
+							[722, 1, "RGB(200,200,200)", "12:00"],
+							[962, 0, "RGB(200,200,200)", "16:00"],
+							[1202, 0, "RGB(200,200,200)", "18:00"],
+							[1442, 1, "RGB(200,200,200)", "24:00"]
+						],
+					Min: //最小模式     
+						[
+							[0, 0, "rgb(200,200,200)", "00:00"],
+							[722, 1, "RGB(200,200,200)", "12:00"],
+							[1442, 1, "RGB(200,200,200)", "24:00"]
+						],
+
+					Count: 1442, //!! 一共的分钟数据个数，不要填错了
+					MiddleCount: 721, // Count/2 就可以。
+
+					GetData: function(width) {
+						if (width < 200) return this.Min;
+						else if (width < 400) return this.Simple;
+
+						return this.Full;
+					}
+				};
+
+				return SHZE_MINUTE_X_COORDINATE;
 			},
 
 			CreateMinuteChart() {
@@ -580,6 +654,7 @@
 							};
 							arr.push(newItem);
 						}
+						// console.log(arr)
 						let newDate = new Date();
 						var dateValue = newDate.getFullYear() * 10000 + (newDate.getMonth() + 1) * 100 +
 							newDate
@@ -589,7 +664,7 @@
 						let stockItem = {
 							name: this.Symbol,
 							symbol: '000001.sz',
-							time: newTime,
+							// time: newTime,
 							date: dateValue,
 							price: Number(this.productData.price),
 							open: Number(this.productData.open),
@@ -645,8 +720,6 @@
 						callback(hqChartData);
 						// #endif
 					}
-
-
 				});
 			},
 

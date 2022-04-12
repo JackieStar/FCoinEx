@@ -4,8 +4,8 @@
 		<view class="history-head flex_between_box">
 			<view class="title">{{infoItem.product_name}} {{infoItem.lever}}X</view>
 			<view class="" v-if="type=='hold'">
-				<view class="num green-text">+{{infoItem.now_price}}</view>
-				<view class="rate green-text">{{infoItem.price_diff}}%</view>
+				<view class="num" :class="[infoItem.profit_rate>0?'green-text':'red-text']">{{infoItem.profit}}</view>
+				<view class="rate":class="[infoItem.profit_rate>0?'green-text':'red-text']" >{{infoItem.profit_rate}}%</view>
 			</view>
 			<view class="" v-if="type=='handup'" @click="handleCancel">
 				{{i18n.trade.revoke}}
@@ -15,7 +15,7 @@
 			<view class="content-item flex_between_box">
 				<view class="content-text-box">
 					<view class="label">{{ i18n.trade.openNumber }}</view>
-					<view class="amount">{{infoItem.buy_total_price}}</view>
+					<view class="amount">{{infoItem.hand_number}}</view>
 				</view>
 				<view class="content-text-box">
 					<view class="label">{{ i18n.trade.openPrice }}</view>

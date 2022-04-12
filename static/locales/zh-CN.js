@@ -106,7 +106,7 @@ module.exports = {
 			totalEquity: '总权益',
 			balance: '可用余额',
 			lever: '杠杆倍数',
-			openPrice: '开仓价',
+			openPrice: '开仓价格',
 			openAmount: '开仓金额',
 			rise: '买/涨',
 			down: '卖/跌',
