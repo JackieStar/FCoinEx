@@ -67,7 +67,7 @@
 			],
 			IsCorssOnlyDrawKLine: true,
 			IsAutoUpdate: true, //是自动更新数据
-			AutoUpdateFrequency: 15*1000,
+			AutoUpdateFrequency: 15 * 1000,
 			CorssCursorTouchEnd: true,
 			IsShowRightMenu: false, //右键菜单
 			IsShowCorssCursorInfo: false, //是否显示十字光标的刻度信息
@@ -143,7 +143,7 @@
 
 			Symbol: '000001.sz',
 			IsAutoUpdate: true, //是自动更新数据
-			AutoUpdateFrequency: 16*1000,
+			AutoUpdateFrequency: 16 * 1000,
 			DayCount: 1, //1 最新交易日数据 >1 多日走势图
 			IsShowCorssCursorInfo: true, //是否显示十字光标的刻度信息
 			IsShowRightMenu: true, //是否显示右键菜单
@@ -264,7 +264,7 @@
 				KLINE_PERIOD_ID: KLINE_PERIOD_ID,
 				activeId: 9,
 				activeName: '1h',
-				isSend:false
+				isSend: false
 
 
 				// list: {
@@ -378,7 +378,7 @@
 				blackStyle.KLine.MaxMin.Color = 'rgb(255,250,240)';
 				JSCommon.JSChart.SetStyle(blackStyle);
 
-				this.KLine.Option.NetworkFilter = this.NetworkFilter;
+				this.KLine.Option.NetworkFilter = this.NetworkLineFilter;
 				this.KLine.Option.Symbol = this.Symbol;
 				this.KLine.Option.IsCorssOnlyDrawKLine = true; //十字光标只能在K线上
 				this.KLine.Option.CorssCursorTouchEnd = true; //手势结束十字光标自动隐藏
@@ -400,7 +400,7 @@
 
 			//K线周期切换
 			ChangeKLinePeriod(period) {
-				if(this.isSend){
+				if (this.isSend) {
 					return false
 				}
 				this.activeId = period
@@ -556,7 +556,7 @@
 			CreateMinuteChart() {
 				this.CreateMinuteChart_app();
 			},
-			clearLine(){
+			clearLine() {
 				console.log(g_KLine.JSChart)
 				if (g_KLine.JSChart) {
 					g_KLine.JSChart.StopAutoUpdate();
@@ -616,36 +616,66 @@
 				}
 			},
 
-			NetworkFilter: function(data, callback) {
+			NetworkFilter(data, callback) {
 				console.log('========================[HQChart:NetworkFilter] data', data);
 				data.PreventDefault = true;
-				// switch (data.Name) {
-				// 	case 'KLineChartContainer::ReqeustHistoryMinuteData': //分钟全量数据下载
-				// 		this.RequestHistoryData(data, callback, true);
-				// 		break;
-				// 	case 'KLineChartContainer::RequestFlowCapitalData': //数字货币不会调用
+				switch (data.Name) {
+					case 'KLineChartContainer::ReqeustHistoryMinuteData': //1分钟全量数据下载
+						this.RequestHistoryLineData(data, callback, true);
+						break;
+					case 'KLineChartContainer::RequestFlowCapitalData': //数字货币不会调用
 
-				// 		//this.RequestFlowCapitalData(data, callback);
-				// 		break;
-				// 	case 'KLineChartContainer::RequestHistoryData': //日线全量数据下载
-				// 		// this.RequestHistoryData(data, callback, false);
-				// 		this.RequestHistoryData(data, callback, true);
-				// 		break;
-				// }
-				this.RequestHistoryData(data, callback, true);
+						//this.RequestFlowCapitalData(data, callback);
+						break;
+					case 'KLineChartContainer::RequestHistoryData': //日线全量数据下载
+						// this.RequestHistoryData(data, callback, false);
+						this.RequestHistoryLineData(data, callback, true);
+						break;
+					case 'MinuteChartContainer::RequestMinuteData': //最新分时数据
+						this.RequestHistoryData(data, callback, true);
+						break;
+					case 'KLineChartContainer::RequestMinuteRealtimeData': // 当天1分钟K线数据
+						this.RequestHistoryLineData(data, callback, true);
+						break;
+				}
+
+			},
+			NetworkLineFilter(data, callback) {
+				console.log('========================[HQChart:NetworkLineFilter] data', data);
+				data.PreventDefault = true;
+				switch (data.Name) {
+					case 'KLineChartContainer::ReqeustHistoryMinuteData': //1分钟全量数据下载
+						this.RequestHistoryLineData(data, callback, true);
+						break;
+					case 'KLineChartContainer::RequestFlowCapitalData': //数字货币不会调用
+
+						//this.RequestFlowCapitalData(data, callback);
+						break;
+					case 'KLineChartContainer::RequestHistoryData': //日线全量数据下载
+						// this.RequestHistoryData(data, callback, false);
+						this.RequestHistoryLineData(data, callback, true);
+						break;
+					case 'MinuteChartContainer::RequestMinuteData': //最新分时数据
+						this.RequestHistoryData(data, callback, true);
+						break;
+					case 'KLineChartContainer::RequestMinuteRealtimeData': // 当天1分钟K线数据
+						this.RequestHistoryLineData(data, callback, true);
+						break;
+				}
+
 			},
 			RequestHistoryData(data, callback, isMuite) {
 				// console.log(this.activeId,this.list)
 				data.PreventDefault = true;
 				let that = this;
 				console.log(this.productCode, this.list[this.activeId - 4].k)
-				this.isSend=true
+				this.isSend = true
 				this.getProductLine({
 					code: this.productCode,
-					k: this.list[this.activeId - 4].k
+					k: this.list[0].k
 				}).then(res => {
 					// console.log(res)
-					this.isSend=false
+					this.isSend = false
 					uni.hideLoading()
 					let recvData = res.data;
 					var internalChart = g_KLine.JSChart.JSChartContainer;
@@ -661,103 +691,137 @@
 					hqChartData.name = this.Symbol;
 					//TODO:把recvData => hqchart内部格式 格式看教程
 					//HQChart使用教程30-K线图如何对接第3方数据15-轮询增量更新1分钟K线数据
-					if (this.activeId == 4) {
-						let arr = []
-						for (let i = 0; i < recvData.length; i++) {
-							let item = recvData[i];
-							let timestamp = i * 1000;
-							let dateTime = new Date(item.time);
-							var date = dateTime.getFullYear() * 10000 + (dateTime.getMonth() + 1) * 100 +
-								dateTime
-								.getDate();
-							let time = dateTime.getHours() * 100 + dateTime.getMinutes();
 
-							// "avprice": 16.75,
-							// "increase": 0.35949670461354105,
-							// "risefall": 0.06
-							let newItem = {
-								"price": Number(item.price),
-								"close": Number(item.close),
-								"open": Number(item.open),
-								"high": Number(item.high),
-								"low": Number(item.low),
-								"vol": Number(item.volume),
-								"risefall": Number(item.diff_rate),
-								"amount": Number(item.volume) / Number(item.price),
-								"time": time,
-							};
-							arr.push(newItem);
-						}
-						// console.log(arr)
-						let newDate = new Date();
-						var dateValue = newDate.getFullYear() * 10000 + (newDate.getMonth() + 1) * 100 +
-							newDate
+					let arr = []
+					for (let i = 0; i < recvData.length; i++) {
+						let item = recvData[i];
+						let timestamp = i * 1000;
+						let dateTime = new Date(item.time);
+						var date = dateTime.getFullYear() * 10000 + (dateTime.getMonth() + 1) * 100 +
+							dateTime
 							.getDate();
-						let newTime = newDate.getHours() * 100 + newDate.getMinutes();
+						let time = dateTime.getHours() * 100 + dateTime.getMinutes();
 
-						let stockItem = {
-							name: this.Symbol,
-							symbol: '000001.sz',
-							// time: newTime,
-							date: dateValue,
-							price: Number(this.productData.price),
-							open: Number(this.productData.open),
-							yclose: Number(this.productData.close),
-							high: Number(this.productData.high),
-							low: Number(this.productData.low),
-							minute: arr
+						// "avprice": 16.75,
+						// "increase": 0.35949670461354105,
+						// "risefall": 0.06
+						let newItem = {
+							"price": Number(item.price),
+							"close": Number(item.close),
+							"open": Number(item.open),
+							"high": Number(item.high),
+							"low": Number(item.low),
+							"vol": Number(item.volume),
+							"risefall": Number(item.diff_rate),
+							"amount": Number(item.volume) / Number(item.price),
+							"time": time,
 						};
-
-						let hqMinuteChartData = {
-							code: 0,
-							ver: 3.0,
-							stock: [stockItem]
-						};
-						// #ifdef H5
-						callback({
-							data: hqMinuteChartData
-						});
-						// #endif
-						// #ifndef H5
-						callback(hqMinuteChartData);
-						// #endif
-					} else {
-						for (let i = 0; i < recvData.length; i++) {
-							let item = recvData[i];
-							let timestamp = i * 1000;
-							let dateTime = new Date(item.time);
-							// dateTime.setTime(timestamp);
-							let date = dateTime.getFullYear() * 10000 + (dateTime.getMonth() + 1) * 100 +
-								dateTime
-								.getDate();
-							let time = dateTime.getHours() * 100 + dateTime.getMinutes();
-							let newItem = [
-								date,
-								Number(item.price),
-								Number(item.open),
-								Number(item.high),
-								Number(item.low),
-								Number(item.close),
-								Number(item.volume) / Number(item.price),
-								Number(item.volume),
-								time
-							];
-							hqChartData.data.push(newItem);
-						}
-						console.log(hqChartData);
-						// #ifdef H5
-						callback({
-							data: hqChartData
-						});
-						// #endif
-						// #ifndef H5
-						callback(hqChartData);
-						// #endif
+						arr.push(newItem);
 					}
-				}).catch(()=>{
-					this.isSend=false
+					// console.log(arr)
+					let newDate = new Date();
+					var dateValue = newDate.getFullYear() * 10000 + (newDate.getMonth() + 1) * 100 +
+						newDate
+						.getDate();
+					let newTime = newDate.getHours() * 100 + newDate.getMinutes();
+
+					let stockItem = {
+						name: this.Symbol,
+						symbol: '000001.sz',
+						// time: newTime,
+						date: dateValue,
+						price: Number(this.productData.price),
+						open: Number(this.productData.open),
+						yclose: Number(this.productData.close),
+						high: Number(this.productData.high),
+						low: Number(this.productData.low),
+						minute: arr
+					};
+
+					let hqMinuteChartData = {
+						code: 0,
+						ver: 3.0,
+						stock: [stockItem]
+					};
+					// #ifdef H5
+					callback({
+						data: hqMinuteChartData
+					});
+					// #endif
+					// #ifndef H5
+					callback(hqMinuteChartData);
+					// #endif
+
+				}).catch(() => {
+					this.isSend = false
 				});
 			},
+
+			RequestHistoryLineData(data, callback, isMuite) {
+				// console.log(this.activeId,this.list)
+				data.PreventDefault = true;
+				let that = this;
+				console.log(this.productCode, this.list[this.activeId - 4].k)
+				this.isSend = true
+				this.getProductLine({
+					code: this.productCode,
+					k: this.list[this.activeId - 4].k
+				}).then(res => {
+					// console.log(res)
+					this.isSend = false
+					uni.hideLoading()
+					let recvData = res.data;
+					var internalChart = g_KLine.JSChart.JSChartContainer;
+					var period = internalChart.Period;
+					var symbol = internalChart.Symbol;
+
+					var hqChartData = {
+						code: 0,
+						data: [],
+						ver: 2.0
+					}; //更新数据使用2.0版本格式
+					hqChartData.symbol = this.Symbol;
+					hqChartData.name = this.Symbol;
+					//TODO:把recvData => hqchart内部格式 格式看教程
+					//HQChart使用教程30-K线图如何对接第3方数据15-轮询增量更新1分钟K线数据
+
+					for (let i = 0; i < recvData.length; i++) {
+						let item = recvData[i];
+						let timestamp = i * 1000;
+						let dateTime = new Date(item.time);
+						// dateTime.setTime(timestamp);
+						let date = dateTime.getFullYear() * 10000 + (dateTime.getMonth() + 1) * 100 +
+							dateTime
+							.getDate();
+						let time = dateTime.getHours() * 100 + dateTime.getMinutes();
+						let newItem = [
+							date,
+							Number(item.price),
+							Number(item.open),
+							Number(item.high),
+							Number(item.low),
+							Number(item.close),
+							Number(item.volume) / Number(item.price),
+							Number(item.volume),
+							time
+						];
+						hqChartData.data.push(newItem);
+					}
+					console.log(hqChartData);
+					// #ifdef H5
+					callback({
+						data: hqChartData
+					});
+					// #endif
+					// #ifndef H5
+					callback(hqChartData);
+					// #endif
+
+				}).catch(() => {
+					this.isSend = false
+				});
+			},
+
 
 			///
 			//手势事件 app/小程序才有
