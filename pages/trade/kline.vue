@@ -67,7 +67,7 @@
 			],
 			IsCorssOnlyDrawKLine: true,
 			IsAutoUpdate: true, //是自动更新数据
-			AutoUpdateFrequency: 15 * 1000,
+			AutoUpdateFrequency: 30 * 1000,
 			CorssCursorTouchEnd: true,
 			IsShowRightMenu: false, //右键菜单
 			IsShowCorssCursorInfo: false, //是否显示十字光标的刻度信息
@@ -143,7 +143,7 @@
 
 			Symbol: '000001.sz',
 			IsAutoUpdate: true, //是自动更新数据
-			AutoUpdateFrequency: 16 * 1000,
+			AutoUpdateFrequency: 60 * 1000,
 			DayCount: 1, //1 最新交易日数据 >1 多日走势图
 			IsShowCorssCursorInfo: true, //是否显示十字光标的刻度信息
 			IsShowRightMenu: true, //是否显示右键菜单
@@ -279,6 +279,7 @@
 		},
 		watch: {
 			productCode(val) {
+				console.log('productCode',val)
 				this.changeLine(this.activeId)
 			}
 		},
@@ -409,7 +410,7 @@
 				this.Minute.IsShow = false;
 				this.KLine.IsShow = true;
 				let needPeriod = period - 1
-				console.log(needPeriod)
+				console.log(needPeriod,'needPeriod')
 				if (!g_KLine.JSChart) {
 					//不存在创建
 					this.KLine.Option.Period = needPeriod > 8 ? 12 : needPeriod;
@@ -429,6 +430,7 @@
 			},
 
 			CreateMinuteChart_app() {
+				console.log(';;','g_Minute.JSChart',g_Minute.JSChart)
 				if (g_Minute.JSChart) return;
 
 				var element = new JSCommon.JSCanvasElement();
@@ -624,7 +626,6 @@
 						this.RequestHistoryLineData(data, callback, true);
 						break;
 					case 'KLineChartContainer::RequestFlowCapitalData': //数字货币不会调用
-
 						//this.RequestFlowCapitalData(data, callback);
 						break;
 					case 'KLineChartContainer::RequestHistoryData': //日线全量数据下载
