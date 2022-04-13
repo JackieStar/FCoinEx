@@ -138,8 +138,8 @@ module.exports = {
 			sz: 'The total market capitalization',
 			lb: 'Quantity ratio',
 			price: 'Initial price',
-			errorAmount:'Please enter quantity',
-			errorRate:'Please select a platform scale',
+			errorAmount:'Please enter price',
+			errorRate:'Please select quantity',
 			cancelOrder:'Cancel order？',
 			revoke: 'Cancel',
 			custom: 'custom'

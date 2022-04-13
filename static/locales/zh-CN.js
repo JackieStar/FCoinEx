@@ -138,8 +138,8 @@ module.exports = {
 			sz: '总市值',
 			lb: '量比',
 			price: '初始价格',
-			errorAmount:'请输入数量',
-			errorRate:'请选择平台比例',
+			errorAmount:'请输入价格',
+			errorRate:'请选择数量',
 			cancelOrder:'撤销订单？',
 			revoke: '撤单',
 			custom: '自定义'

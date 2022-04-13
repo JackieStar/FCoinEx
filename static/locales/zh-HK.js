@@ -138,8 +138,8 @@ module.exports = {
 			sz: '總市值',
 			lb: '量比',
 			price: '初始價格',
-			errorAmount:'請輸入數量',
-			errorRate:'請選擇平台比例',
+			errorAmount:'請輸入價格',
+			errorRate:'請選擇數量',
 			cancelOrder:'撤銷訂單？ ',
 			revoke: '撤單',
 			custom: '自定義'
@@ -359,8 +359,8 @@ module.exports = {
 			sz: '總市值',
 			lb: '量比',
 			price: '初始價格',
-			errorAmount:'請輸入數量',
-			errorRate:'請選擇平台比例',
+			errorAmount:'請選擇價格',
+			errorRate:'請輸入數量',
 			cancelOrder:'撤銷訂單？ ',
 			revoke: '撤單',
 			custom: '自定義'
