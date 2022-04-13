@@ -123,7 +123,7 @@ export default {
 					this.$api.msg(this.i18n.toast.updatePwdSuccess, 1000, false, 'none', function() {
 						setTimeout(function() {
 							this.loading = false;
-							uni.reLaunch({
+							uni.navigateTo({
 								url: '/pages/public/login'
 							});
 						}, 1000);

@@ -81,9 +81,7 @@
 		methods: {
 			...mapActions('user', ['login']),
 			navBack(){
-				uni.switchTab({
-					url: '/pages/index/index'
-				})
+				uni.navigateBack()
 			},
 			toRegist(){
 				uni.navigateTo({
