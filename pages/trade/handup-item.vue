@@ -23,7 +23,10 @@
 				</view>
 				<view class="content-text-box">
 					<view class="label">{{ i18n.trade.riseDown }}</view>
-					<view class="amount" :class="[infoItem.rise_fall==1?'green-text':'red-text']">
+					<view class="amount" :class="{
+                    'green-text': infoItem.rise_fall==1,
+                    'red-text': infoItem.rise_fall==2
+                  }">
 						{{infoItem.rise_fall_label}}
 					</view>
 				</view>
@@ -94,7 +97,7 @@
 						num = 0.5;
 						break;
 					case '100%':
-						num = 2;
+						num = 1;
 						break;
 				}
 				if (type == 1) {

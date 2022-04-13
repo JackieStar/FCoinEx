@@ -146,7 +146,10 @@
 						</view>
 						<view class="content-text-box">
 							<view class="label">{{ i18n.trade.riseDown }}</view>
-							<view class="amount" :class="[item.rise_fall==1?'green-text':'red-text']">
+							<view class="amount" :class="{
+                    'green-text': item.rise_fall==1,
+                    'red-text': item.rise_fall==2
+                  }">
 								{{item.rise_fall_label}}
 							</view>
 						</view>
@@ -269,25 +272,25 @@
 			}
 			console.log(uni.getStorageSync('product'))
 			if (uni.getStorageSync('product')) {
-				
+
 				let productInfo = uni.getStorageSync('product')
-				var isHave=false
-				if(!this.productCode){
-					isHave=true
+				var isHave = false
+				if (!this.productCode) {
+					isHave = true
 				}
 				this.productCode = productInfo.code
 				this.productName = productInfo.name
 				uni.removeStorageSync('product')
-				if(isHave){
+				if (isHave) {
 					this.getMaketList(1);
-				}else{
+				} else {
 					this.getMaketList();
 				}
-				
+
 			} else {
 				if (!this.productCode) {
 					this.getMaketList(1);
-				}else{
+				} else {
 					this.$refs.line.openRequest()
 				}
 			}
@@ -391,7 +394,7 @@
 							this.$refs.line.CreateMinuteChart_app()
 							this.$refs.line.CreateKLineChart()
 						}, 1000)
-					}else{
+					} else {
 						this.$refs.line.openRequest()
 					}
 				});
@@ -482,6 +485,9 @@
 			handleTransaction(type) {
 				if (!this.isSendHttp) {
 					this.isSendHttp = true
+					uni.showLoading({
+
+					})
 					let params = {
 						code: this.productCode,
 						amount: this.amountValue,
