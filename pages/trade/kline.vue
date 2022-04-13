@@ -47,7 +47,9 @@
 		mapState,
 		mapActions
 	} from 'vuex';
-
+	import {
+		commonMixin
+	} from '@/common/mixin/mixin.js';
 	function DefaultData() {}
 
 	DefaultData.GetKLineOption = function() {
@@ -212,6 +214,7 @@
 		JSChart: null
 	};
 	export default {
+		mixins: [commonMixin],
 		props: {
 			productName: {
 				type: String,
@@ -404,6 +407,9 @@
 				if (this.isSend) {
 					return false
 				}
+				// uni.showLoading({
+				// 	title: this.i18n.common.loading,
+				// })
 				this.activeId = period
 				this.activeName = this.list[this.activeId - 4].name
 				console.log(period, 'period')
@@ -560,23 +566,31 @@
 			},
 			clearLine() {
 				console.log(g_KLine.JSChart)
+				console.log('oppen')
 				if (g_KLine.JSChart) {
 					g_KLine.JSChart.StopAutoUpdate();
 					//如果是WS 需要关闭WS
-					g_KLine.JSChart = null;
+					// g_KLine.JSChart = null;
 					console.log(g_KLine)
 				}
 				if (g_Minute.JSChart) {
 					g_Minute.JSChart.StopAutoUpdate();
 					//如果是WS 需要关闭WS
-					g_Minute.JSChart = null;
+					// g_Minute.JSChart = null;
 				}
 			},
+			openRequest(){
+				if (g_Minute.JSChart) {
+					g_Minute.JSChart.JSChartContainer.IsAutoUpdate=true; //设置自动更新
+					g_Minute.JSChart.ChangeSymbol(this.Symbol); //重新请求当前得股票
+				}
+				if (g_KLine.JSChart) {
+						g_KLine.JSChart.JSChartContainer.IsAutoUpdate=true; //设置自动更新
+						g_KLine.JSChart.ChangeSymbol(this.Symbol); //重新请求当前得股票
+				}
+				
+			},
 			changeLine(index) {
-				console.log(index)
-				uni.showLoading({
-					title: "加载中"
-				})
 				if (index == 4) {
 					// if (g_KLine.JSChart) {
 					// 	g_KLine.JSChart.StopAutoUpdate();
@@ -597,6 +611,7 @@
 					// 		g_KLine.JSChart.ChangeSymbol(this.Symbol); //重新请求当前得股票
 					// 	},1000)
 					// }
+					
 					this.ChangeKLinePeriod(index)
 				}
 				// this.ChangeKLinePeriod(index)

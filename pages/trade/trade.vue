@@ -287,13 +287,17 @@
 			} else {
 				if (!this.productCode) {
 					this.getMaketList(1);
+				}else{
+					this.$refs.line.openRequest()
 				}
 			}
 			this.clear = setInterval(this.getProductPrice, 10 * 1000)
 		},
 		//隐藏的时候 停止定时器和清空hqchart的实例
 		onHide() {
+			console.log('离开页面')
 			clearInterval(this.clear);
+			this.$refs.line.clearLine()
 		},
 		//退出的时候 停止定时器和清空hqchart的实例
 		onUnload() {
@@ -387,6 +391,8 @@
 							this.$refs.line.CreateMinuteChart_app()
 							this.$refs.line.CreateKLineChart()
 						}, 1000)
+					}else{
+						this.$refs.line.openRequest()
 					}
 				});
 			},

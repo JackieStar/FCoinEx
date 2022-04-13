@@ -7830,11 +7830,11 @@ function KLineChartContainer(uielement)
             if (IFrameSplitOperator.IsNumber(option.KLine.Right)) right=option.KLine.Right;
         };
 
-        // if (this.Period == period) 
-        // {
-        //     if (isChangeKLineDrawType) this.ChangeKLineDrawType(option.KLine.DrawType);
-        //     return;
-        // }
+        if (this.Period == period) 
+        {
+            if (isChangeKLineDrawType) this.ChangeKLineDrawType(option.KLine.DrawType);
+            return;
+        }
 
         if (isChangeKLineDrawType) this.ChangeKLineDrawType(option.KLine.DrawType, false);   //切换K线类型, 不重绘
         
