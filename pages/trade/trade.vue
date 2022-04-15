@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<Kline ref="line" @changePro="handleChangePro" :productName="productName" :list="line"
+		<Kline  ref="line" @changePro="handleChangePro" :productName="productName" :list="line"
 			:productData="productData" :price="priceInfo.price" :productCode="productCode"></Kline>
 		<!-- <view>
 			<canvas
@@ -25,7 +25,7 @@
 			></canvas>
 		</view>
  -->
-		<view class="card-item-wrapper" flex="main:justify cross:center">
+		<view class="card-item-wrapper flex_between_box">
 			<view class="card-item">
 				<text>{{priceInfo.total_assets}}</text>
 				<view>{{ i18n.trade.totalEquity }}(USDT)</view>
@@ -88,7 +88,7 @@
 
 			</view>
 		</view>
-		<view class="handle-btn-wrapper" flex="main:justify cross:center">
+		<view class="handle-btn-wrapper flex_between_box">
 			<view class="rise-btn" @click="handleTransaction(1)">{{ i18n.trade.rise }}</view>
 			<view class="down-btn" @click="handleTransaction(2)">{{ i18n.trade.down }}</view>
 		</view>
@@ -201,8 +201,8 @@
 						<view class="col r">{{ i18n.index.market.title3 }}</view>
 					</view>
 					<scroll-view scroll-y="true" style="max-height: 80vh;">
-						<product-item :item="item" v-for="(item, i) in markets" @handleChoose="chooseProduct"
-							:key="item.symbol"></product-item>
+						<product-item v-if="productPopup" v-for="(item, i) in markets" :item="item" @handleChoose="chooseProduct"
+							:key="item.id"></product-item>
 					</scroll-view>
 				</view>
 			</view>
