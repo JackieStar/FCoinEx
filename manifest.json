@@ -57,16 +57,14 @@
             "ios" : {},
             /* ios打包配置 */
             "sdkConfigs" : {
-                "ad" : {
-                    "gdt" : {}
-                }
+                "ad" : {}
             },
             "icons" : {
                 "android" : {
-                    "hdpi" : "unpackage/res/icons/72x72.png",
-                    "xhdpi" : "unpackage/res/icons/96x96.png",
-                    "xxhdpi" : "unpackage/res/icons/144x144.png",
-                    "xxxhdpi" : "unpackage/res/icons/192x192.png"
+                    "hdpi" : "static/logo/logo_72.png",
+                    "xhdpi" : "static/logo/logo_96.png",
+                    "xxhdpi" : "static/logo/logo_144.png",
+                    "xxxhdpi" : "static/logo/logo_192.png"
                 },
                 "ios" : {
                     "appstore" : "unpackage/res/icons/1024x1024.png",
@@ -98,7 +96,8 @@
                     "hdpi" : "/Users/fex/work/workspace/hbuilder/Fexcoin-img/hdpi.png",
                     "xhdpi" : "/Users/fex/work/workspace/hbuilder/Fexcoin-img/xhdpi.png",
                     "xxhdpi" : "/Users/fex/work/workspace/hbuilder/Fexcoin-img/xxhdpi.png"
-                }
+                },
+                "androidStyle" : "common"
             }
         }
     },
