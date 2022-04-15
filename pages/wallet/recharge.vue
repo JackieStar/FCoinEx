@@ -117,10 +117,10 @@ export default {
 
 <style lang="scss" scoped>
 .container {
-	padding: 20upx 0 100upx 0;
+	padding: 40upx 0 100upx 0;
 	.market-header {
 		width: 100%;
-		height: 88upx;
+		height: 120upx;
 		text-align: center;
 		left: 0;
 		top: 0;
@@ -133,12 +133,12 @@ export default {
 		justify-content: space-between;
 		z-index: 1000;
 		.market-text {
-			height: 80upx;
+			height: 120upx;
 			font-size: 36upx;
 			font-family: PingFang SC;
 			font-weight: 400;
 			color: #ffffff;
-			line-height: 88upx;
+			line-height: 120upx;
 		}
 		.right-icon {
 			width: 35upx;

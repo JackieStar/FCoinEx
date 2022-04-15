@@ -255,7 +255,7 @@ page {
 	}
 }
 .user-info-box {
-	height: 180upx;
+	// height: 180upx;
 	display: flex;
 	flex-direction: column;
 	align-items: center;

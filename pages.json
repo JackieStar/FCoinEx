@@ -14,7 +14,9 @@
 			"style": {
 				"navigationBarTitleText": "",
 				"navigationBarTextStyle": "white",
+				// #ifdef H5
 				"navigationStyle": "custom",
+				// #endif
 				"navigationBarBackgroundColor": "#070219"
 			}
 		},
@@ -111,8 +113,9 @@
 		}, {
 			"path": "pages/user/invit",
 			"style": {
+				"navigationBarTitleText": "邀请好友",
 				"navigationBarTextStyle": "white",
-				"navigationStyle": "custom"
+				"navigationBarBackgroundColor": "#070219"
 			}
 		}, {
 			"path": "pages/user/updateLoginPwd",

@@ -239,7 +239,7 @@ export default {
 	padding-top: 100upx;
 	.market-header {
 		width: 100%;
-		height: 88upx;
+		height: 140upx;
 		text-align: center;
 		left: 0;
 		top: 0;
@@ -251,12 +251,12 @@ export default {
 		align-items: center;
 		justify-content: space-between;
 		.market-text {
-			height: 80upx;
+			height: 140upx;
 			font-size: 36upx;
 			font-family: PingFang SC;
 			font-weight: 400;
 			color: #ffffff;
-			line-height: 88upx;
+			line-height: 140upx;
 		}
 		.right-icon {
 			width: 35upx;

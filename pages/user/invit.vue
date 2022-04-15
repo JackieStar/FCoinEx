@@ -1,27 +1,27 @@
 <template>
 	<view class="container">
-		<c-navbar title="邀请好友" :isRightIcon="false" />
+		<!-- <c-navbar title="邀请好友" :isRightIcon="false" /> -->
 		<view class="invite-bg">
 			<view class="invite-title-cn" v-if="lang== 'zh_CN'">{{i18n.invit.invitFriends}}</view>
 			<view class="invite-title-en" v-if="lang== 'en_US'">{{i18n.invit.invitFriends}}</view>
-			<view flex="main:justify cross:center">	
-				<view class="invite-item" flex="dir:top main:center cross:center">
+			<view class="invite-item-wrapper">	
+				<view class="invite-item">
 					<text>{{ invitData.friends_count }}</text>
 					<view class="invite-text">{{ i18n.invit.friends }}</view>
 				</view>
-				<view class="invite-item" flex="dir:top main:center cross:center">
+				<view class="invite-item">
 					<text>{{ invitData.total_reward }}</text>
 					<view class="invite-text">{{ i18n.invit.totalReward }}</view>
 				</view>
 			</view>
-			<view class="input-item" flex="main:justify cross:center">
+			<view class="input-item">
 				<text class="input-item-title">{{ i18n.invit.tCode }}</text>
 				<view flex>
 					<text class="invite-code">{{ invitData.tcode }}</text>
 					<u-image @click="handleCopy(invitData.tcode)" src="../../static/images/user/copy.png" width="33upx" height="33upx" />
 				</view>
 			</view>
-			<view class="input-item" flex="main:justify cross:center">
+			<view class="input-item">
 				<text class="input-item-title">{{ i18n.invit.tLink }}</text>
 				<view flex>
 					<text class="invite-link">{{ invitData.tlink }}</text>
@@ -44,14 +44,14 @@
 					<text :style="{ opacity: tabIndex === 2 ? '1' : '0.6', 'margin-top': tabIndex === 2 ? '' : '-10upx' }">{{ i18n.invit.tReward }}</text>
 				</view>
 			</view>
-			<view class="list-header" flex="main:justify cross:center">
+			<view class="list-header">
 				<text class="header-1">{{ i18n.invit.inviter }}</text>
 				<text class="header-2">{{ i18n.invit.uid }}</text>
 				<text class="header-3">{{ i18n.invit.totalReward }}</text>
 			</view>
 			<view class="invit-list-wrapper" v-if="tabIndex === 1">
-				<view class="list-content" flex="main:justify cross:center" v-for="item in userList" :key="item.id">
-					<view class="invite-name header-1" flex="dir:top">
+				<view class="list-content" v-for="item in userList" :key="item.id">
+					<view class="invite-name header-1">
 						<text>{{item.s_user_name}}</text>
 						<view>{{item.cdate}}</view>
 					</view>
@@ -60,8 +60,8 @@
 				</view>
 			</view>
 			<view class="invit-list-wrapper" v-if="tabIndex === 2">
-				<view class="list-content" flex="main:justify cross:center" v-for="item in rewardList" :key="item.id">
-					<view class="invite-name header-1" flex="dir:top">
+				<view class="list-content" v-for="item in rewardList" :key="item.id">
+					<view class="invite-name header-1">
 						<text>{{item.s_user_name}}</text>
 						<view>{{item.cdate}}</view>
 					</view>
@@ -154,17 +154,25 @@ export default {
 		font-size: 24upx;
 		color: #fff;
 	}
-	
+}
+.invite-item-wrapper {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }
 .invite-bg {
 	width: 688upx;
 	height: 979upx;
-	margin: 80upx auto 20upx auto;
+	margin: 40upx auto 20upx auto;
 	background-size: 100% 100%;
 	background-image: url(../../static/images/invit/invite_bg.png);
 	padding: 55upx 50upx 50upx 50upx;
 	.invite-item {
 		width: 50%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
 	}
 	.invite-title-cn {
 		margin-bottom: 120upx;
@@ -212,6 +220,9 @@ export default {
 		border-radius: 6upx;
 		margin-top: 25upx;
 		padding: 0 30upx;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
 		.input-item-title {
 			font-size: 28upx;
 			font-family: Source Han Sans CN;
@@ -280,6 +291,9 @@ export default {
 		font-weight: 400;
 		color: #9292a3;
 		margin-bottom: 20upx;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
 	}
 	.header-1 {
 		width: 300upx;
@@ -294,6 +308,9 @@ export default {
 		width: 100%;
 		height: 120upx;
 		border-bottom: 1upx solid #2d2d4f;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
 		.invite-name {
 			text {
 				font-size: 26upx;

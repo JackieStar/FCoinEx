@@ -3,8 +3,6 @@ import store from './store'
 import App from './App'
 import global from './utils/global'
 import {fixD, formatD} from './utils/utils'
-import Json from './Json' //测试用数据
-import 'flex.css'
 // #ifdef H5
 import lottery from './utils/lottery.js'
 // #endif
@@ -20,6 +18,7 @@ Vue.use(require('vue-moment'));
 
 let Chinese = require('./static/locales/zh-CN.js')
 let English = require('./static/locales/en-US.js')
+let Tradition = require('./static/locales/zh-HK.js')
 
 // VueI18n
 import VueI18n from 'vue-i18n'
@@ -35,7 +34,8 @@ const i18n = new VueI18n({
 	// 引入语言文件
 	messages: {
 		'zh_CN': Chinese,
-		'en_US': English
+		'en_US': English,
+		'zh_HK': Tradition
 	}
 })
 /**

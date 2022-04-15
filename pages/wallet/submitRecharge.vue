@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<view class="upload-wrapper" flex="main:justify cross:center">
+		<view class="upload-wrapper">
 			<view>
 				<uni-file-picker disable-preview :del-icon="false" return-type="object" @select="select"
 					:image-styles="imageStyles">
@@ -8,7 +8,7 @@
 				</uni-file-picker>
 				<view class="recharge-img">{{i18n.submitRecharge.rechargeImg}}</view>
 			</view>
-			<view flex="main:center cross:center" @click="handlePreview">
+			<view class="ex-img-wrapper" @click="handlePreview">
 				<text style="color: #fff; margin-right: 20upx;">{{i18n.submitRecharge.exImg}}</text>
 				<u-image :src="rechargeInfo.recharge_res_demo" width="112upx" height="224upx" />
 			</view>
@@ -22,7 +22,7 @@
 			<input type="text" v-model="transfer_addr" class="address-input" />
 			<view class="copy-btn" @click="handlePaste">{{i18n.submitRecharge.copyBtn}}</view>
 		</view>
-		<view flex="main:justify cross:center" style="padding: 0 30upx;">
+		<view class="btn-wrapper" style="padding: 0 30upx;">
 			<view class="submit-btn" @click="handleSubmit">{{i18n.submitRecharge.submitBtn}}</view>
 			<view class="close-btn" @click="openPage">{{i18n.submitRecharge.closeBtn}}</view>
 		</view>
@@ -171,6 +171,19 @@
 <style lang="scss" scoped>
 	.upload-wrapper {
 		padding: 100upx 130upx 50upx 153upx;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+	.ex-img-wrapper {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.btn-wrapper {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
 	}
 
 	.title {
