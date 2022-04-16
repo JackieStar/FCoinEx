@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<Kline  ref="line" @changePro="handleChangePro" :productName="productName" :list="line"
+		<Kline ref="line" @changePro="handleChangePro" :productName="productName" :list="line"
 			:productData="productData" :price="priceInfo.price" :productCode="productCode"></Kline>
 		<!-- <view>
 			<canvas
@@ -201,8 +201,8 @@
 						<view class="col r">{{ i18n.index.market.title3 }}</view>
 					</view>
 					<scroll-view scroll-y="true" style="max-height: 80vh;">
-						<product-item v-if="productPopup" v-for="(item, i) in markets" :item="item" @handleChoose="chooseProduct"
-							:key="item.id"></product-item>
+						<product-item v-if="productPopup" v-for="(item, i) in markets" :item="item"
+							@handleChoose="chooseProduct" :key="item.id"></product-item>
 					</scroll-view>
 				</view>
 			</view>
@@ -252,13 +252,15 @@
 				line: [],
 				priceInfo: {},
 				clear: '',
+				clearMarket: '',
 				isHavePage: false,
 				isSendLoading: false,
 				page: 1,
 				total: 0,
 
 				totalHandup: 0,
-				totalHold: 0
+				totalHold: 0,
+				haveProCode: false
 
 
 			};
@@ -272,39 +274,43 @@
 			}
 			console.log(uni.getStorageSync('product'))
 			if (uni.getStorageSync('product')) {
-
 				let productInfo = uni.getStorageSync('product')
-				var isHave = false
-				if (!this.productCode) {
-					isHave = true
+				
+				var needType=''
+				if (this.productCode == productInfo.code) {
+					this.haveProCode = true
+					needType=''
+				} else {
+					this.haveProCode = false
+					if(!this.productCode){
+						needType=1
+						
+					}else{
+						needType=''
+					}
 				}
 				this.productCode = productInfo.code
 				this.productName = productInfo.name
-				uni.removeStorageSync('product')
-				if (isHave) {
-					this.getMaketList(1);
-				} else {
-					this.getMaketList();
-				}
-
+				this.getProductInfo(needType)
+				this.getProductPrice()
 			} else {
-				if (!this.productCode) {
-					this.getMaketList(1);
-				} else {
-					this.$refs.line.openRequest()
-				}
+
 			}
-			this.clear = setInterval(this.getProductPrice, 10 * 1000)
+			this.getMaketList();
+			this.clear = setInterval(this.getMaketList, 10 * 1000)
+			this.clearMarket = setInterval(this.getProductPrice, 15 * 1000)
 		},
 		//隐藏的时候 停止定时器和清空hqchart的实例
 		onHide() {
 			console.log('离开页面')
 			clearInterval(this.clear);
-			this.$refs.line.clearLine()
+			clearInterval(this.clearMarket);
+			// this.$refs.line.clearLine()
 		},
 		//退出的时候 停止定时器和清空hqchart的实例
 		onUnload() {
 			clearInterval(this.clear);
+			clearInterval(this.clearMarket);
 		},
 		onReachBottom() {
 			if (this.total > this.orderDate.length && !this.isSendLoading) {
@@ -331,13 +337,12 @@
 				this.inputPrice = '' // 开仓价格
 				this.amount = ''
 				this.price = '' // 价格
-				clearInterval(this.clear);
-				setTimeout(() => {
-					this.clear = setInterval(this.getProductPrice, 10 * 1000)
-				}, 1000)
+				uni.setStorageSync('product', {code:item.code,name:item.name});
+				this.getProductPrice()
 
 				uni.showLoading({})
 				// this.$refs.line.clearLine()
+				this.haveProCode = false
 				this.getProductInfo();
 				if (!this.isOpen) {
 					this.page = 1
@@ -355,15 +360,14 @@
 					if (!this.productCode) {
 						this.productCode = this.markets[0].code
 						this.productName = this.markets[0].name
+						this.getProductInfo(1);
+						if (this.loginInfo.hasLogin) {
+							this.getOrderList()
+							this.getNavTotal()
+						}
+						this.getProductPrice()
 					}
-					// this.$refs.line.clearLine()
 
-					this.getProductInfo(type);
-					if (this.loginInfo.hasLogin) {
-						this.getOrderList()
-						this.getNavTotal()
-					}
-					this.getProductPrice()
 				});
 			},
 			getProductPrice() {
@@ -396,7 +400,8 @@
 							this.$refs.line.CreateMinuteChart_app()
 							this.$refs.line.CreateKLineChart()
 						}, 1000)
-					} else {
+					}
+					if (!this.haveProCode) {
 						this.$refs.line.openRequest()
 					}
 				});
@@ -551,6 +556,7 @@
 		padding-top: 30upx;
 		// #endif
 	}
+
 	.popup-coin-section {
 		padding: 4upx 30upx 24upx;
 
