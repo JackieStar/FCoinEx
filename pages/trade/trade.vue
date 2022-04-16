@@ -342,8 +342,10 @@
 				if (!this.isOpen) {
 					this.page = 1
 				}
-				this.getOrderList()
-				this.getNavTotal()
+				if (this.loginInfo.hasLogin) {
+					this.getOrderList()
+					this.getNavTotal()
+				}
 				this.productPopup = false
 			},
 			getMaketList(type) {
@@ -544,6 +546,11 @@
 </script>
 
 <style lang="scss" scoped>
+	.container {
+		// #ifndef H5
+		padding-top: 30upx;
+		// #endif
+	}
 	.popup-coin-section {
 		padding: 4upx 30upx 24upx;
 

@@ -12,12 +12,7 @@
 		{
 			"path": "pages/trade/trade",
 			"style": {
-				"navigationBarTitleText": "",
-				"navigationBarTextStyle": "white",
-				// #ifdef H5
-				"navigationStyle": "custom",
-				// #endif
-				"navigationBarBackgroundColor": "#070219"
+				"navigationStyle": "custom"
 			}
 		},
 		{

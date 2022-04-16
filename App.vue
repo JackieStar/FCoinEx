@@ -8,12 +8,12 @@
 	} from 'vuex'
 	export default {
 		methods: {
-			...mapActions('common', ['coinList',  'getConfig']),
-			...mapActions('user', ['initLogin'])
+			...mapActions('common', ['coinList',  'getConfig'])
+			// ...mapActions('user', ['initLogin'])
 		},
 		onShow: function() {
 			console.log('App Show')
-			this.initLogin()
+			// this.initLogin()
 			uni.setTabBarItem({
 				index: 0,
 				text: this.$t('message').tabBar.market
