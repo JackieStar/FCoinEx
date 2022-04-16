@@ -83,22 +83,13 @@ export default {
 		uni.setNavigationBarTitle({
 			title: this.i18n.index.title
 		});
-		this.getAppConfig();
-		this.getMaketList();
-		// setInterval(() => {
-		// 	this.getMaketList();
-		// }, 5000);
-		this.carousels = [];
-		this.notices = [];
-		this.loadData();
-		
-	},
-	onPullDownRefresh() {
-		this.loadData();
-		this.getMaketList();
 	},
 	onLoad() {
-		
+		this.getAppConfig();
+		setInterval(()=>{
+			this.getMaketList();
+		}, 3000)
+		this.loadData();
 	},
 	onUnload() {},
 	computed: {
@@ -111,7 +102,6 @@ export default {
 			this.adList().then(res => {
 				let casrousels = res.data;
 				this.carousels = casrousels;
-				uni.stopPullDownRefresh();
 			});
 			this.noticeList({limit: 20}).then(res => {
 				this.notices = res.data;
