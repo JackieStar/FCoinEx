@@ -12,7 +12,7 @@
 					<image v-else class="portrait" src="../../static/images/user/avatar.png" mode="widthFix" />
 				</view>
 				
-				<view class="info-box" @click="toLogin">
+				<view class="info-box">
 					<view class="username" @click="openPage(1)">
 						{{ loginInfo.name || i18n.user.login }}
 						<u-image v-if="loginInfo.hasLogin" class="edit" src="../../static/images/user/edit.png" width="26upx" height="29upx" />
@@ -86,13 +86,6 @@ export default {
 	},
 	methods: {
 		...mapActions('user', ['appConfig', 'logout']),
-		toLogin() {
-			if (!this.loginInfo.hasLogin) {
-				uni.navigateTo({
-					url: '/pages/public/login'
-				});
-			}
-		},
 		getAppConfig() {
 			this.appConfig().then(res => {
 				this.appData= res.data;
@@ -123,9 +116,16 @@ export default {
 				uni.navigateBack();
 			}
 			if (type === 1) {
-				uni.navigateTo({
-					url: '/pages/user/updateName'
-				});
+				if (this.loginInfo.hasLogin) {
+					uni.navigateTo({
+						url: '/pages/user/updateName'
+					});
+				} else {
+					uni.navigateTo({
+						url: '/pages/public/login'
+					});
+				}
+				
 			}
 			if (type === 2) {
 				uni.navigateTo({

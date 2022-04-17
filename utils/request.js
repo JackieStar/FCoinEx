@@ -23,7 +23,7 @@ export default function $http(options) {
 		   uni.setStorageSync('token', '');
 		   uni.setStorageSync('loginInfo', '');
 		   //返回登录界面
-	       uni.reLaunch({
+	       uni.navigateTo({
 		   	url:'/pages/public/login'
 		   })
 		   uni.showToast({

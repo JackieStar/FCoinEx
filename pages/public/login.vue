@@ -81,7 +81,14 @@
 		methods: {
 			...mapActions('user', ['login']),
 			navBack(){
-				uni.navigateBack()
+				let pages = getCurrentPages();
+				if (pages && pages.length > 1 && pages[0].route === 'pages/wallet/wallet') {
+					uni.switchTab({
+						url: '/pages/index/index'
+					})
+				} else {
+					uni.navigateBack()
+				}
 			},
 			toRegist(){
 				uni.navigateTo({
