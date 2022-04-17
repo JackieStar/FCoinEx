@@ -119,7 +119,7 @@ module.exports = {
 			histroy: '历史',
 			showAll: '显示全部',
 			openNumber: '开仓数量',
-			riseDown: '涨跌',
+			riseDown: '交易方向',
 			fee: '手续费',
 			sellPrice:'平仓价格',
 			profit:'收益',
