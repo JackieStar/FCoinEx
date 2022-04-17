@@ -5,7 +5,7 @@
 			<view class="title">{{infoItem.product_name}}_USDT {{infoItem.lever}}x</view>
 			<view class="" v-if="type=='hold'">
 				<view class="num" :class="[infoItem.profit_rate>0?'green-text':'red-text']">{{infoItem.profit}}</view>
-				<view class="rate":class="[infoItem.profit_rate>0?'green-text':'red-text']" >{{infoItem.profit_rate}}%</view>
+				<view class="rate" :class="[infoItem.profit_rate>0?'green-text':'red-text']" >{{infoItem.profit_rate}}%</view>
 			</view>
 			<view class="" v-if="type=='handup'" @click="handleCancel">
 				{{i18n.trade.revoke}}
