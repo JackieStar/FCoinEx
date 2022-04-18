@@ -147,12 +147,6 @@
 						<view class="content-text-box">
 							<view class="label">{{ i18n.trade.riseDown }}</view>
 							<view class="amount" v-html="item.rise_fall_label"></view>
-							<!-- <view class="amount" :class="{
-                    'green-text': item.rise_fall==1,
-                    'red-text': item.rise_fall==2
-                  }">
-								{{item.rise_fall_label}}
-							</view> -->
 						</view>
 					</view>
 					<view class="content-item flex_between_box">
@@ -298,7 +292,7 @@
 
 			}
 			this.getMaketList();
-			this.clear = setInterval(this.getMaketList, 10 * 1000)
+			this.clear = setInterval(this.getMaketList, 3 * 1000)
 			this.clearMarket = setInterval(this.getProductPrice, 15 * 1000)
 		},
 		//隐藏的时候 停止定时器和清空hqchart的实例

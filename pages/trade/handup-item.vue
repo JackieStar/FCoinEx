@@ -24,12 +24,6 @@
 				<view class="content-text-box">
 					<view class="label">{{ i18n.trade.riseDown }}</view>
 					<view class="amount" v-html="infoItem.rise_fall_label"></view>
-					<!-- <view class="amount" :class="{
-                    'green-text': infoItem.rise_fall==1,
-                    'red-text': infoItem.rise_fall==2
-                  }">
-						{{infoItem.rise_fall_label}}
-					</view> -->
 				</view>
 			</view>
 		</view>

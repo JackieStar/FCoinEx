@@ -3,7 +3,7 @@
 		<view class="market-header">
 			<u-image v-if="loginInfo.hasLogin" class="avatar" @click="openPage(1)" :src="loginInfo.avatar" shape="circle" width="76rpx" height="76rpx" mode="widthFix" />
 			<u-image v-else class="avatar" @click="openPage(1)" src="../../static/images/user/avatar.png" shape="circle" width="76rpx" height="76rpx" mode="widthFix" />
-			<view class="market-text">{{i18n.index.title}}</view>
+			<view class="market-text">{{ i18n.index.title }}</view>
 		</view>
 		<!-- 头部轮播 -->
 		<view class="carousel-section">
@@ -39,7 +39,7 @@
 			</view>
 			<view class="s-row little-line" @click="navToTrade(item)" v-for="(item, i) in markets" :key="item.symbol">
 				<view class="col light">
-					{{ item.name }}/USDT 
+					{{ item.name }}/USDT
 					<view class="subtitle">Vol {{ item.volume_format }}</view>
 				</view>
 				<view class="col r light">
@@ -57,9 +57,7 @@
 			<image src="../../static/lottery_icon.png"></image>
 			<image src="../../static/lottery_icon.png"></image>
 		</view> -->
-		<view class="kf-icon">
-			<u-image @click="openPage(2)" src="../../static/images/user/kf.png" width="88upx" height="88upx" />
-		</view>
+		<view class="kf-icon"><u-image @click="openPage(2)" src="../../static/images/user/kf.png" width="88upx" height="88upx" /></view>
 	</view>
 </template>
 
@@ -76,22 +74,30 @@ export default {
 			markets: [],
 			notices: [],
 			carousels: [],
-			appData: {}
+			appData: {},
+			clear: '' // 定时器
 		};
 	},
 	onShow() {
 		uni.setNavigationBarTitle({
 			title: this.i18n.index.title
 		});
+		this.loadData();
+		this.getMaketList()
+		this.clear = setInterval(this.getMaketList, 3000);
 	},
 	onLoad() {
 		this.getAppConfig();
-		setInterval(()=>{
-			this.getMaketList();
-		}, 3000)
-		this.loadData();
+		
 	},
-	onUnload() {},
+	onHide() {
+		console.log('离开页面');
+		clearInterval(this.clear);
+	},
+	//退出的时候 停止定时器和清空hqchart的实例
+	onUnload() {
+		clearInterval(this.clear);
+	},
 	computed: {
 		...mapState('user', ['loginInfo'])
 	},
@@ -99,17 +105,17 @@ export default {
 		...mapActions('common', ['marketList', 'adList', 'noticeList']),
 		...mapActions('user', ['appConfig']),
 		loadData() {
-			this.adList().then(res => {
-				let casrousels = res.data;
-				this.carousels = casrousels;
-			});
-			this.noticeList({limit: 20}).then(res => {
+			this.noticeList({ limit: 20 }).then(res => {
 				this.notices = res.data;
 			});
 		},
 		getAppConfig() {
 			this.appConfig().then(res => {
 				this.appData = res.data;
+			});
+			this.adList().then(res => {
+				let casrousels = res.data;
+				this.carousels = casrousels;
 			});
 		},
 		getMaketList() {
@@ -122,11 +128,11 @@ export default {
 				url: `/pages/public/kline?symbol=${item.symbol}`
 			});
 		},
-		navToTrade(item){
-			 uni.setStorageSync('product', {code:item.code,name:item.name});
-			 uni.switchTab({
-			 	url:'/pages/trade/trade'
-			 })
+		navToTrade(item) {
+			uni.setStorageSync('product', { code: item.code, name: item.name });
+			uni.switchTab({
+				url: '/pages/trade/trade'
+			});
 		},
 		openPage(type) {
 			if (type === 1) {
@@ -143,7 +149,6 @@ export default {
 					url: '/pages/user/webview?url=' + this.appData.kf_url
 				});
 				// #endif
-				
 			}
 			if (type === 3) {
 				if (this.loginInfo.hasLogin) {
@@ -155,7 +160,6 @@ export default {
 						url: '/pages/public/login'
 					});
 				}
-				
 			}
 			if (type === 4) {
 				if (this.loginInfo.hasLogin) {
@@ -167,10 +171,9 @@ export default {
 						url: '/pages/public/login'
 					});
 				}
-				
 			}
 		}
-	},
+	}
 };
 </script>
 
@@ -338,7 +341,7 @@ page {
 		padding-top: 30upx;
 		padding-bottom: 30upx;
 		.col {
-			font-size: 24upx;;
+			font-size: 24upx;
 			color: $font-color-dark;
 			flex: 1;
 		}
@@ -358,10 +361,10 @@ page {
 		}
 		.uni-tag--success {
 			color: #fff;
-			background-color: #23B57D;
+			background-color: #23b57d;
 			border-width: 0.5px;
 			border-style: solid;
-			border-color: #23B57D;
+			border-color: #23b57d;
 			width: 160upx;
 			height: 58upx;
 			display: flex;
@@ -371,10 +374,10 @@ page {
 		}
 		.uni-tag--error {
 			color: #fff;
-			background-color: #D83A53;
+			background-color: #d83a53;
 			border-width: 0.5px;
 			border-style: solid;
-			border-color: #D83A53;
+			border-color: #d83a53;
 			width: 160upx;
 			height: 58upx;
 			display: flex;
