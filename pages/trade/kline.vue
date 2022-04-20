@@ -168,7 +168,7 @@
 
 			Frame: //子框架设置
 				[{
-						SplitCount: 6,
+						SplitCount: 7,
 					},
 					{
 						SplitCount: 0,
@@ -545,7 +545,7 @@
 							[481, 0, "RGB(200,200,200)", "08:00"],
 							[722, 1, "RGB(200,200,200)", "12:00"],
 							[962, 0, "RGB(200,200,200)", "16:00"],
-							[1202, 0, "RGB(200,200,200)", "18:00"],
+							[1202, 0, "RGB(200,200,200)", "20:00"],
 							[1442, 1, "RGB(200,200,200)", "24:00"]
 						],
 					Min: //最小模式     
@@ -599,28 +599,29 @@
 
 			},
 			changeLine(index) {
-				if (index == 4) {
-					// if (g_KLine.JSChart) {
-					// 	g_KLine.JSChart.StopAutoUpdate();
-					// }
-					// if (g_Minute.JSChart) {
-					// 	g_Minute.JSChart.JSChartContainer.IsAutoUpdate=true; //设置自动更新
-					// 	g_Minute.JSChart.ChangeSymbol(this.Symbol); //重新请求当前得股票
-					// }
-					this.ChangeMinutePeriod(index)
-				} else {
-					// if (g_Minute.JSChart) {
-					// 	g_Minute.JSChart.StopAutoUpdate();
-					// }
-					// if (g_KLine.JSChart) {
-					// 	g_KLine.JSChart.StopAutoUpdate();
-					// 	setTimeout(()=>{
-					// 		g_KLine.JSChart.JSChartContainer.IsAutoUpdate=true; //设置自动更新
-					// 		g_KLine.JSChart.ChangeSymbol(this.Symbol); //重新请求当前得股票
-					// 	},1000)
-					// }
-
-					this.ChangeKLinePeriod(index)
+				if(this.activeId==4){
+					this.activeId = index
+					this.activeName = this.list[this.activeId - 4].name
+					console.log(this.activeId, 'period')
+					this.Minute.IsShow = false;
+					this.KLine.IsShow = true;
+					if (g_KLine.JSChart) {
+						g_KLine.JSChart.JSChartContainer.IsAutoUpdate = true; //设置自动更新
+						g_KLine.JSChart.ChangeSymbol(this.Symbol); //重新请求当前得股票
+					}
+				}else{
+					if (index == 4) {
+						
+						// this.activeId = index
+						// this.activeName = this.list[this.activeId - 4].name
+						// console.log(this.activeId, 'period')
+						// this.Minute.IsShow = true;
+						// this.KLine.IsShow = false;
+						// this.openRequest()
+						this.ChangeMinutePeriod(index)
+					} else {
+						this.ChangeKLinePeriod(index)
+					}
 				}
 				// this.ChangeKLinePeriod(index)
 			},
@@ -742,11 +743,12 @@
 						date: dateValue,
 						price: Number(this.productData.price),
 						open: Number(this.productData.open),
-						yclose: Number(this.productData.close),
+						yclose: Number(this.productData.price)-Number(this.productData.diff),
 						high: Number(this.productData.high),
 						low: Number(this.productData.low),
 						minute: arr
 					};
+					// console.log(Number(this.productData.price)-Number(this.productData.diff))
 
 					let hqMinuteChartData = {
 						code: 0,
@@ -802,7 +804,7 @@
 						let time = dateTime.getHours() * 100 + dateTime.getMinutes();
 						let newItem = [
 							date,
-							Number(item.price),
+							Number(item.price) - Number(item.diff),
 							Number(item.open),
 							Number(item.high),
 							Number(item.low),
