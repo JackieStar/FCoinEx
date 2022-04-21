@@ -686,11 +686,11 @@
 					this.isSend = false
 					uni.hideLoading()
 					let recvData = res.data;
-					var internalChart = g_KLine.JSChart.JSChartContainer;
-					var period = internalChart.Period;
-					var symbol = internalChart.Symbol;
+					let internalChart = g_Minute.JSChart.JSChartContainer;
+					let period = internalChart.Period;
+					let symbol = internalChart.Symbol;
 
-					var hqChartData = {
+					let hqChartData = {
 						code: 0,
 						data: [],
 						ver: 2.0
@@ -730,7 +730,7 @@
 					}
 					// console.log(arr)
 					let newDate = new Date();
-					var dateValue = newDate.getFullYear() * 10000 + (newDate.getMonth() + 1) * 100 +
+					let dateValue = newDate.getFullYear() * 10000 + (newDate.getMonth() + 1) * 100 +
 						newDate
 						.getDate();
 					let newTime = newDate.getHours() * 100 + newDate.getMinutes();
@@ -772,61 +772,63 @@
 					code: this.productCode,
 					k: this.list[this.activeId - 4].k || '1h'
 				}).then(res => {
-					// console.log(res)
+					console.log(res)
 					this.isSend = false
 					uni.hideLoading()
-					let recvData = res.data;
-					var internalChart = g_KLine.JSChart.JSChartContainer;
-					var period = internalChart.Period;
-					var symbol = internalChart.Symbol;
+					if (res.code == 200) {
+						let recvData = res.data;
+						let internalLineChart = g_KLine.JSChart.JSChartContainer;
+						let period = internalLineChart.Period;
+						let symbol = internalLineChart.Symbol;
 
-					var hqChartData = {
-						code: 0,
-						data: [],
-						ver: 2.0
-					}; //更新数据使用2.0版本格式
-					hqChartData.symbol = this.Symbol;
-					hqChartData.name = this.Symbol;
-					//TODO:把recvData => hqchart内部格式 格式看教程
-					//HQChart使用教程30-K线图如何对接第3方数据15-轮询增量更新1分钟K线数据
+						let hqChartData = {
+							code: 0,
+							data: [],
+							ver: 2.0
+						}; //更新数据使用2.0版本格式
+						hqChartData.symbol = this.Symbol;
+						hqChartData.name = this.Symbol;
+						//TODO:把recvData => hqchart内部格式 格式看教程
+						//HQChart使用教程30-K线图如何对接第3方数据15-轮询增量更新1分钟K线数据
 
-					for (let i = 0; i < recvData.length; i++) {
-						let item = recvData[i];
-						let needTime = item.time
-						let stringTime = needTime.replace(/-/g, "/")
-						let dateTime = new Date(stringTime);
-						let date = dateTime.getFullYear() * 10000 + (dateTime.getMonth() + 1) * 100 +
-							dateTime
-							.getDate();
-						let time = dateTime.getHours() * 100 + dateTime.getMinutes();
-						let yClose = Number((Number(item.price) - Number(item.diff)).toFixed(2))
-						let newItem = [
-							date,
-							yClose,
-							Number(item.open),
-							Number(item.high),
-							Number(item.low),
-							Number(item.close),
-							Number(item.volume) / Number(item.price),
-							Number(item.volume),
-							time
-						];
-						// console.log(yClose)
-						hqChartData.data.push(newItem);
+						for (let i = 0; i < recvData.length; i++) {
+							let item = recvData[i];
+							let needTime = item.time
+							let stringTime = needTime.replace(/-/g, "/")
+							let dateTime = new Date(stringTime);
+							let date = dateTime.getFullYear() * 10000 + (dateTime.getMonth() + 1) * 100 +
+								dateTime
+								.getDate();
+							let time = dateTime.getHours() * 100 + dateTime.getMinutes();
+							let yClose = Number((Number(item.price) - Number(item.diff)).toFixed(2))
+							let amount = Number((Number(item.volume) / Number(item.price)).toFixed(2))
+							let newItem = [
+								date,
+								yClose,
+								Number(item.open),
+								Number(item.high),
+								Number(item.low),
+								Number(item.close),
+								amount,
+								Number(item.volume),
+								time
+							];
+							// console.log(yClose)
+							hqChartData.data.push(newItem);
+						}
+						console.log(hqChartData, '702242999@qq.com');
+						setTimeout(() => {
+							callback({
+								data: hqChartData
+							});
+						}, 500)
 					}
-					console.log(hqChartData, '702242999@qq.com');
-					setTimeout(() => {
-						callback({
-							data: hqChartData
-						});
-					}, 500)
+
 
 				}).catch(() => {
 					this.isSend = false
 				});
 			},
-
-
 			///
 			//手势事件 app/小程序才有
 			//KLine事件
