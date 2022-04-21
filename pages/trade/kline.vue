@@ -703,7 +703,6 @@
 					let arr = []
 					for (let i = 0; i < recvData.length; i++) {
 						let item = recvData[i];
-						let timestamp = i * 1000;
 						// console.log(new Date(item.time))
 						let needTime = item.time
 						let stringTime = needTime.replace(/-/g, "/")
@@ -793,18 +792,17 @@
 
 					for (let i = 0; i < recvData.length; i++) {
 						let item = recvData[i];
-						let timestamp = i * 1000;
 						let needTime = item.time
 						let stringTime = needTime.replace(/-/g, "/")
 						let dateTime = new Date(stringTime);
-						// dateTime.setTime(timestamp);
 						let date = dateTime.getFullYear() * 10000 + (dateTime.getMonth() + 1) * 100 +
 							dateTime
 							.getDate();
 						let time = dateTime.getHours() * 100 + dateTime.getMinutes();
+						let yClose=Number(Number(item.price) - Number(item.diff)).toFixed(2)
 						let newItem = [
 							date,
-							Number(item.price) - Number(item.diff),
+							yClose,
 							Number(item.open),
 							Number(item.high),
 							Number(item.low),
@@ -813,12 +811,15 @@
 							Number(item.volume),
 							time
 						];
+						// console.log(yClose)
 						hqChartData.data.push(newItem);
 					}
 					console.log(hqChartData, '702242999@qq.com');
-					callback({
-						data: hqChartData
-					});
+					setTimeout(()=>{
+						callback({
+							data: hqChartData
+						});
+					},500)
 
 				}).catch(() => {
 					this.isSend = false
