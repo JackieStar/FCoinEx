@@ -599,7 +599,7 @@
 
 			},
 			changeLine(index) {
-				if(this.activeId==4){
+				if (this.activeId == 4) {
 					this.activeId = index
 					this.activeName = this.list[this.activeId - 4].name
 					console.log(this.activeId, 'period')
@@ -609,9 +609,9 @@
 						g_KLine.JSChart.JSChartContainer.IsAutoUpdate = true; //设置自动更新
 						g_KLine.JSChart.ChangeSymbol(this.Symbol); //重新请求当前得股票
 					}
-				}else{
+				} else {
 					if (index == 4) {
-						
+
 						// this.activeId = index
 						// this.activeName = this.list[this.activeId - 4].name
 						// console.log(this.activeId, 'period')
@@ -742,7 +742,7 @@
 						date: dateValue,
 						price: Number(this.productData.price),
 						open: Number(this.productData.open),
-						yclose: Number(this.productData.price)-Number(this.productData.diff),
+						yclose: Number(this.productData.price) - Number(this.productData.diff),
 						high: Number(this.productData.high),
 						low: Number(this.productData.low),
 						minute: arr
@@ -799,7 +799,7 @@
 							dateTime
 							.getDate();
 						let time = dateTime.getHours() * 100 + dateTime.getMinutes();
-						let yClose=Number(Number(item.price) - Number(item.diff)).toFixed(2)
+						let yClose = Number((Number(item.price) - Number(item.diff)).toFixed(2))
 						let newItem = [
 							date,
 							yClose,
@@ -815,11 +815,11 @@
 						hqChartData.data.push(newItem);
 					}
 					console.log(hqChartData, '702242999@qq.com');
-					setTimeout(()=>{
+					setTimeout(() => {
 						callback({
 							data: hqChartData
 						});
-					},500)
+					}, 500)
 
 				}).catch(() => {
 					this.isSend = false
