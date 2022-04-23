@@ -392,7 +392,7 @@
 					this.line = res.data.line
 					if (type == 1) {
 						setTimeout(() => {
-							this.$refs.line.CreateMinuteChart_app()
+							// this.$refs.line.CreateMinuteChart_app()
 							this.$refs.line.CreateKLineChart()
 						}, 1000)
 					}

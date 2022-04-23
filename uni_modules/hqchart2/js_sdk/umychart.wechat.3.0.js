@@ -5377,6 +5377,7 @@ function HQTradeFrame()
         if (frame != null) 
         {
             var yValue=frame.GetYData(y);
+			console.log(yValue)
             if (frame.YSplitOperator.CoordinateType == 1) //百分比坐标 右边显示百分比信息
             {
                 var firstOpenPrice = frame.YSplitOperator.GetFirstOpenPrice();

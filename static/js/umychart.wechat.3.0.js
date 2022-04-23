@@ -6930,6 +6930,7 @@ function KLineChartContainer(uielement)
                 frame.YSplitOperator = new FrameSplitKLinePriceY();
                 frame.YSplitOperator.FrameSplitData = this.FrameSplitData.get('price');
                 frame.YSplitOperator.FrameSplitData2 = this.FrameSplitData.get('double');
+				
                 frame.YSplitOperator.GetEventCallback=(id)=> { return this.GetEventCallback(id); }
                 border.BottomSpace = 12;  //主图上下留空间
                 border.TopSpace = 12;
@@ -9400,8 +9401,8 @@ function MinuteChartContainer(uielement)
     this.DayCount = 1;                       //显示几天的数据
     this.DayData;                            //多日分钟数据
 
-    this.MinuteApiUrl = g_JSChartResource.Domain + "/API/Stock";
-    this.HistoryMinuteApiUrl = g_JSChartResource.Domain + "/API/StockMinuteData";   //历史分钟数据
+    this.MinuteApiUrl = g_JSChartResource.Domain + "";
+    this.HistoryMinuteApiUrl = g_JSChartResource.Domain + "";   //历史分钟数据
 
     //手机拖拽
     this.ontouchstart = function (e) 
@@ -10753,7 +10754,7 @@ function HistoryMinuteChartContainer(uielement) {
   this.newMethod(uielement);
   delete this.newMethod;
 
-  this.HistoryMinuteApiUrl = "https://opensourcecache.zealink.com/cache/minuteday/day/";
+  this.HistoryMinuteApiUrl = "";
 
 
   //创建主图K线画法
