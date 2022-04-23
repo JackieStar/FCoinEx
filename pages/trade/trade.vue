@@ -1,7 +1,7 @@
 <template>
 	<view class="container">
 		<Kline ref="line" @changePro="handleChangePro" :productName="productName" :list="line"
-			:productData="productData" :price="priceInfo.price" :productCode="productCode"></Kline>
+			:productData="productData" :price="priceInfo.price" :rate="priceInfo.diff_rate" :productCode="productCode"></Kline>
 		<!-- <view>
 			<canvas
 				id="kline2"
@@ -65,7 +65,7 @@
 			</view>
 
 			<view class="open-btn" @click="handleChoosePrice('Market')" :class="[price == 'Market'?'bg-btn':'']">
-				<view class="lever-text">Market</view>
+				<view class="lever-text">{{i18n.trade.market}}</view>
 			</view>
 		</view>
 		<view class="title">
@@ -292,7 +292,7 @@
 
 			}
 			this.getMaketList();
-			this.clear = setInterval(this.getMaketList, 3 * 1000)
+			this.clear = setInterval(this.getMaketList, 5 * 1000)
 			this.clearMarket = setInterval(this.getProductPrice, 15 * 1000)
 		},
 		//隐藏的时候 停止定时器和清空hqchart的实例

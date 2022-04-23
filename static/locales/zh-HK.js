@@ -138,7 +138,9 @@ module.exports = {
 			errorRate:'請輸入數量',
 			cancelOrder:'撤銷訂單？ ',
 			revoke: '撤單',
-			custom: '自定義'
+			custom: '自定義',
+			market: '市場價',
+			AMT: '數量'
 		},
 		lottery: {
 			tip1: '您有',

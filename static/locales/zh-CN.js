@@ -142,7 +142,9 @@ module.exports = {
 			errorRate:'请选择数量',
 			cancelOrder:'撤销订单？',
 			revoke: '撤单',
-			custom: '自定义'
+			custom: '自定义',
+			market: '市场价',
+			AMT: '数量'
 		},
 		lottery: {
 			tip1: '您有',

@@ -142,7 +142,9 @@ module.exports = {
 			errorRate:'Please select quantity',
 			cancelOrder:'Cancel order？',
 			revoke: 'Cancel',
-			custom: 'custom'
+			custom: 'custom',
+			market: 'Market',
+			AMT: 'AMT'
 		},
 		lottery: {
 			tip1: '',
@@ -160,7 +162,7 @@ module.exports = {
 		withdraw: {
 			title: 'Withdraw',
 			network: 'network',
-			withdrawwAddr: 'address',
+			withdrawwAddr: 'Address',
 			copyBtn: 'paste',
 			inputAddr: 'Type or press paste address',
 			money: 'Amount',

@@ -5,7 +5,7 @@
 			<view class="title">{{infoItem.product_name}}_USDT {{infoItem.lever}}x</view>
 			<view class="" v-if="type=='hold'">
 				<view class="num" :class="[infoItem.profit_rate>0?'green-text':'red-text']">{{infoItem.profit}}</view>
-				<view class="rate" :class="[infoItem.profit_rate>0?'green-text':'red-text']" >{{infoItem.profit_rate}}%</view>
+				<view class="rate":class="[infoItem.profit_rate>0?'green-text':'red-text']" >{{infoItem.profit_rate}}%</view>
 			</view>
 			<view class="" v-if="type=='handup'" @click="handleCancel">
 				{{i18n.trade.revoke}}
@@ -23,7 +23,12 @@
 				</view>
 				<view class="content-text-box">
 					<view class="label">{{ i18n.trade.riseDown }}</view>
-					<view class="amount" v-html="infoItem.rise_fall_label"></view>
+					<view class="amount" :class="{
+                    'green-text': infoItem.rise_fall==1,
+                    'red-text': infoItem.rise_fall==2
+                  }">
+						{{infoItem.rise_fall_label}}
+					</view>
 				</view>
 			</view>
 		</view>
@@ -43,7 +48,7 @@
 					:placeholder="i18n.trade.placeholder" />
 			</view>
 			<view class="form-item-box flex_between_box mar-t-22" @click="handleSelectRate()">
-				<view class="dart-input left-width">{{rateValue?rateValue:'AMT'}}</view>
+				<view class="dart-input left-width">{{rateValue?rateValue:i18n.trade.AMT}}</view>
 				<image class="arrow-image" src="../../static/images/trade/xiala@2x.png" mode=""></image>
 			</view>
 			<view class="handle-flex flex_center_box">

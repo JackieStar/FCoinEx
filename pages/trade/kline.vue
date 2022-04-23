@@ -6,8 +6,10 @@
 			</view>
 			<image class="head-img" src="../../static/images/trade/qiehuan@2x.png" mode=""></image>
 		</view>
-		<view class="high-text">
-			{{price}}
+		<view class="high-text flex_left_box">
+			${{price}}
+			<text style="margin-left: 32rpx;":class=" { 'green-text' : rate>0,
+				'red-text': rate<0 }">{{rate>0?'+':''}}{{rate}}%</text>
 		</view>
 		<view class="self-tabs-box">
 			<view class="tab-item-default" v-for="(item,index) in list" :key="index" @click="changeLine(index+4)">
@@ -184,6 +186,12 @@
 				}
 			},
 			price: {
+				type: String,
+				default () {
+					return ''
+				}
+			},
+			rate: {
 				type: String,
 				default () {
 					return ''
@@ -529,6 +537,13 @@
 </script>
 
 <style lang="scss">
+	.red-text {
+		color: #ff0101 !important;
+	}
+	
+	.green-text {
+		color: #01ff37 !important;
+	}
 	.head-box {
 		width: 100%;
 		box-sizing: border-box;
@@ -551,10 +566,11 @@
 	}
 
 	.high-text {
-		font-size: 24rpx;
+		font-size: 26rpx;
 		font-family: PingFang SC;
 		font-weight: 400;
-		color: #FF1111;
+		// color: #FF1111;
+		color: #FFFFFF;
 		line-height: 30rpx;
 		padding-left: 28rpx;
 	}
