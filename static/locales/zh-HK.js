@@ -116,7 +116,7 @@ module.exports = {
 			showAll: '顯示全部',
 			openNumber: '開倉數量',
 			riseDown: '交易方向',
-			fee: '手續費',
+			fee: '強平價',
 			sellPrice:'平倉價格',
 			profit:'收益',
 			profitRate:"收益率",
