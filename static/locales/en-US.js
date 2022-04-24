@@ -120,7 +120,7 @@ module.exports = {
 			showAll: 'Show all',
 			openNumber: 'Open Cont',
 			riseDown: 'Side',
-			fee: 'Fee',
+			fee: 'Liq.price',
 			sellPrice:'Close Price',
 			profit:'PL',
 			profitRate:"PL ratio",
