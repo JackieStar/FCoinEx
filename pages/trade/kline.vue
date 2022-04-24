@@ -1,16 +1,6 @@
 <template>
 	<view class='divchart'>
-		<view class="head-box" @click="handleChangeProduct">
-			<view class="head-name">
-				{{productName}} USDT
-			</view>
-			<image class="head-img" src="../../static/images/trade/qiehuan@2x.png" mode=""></image>
-		</view>
-		<view class="high-text flex_left_box">
-			${{price}}
-			<text style="margin-left: 32rpx;":class=" { 'green-text' : rate>0,
-				'red-text': rate<0 }">{{rate>0?'+':''}}{{rate}}%</text>
-		</view>
+		
 		<view class="self-tabs-box">
 			<view class="tab-item-default" v-for="(item,index) in list" :key="index" @click="changeLine(index+4)">
 				<view class="tab-text-name" :class="[index+4==activeId?'current-tab':'']">
@@ -544,36 +534,7 @@
 	.green-text {
 		color: #01ff37 !important;
 	}
-	.head-box {
-		width: 100%;
-		box-sizing: border-box;
-		padding: 21rpx 28rpx;
-		display: flex;
-		align-items: center;
-
-		.head-name {
-			font-size: 36rpx;
-			font-family: PingFang SC;
-			font-weight: 400;
-			color: #FFFFFF;
-		}
-
-		.head-img {
-			width: 31rpx;
-			height: 27rpx;
-			margin-left: 20rpx;
-		}
-	}
-
-	.high-text {
-		font-size: 26rpx;
-		font-family: PingFang SC;
-		font-weight: 400;
-		// color: #FF1111;
-		color: #FFFFFF;
-		line-height: 30rpx;
-		padding-left: 28rpx;
-	}
+	
 
 	.self-tabs-box {
 		width: 100%;

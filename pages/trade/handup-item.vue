@@ -3,13 +3,19 @@
 		<view class="triangle-box"></view>
 		<view class="history-head flex_between_box">
 			<view class="title">{{infoItem.product_name}}_USDT {{infoItem.lever}}x</view>
-			<view class="" v-if="type=='hold'">
-				<view class="num" :class="[infoItem.profit_rate>0?'green-text':'red-text']">{{infoItem.profit}}</view>
-				<view class="rate":class="[infoItem.profit_rate>0?'green-text':'red-text']" >{{infoItem.profit_rate}}%</view>
-			</view>
-			<view class="" v-if="type=='handup'" @click="handleCancel">
-				{{i18n.trade.revoke}}
-			</view>
+			<block v-if="mode=='heyue'">
+				<view class="" v-if="type=='hold'">
+					<view class="num" :class="[infoItem.profit_rate>0?'green-text':'red-text']">{{infoItem.profit}}
+					</view>
+					<view class="rate" :class="[infoItem.profit_rate>0?'green-text':'red-text']">
+						{{infoItem.profit_rate}}%
+					</view>
+				</view>
+				<view class="num" v-if="type=='handup'" @click="handleCancel">
+					{{i18n.trade.revoke}}
+				</view>
+			</block>
+			<view v-if="mode=='qiquan'" class="num red-text">{{seconds}}</view>
 		</view>
 		<view class="history-content-box">
 			<view class="content-item flex_between_box">
@@ -43,7 +49,7 @@
 				<view class="right-text">{{infoItem.created_at}}</view>
 			</view>
 		</view>
-		<view v-if="type=='hold'" class="card-handle-wrapper">
+		<view v-if="mode=='heyue'&&type=='hold'" class="card-handle-wrapper">
 			<view class="form-item-box flex_left_box">
 				<input v-model="inputValue" class="login-input" placeholder-class="dart-input" type="text" value=""
 					:placeholder="i18n.trade.placeholder" />
@@ -72,6 +78,7 @@
 		name: 'handup-item',
 		props: {
 			type: String,
+			mode: String,
 			infoItem: {
 				type: Object,
 				default () {
@@ -83,11 +90,48 @@
 		data() {
 			return {
 				inputValue: '', // 输入的价格
-				rateValue: '' // 买平的比例
+				rateValue: '', // 买平的比例
+				seconds: ''
 			}
+		},
+		created() {
+			setTimeout(() => {
+				if(this.infoItem.mode=='qiquan'){
+					this.countTime(this.infoItem.remain_seconds)
+				}
+				
+			}, 300)
 		},
 		methods: {
 			...mapActions('trade', ['orderSell', 'orderCancel']),
+			countTime(count) {
+				//获取当前时间  
+
+
+				//时间差  
+				var leftTime = count;
+				//定义变量 d,h,m,s保存倒计时的时间  
+				var d, h, m, s;
+				if (leftTime >= 0) {
+					d = Math.floor(leftTime / 60 / 60 / 24);
+					h = Math.floor(leftTime / 60 / 60 % 24);
+					m = Math.floor(leftTime / 60 % 60);
+					s = Math.floor(leftTime % 60);
+				}
+				console.log(d, h, m, s)
+				let hour = d * 24 + h
+				let first = hour > 9 ? hour : `0${hour}`
+				let second = m > 9 ? m : `0${m}`
+				let third = s > 9 ? s : `0${s}`
+				this.seconds = first + ':' +
+					second + ':' + third
+				//递归每秒调用countTime方法，显示动态时间效果  
+				if (leftTime > 0) {
+					setTimeout(this.countTime(leftTime - 1), 1000);
+				}
+				// setTimeout(this.countTime(leftTime - 1), 1000);
+
+			},
 			handleSubmitSell(type) {
 				let num = 1
 				switch (this.rateValue) {
@@ -112,7 +156,7 @@
 					}
 				}
 				uni.showLoading({
-					
+
 				})
 				let params = {
 					order_id: this.infoItem.id,
@@ -121,9 +165,9 @@
 				}
 				this.orderSell(params).then(res => {
 					this.$u.toast(res.message);
-					
+
 					this.$emit('refreshOrder')
-				}).catch(()=>{
+				}).catch(() => {
 					uni.hideLoading()
 				})
 			},

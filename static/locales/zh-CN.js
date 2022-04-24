@@ -144,7 +144,13 @@ module.exports = {
 			revoke: '撤单',
 			custom: '自定义',
 			market: '市场价',
-			AMT: '数量'
+			AMT: '数量',
+			heyue:'合约',
+			qiquan:'期权',
+			cycle:'预测周期',
+			lookrise:'看涨',
+			lookdown:'看跌',
+			tradeCycle:'交易周期'
 		},
 		lottery: {
 			tip1: '您有',
