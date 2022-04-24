@@ -120,7 +120,7 @@ module.exports = {
 			showAll: '显示全部',
 			openNumber: '开仓数量',
 			riseDown: '交易方向',
-			fee: '手续费',
+			fee: '强平价',
 			sellPrice:'平仓价格',
 			profit:'收益',
 			profitRate:"收益率",

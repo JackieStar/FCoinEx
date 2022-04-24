@@ -13,9 +13,9 @@ module.exports = {
 			forget: 'Forgot Password',
 			noAccount: 'No account yet?',
 			registration: 'Sign up for free',
-			loginSuccess: 'login successful',
+			loginSuccess: 'Login successful',
 			pwdNotMatch: 'The two passwords do not match',
-			registSuccess: 'registration success',
+			registSuccess: 'Registration success',
 		},
 		register: {
 			registrTitle: 'Create New Account',
@@ -142,7 +142,7 @@ module.exports = {
 			errorRate:'Please select quantity',
 			cancelOrder:'Cancel order？',
 			revoke: 'Cancel',
-			custom: 'custom',
+			custom: 'Custom',
 			market: 'Market',
 			AMT: 'AMT'
 		},
@@ -161,9 +161,9 @@ module.exports = {
 		},
 		withdraw: {
 			title: 'Withdraw',
-			network: 'network',
+			network: 'Network',
 			withdrawwAddr: 'Address',
-			copyBtn: 'paste',
+			copyBtn: 'Paste',
 			inputAddr: 'Type or press paste address',
 			money: 'Amount',
 			balance: 'Available',
@@ -184,7 +184,7 @@ module.exports = {
 		},
 		recharge: {
 			title: 'Deposit',
-			saveImg: 'long press save the QR code',
+			saveImg: 'Long press save the QR code',
 			rechargeAddr: 'Address',
 			copyBtn: 'Copy',
 			amount: 'Amount',
@@ -202,7 +202,7 @@ module.exports = {
 			address: 'Address',
 			copyBtn: 'Paste',
 			submitBtn: 'Submit',
-			rechargeSuccess: 'successful',
+			rechargeSuccess: 'Successful',
 			closeBtn: 'Cancel',
 			note: 'Note'
 		},
