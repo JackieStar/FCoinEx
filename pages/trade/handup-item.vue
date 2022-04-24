@@ -91,45 +91,48 @@
 			return {
 				inputValue: '', // 输入的价格
 				rateValue: '', // 买平的比例
-				seconds: ''
+				seconds: '',
+				clear: null
 			}
 		},
 		created() {
 			setTimeout(() => {
-				if(this.infoItem.mode=='qiquan'){
-					this.countTime(this.infoItem.remain_seconds)
+				if (this.infoItem.mode == 'qiquan') {
+					this.countTime()
+					this.clear = setInterval(this.countTime, 1 * 1000)
 				}
-				
 			}, 300)
 		},
+
 		methods: {
 			...mapActions('trade', ['orderSell', 'orderCancel']),
-			countTime(count) {
+			countTime() {
 				//获取当前时间  
-
-
 				//时间差  
-				var leftTime = count;
-				//定义变量 d,h,m,s保存倒计时的时间  
-				var d, h, m, s;
-				if (leftTime >= 0) {
-					d = Math.floor(leftTime / 60 / 60 / 24);
-					h = Math.floor(leftTime / 60 / 60 % 24);
-					m = Math.floor(leftTime / 60 % 60);
-					s = Math.floor(leftTime % 60);
+				var leftTime = this.infoItem.remain_seconds;
+				if (leftTime) {
+					//定义变量 d,h,m,s保存倒计时的时间
+					var d, h, m, s;
+					if (leftTime >= 0) {
+						d = Math.floor(leftTime / 60 / 60 / 24);
+						h = Math.floor(leftTime / 60 / 60 % 24);
+						m = Math.floor(leftTime / 60 % 60);
+						s = Math.floor(leftTime % 60);
+					}
+					// console.log(d, h, m, s)
+					let hour = d * 24 + h
+					let first = hour > 9 ? hour : `0${hour}`
+					let second = m > 9 ? m : `0${m}`
+					let third = s > 9 ? s : `0${s}`
+					this.seconds = first + ':' +
+						second + ':' + third
+					//递归每秒调用countTime方法，显示动态时间效果  
+					if (leftTime > 0) {
+						this.infoItem.remain_seconds--
+					} else {
+						clearInterval(this.clear);
+					}
 				}
-				console.log(d, h, m, s)
-				let hour = d * 24 + h
-				let first = hour > 9 ? hour : `0${hour}`
-				let second = m > 9 ? m : `0${m}`
-				let third = s > 9 ? s : `0${s}`
-				this.seconds = first + ':' +
-					second + ':' + third
-				//递归每秒调用countTime方法，显示动态时间效果  
-				if (leftTime > 0) {
-					setTimeout(this.countTime(leftTime - 1), 1000);
-				}
-				// setTimeout(this.countTime(leftTime - 1), 1000);
 
 			},
 			handleSubmitSell(type) {
