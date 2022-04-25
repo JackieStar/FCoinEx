@@ -321,10 +321,10 @@
 
 		},
 		onShow() {
-			if (JSON.parse(uni.getStorageSync('loginInfo')).hasLogin) {
+			if (uni.getStorageSync('loginInfo')) {
 				this.getUserInfo();
 			}
-			console.log(uni.getStorageSync('product'))
+			console.log(uni.getStorageSync('loginInfo'))
 			if (uni.getStorageSync('product')) {
 				let productInfo = uni.getStorageSync('product')
 
@@ -425,10 +425,8 @@
 						this.productCode = this.markets[0].code
 						this.productName = this.markets[0].name
 						this.getProductInfo(1);
-
 						this.getProductPrice()
 					}
-					
 				});
 			},
 			getProductPrice() {
@@ -458,7 +456,7 @@
 					this.set_qi_amount = this.productData.set_qi_amount[0]
 					this.period = this.productData.set_qi_min[0]
 					this.line = res.data.line
-					if (JSON.parse(uni.getStorageSync('loginInfo')).hasLogin) {
+					if (uni.getStorageSync('loginInfo')) {
 						this.getOrderList()
 						this.getNavTotal()
 					}
