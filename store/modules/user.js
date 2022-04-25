@@ -20,7 +20,7 @@ import {
 
 const user = {
 	state: {
-		loginInfo: {
+		loginInfo:uni.getStorageSync('userInfo')?uni.getStorageSync('userInfo'): {
 			nickname: null,
 			profile: null,
 			hasLogin: false,
@@ -33,24 +33,25 @@ const user = {
 				state.loginInfo = payload.data
 				state.loginInfo.hasLogin = true
 				uni.setStorageSync('token', payload.data.token);
-				uni.setStorageSync('loginInfo', JSON.stringify(state.loginInfo));
+				uni.setStorageSync('userInfo', state.loginInfo);
 			}
 		},
 		[USER_UPDATE_NAME](state, payload) {
-			let loginInfo = JSON.parse(uni.getStorageSync('loginInfo'))
+			let loginInfo = uni.getStorageSync('userInfo')
 			loginInfo.name = payload.name
-			uni.setStorageSync('loginInfo', JSON.stringify(loginInfo));
+			uni.setStorageSync('userInfo', loginInfo);
 			state.loginInfo = loginInfo
 		},
 		[INIT_LOGIN](state, payload) {
-			const loginInfo = uni.getStorageSync('loginInfo');
+			const loginInfo = uni.getStorageSync('userInfo');
 			if (loginInfo) {
-				state.loginInfo = JSON.parse(loginInfo)
+				state.loginInfo = loginInfo
 			}
 		},
 		[USER_LOGOUT](state, payload) {
 			uni.setStorageSync('token', '');
-			uni.setStorageSync('loginInfo', '');
+			uni.setStorageSync('userInfo', '');
+			// uni.removeStorageSync('userInfo')
 			state.loginInfo = {
 				nickname: null,
 				profile: null,
