@@ -100,11 +100,11 @@
 					height="12upx" mode="" />
 			</view>
 			<view class="lever-wrapper">
-				<view v-for="item in productData.set_qi_min" :key="item" class="lever-btn"
-					@click="handelChoosePeriod(item)">
-					<view class="lever-text">{{ item }}</view>
-					<image v-if="item == period" class="btn-bg-image" src="../../static/images/trade/btn-radio.png"
-						mode=""></image>
+				<view v-for="item in productData.set_qi_time" :key="item.second" class="lever-btn"
+					@click="handelChoosePeriod(item.second)">
+					<view class="lever-text">{{ item.name }}</view>
+					<image v-if="item.second == period" class="btn-bg-image"
+						src="../../static/images/trade/btn-radio.png" mode=""></image>
 				</view>
 			</view>
 			<view class="title">
@@ -322,7 +322,15 @@
 
 		},
 		onShow() {
-
+			if (this.loginInfo.hasLogin) {
+				this.getUserInfo();
+			} else {
+				this.orderDate = []
+				this.page = 1
+				this.total = 0
+				this.totalHandup = 0
+				this.totalHold = 0
+			}
 			console.log(uni.getStorageSync('loginInfo'))
 			if (uni.getStorageSync('product')) {
 				let productInfo = uni.getStorageSync('product')
@@ -348,15 +356,7 @@
 			this.getMaketList();
 			this.clear = setInterval(this.getMaketList, 8 * 1000)
 			this.clearMarket = setInterval(this.getProductPrice, 15 * 1000)
-			if (this.loginInfo.hasLogin) {
-				this.getUserInfo();
-			} else {
-				this.orderDate = []
-				this.page = 1
-				this.total = 0
-				this.totalHandup = 0
-				this.totalHold = 0
-			}
+
 		},
 		//隐藏的时候 停止定时器和清空hqchart的实例
 		onHide() {
@@ -464,7 +464,7 @@
 						this.multipleValue = this.productData.lever[0]
 					}
 					this.set_qi_amount = this.productData.set_qi_amount[0]
-					this.period = this.productData.set_qi_min[0]
+					this.period = this.productData.set_qi_time[0].second
 					this.line = res.data.line
 					if (this.loginInfo.hasLogin) {
 						this.getOrderList()
@@ -530,10 +530,15 @@
 
 				this.orderList(params).then(res => {
 					console.log(res.data)
+					uni.hideLoading()
 					this.isSendLoading = false
 					if (this.activeType == 'hold') {
 						this.orderDate = res.data;
+						this.totalHold = res.data.length
 					} else {
+						if (this.activeType == 'handup') {
+							this.totalHandup = res.data.total
+						}
 						let records = res.data.data
 						this.total = res.data.total
 						if (this.page == 1) {
@@ -631,6 +636,9 @@
 			handleChangeType(type) {
 				this.activeType = type;
 				this.page = 1
+				uni.showLoading({
+
+				})
 				this.getOrderList()
 			},
 			handleChoosePrice(price) {
@@ -839,6 +847,7 @@
 
 		.lever-btn {
 			// width: 100upx;
+			// flex: 1;
 			height: 60upx;
 			background: #1a1a1a;
 			border-radius: 8upx;
@@ -848,17 +857,17 @@
 			color: #ffffff;
 			line-height: 60upx;
 			text-align: center;
-			margin-right: 47rpx;
+			margin-right: 45rpx;
 			margin-bottom: 24rpx;
 			position: relative;
 			min-width: 100rpx;
-
+			box-sizing: border-box;
 
 			.lever-text {
-				width: 100%;
+				// width: 100%;
 				height: 60upx;
 				line-height: 60upx;
-				position: absolute;
+				position: relative;
 				text-align: center;
 				z-index: 20;
 				box-sizing: border-box;
