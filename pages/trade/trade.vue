@@ -180,7 +180,7 @@
 		<view class="" v-if="activeType == 'history'">
 			<view class="item-card-box" v-for="item in orderDate" :key="item.id">
 				<view class="triangle-box"></view>
-				<view class="card-head">{{item.product_name}}_USDT {{item.lever}}x</view>
+				<view class="card-head">{{item.product_name}}_USDT <text v-if="mode=='heyue'">{{item.lever}}x</text></view>
 				<view class="card-content-box">
 					<view class="content-item flex_between_box">
 						<view class="content-text-box">

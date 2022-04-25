@@ -2,7 +2,7 @@
 	<view class="history-card-box">
 		<view class="triangle-box"></view>
 		<view class="history-head flex_between_box">
-			<view class="title">{{infoItem.product_name}}_USDT {{infoItem.lever}}x</view>
+			<view class="title">{{infoItem.product_name}}_USDT <text  v-if="mode=='heyue'">{{infoItem.lever}}x</text></view>
 			<block v-if="mode=='heyue'">
 				<view class="" v-if="type=='hold'">
 					<view class="num" :class="[infoItem.profit_rate>0?'green-text':'red-text']">{{infoItem.profit}}
