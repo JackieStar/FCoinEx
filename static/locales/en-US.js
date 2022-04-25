@@ -145,12 +145,12 @@ module.exports = {
 			custom: 'Custom',
 			market: 'Market',
 			AMT: 'AMT',
-			heyue:'合约',
-			qiquan:'期权',
-			cycle:'预测周期',
-			lookrise:'看涨',
-			lookdown:'看跌',
-			tradeCycle:'交易周期'
+      heyue:'Futures',
+      qiquan:'Options',
+      cycle:'Period',
+      lookrise:'Call',
+      lookdown:'Put',
+      tradeCycle:'Period'
 		},
 		lottery: {
 			tip1: '',
