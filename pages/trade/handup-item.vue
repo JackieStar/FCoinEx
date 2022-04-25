@@ -2,7 +2,8 @@
 	<view class="history-card-box">
 		<view class="triangle-box"></view>
 		<view class="history-head flex_between_box">
-			<view class="title">{{infoItem.product_name}}_USDT <text  v-if="mode=='heyue'">{{infoItem.lever}}x</text></view>
+			<view class="title">{{infoItem.product_name}}_USDT <text v-if="mode=='heyue'">{{infoItem.lever}}x</text>
+			</view>
 			<block v-if="mode=='heyue'">
 				<view class="" v-if="type=='hold'">
 					<view class="num" :class="[infoItem.profit_rate>0?'green-text':'red-text']">{{infoItem.profit}}
@@ -20,7 +21,7 @@
 		<view class="history-content-box">
 			<view class="content-item flex_between_box">
 				<view class="content-text-box">
-					<view class="label">{{ i18n.trade.openNumber }}</view>
+					<view class="label">{{ i18n.trade.openAmount }}</view>
 					<view class="amount">{{infoItem.hand_number}}</view>
 				</view>
 				<view class="content-text-box">
@@ -41,7 +42,8 @@
 		</view>
 		<view class="card-info">
 			<view class="info-item flex_between_box">
-				<view class="left-text">{{ i18n.trade.fee }}</view>
+				<view v-if="mode=='heyue'" class="left-text">{{ i18n.trade.fee }}</view>
+				<view v-if="mode=='qiquan'" class="left-text">{{ i18n.withdraw.fee }}</view>
 				<view class="right-text">{{infoItem.fee}} USDT</view>
 			</view>
 			<view class="info-item flex_between_box">
@@ -98,7 +100,6 @@
 		created() {
 			setTimeout(() => {
 				if (this.infoItem.mode == 'qiquan') {
-					this.countTime()
 					this.clear = setInterval(this.countTime, 1 * 1000)
 				}
 			}, 300)
@@ -110,29 +111,33 @@
 				//获取当前时间  
 				//时间差  
 				var leftTime = this.infoItem.remain_seconds;
-				if (leftTime) {
-					//定义变量 d,h,m,s保存倒计时的时间
-					var d, h, m, s;
-					if (leftTime >= 0) {
-						d = Math.floor(leftTime / 60 / 60 / 24);
-						h = Math.floor(leftTime / 60 / 60 % 24);
-						m = Math.floor(leftTime / 60 % 60);
-						s = Math.floor(leftTime % 60);
-					}
-					// console.log(d, h, m, s)
+				//定义变量 d,h,m,s保存倒计时的时间
+				var d, h, m, s;
+				if (leftTime >= 0) {
+					d = Math.floor(leftTime / 60 / 60 / 24);
+					h = Math.floor(leftTime / 60 / 60 % 24);
+					m = Math.floor(leftTime / 60 % 60);
+					s = Math.floor(leftTime % 60);
 					let hour = d * 24 + h
 					let first = hour > 9 ? hour : `0${hour}`
 					let second = m > 9 ? m : `0${m}`
 					let third = s > 9 ? s : `0${s}`
 					this.seconds = first + ':' +
 						second + ':' + third
-					//递归每秒调用countTime方法，显示动态时间效果  
-					if (leftTime > 0) {
-						this.infoItem.remain_seconds--
-					} else {
-						clearInterval(this.clear);
-					}
+				} else {
+					this.$emit('handleGet')
+					clearInterval(this.clear);
 				}
+				// console.log(d, h, m, s)
+
+				//递归每秒调用countTime方法，显示动态时间效果  
+				if (leftTime > 0) {
+					this.infoItem.remain_seconds--
+				} else {
+					this.$emit('handleGet')
+					clearInterval(this.clear);
+				}
+
 
 			},
 			handleSubmitSell(type) {

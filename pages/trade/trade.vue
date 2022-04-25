@@ -185,7 +185,7 @@
 				<view class="card-content-box">
 					<view class="content-item flex_between_box">
 						<view class="content-text-box">
-							<view class="label">{{ i18n.trade.openNumber }}</view>
+							<view class="label">{{ i18n.trade.openAmount }}</view>
 							<view class="amount">{{item.hand_number}}</view>
 						</view>
 						<view class="content-text-box">
@@ -202,13 +202,17 @@
 							<view class="label">{{i18n.trade.sellPrice}}</view>
 							<view class="amount">{{item.sell_price}}</view>
 						</view>
-						<view class="content-text-box">
+						<view v-if="mode=='heyue'" class="content-text-box">
 							<view class="label">{{i18n.trade.profit}}</view>
 							<view class="amount">{{item.profit}}(USDT)</view>
 						</view>
+						<view v-if="mode=='qiquan'" class="content-text-box">
+							<view class="label">{{i18n.trade.profit}}</view>
+							<view class="amount"  :class="[item.profit>0?'green-text':'red-text']"><text>{{item.profit>0?'+':''}}{{item.profit}}</text>(USDT)</view>
+						</view>
 						<view class="content-text-box" v-if="mode=='heyue'">
 							<view class="label">{{i18n.trade.profitRate}}</view>
-							<view class="amount " :class="[item.profit_rate>0?'green-text':'red-text']">
+							<view class="amount" :class="[item.profit_rate>0?'green-text':'red-text']">
 								{{item.profit_rate>0?'+':''}}{{item.profit_rate}}%
 							</view>
 						</view>
@@ -222,7 +226,8 @@
 				</view>
 				<view class="card-footer">
 					<view class="footer-item flex_between_box">
-						<view class="left-text">{{ i18n.trade.fee }}</view>
+						<view v-if="mode=='heyue'" class="left-text">{{ i18n.trade.fee }}</view>
+						<view v-if="mode=='qiquan'" class="left-text">{{ i18n.withdraw.fee }}</view>
 						<view class="right-text">{{item.fee}} USDT</view>
 					</view>
 					<view class="footer-item flex_between_box">
@@ -238,7 +243,7 @@
 		</view>
 		<view v-else>
 			<handleup-item v-for="item in orderDate" @refreshOrder="getNewOrderList" :key="item.id" :infoItem="item"
-				:type="activeType" :mode="mode"></handleup-item>
+				:type="activeType" :mode="mode" @handleGet="handleGet"></handleup-item>
 		</view>
 
 		<u-popup v-model="productPopup" mode="top">
@@ -426,6 +431,14 @@
 					this.getNavTotal()
 				}
 				this.productPopup = false
+			},
+			handleGet(){
+				if(this.mode=='qiquan'){
+					this.page=1
+					this.getOrderList()
+					this.getNavTotal()
+				}
+				
 			},
 			getMaketList(type) {
 				this.marketList().then(res => {
@@ -715,7 +728,7 @@
 				width: 100%;
 				height: 60upx;
 				line-height: 60upx;
-				position: absolute;
+				position: relative;
 				text-align: center;
 				z-index: 20;
 				box-sizing: border-box;

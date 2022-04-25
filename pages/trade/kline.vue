@@ -305,6 +305,8 @@
 
 				this.KLine.Option.NetworkFilter = this.NetworkLineFilter;
 				this.KLine.Option.Symbol = this.Symbol;
+				this.KLine.Option.SplashTitle = this.i18n.common.loading;
+				this.KLine.Option.Language= uni.getStorageSync('language') == 'en_US' ? "EN" : 'CN';
 				this.KLine.Option.IsCorssOnlyDrawKLine = true; //十字光标只能在K线上
 				this.KLine.Option.CorssCursorTouchEnd = true; //手势结束十字光标自动隐藏
 				this.KLine.Option.IsClickShowCorssCursor = true;
@@ -386,13 +388,8 @@
 					this.activeName = this.list[this.activeId - 4].name
 				} else {
 					this.ChangeKLinePeriod(index)
-
 				}
-
 			},
-
-
-
 
 			NetworkLineFilter(data, callback) {
 				console.log('========================[HQChart:NetworkLineFilter] data', data);
