@@ -180,7 +180,8 @@
 		<view class="" v-if="activeType == 'history'">
 			<view class="item-card-box" v-for="item in orderDate" :key="item.id">
 				<view class="triangle-box"></view>
-				<view class="card-head">{{item.product_name}}_USDT <text v-if="mode=='heyue'">{{item.lever}}x</text></view>
+				<view class="card-head">{{item.product_name}}_USDT <text v-if="mode=='heyue'">{{item.lever}}x</text>
+				</view>
 				<view class="card-content-box">
 					<view class="content-item flex_between_box">
 						<view class="content-text-box">
@@ -321,9 +322,7 @@
 
 		},
 		onShow() {
-			if (uni.getStorageSync('loginInfo')) {
-				this.getUserInfo();
-			}
+
 			console.log(uni.getStorageSync('loginInfo'))
 			if (uni.getStorageSync('product')) {
 				let productInfo = uni.getStorageSync('product')
@@ -349,6 +348,15 @@
 			this.getMaketList();
 			this.clear = setInterval(this.getMaketList, 8 * 1000)
 			this.clearMarket = setInterval(this.getProductPrice, 15 * 1000)
+			if (this.loginInfo.hasLogin) {
+				this.getUserInfo();
+			} else {
+				this.orderDate = []
+				this.page = 1
+				this.total = 0
+				this.totalHandup = 0
+				this.totalHold = 0
+			}
 		},
 		//隐藏的时候 停止定时器和清空hqchart的实例
 		onHide() {
@@ -382,9 +390,11 @@
 					}
 				}
 				this.mode = value
-				this.page = 1
-				this.getOrderList()
-				this.getNavTotal()
+				if (this.loginInfo.hasLogin) {
+					this.page = 1
+					this.getOrderList()
+					this.getNavTotal()
+				}
 			},
 			handleChangePro() {
 				this.productPopup = true
@@ -456,7 +466,7 @@
 					this.set_qi_amount = this.productData.set_qi_amount[0]
 					this.period = this.productData.set_qi_min[0]
 					this.line = res.data.line
-					if (uni.getStorageSync('loginInfo')) {
+					if (this.loginInfo.hasLogin) {
 						this.getOrderList()
 						this.getNavTotal()
 					}
