@@ -2,7 +2,7 @@
 	<view class="history-card-box">
 		<view class="triangle-box"></view>
 		<view class="history-head flex_between_box">
-			<view class="title">{{infoItem.product_name}}_USDT <text v-if="mode=='heyue'">{{infoItem.lever}}x</text>
+			<view class="title">{{infoItem.product_name}}_USDT <text style="padding-left: 16rpx;" v-if="mode=='heyue'">{{infoItem.lever}}x</text>
 			</view>
 			<block v-if="mode=='heyue'">
 				<view class="" v-if="type=='hold'">
