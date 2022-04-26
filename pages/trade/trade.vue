@@ -398,9 +398,7 @@
 				}
 				this.mode = value
 				if (this.loginInfo.hasLogin) {
-					this.page = 1
-					this.getOrderList()
-					this.getNavTotal()
+					this.getNewOrderList()
 				}
 			},
 			handleChangePro() {
@@ -429,18 +427,14 @@
 					this.page = 1
 				}
 				if (this.loginInfo.hasLogin) {
-					this.getOrderList()
-					this.getNavTotal()
+					this.getNewOrderList()
 				}
 				this.productPopup = false
 			},
 			handleGet(){
 				if(this.mode=='qiquan'){
-					this.page=1
-					this.getOrderList()
-					this.getNavTotal()
+					this.getNewOrderList()
 				}
-				
 			},
 			getMaketList(type) {
 				this.marketList().then(res => {
@@ -472,8 +466,7 @@
 					this.productData = res.data;
 					this.line = res.data.line
 					if (this.loginInfo.hasLogin) {
-						this.getOrderList()
-						this.getNavTotal()
+						this.getNewOrderList()
 					}
 				});
 			},
@@ -498,8 +491,7 @@
 					this.period = this.productData.set_qi_time[0].second
 					this.line = res.data.line
 					if (this.loginInfo.hasLogin) {
-						this.getOrderList()
-						this.getNavTotal()
+						this.getNewOrderList()
 					}
 					if (type == 1) {
 						setTimeout(() => {
@@ -520,8 +512,9 @@
 				});
 			},
 			getNewOrderList() {
-				this.getNavTotal()
 				this.page = 1
+				this.getNavTotal()
+				
 				this.getOrderList()
 			},
 			getNavTotal() {
