@@ -357,6 +357,8 @@
 				this.productName = productInfo.name
 				this.getProductInfo(needType)
 				this.getProductPrice()
+			}else{
+				this.getProductShow()
 			}
 			this.getMaketList();
 			this.clear = setInterval(this.getMaketList, 8 * 1000)
@@ -457,6 +459,22 @@
 					code: this.productCode
 				}).then(res => {
 					this.priceInfo = res.data
+				});
+			},
+			getProductShow() {
+				if (!this.productCode) {
+					return
+				}
+				let params = {
+					code: this.productCode
+				};
+				this.productInfo(params).then(res => {
+					this.productData = res.data;
+					this.line = res.data.line
+					if (this.loginInfo.hasLogin) {
+						this.getOrderList()
+						this.getNavTotal()
+					}
 				});
 			},
 			getProductInfo(type) {
