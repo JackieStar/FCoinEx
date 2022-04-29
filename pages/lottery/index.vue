@@ -1,7 +1,7 @@
 <template>
 	<view class="container">
-		<view class="head-bg-cn" v-if="lang == 'zh_CN'"></view>
-		<view class="head-bg-en" v-if="lang == 'en_US'"></view>
+		<view class="head-bg-cn" v-if="lang == 'zh-CN'"></view>
+		<view class="head-bg-en" v-if="lang == 'en-US'"></view>
 		<view class="lottery-bg">
 			<view class="count-bg">
 				{{ i18n.lottery.tip1 }}

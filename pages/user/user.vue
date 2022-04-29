@@ -66,20 +66,7 @@ export default {
 			title: this.i18n.tabBar.me
 		});
 		this.getAppConfig();
-		this.langList = [
-			{
-				text: this.i18n.common.lang.en,
-				lang: 'en_US'
-			},
-			{
-				text: this.i18n.common.lang.zh,
-				lang: 'zh_CN'
-			},
-			{
-				text: this.i18n.common.lang.hk,
-				lang: 'zh_HK'
-			}
-		];
+		
 	},
 	computed: {
 		...mapState('user', ['loginInfo'])
@@ -89,6 +76,26 @@ export default {
 		getAppConfig() {
 			this.appConfig().then(res => {
 				this.appData= res.data;
+				this.langList = res.data.languages.map(v=> {
+					return {
+						text: v.name,
+						lang: v.lang
+					}
+				})
+				// this.langList = [
+				// 	{
+				// 		text: this.i18n.common.lang.en,
+				// 		lang: 'en_US'
+				// 	},
+				// 	{
+				// 		text: this.i18n.common.lang.zh,
+				// 		lang: 'zh_CN'
+				// 	},
+				// 	{
+				// 		text: this.i18n.common.lang.hk,
+				// 		lang: 'zh_HK'
+				// 	}
+				// ];
 			});
 		},
 		changeLang() {

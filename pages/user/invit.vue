@@ -2,8 +2,8 @@
 	<view class="container">
 		<!-- <c-navbar title="邀请好友" :isRightIcon="false" /> -->
 		<view class="invite-bg">
-			<view class="invite-title-cn" v-if="lang== 'zh_CN'">{{i18n.invit.invitFriends}}</view>
-			<view class="invite-title-en" v-if="lang== 'en_US'">{{i18n.invit.invitFriends}}</view>
+			<view class="invite-title-cn" v-if="lang== 'zh-CN'">{{i18n.invit.invitFriends}}</view>
+			<view class="invite-title-en" v-if="lang== 'en-US'">{{i18n.invit.invitFriends}}</view>
 			<view class="invite-item-wrapper">	
 				<view class="invite-item">
 					<text>{{ invitData.friends_count }}</text>
