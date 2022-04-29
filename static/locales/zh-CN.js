@@ -120,7 +120,7 @@ module.exports = {
 			showAll: '显示全部',
 			openNumber: '开仓数量',
 			riseDown: '交易方向',
-			fee: '手续费',
+			fee: '强平价',
 			sellPrice:'平仓价格',
 			profit:'收益',
 			profitRate:"收益率",
@@ -142,7 +142,15 @@ module.exports = {
 			errorRate:'请选择数量',
 			cancelOrder:'撤销订单？',
 			revoke: '撤单',
-			custom: '自定义'
+			custom: '自定义',
+			market: '市场价',
+			AMT: '数量',
+			heyue:'合约',
+			qiquan:'期权',
+			cycle:'预测周期',
+			lookrise:'看涨',
+			lookdown:'看跌',
+			tradeCycle:'交易周期'
 		},
 		lottery: {
 			tip1: '您有',

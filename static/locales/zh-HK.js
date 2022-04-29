@@ -116,7 +116,7 @@ module.exports = {
 			showAll: '顯示全部',
 			openNumber: '開倉數量',
 			riseDown: '交易方向',
-			fee: '手續費',
+			fee: '強平價',
 			sellPrice:'平倉價格',
 			profit:'收益',
 			profitRate:"收益率",
@@ -138,7 +138,15 @@ module.exports = {
 			errorRate:'請輸入數量',
 			cancelOrder:'撤銷訂單？ ',
 			revoke: '撤單',
-			custom: '自定義'
+			custom: '自定義',
+			market: '市場價',
+			AMT: '數量',
+			heyue:'合約',
+			qiquan:'期權',
+			cycle:'預測周期',
+			lookrise:'看漲',
+			lookdown:'看跌',
+			tradeCycle:'交易周期'
 		},
 		lottery: {
 			tip1: '您有',

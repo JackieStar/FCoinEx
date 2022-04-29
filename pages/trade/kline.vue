@@ -1,14 +1,6 @@
 <template>
 	<view class='divchart'>
-		<view class="head-box" @click="handleChangeProduct">
-			<view class="head-name">
-				{{productName}} USDT
-			</view>
-			<image class="head-img" src="../../static/images/trade/qiehuan@2x.png" mode=""></image>
-		</view>
-		<view class="high-text">
-			{{price}}
-		</view>
+		
 		<view class="self-tabs-box">
 			<view class="tab-item-default" v-for="(item,index) in list" :key="index" @click="changeLine(index+4)">
 				<view class="tab-text-name" :class="[index+4==activeId?'current-tab':'']">
@@ -189,6 +181,12 @@
 					return ''
 				}
 			},
+			rate: {
+				type: String,
+				default () {
+					return ''
+				}
+			},
 			productCode: {
 				type: String,
 				default () {
@@ -307,6 +305,8 @@
 
 				this.KLine.Option.NetworkFilter = this.NetworkLineFilter;
 				this.KLine.Option.Symbol = this.Symbol;
+				this.KLine.Option.SplashTitle = this.i18n.common.loading;
+				this.KLine.Option.Language= uni.getStorageSync('language') == 'en_US' ? "EN" : 'CN';
 				this.KLine.Option.IsCorssOnlyDrawKLine = true; //十字光标只能在K线上
 				this.KLine.Option.CorssCursorTouchEnd = true; //手势结束十字光标自动隐藏
 				this.KLine.Option.IsClickShowCorssCursor = true;
@@ -388,13 +388,8 @@
 					this.activeName = this.list[this.activeId - 4].name
 				} else {
 					this.ChangeKLinePeriod(index)
-
 				}
-
 			},
-
-
-
 
 			NetworkLineFilter(data, callback) {
 				console.log('========================[HQChart:NetworkLineFilter] data', data);
@@ -529,35 +524,14 @@
 </script>
 
 <style lang="scss">
-	.head-box {
-		width: 100%;
-		box-sizing: border-box;
-		padding: 21rpx 28rpx;
-		display: flex;
-		align-items: center;
-
-		.head-name {
-			font-size: 36rpx;
-			font-family: PingFang SC;
-			font-weight: 400;
-			color: #FFFFFF;
-		}
-
-		.head-img {
-			width: 31rpx;
-			height: 27rpx;
-			margin-left: 20rpx;
-		}
+	.red-text {
+		color: #ff0101 !important;
 	}
-
-	.high-text {
-		font-size: 24rpx;
-		font-family: PingFang SC;
-		font-weight: 400;
-		color: #FF1111;
-		line-height: 30rpx;
-		padding-left: 28rpx;
+	
+	.green-text {
+		color: #01ff37 !important;
 	}
+	
 
 	.self-tabs-box {
 		width: 100%;

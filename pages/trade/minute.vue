@@ -36,9 +36,10 @@
 			Type: '分钟走势图', //创建图形类型
 
 			Windows: [],
-			Language: uni.getStorageSync('language') == 'en' ? "EN" : 'CN',
+			Language: uni.getStorageSync('language') == 'en_US' ? "EN" : 'CN',
 
 			Symbol: '000001.sz',
+			SplashTitle:'',
 			IsAutoUpdate: true, //是自动更新数据
 			AutoUpdateFrequency: 61 * 1000,
 			DayCount: 1, //1 最新交易日数据 >1 多日走势图
@@ -200,6 +201,8 @@
 
 				this.Minute.Option.NetworkFilter = this.NetworkFilter;
 				this.Minute.Option.Symbol = this.Symbol;
+				this.Minute.Option.SplashTitle = this.i18n.common.loading;
+				
 				this.Minute.Option.IsCorssOnlyDrawKLine = true; //十字光标只能在K线上
 				this.Minute.Option.CorssCursorTouchEnd = true; //手势结束十字光标自动隐藏
 				this.Minute.Option.IsClickShowCorssCursor = true;

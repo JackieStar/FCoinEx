@@ -13,9 +13,9 @@ module.exports = {
 			forget: 'Forgot Password',
 			noAccount: 'No account yet?',
 			registration: 'Sign up for free',
-			loginSuccess: 'login successful',
+			loginSuccess: 'Login successful',
 			pwdNotMatch: 'The two passwords do not match',
-			registSuccess: 'registration success',
+			registSuccess: 'Registration success',
 		},
 		register: {
 			registrTitle: 'Create New Account',
@@ -120,7 +120,7 @@ module.exports = {
 			showAll: 'Show all',
 			openNumber: 'Open Cont',
 			riseDown: 'Side',
-			fee: 'Fee',
+			fee: 'Liq.price',
 			sellPrice:'Close Price',
 			profit:'PL',
 			profitRate:"PL ratio",
@@ -142,7 +142,15 @@ module.exports = {
 			errorRate:'Please select quantity',
 			cancelOrder:'Cancel order？',
 			revoke: 'Cancel',
-			custom: 'custom'
+			custom: 'Custom',
+			market: 'Market',
+			AMT: 'AMT',
+      heyue:'Futures',
+      qiquan:'Options',
+      cycle:'Period',
+      lookrise:'Call',
+      lookdown:'Put',
+      tradeCycle:'Period'
 		},
 		lottery: {
 			tip1: '',
@@ -159,9 +167,9 @@ module.exports = {
 		},
 		withdraw: {
 			title: 'Withdraw',
-			network: 'network',
-			withdrawwAddr: 'address',
-			copyBtn: 'paste',
+			network: 'Network',
+			withdrawwAddr: 'Address',
+			copyBtn: 'Paste',
 			inputAddr: 'Type or press paste address',
 			money: 'Amount',
 			balance: 'Available',
@@ -182,7 +190,7 @@ module.exports = {
 		},
 		recharge: {
 			title: 'Deposit',
-			saveImg: 'long press save the QR code',
+			saveImg: 'Long press save the QR code',
 			rechargeAddr: 'Address',
 			copyBtn: 'Copy',
 			amount: 'Amount',
@@ -200,7 +208,7 @@ module.exports = {
 			address: 'Address',
 			copyBtn: 'Paste',
 			submitBtn: 'Submit',
-			rechargeSuccess: 'successful',
+			rechargeSuccess: 'Successful',
 			closeBtn: 'Cancel',
 			note: 'Note'
 		},
