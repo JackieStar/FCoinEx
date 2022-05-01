@@ -14,14 +14,14 @@ export default function $http(options) {
 	}
 	
 	const lang = uni.getStorageSync('language');
-	_config.header['Accept-Language'] = lang ? lang.replace("_", "-") : 'zh-CN';
+	_config.header['Accept-Language'] = lang ? lang.replace("_", "-") : 'en-US';
 	
     _config.complete = (response) => {
        // 登录失效这边后台是返回403看情况
 	   console.log('response', response)
 	   if(response.data.code === 403 || response.data.code === 401){
 		   uni.setStorageSync('token', '');
-		   uni.setStorageSync('loginInfo', '');
+		   uni.setStorageSync('userInfo', '');
 		   //返回登录界面
 	       uni.navigateTo({
 		   	url:'/pages/public/login'
