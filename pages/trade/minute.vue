@@ -36,7 +36,7 @@
 			Type: '分钟走势图', //创建图形类型
 
 			Windows: [],
-			Language: uni.getStorageSync('language') == 'en_US' ? "EN" : 'CN',
+			Language: uni.getStorageSync('language') == 'en-US' ? "EN" : 'CN',
 
 			Symbol: '000001.sz',
 			SplashTitle:'',
