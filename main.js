@@ -30,12 +30,12 @@ const lang = uni.getStorageSync('language');
 // 注意下述代码务必放在代码 "Vue.prototype._i18n = i18n" 上方
 const i18n = new VueI18n({
 	// 默认语言
-	locale: lang?lang:'zh-CN',
+	locale: lang?lang:'en-US',
 	// 引入语言文件
 	messages: {
-		'zh-CN': Chinese,
-		'en-US': English,
-		'zh-HK': Tradition
+		'zh_CN': Chinese,
+		'en_US': English,
+		'zh_HK': Tradition
 	}
 })
 /**
