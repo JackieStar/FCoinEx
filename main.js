@@ -26,6 +26,9 @@ import VueI18n from 'vue-i18n'
 Vue.use(VueI18n)
 
 const lang = uni.getStorageSync('language');
+if(!lang){
+	uni.setStorageSync('language','en-US');
+}
 // VueI18n
 // 注意下述代码务必放在代码 "Vue.prototype._i18n = i18n" 上方
 const i18n = new VueI18n({

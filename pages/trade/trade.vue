@@ -499,12 +499,12 @@
 							this.$refs.line.CreateKLineChart()
 						}, 1000)
 					}else{
-						if(this.$refs.line.KLine.Option.Language=='EN'&&uni.getStorageSync('language') !== 'en-US'){
-							this.$refs.line.CreateKLineChart()
-						}
-						if(this.$refs.line.KLine.Option.Language=='CN'&&uni.getStorageSync('language') == 'en-US'){
-							this.$refs.line.CreateKLineChart()
-						}
+						// if(this.$refs.line.KLine.Option.Language=='EN'&&uni.getStorageSync('language') !== 'en-US'){
+						// 	this.$refs.line.CreateKLineChart()
+						// }
+						// if(this.$refs.line.KLine.Option.Language=='CN'&&uni.getStorageSync('language') == 'en-US'){
+						// 	this.$refs.line.CreateKLineChart()
+						// }
 					}
 					if (!this.haveProCode) {
 						this.$refs.line.openRequest()
