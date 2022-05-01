@@ -33,9 +33,9 @@ const i18n = new VueI18n({
 	locale: lang?lang:'en-US',
 	// 引入语言文件
 	messages: {
-		'zh_CN': Chinese,
-		'en_US': English,
-		'zh_HK': Tradition
+		'zh-CN': Chinese,
+		'en-US': English,
+		'zh-HK': Tradition
 	}
 })
 /**
