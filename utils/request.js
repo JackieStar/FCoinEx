@@ -21,7 +21,7 @@ export default function $http(options) {
 	   console.log('response', response)
 	   if(response.data.code === 403 || response.data.code === 401){
 		   uni.setStorageSync('token', '');
-		   uni.setStorageSync('loginInfo', '');
+		   uni.setStorageSync('userInfo', '');
 		   //返回登录界面
 	       uni.navigateTo({
 		   	url:'/pages/public/login'
