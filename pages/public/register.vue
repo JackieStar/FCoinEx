@@ -142,7 +142,12 @@ export default {
 			}
 		};
 	},
-	onLoad() {},
+	onLoad(e) {
+		// console.log('e', e)
+		if (e.t) {
+			this.form.tcode = e.t
+		}
+	},
 	methods: {
 		...mapActions('user', ['register', 'login']),
 		...mapActions('common', ['sendSms']),
