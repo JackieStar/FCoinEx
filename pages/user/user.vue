@@ -32,10 +32,11 @@
 				<list-cell image="/static/images/user/password.png" @eventClick="openPage(6)" :title="i18n.user.password"></list-cell>
 				<list-cell image="/static/images/user/referral.png" @eventClick="openPage(7)" :title="i18n.user.invit"></list-cell>
 				<list-cell image="/static/images/user/language.png" @eventClick="changeLang" :title="i18n.user.language"></list-cell>
-				<list-cell image="/static/images/user/community.png" @eventClick="openPage(2)" :title="i18n.user.community"></list-cell>
-				<list-cell image="/static/images/user/help-center.png" @eventClick="openPage(3)" :title="i18n.user.help"></list-cell>
-				<list-cell image="/static/images/user/about-as.png" @eventClick="openPage(4)" :title="i18n.user.about"></list-cell>
-				<list-cell image="/static/images/user/download.png" border="" :title="i18n.user.download" @eventClick="openPage(5)"></list-cell>
+				<list-cell :border="webLink.length === index+1 ? '' : 'b-b'" v-if="item.show === 1" v-for="(item,index) in webLink" :image="item.icon" @eventClick="openPage(2, item)" :title="item.name" :key="index"></list-cell>
+				<!-- <list-cell image="/static/images/user/community.png" @eventClick="openPage(2)" :title="i18n.user.community"></list-cell> -->
+				<!-- <list-cell image="/static/images/user/help-center.png" @eventClick="openPage(3)" :title="i18n.user.help"></list-cell> -->
+				<!-- <list-cell image="/static/images/user/about-as.png" @eventClick="openPage(4)" :title="i18n.user.about"></list-cell> -->
+				<!-- <list-cell image="/static/images/user/download.png" border="" :title="i18n.user.download" @eventClick="openPage(5)"></list-cell> -->
 			</view>	
 			<view class="history-section icon" v-if="loginInfo.hasLogin"><list-cell image="/static/images/user/logout.png" border="" :title="i18n.user.logout" @eventClick="toLogout"></list-cell></view>
 		</view>
@@ -58,7 +59,8 @@ export default {
 			userInfo: {},
 			showLang: false,
 			langList: [],
-			appData: {}
+			appData: {},
+			webLink: []
 		};
 	},
 	onShow() {
@@ -76,6 +78,7 @@ export default {
 		getAppConfig() {
 			this.appConfig().then(res => {
 				this.appData= res.data;
+				this.webLink = res.data.web_link
 				this.langList = res.data.languages.map(v=> {
 					return {
 						text: v.name,
@@ -118,7 +121,7 @@ export default {
 				text: this.$t('message').tabBar.assets
 			});
 		},
-		openPage(type) {
+		openPage(type, item) {
 			if (type === 0) {
 				uni.navigateBack();
 			}
@@ -136,7 +139,7 @@ export default {
 			}
 			if (type === 2) {
 				uni.navigateTo({
-					url: '/pages/user/webview?type=2&url=' + this.appData.add_group
+					url: `/pages/user/webview?title=${item.name}&url=${item.link}`
 				});
 			}
 			if (type == 3) {

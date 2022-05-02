@@ -244,13 +244,13 @@ page {
 	height: 100%;
 }
 .container {
-	padding-top: 100px;
+	padding-top: 200upx;
 	position: relative;
-	overflow: hidden;
+	overflow-y: scroll;
 	background: url(../../static/images/public/bg.png);
 	background-size: 100% 100%;
 	width: 100%;
-	height: 100%;
+	height: 1624upx;
 }
 
 .wrapper {
