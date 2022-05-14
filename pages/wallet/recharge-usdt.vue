@@ -69,7 +69,7 @@ export default {
 		...mapActions('wallet', ['getFinaceInfo']),
 		//请求数据
 		async loadData() {
-			this.getFinaceInfo({ config: 'recharge' }).then(res => {
+			this.getFinaceInfo({ config: 'recharge', type: 'USDT' }).then(res => {
 				this.rechargeInfo = res.data;
 			});
 		},

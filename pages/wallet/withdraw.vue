@@ -2,18 +2,10 @@
 	<view class="container">
 		<!-- 充值提现 -->
 		<view class="menu">
-			<view class="fiat m-r" @click="navTo('/pages/wallet/withdraw-pix')">
-				<image class="menu-icon" src="../../static/images/makets/recharge.png" mode="widthFix" />
+			<view class="fiat m-r" v-for="item in withdrawTypes" :key="item.type" @click="openPage(item.type)">
+				<image class="menu-icon" :src="item.icon" mode="widthFix" />
 				<view class="label">
-					<!-- <text>{{ i18n.wallet.recharge }}</text> -->
-					<text>PIX提现</text>
-				</view>
-			</view>
-			<view class="fiat m-l" @click="navTo('/pages/wallet/withdraw-usdt')">
-				<image class="menu-icon" src="../../static/images/makets/withdraw.png" mode="widthFix" />
-				<view class="label">
-					<!-- <text>{{ i18n.wallet.withdraw }}</text> -->
-					<text>USDT提现</text>
+					<text>{{item.name}}</text>
 				</view>
 			</view>
 		</view>
@@ -22,23 +14,34 @@
 		<view class="tabs-wrapper">
 			<view class="tabs-item" @click="handleChange(1)">
 				<u-image v-if="tabIndex === 1" class="title-bg" src="../../static/images/wallet/title-long-bg.png" width="144upx" height="12upx" mode="" />
-				<text :style="{ color: tabIndex === 1 ? '#fff' : '#646F7B', 'margin-top': tabIndex === 1 ? '' : '-10upx' }">{{ i18n.record.rechargeList }}</text>
+				<text :style="{ color: tabIndex === 1 ? '#fff' : '#646F7B', 'margin-top': tabIndex === 1 ? '' : '-10upx' }">PIX</text>
 			</view>
 			<view class="tabs-item" @click="handleChange(2)">
 				<u-image v-if="tabIndex === 2" class="title-bg" src="../../static/images/wallet/title-long-bg.png" width="144upx" height="12upx" mode="" />
-				<text :style="{ color: tabIndex === 2 ? '#fff' : '#646F7B', 'margin-top': tabIndex === 2 ? '' : '-10upx' }">{{ i18n.record.withdrawList }}</text>
+				<text :style="{ color: tabIndex === 2 ? '#fff' : '#646F7B', 'margin-top': tabIndex === 2 ? '' : '-10upx' }">USDT</text>
 			</view>
 		</view>
-		<view class="trade-list-wrapper">
-			<view class="trade-list" v-for="(item, index) in tradeList" :key="index">
+		<view class="trade-list-wrapper" v-show="tabIndex === 1">
+			<view class="trade-list" v-for="item in rechargeData" :key="item.id">
 				<view class="trade-money">
-					<text>{{ item.description }}</text>
-					<text v-if="item.atype == 'out'">- {{ item.amount }}</text>
-					<text v-else>{{ item.amount }}</text>
+					<text>{{ item.status_text }}</text>
+					<text>{{ item.amount }}</text>
 				</view>
 				<view class="trade-time">
-					<text>{{ item.cdate }}</text>
-					<text>USDT</text>
+					<text>{{ item.created_at }}</text>
+					<text>{{ item.coin_type }}</text>
+				</view>
+			</view>
+		</view>
+		<view class="trade-list-wrapper" v-show="tabIndex === 2">
+			<view class="trade-list" v-for="item in withdrawData" :key="item.id">
+				<view class="trade-money">
+					<text>{{ item.status_text }}</text>
+					<text>{{ item.amount }}</text>
+				</view>
+				<view class="trade-time">
+					<text>{{ item.created_at }}</text>
+					<text>{{ item.coin_type }}</text>
 				</view>
 			</view>
 		</view>
@@ -55,21 +58,27 @@ export default {
 	data() {
 		return {
 			tabIndex: 1,
+			withdrawTypes: [],
 			bgColor: '#070219',
 			userData: {},
-			tradeList: [],
-			page: 1,
-			isHavePage: true,
-			isSendLoading: false
+			rechargeData: [],
+			withdrawData: [],
+			pageRe: 1,
+			pageWi: 1,
+			isHavePageRe: true,
+			isHavePageWi: true,
+			isSendLoadingRe: false,
+			isSendLoadingWi: false
 		};
 	},
 	onShow() {
 		uni.setNavigationBarTitle({
 			title: this.i18n.wallet.title
 		});
+		this.getAppConfig()
 		if (this.loginInfo.hasLogin) {
-			this.getUserInfo();
-			this.loadData();
+			this.getWithDrawList();
+			this.getRechargeList();
 		} else {
 			uni.navigateTo({
 				url: '/pages/public/login'
@@ -80,46 +89,80 @@ export default {
 		...mapState('user', ['loginInfo'])
 	},
 	methods: {
-		...mapActions('user', ['userInfo']),
-		...mapActions('wallet', ['getAccountLogs']),
-		//请求数据
-		loadData() {
-			this.isSendLoading = true;
+		...mapActions('user', ['appConfig']),
+		...mapActions('wallet', ['withdrawList']),
+		 getAppConfig() {
+		 	this.appConfig().then(res => {
+		 		this.withdrawTypes= res.data.withdraw_types;
+		 	});
+		 },
+		getWithDrawList() {
+			this.isSendLoadingWi = true;
 			let parmas = {
-				page: this.page,
-				limit: 10
+				page: this.pageWi,
+				limit: 10,
+				type: 'USDT'
 			};
-			if (!this.isHavePage) return this.$api.msg(this.i18n.toast.noMore);
-			this.getAccountLogs(parmas)
-				.then(res => {
-					this.isSendLoading = false;
-					if (this.page == 1) {
-						this.tradeList = res.data.data;
+			if (!this.isHavePageWi) return this.$api.msg(this.i18n.toast.noMore);
+			this.withdrawList(parmas).then(res => {
+				
+				this.isSendLoadingWi = false;
+				if (this.pageWi == 1) {
+					this.withdrawData = res.data.data;
+				} else {
+					if (res.data.data.length >= 10) {
+						this.isHavePageWi = true;
 					} else {
-						if (res.data.data.length >= 10) {
-							this.isHavePage = true;
-						} else {
-							this.isHavePage = false;
-						}
-						this.tradeList = this.tradeList.concat(res.data.data);
+						this.isHavePageWi = false;
 					}
-				})
-				.catch(error => {});
+					this.withdrawData = this.withdrawData.concat(res.data.data);
+				}
+			});
+		},
+		getRechargeList() {
+			this.isSendLoadingRe = true;
+			let parmas = {
+				page: this.pageRe,
+				limit: 10,
+				type: 'PIX'
+			};
+			if (!this.isHavePageRe) return this.$api.msg(this.i18n.toast.noMore);
+			this.withdrawList(parmas).then(res => {
+				this.isSendLoadingRe = false;
+				if (this.pageRe == 1) {
+					this.rechargeData = res.data.data;
+				} else {
+					if (res.data.data.length >= 10) {
+						this.isHavePageRe = true;
+					} else {
+						this.isHavePageRe = false;
+					}
+					this.rechargeData = this.rechargeData.concat(res.data.data);
+				}
+			});
+		},
+		onReachBottom() {
+			if (!this.isSendLoadingRe) {
+				this.pageRe++;
+				this.getRechargeList();
+			}
+			if (!this.isSendLoadingWi) {
+				this.pageWi++;
+				this.getWithDrawList();
+			}
 		},
 		handleChange(type) {
 			this.tabIndex = type;
 		},
-		// 获取用户信息
-		getUserInfo() {
-			this.userInfo().then(res => {
-				this.userData = res.data;
-			});
-		},
-		onReachBottom() {
-			console.log('3333', this.isSendLoading);
-			if (!this.isSendLoading) {
-				this.page++;
-				this.loadData();
+		openPage(type) {
+			if (type == 'PIX') {
+				uni.navigateTo({
+					url:'/pages/wallet/withdraw-pix'
+				})
+			} else {
+				uni.navigateTo({
+					url:'/pages/wallet/withdraw-usdt'
+				})
 			}
 		}
 	}
@@ -192,7 +235,7 @@ page {
 		align-items: center;
 		background: #1a1b28;
 		border-radius: 10rpx;
-		padding: 0 45upx;
+		padding: 0 50upx;
 		justify-content: space-between;
 		.label {
 			display: flex;

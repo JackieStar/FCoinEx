@@ -1,10 +1,5 @@
 <template>
 	<view class="container">
-		<view class="market-header">
-			<u-icon class="arrow-left" @click="openPage(0)" name="arrow-left" color="#ffffff" size="44" />
-			<view class="market-text">{{ i18n.withdraw.title }}</view>
-			<image @click="openPage(1)" src="../../static/images/wallet/list.png" class="right-icon" />
-		</view>
 		<view class="user-info">
 			<image :src="withdrawInfo.coin_icon" class="user-avatar" />
 			<view class="info">
@@ -14,21 +9,38 @@
 		</view>
 		<image class="user-bg" src="../../static/images/wallet/bg.png" />
 		<view class="title">
-			<text>{{ i18n.withdraw.withdrawwAddr }}</text>
-			<u-image class="title-bg" src="../../static/images/wallet/title-bg.png" width="74upx" height="12upx" mode="" />
+			<text>提现账户</text>
+			<u-image class="title-bg" src="../../static/images/wallet/title-long-bg.png" width="142upx" height="12upx" mode="" />
 		</view>
 		<view class="input-wrapper">
-			<input type="text" placeholder-style="color: #818FA; font-size: 26upx" :placeholder="i18n.withdraw.inputAddr" v-model="withdraw_addr" class="address-input" />
-			<view class="copy-btn" @click="handlePaste">{{ i18n.withdraw.copyBtn }}</view>
+			<view style="color:#fff">姓名：</view>
+			<input type="text" placeholder-style="color: #818FA; font-size: 26upx" placeholder="User Name" v-model="formPix.pix_name" class="address-input" />
+		</view>
+		<view class="input-wrapper">
+			<view style="color:#fff">PIX类型：</view>
+			<view v-if="!formPix.pix_type" @click="showLang = true" class="address-input" style="color: #999" >请选择PIX</view>
+			<view v-else class="address-input" @click="showLang = true">{{formPix.pix_type}}</view>
+		</view>
+		<view class="input-wrapper">
+			<view style="color:#fff">账号：</view>
+			<input type="text" placeholder-style="color: #818FA; font-size: 26upx" placeholder="Pix Account" v-model="formPix.pix_account" class="address-input" />
 		</view>
 		<view class="title">
-			<text>{{ i18n.withdraw.money }}</text>
-			<u-image class="title-bg" src="../../static/images/wallet/title-bg.png" width="74upx" height="12upx" mode="" />
+			<text>提现金额</text>
+			<u-image class="title-bg" src="../../static/images/wallet/title-long-bg.png" width="142upx" height="12upx" mode="" />
 		</view>
-		<view class="money-wrapper">
-			<input type="number" v-model="amount" @input="inputChange" placeholder-style="color: #818FAB; font-size: 26upx" class="money-input" placeholder="0.00" />
-			<view class="all-btn" @click="handleAll">{{ i18n.withdraw.all }}</view>
-			<text>USTD</text>
+		<text class="r-usdt">1R$ ≈ {{ withdrawInfo.usdt_pix_rate }}USDT</text>
+		<view class="all-btn" @click="handleAll">{{ i18n.withdraw.all }}</view>
+		<view class="money-wrapper flex_between_box">
+			<view class="flex_center_box">
+				<input type="number" @input="inputChange" v-model="amount" class="money-input" placeholder-style="color: #454D73;font-size: 26upx;" placeholder="请输入金额" />
+				<text style="color: #fff; margin-left: 10upx;">R$</text>
+			</view>
+			<view class="input-money">≈</view>
+			<view class="flex_center_box">
+				<view class="input-money">{{ inputMoney }}</view>
+				<text style="color: #fff; margin-left: 10upx;">USDT</text>
+			</view>
 		</view>
 		<view class="tips-wrapper">
 			<text>{{ i18n.withdraw.balance }}：{{ userData.balance }}</text>
@@ -77,6 +89,7 @@
 			</view>
 			<view class="submit-btn" @click="handleSubmit">{{ i18n.withdraw.submitBtn }}</view>
 		</u-popup>
+		<u-action-sheet :cancel-text="i18n.common.cancel" :border-radius="20" :list="langList" @click="clickLang" v-model="showLang"></u-action-sheet>
 	</view>
 </template>
 
@@ -117,7 +130,16 @@ export default {
 				email_code: null,
 				password: null
 			},
-			withdraw_fee: null // 提现手续费，计算
+			formPix: {
+				pix_name: null,
+				pix_type: null,
+				pix_account: null
+			},
+			withdraw_fee: null, // 提现手续费，计算
+			inputMoney: 0,
+			langList: [],
+			showLang: false,
+			pixType: ''
 		};
 	},
 
@@ -134,8 +156,14 @@ export default {
 		...mapActions('user', ['userInfo']),
 		//请求数据
 		async loadData() {
-			this.getFinaceInfo({ config: 'withdraw' }).then(res => {
+			this.getFinaceInfo({ config: 'withdraw', type: 'PIX' }).then(res => {
 				this.withdrawInfo = res.data;
+				this.langList = res.data.pix_account_types.map((v, i)=> {
+					return {
+						text: v,
+						lang: i
+					}
+				})
 			});
 		},
 		// 获取用户信息
@@ -147,13 +175,10 @@ export default {
 		// 全部
 		handleAll() {
 			this.amount = this.userData.balance;
+			this.inputMoney = (Number(this.userData.balance) * Number(this.withdrawInfo.usdt_pix_rate)).toFixed(2)
 		},
 		// 交易密码弹窗
 		openModal() {
-			if (!this.withdraw_addr) {
-				this.$api.msg(this.i18n.withdraw.noWithdrawAddr);
-				return;
-			}
 			if (!this.amount) {
 				this.$api.msg(this.i18n.withdraw.noAmount);
 				return;
@@ -174,10 +199,11 @@ export default {
 				return;
 			}
 			let params = {
-				coin_type: this.withdrawInfo.coin_type,
-				withdraw_addr: this.withdraw_addr,
+				type: this.withdrawInfo.coin_type,
+				type: 'PIX',
 				amount: this.amount,
-				...this.form
+				...this.form,
+				...this.formPix
 			};
 			this.withdraw(params).then(res => {
 				this.$api.msg(this.i18n.withdraw.withdrawSuccess);
@@ -206,15 +232,6 @@ export default {
 					.catch(error => {});
 			}
 		},
-		// 粘贴
-		handlePaste() {
-			uni.getClipboardData({
-				success: res => {
-					this.withdraw_addr = res.data;
-					console.log(res.data);
-				}
-			});
-		},
 		openPage(type) {
 			if (type === 0) uni.navigateBack();
 			if (type === 1)
@@ -224,11 +241,15 @@ export default {
 		},
 		inputChange(e) {
 			console.log('e', e.detail.value);
-
+			this.inputMoney = (Number(e.detail.value) * Number(this.withdrawInfo.usdt_pix_rate)).toFixed(2)
 			this.withdrawFee({ amount: e.detail.value }).then(res => {
 				this.withdraw_fee = res.data.fee;
 				console.log('e2222', this.withdraw_fee);
 			});
+		},
+		clickLang(e) {
+			console.log('e', e)
+			this.formPix.pix_type = this.langList[e].text
 		}
 	}
 };
@@ -236,37 +257,19 @@ export default {
 
 <style lang="scss" scoped>
 .container {
-	padding-top: 100upx;
-	.market-header {
-		width: 100%;
-		height: 140upx;
-		text-align: center;
-		left: 0;
-		top: 0;
-		right: 0;
-		background-color: #070219;
-		padding: 0 41upx;
-		position: fixed;
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		.market-text {
-			height: 140upx;
-			font-size: 36upx;
-			font-family: PingFang SC;
-			font-weight: 400;
-			color: #ffffff;
-			line-height: 140upx;
-		}
-		.right-icon {
-			width: 35upx;
-			height: 40upx;
-		}
+	.r-usdt {
+		position: absolute;
+		font-size: 24upx;
+		font-family: PingFang SC;
+		font-weight: 400;
+		color: #fff;
+		margin-left: 180upx;
+		margin-top: -20upx;
 	}
 	.user-info {
 		width: 100%;
 		display: flex;
-		margin-top: 83upx;
+		margin-top: 20upx;
 		padding-left: 50upx;
 		.user-avatar {
 			width: 112upx;
@@ -298,7 +301,7 @@ export default {
 		margin-top: -50upx;
 	}
 	.title {
-		width: 100%;
+		width: 70%;
 		height: 28upx;
 		font-size: 30upx;
 		font-family: PingFang SC;
@@ -329,6 +332,8 @@ export default {
 			border-radius: 4upx;
 			color: #fff;
 			padding-left: 24upx;
+			line-height: 76upx;
+			font-size: 26upx
 		}
 		.copy-btn {
 			width: 153upx;
@@ -345,44 +350,42 @@ export default {
 	}
 	.money-wrapper {
 		width: 100%;
-		padding: 0 29upx;
-		margin-top: 40upx;
+		padding: 0 50upx;
+		margin: 60upx 0;
 		.money-input {
-			width: 690upx;
-			height: 76upx;
+			width: 280upx;
+			padding: 0 30upx;
+			height: 90upx;
 			border: 2upx solid #554472;
 			border-radius: 4upx;
-			padding: 0 20upx;
-			padding-right: 300upx;
+			color: #fff;
+			font-size: 50upx;
+			font-weight: 600;
+		}
+
+		.input-money {
+			font-size: 50upx;
+			font-weight: 600;
 			color: #fff;
 		}
-		text {
-			margin-right: 190upx;
-			float: right;
-			font-size: 28upx;
-			font-family: PingFang SC;
-			font-weight: 400;
-			color: #63798f;
-			opacity: 0.6;
-			margin-top: -58upx;
-		}
-		.all-btn {
-			width: 160upx;
-			height: 60upx;
-			line-height: 60upx;
-			border-left: 2upx solid #554472;
-			text-align: center;
-			margin-right: 5upx;
-			float: right;
-			font-size: 32upx;
-			font-family: PingFang SC;
-			margin-top: -68upx;
-			font-weight: 400;
-			color: #ffffff;
-			background: linear-gradient(0deg, #3fbbfe 0%, #a541ff 100%);
-			-webkit-background-clip: text;
-			-webkit-text-fill-color: transparent;
-		}
+	}
+
+	.all-btn {
+		width: 160upx;
+		height: 60upx;
+		line-height: 60upx;
+		text-align: center;
+		margin-right: 5upx;
+		float: right;
+		font-size: 32upx;
+		font-family: PingFang SC;
+		margin-top: -30upx;
+		font-weight: 400;
+		color: #ffffff;
+		background: linear-gradient(0deg, #3fbbfe 0%, #a541ff 100%);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		z-index: 1000;
 	}
 	.tips-wrapper {
 		width: 100%;

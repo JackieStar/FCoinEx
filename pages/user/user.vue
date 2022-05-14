@@ -85,20 +85,6 @@ export default {
 						lang: v.lang
 					}
 				})
-				// this.langList = [
-				// 	{
-				// 		text: this.i18n.common.lang.en,
-				// 		lang: 'en_US'
-				// 	},
-				// 	{
-				// 		text: this.i18n.common.lang.zh,
-				// 		lang: 'zh_CN'
-				// 	},
-				// 	{
-				// 		text: this.i18n.common.lang.hk,
-				// 		lang: 'zh_HK'
-				// 	}
-				// ];
 			});
 		},
 		changeLang() {
