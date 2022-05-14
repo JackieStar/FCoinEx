@@ -1,278 +1,255 @@
 <template>
 	<view class="container">
-		<view class="market-header">
-			<u-icon class="arrow-left" @click="openPage(0)" name="arrow-left" color="#ffffff" size="44" />
-			<view class="market-text">{{ i18n.recharge.title }}</view>
-			<image @click="openPage(1)" src="../../static/images/wallet/list.png" class="right-icon" />
-		</view>
-		<view class="user-info">
-			<image :src="rechargeInfo.coin_icon" class="user-avatar" />
-			<view class="info">
-				<text>{{ rechargeInfo.coin }}</text>
-				<view>{{ i18n.withdraw.network }}：{{ rechargeInfo.coin_type }}</view>
+		<!-- 充值提现 -->
+		<view class="menu">
+			<view class="fiat m-r" @click="navTo('/pages/wallet/recharge-pix')">
+				<image class="menu-icon" src="../../static/images/makets/recharge.png" mode="widthFix" />
+				<view class="label">
+					<!-- <text>{{ i18n.wallet.recharge }}</text> -->
+					<text>PIX提现</text>
+				</view>
+			</view>
+			<view class="fiat m-l" @click="navTo('/pages/wallet/recharge-usdt')">
+				<image class="menu-icon" src="../../static/images/makets/withdraw.png" mode="widthFix" />
+				<view class="label">
+					<!-- <text>{{ i18n.wallet.withdraw }}</text> -->
+					<text>USDT提现</text>
+				</view>
 			</view>
 		</view>
-		<image class="user-bg" src="../../static/images/wallet/bg.png" />
-		<view class="code-wrapper">
-			<img :src="rechargeInfo.recharge_qr" class="code-img" />
-			<!-- #ifdef H5 -->
-			<view class="save-code" @click="saveImg(rechargeInfo.recharge_qr)">{{ i18n.recharge.saveImg }}</view>
-			<!-- #endif -->
-			<!-- #ifdef APP-PLUS -->
-			<view class="save-code" @click="saveImg(rechargeInfo.recharge_qr)">{{ i18n.recharge.saveCode }}</view>
-			<!-- #endif -->
+		<!-- 交易流水 -->
+		<view class="trade-title">提现记录</view>
+		<view class="tabs-wrapper">
+			<view class="tabs-item" @click="handleChange(1)">
+				<u-image v-if="tabIndex === 1" class="title-bg" src="../../static/images/wallet/title-long-bg.png" width="144upx" height="12upx" mode="" />
+				<text :style="{ color: tabIndex === 1 ? '#fff' : '#646F7B', 'margin-top': tabIndex === 1 ? '' : '-10upx' }">{{ i18n.record.rechargeList }}</text>
+			</view>
+			<view class="tabs-item" @click="handleChange(2)">
+				<u-image v-if="tabIndex === 2" class="title-bg" src="../../static/images/wallet/title-long-bg.png" width="144upx" height="12upx" mode="" />
+				<text :style="{ color: tabIndex === 2 ? '#fff' : '#646F7B', 'margin-top': tabIndex === 2 ? '' : '-10upx' }">{{ i18n.record.withdrawList }}</text>
+			</view>
 		</view>
-		<view class="title">
-			<text>{{ i18n.recharge.rechargeAddr }}</text>
-			<u-image class="title-bg" src="../../static/images/wallet/title-long-bg.png" width="144upx" height="12upx" mode="" />
+		<view class="trade-list-wrapper">
+			<view class="trade-list" v-for="(item, index) in tradeList" :key="index">
+				<view class="trade-money">
+					<text>{{ item.description }}</text>
+					<text v-if="item.atype == 'out'">- {{ item.amount }}</text>
+					<text v-else>{{ item.amount }}</text>
+				</view>
+				<view class="trade-time">
+					<text>{{ item.cdate }}</text>
+					<text>USDT</text>
+				</view>
+			</view>
 		</view>
-		<view class="input-wrapper">
-			<text class="address-input">{{ rechargeInfo.recharge_addr }}</text>
-			<view class="copy-btn" @click="handleCopy">{{ i18n.recharge.copyBtn }}</view>
-		</view>
-		<view class="title">
-			<text>{{ i18n.recharge.amount }}</text>
-			<u-image class="title-bg" src="../../static/images/wallet/title-bg.png" width="144upx" height="12upx" mode="" />
-		</view>
-		<view class="money-wrapper">
-			<input type="number" v-model="amount" class="money-input" placeholder-style="color: #454D73;font-size: 26upx;" :placeholder="i18n.recharge.placeholder" />
-		</view>
-		<view><c-tips v-for="(item, index) in rechargeInfo.tips" :text="item" :key="index" /></view>
-		<view class="confirm-btn" @click="openPage(3)">{{ i18n.recharge.submitBtn }}</view>
 	</view>
 </template>
+
 <script>
 import { mapState, mapActions } from 'vuex';
-import tkiQrcode from '@/components/tki-qrcode/tki-qrcode.vue';
 import { uniIcons } from '@dcloudio/uni-ui';
 import { commonMixin } from '@/common/mixin/mixin.js';
-import CTips from '@/components/c-tips/c-tips.vue';
 export default {
-	components: { tkiQrcode, uniIcons, CTips },
+	components: { uniIcons },
 	mixins: [commonMixin],
 	data() {
 		return {
-			rechargeInfo: {},
-			amount: null
+			tabIndex: 1,
+			bgColor: '#070219',
+			userData: {},
+			tradeList: [],
+			page: 1,
+			isHavePage: true,
+			isSendLoading: false
 		};
 	},
 	onShow() {
 		uni.setNavigationBarTitle({
-			title: this.i18n.recharge.title
+			title: this.i18n.wallet.title
 		});
-		this.loadData();
+		if (this.loginInfo.hasLogin) {
+			this.getUserInfo();
+			this.loadData();
+		} else {
+			uni.navigateTo({
+				url: '/pages/public/login'
+			});
+		}
 	},
 	computed: {
 		...mapState('user', ['loginInfo'])
 	},
 	methods: {
-		...mapActions('wallet', ['getFinaceInfo']),
+		...mapActions('user', ['userInfo']),
+		...mapActions('wallet', ['getAccountLogs']),
 		//请求数据
-		async loadData() {
-			this.getFinaceInfo({ config: 'recharge' }).then(res => {
-				this.rechargeInfo = res.data;
+		loadData() {
+			this.isSendLoading = true;
+			let parmas = {
+				page: this.page,
+				limit: 10
+			};
+			if (!this.isHavePage) return this.$api.msg(this.i18n.toast.noMore);
+			this.getAccountLogs(parmas)
+				.then(res => {
+					this.isSendLoading = false;
+					if (this.page == 1) {
+						this.tradeList = res.data.data;
+					} else {
+						if (res.data.data.length >= 10) {
+							this.isHavePage = true;
+						} else {
+							this.isHavePage = false;
+						}
+						this.tradeList = this.tradeList.concat(res.data.data);
+					}
+				})
+				.catch(error => {});
+		},
+		handleChange(type) {
+			this.tabIndex = type;
+		},
+		// 获取用户信息
+		getUserInfo() {
+			this.userInfo().then(res => {
+				this.userData = res.data;
 			});
 		},
-		handleCopy() {
-			let $this = this;
-			uni.setClipboardData({
-				data: this.rechargeInfo.recharge_addr,
-				success: function() {
-					$this.$api.msg($this.i18n.toast.copySuccess);
-				}
-			});
-		},
-		openPage(type) {
-			console.log('type', type);
-			if (type === 0) uni.navigateBack();
-			if (type === 1) {
-				uni.navigateTo({
-					url: '/pages/wallet/record'
-				});
+		onReachBottom() {
+			console.log('3333', this.isSendLoading);
+			if (!this.isSendLoading) {
+				this.page++;
+				this.loadData();
 			}
-			if (type === 3) {
-				if (!this.amount) return this.$api.msg(this.i18n.recharge.placeholder);
-				uni.navigateTo({
-					url: '/pages/wallet/submitRecharge?amount=' + this.amount
-				});
-			}
-		},
-		// 保存图片
-		async saveImg(url) {
-			// // #ifdef H5
-			// this.$api.msg(this.i18n.recharge.saveImg);
-			// // #endif
-			// #ifndef APP-NVUE
-			uni.saveImageToPhotosAlbum({
-				filePath: url,
-				success: () => {
-					this.$api.msg(this.i18n.recharge.saveSuccess);
-				}
-			});
-			// #endif
 		}
 	}
 };
 </script>
 
 <style lang="scss" scoped>
+page {
+	background: #070219;
+}
 .container {
-	padding: 40upx 0 100upx 0;
-	.market-header {
-		width: 100%;
-		height: 120upx;
-		text-align: center;
-		left: 0;
-		top: 0;
-		right: 0;
-		background-color: #070219;
-		padding: 0 41upx;
-		position: fixed;
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		z-index: 1000;
-		.market-text {
-			height: 120upx;
-			font-size: 36upx;
-			font-family: PingFang SC;
-			font-weight: 400;
-			color: #ffffff;
-			line-height: 120upx;
-		}
-		.right-icon {
-			width: 35upx;
-			height: 40upx;
-		}
+	padding: 40upx 26upx;
+}
+.title-wrapper {
+	width: 100%;
+	// height: 28upx;
+	font-size: 30upx;
+	font-family: PingFang SC;
+	font-weight: 500;
+	color: #ffffff;
+	padding: 30upx 0;
+	display: flex;
+	flex-direction: column;
+	box-sizing: border-box;
+	text {
+		margin-left: 6upx;
+		z-index: 10;
 	}
-	.user-info {
-		width: 100%;
-		display: flex;
-		margin-top: 83upx;
-		padding-left: 50upx;
-		.user-avatar {
-			width: 100upx;
-			height: 100upx;
-			margin-right: 38upx;
-			// border-radius: 50%;
-		}
-		.info {
-			display: flex;
-			flex-direction: column;
-			text {
-				font-size: 30upx;
-				font-family: PingFang SC;
-				font-weight: 500;
-				color: #ffffff;
-				margin-top: 14upx;
-			}
-			view {
-				font-size: 24upx;
-				font-family: PingFang SC;
-				font-weight: 400;
-				color: #85a0b2;
-				margin-top: 5upx;
-			}
-		}
+	.title-bg {
+		margin-top: -30upx;
 	}
-	.user-bg {
-		width: 750upx;
-		height: 171upx;
-		margin-top: -50upx;
-	}
-	.code-wrapper {
-		width: 100%;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		margin-bottom: 20upx;
-		.code-img {
-			width: 280upx;
-			height: 280upx;
-			margin-top: 30upx;
-		}
-		.save-code {
-			font-size: 26upx;
-			font-family: PingFang SC;
-			font-weight: 400;
-			color: #c2d6e4;
-			margin-top: 30upx;
-		}
-	}
-	.title {
-		width: 100%;
-		height: 28upx;
+}
+.tabs-wrapper {
+	width: 100%;
+	height: 140upx;
+	display: flex;
+	align-items: center;
+	.tabs-item {
+		width: 50%;
+		height: 140upx;
 		font-size: 30upx;
 		font-family: PingFang SC;
 		font-weight: 500;
-		color: #ffffff;
-		padding: 0 26upx;
 		display: flex;
 		flex-direction: column;
+		align-items: center;
+		margin-top: 100upx;
 		text {
-			margin-left: 6upx;
+			margin-left: 2upx;
 			z-index: 10;
 		}
 		.title-bg {
-			margin-top: -30upx;
+			margin-bottom: -22upx;
 		}
 	}
-	.input-wrapper {
+}
+.menu {
+	// padding: 20upx 24upx;
+	margin-top: 47upx;
+	display: flex;
+	justify-content: space-between;
+	font-size: $font-base;
+	color: $border-color-light;
+	font-weight: bold;
+	.fiat {
+		width: 330rpx;
+		height: 110rpx;
+		display: flex;
+		flex: 1;
+		align-items: center;
+		background: #1a1b28;
+		border-radius: 10rpx;
+		padding: 0 45upx;
+		justify-content: space-between;
+		.label {
+			display: flex;
+			flex-direction: column;
+			padding-left: 20upx;
+		}
+		.sub {
+			font-size: $font-sm;
+			font-weight: normal;
+		}
+		.menu-icon {
+			width: 44rpx;
+		}
+		text {
+			font-size: $font-md;
+		}
+	}
+	.m-r {
+		margin-right: 14upx;
+	}
+	.m-l {
+		margin-left: 14upx;
+	}
+}
+.trade-title {
+	font-size: 24upx;
+	font-family: PingFang SC;
+	font-weight: 400;
+	color: #8a959f;
+	margin: 34upx 0 28upx 0;
+}
+.trade-list {
+	padding: 20upx 40upx;
+	background-color: #1a1a1a;
+	border-bottom: 1upx solid #303030;
+	.trade-money {
 		width: 100%;
 		display: flex;
-		align-items: center;
 		justify-content: space-between;
-		padding: 0 29upx;
-		margin: 40upx 0;
-		.address-input {
-			width: 480upx;
-			font-size: 32upx;
+		text {
+			font-size: 30upx;
 			font-family: PingFang SC;
 			font-weight: 400;
-			text-decoration: underline;
-			color: #fff;
-			margin-left: 20upx;
-			word-break: break-all;
-		}
-		.copy-btn {
-			width: 154upx;
-			height: 70upx;
-			line-height: 70upx;
-			background: url(../../static/images/wallet/copy-btn.png);
-			background-size: 100% 100%;
-			color: #fff;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			font-size: 26upx;
+			color: #ffffff;
 		}
 	}
-	.money-wrapper {
+	.trade-time {
 		width: 100%;
-		padding: 0 29upx;
-		margin: 40upx 0;
-		.money-input {
-			width: 690upx;
-			padding: 0 30upx;
-			height: 76upx;
-			border: 2upx solid #554472;
-			border-radius: 4upx;
-			color: #fff;
-		}
-	}
-	.confirm-btn {
-		width: 610upx;
-		height: 76upx;
-		line-height: 76upx;
-		margin: 50upx auto;
-		background: url(../../static/images/public/login-btn.png);
-		background-size: 100% 100%;
-		color: #fff;
 		display: flex;
-		align-items: center;
-		justify-content: center;
-		font-size: 26upx;
+		margin-top: 4upx;
+		justify-content: space-between;
+		text {
+			font-size: 24upx;
+			font-family: PingFang SC;
+			font-weight: 400;
+			color: #5c6672;
+		}
 	}
 }
 </style>

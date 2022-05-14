@@ -47,7 +47,24 @@
 			"path": "pages/wallet/recharge",
 			"style": {
 				"navigationBarTextStyle": "white",
-				"navigationStyle": "custom"
+				"navigationBarBackgroundColor": "#070219",
+				"navigationBarTitleText": "充值"
+			}
+		}, 
+		{
+			"path": "pages/wallet/recharge-usdt",
+			"style": {
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#070219",
+				"navigationBarTitleText": "充值"
+			}
+		}, 
+		{
+			"path": "pages/wallet/recharge-pix",
+			"style": {
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#070219",
+				"navigationBarTitleText": "充值"
 			}
 		}, 
 		{
@@ -62,7 +79,24 @@
 			"path": "pages/wallet/withdraw",
 			"style": {
 				"navigationBarTextStyle": "white",
-				"navigationStyle": "custom"
+				"navigationBarBackgroundColor": "#070219",
+				"navigationBarTitleText": "提现"
+			}
+		},
+		{
+			"path": "pages/wallet/withdraw-usdt",
+			"style": {
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#070219",
+				"navigationBarTitleText": "提现"
+			}
+		},
+		{
+			"path": "pages/wallet/withdraw-pix",
+			"style": {
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#070219",
+				"navigationBarTitleText": "Withdraw"
 			}
 		},
 		{
