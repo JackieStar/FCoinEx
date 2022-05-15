@@ -3,8 +3,18 @@
 		<!-- <c-navbar title="邀请好友" :isRightIcon="false" /> -->
 		<view class="invite-bg">
 			<view class="invite-title-cn" v-if="lang== 'zh-CN'">{{i18n.invit.invitFriends}}</view>
-			<view class="invite-title-en" v-if="lang== 'en-US'">{{i18n.invit.invitFriends}}</view>
-			<view class="invite-item-wrapper">	
+			<view class="invite-title-en" v-else>{{i18n.invit.invitFriends}}</view>
+			<view class="invite-item-wrapper" style="margin-top: -60upx;" v-if="lang == 'pt-BR'">	
+				<view class="invite-item">
+					<text>{{ invitData.friends_count }}</text>
+					<view class="invite-text">{{ i18n.invit.friends }}</view>
+				</view>
+				<view class="invite-item">
+					<text>{{ invitData.total_reward }}</text>
+					<view class="invite-text">{{ i18n.invit.totalReward }}</view>
+				</view>
+			</view>
+			<view class="invite-item-wrapper" v-else>
 				<view class="invite-item">
 					<text>{{ invitData.friends_count }}</text>
 					<view class="invite-text">{{ i18n.invit.friends }}</view>
@@ -16,14 +26,14 @@
 			</view>
 			<view class="input-item">
 				<text class="input-item-title">{{ i18n.invit.tCode }}</text>
-				<view flex>
+				<view class="flex_left_box">
 					<text class="invite-code">{{ invitData.tcode }}</text>
 					<u-image @click="handleCopy(invitData.tcode)" src="../../static/images/user/copy.png" width="33upx" height="33upx" />
 				</view>
 			</view>
 			<view class="input-item">
 				<text class="input-item-title">{{ i18n.invit.tLink }}</text>
-				<view flex>
+				<view class="flex_left_box">
 					<text class="invite-link">{{ invitData.tlink }}</text>
 					<u-image @click="handleCopy(invitData.tlink)" src="../../static/images/user/copy.png" width="33upx" height="33upx" />
 				</view>
@@ -296,13 +306,13 @@ export default {
 		justify-content: space-between;
 	}
 	.header-1 {
-		width: 300upx;
+		width: 280upx;
 	}
 	.header-2 {
 		width: 220upx;
 	}
 	.header-3 {
-		width: 120upx;
+		width: 160upx;
 	}
 	.list-content {
 		width: 100%;

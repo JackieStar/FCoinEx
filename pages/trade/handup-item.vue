@@ -373,7 +373,7 @@
 				margin-top: 37rpx;
 
 				.handle-green {
-					width: 211rpx;
+					width: 300rpx;
 					height: 80rpx;
 					background: #23b57d;
 					font-size: 28rpx;
@@ -382,10 +382,11 @@
 					color: #FFFFFF;
 					text-align: center;
 					line-height: 80rpx;
+					border-radius: 10upx;
 				}
 
 				.handle-red {
-					width: 211rpx;
+					width: 300rpx;
 					height: 80rpx;
 					background: #d83a53;
 					font-size: 28rpx;
@@ -395,6 +396,7 @@
 					text-align: center;
 					line-height: 80rpx;
 					margin-left: 36rpx;
+					border-radius: 10upx;
 				}
 			}
 		}

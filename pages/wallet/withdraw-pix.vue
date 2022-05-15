@@ -263,8 +263,8 @@ export default {
 		font-family: PingFang SC;
 		font-weight: 400;
 		color: #fff;
-		margin-left: 180upx;
-		margin-top: -20upx;
+		margin-left: 29upx;
+		margin-top: 30upx;
 	}
 	.user-info {
 		width: 100%;
@@ -351,7 +351,7 @@ export default {
 	.money-wrapper {
 		width: 100%;
 		padding: 0 50upx;
-		margin: 60upx 0;
+		margin: 90upx 0;
 		.money-input {
 			width: 280upx;
 			padding: 0 30upx;

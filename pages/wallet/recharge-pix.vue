@@ -63,7 +63,13 @@ export default {
 				amount: this.amount
 			}
 			this.financeRecharge(params).then(res => {
-				this.$u.toast(this.i18n.submitRecharge.rechargeSuccess)
+				uni.navigateTo({
+					url: `/pages/user/webview?title=${res.data.type}&url=${res.data.pay_url}`
+				});
+				// uni.navigateTo({
+				// 	url: '/pages/user/webview?url=' + res.data.pay_url
+				// });
+				// this.$u.toast(this.i18n.submitRecharge.rechargeSuccess)
 				// setTimeout(()=> {
 				// 	uni.switchTab({
 				// 		url: '/pages/wallet/wallet'

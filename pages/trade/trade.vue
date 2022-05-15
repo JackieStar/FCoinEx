@@ -1016,6 +1016,7 @@
 			align-items: center;
 
 			.tab-item {
+				width: 104upx;
 				height: 94rpx;
 				line-height: 94rpx;
 				position: relative;
