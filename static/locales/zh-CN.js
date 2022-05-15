@@ -94,7 +94,8 @@ module.exports = {
 			lang: {
 				en: '英文',
 				zh: '中文',
-				hk: '繁体'
+				hk: '繁体',
+				pt: ''
 			},
 			close: '关闭',
 			request: '请求中...',
@@ -186,7 +187,14 @@ module.exports = {
 			noAmount: '请输入提现金额',
 			noEmailCode: '请输入邮箱验证码',
 			noPwd: '请输入登录密码',
-			withdrawSuccess: '提现成功'
+			withdrawSuccess: '提现成功',
+			withDrawList: '提现记录',
+			userName: '姓名',
+			account: '账号',
+			withdrawAccount: '提现账户',
+			receiver: '收款地址',
+			pixType: 'PIX类型',
+			withDrawAmount: '提现金额'
 		},
 		recharge: {
 			title: '充值',
@@ -197,7 +205,9 @@ module.exports = {
 			placeholder: '请输入充值金额',
 			submitBtn: '我已转账',
 			saveCode: '保存二维码',
-			saveSuccess: '二维码保存成功'
+			saveSuccess: '二维码保存成功',
+			rechargeList: '充值记录',
+			submit: '立即充值'
 		},
 		submitRecharge: {
 			title: '充值凭证',

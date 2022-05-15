@@ -1,12 +1,12 @@
 <template>
 	<view class="container">
 		<view class="input-wrapper">
-			<text class="address-input">充值金额  1R$ ≈ {{rechargeInfo.usdt_pix_rate}}USDT</text>
+			<text class="address-input">{{i18n.recharge.amount}}  1R$ ≈ {{rechargeInfo.usdt_pix_rate}}USDT</text>
 		</view>
 
 		<view class="money-wrapper flex_between_box">
 			<view class="flex_center_box">
-				<input type="number" @input="handleChange" v-model="amount" class="money-input" placeholder-style="color: #454D73;font-size: 26upx;" placeholder="请输入金额" />
+				<input type="number" @input="handleChange" v-model="amount" class="money-input" placeholder-style="color: #454D73;font-size: 26upx;" :placeholder="i18n.recharge.amount" />
 				<text style="color: #fff; margin-left: 10upx;">R$</text>
 			</view>
 			<view class="input-money">≈</view>
@@ -15,7 +15,7 @@
 				<text style="color: #fff; margin-left: 10upx;">USDT</text>
 			</view>
 		</view>
-		<view class="confirm-btn" @click="handleSubmit">立即充值</view>
+		<view class="confirm-btn" @click="handleSubmit">{{i18n.recharge.submit}}</view>
 		
 		<view><c-tips v-for="(item, index) in rechargeInfo.tips" :text="item" :key="index" /></view>
 		
@@ -64,11 +64,11 @@ export default {
 			}
 			this.financeRecharge(params).then(res => {
 				this.$u.toast(this.i18n.submitRecharge.rechargeSuccess)
-				setTimeout(()=> {
-					uni.switchTab({
-						url: '/pages/wallet/wallet'
-					})
-				}, 1500);
+				// setTimeout(()=> {
+				// 	uni.switchTab({
+				// 		url: '/pages/wallet/wallet'
+				// 	})
+				// }, 1500);
 			})
 		},
 	}

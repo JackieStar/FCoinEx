@@ -9,31 +9,31 @@
 		</view>
 		<image class="user-bg" src="../../static/images/wallet/bg.png" />
 		<view class="title">
-			<text>提现账户</text>
+			<text>{{i18n.withdraw.withdrawAccount}}</text>
 			<u-image class="title-bg" src="../../static/images/wallet/title-long-bg.png" width="142upx" height="12upx" mode="" />
 		</view>
 		<view class="input-wrapper">
-			<view style="color:#fff">姓名：</view>
-			<input type="text" placeholder-style="color: #818FA; font-size: 26upx" placeholder="User Name" v-model="formPix.pix_name" class="address-input" />
+			<view style="color:#fff">{{i18n.withdraw.userName}}：</view>
+			<input type="text" placeholder-style="color: #818FA; font-size: 26upx" :placeholder="i18n.withdraw.userName" v-model="formPix.pix_name" class="address-input" />
 		</view>
 		<view class="input-wrapper">
-			<view style="color:#fff">PIX类型：</view>
-			<view v-if="!formPix.pix_type" @click="showLang = true" class="address-input" style="color: #999" >请选择PIX</view>
+			<view style="color:#fff">{{i18n.withdraw.pixType}}：</view>
+			<view v-if="!formPix.pix_type" @click="showLang = true" class="address-input" style="color: #999" >{{i18n.withdraw.pixType}}</view>
 			<view v-else class="address-input" @click="showLang = true">{{formPix.pix_type}}</view>
 		</view>
 		<view class="input-wrapper">
-			<view style="color:#fff">账号：</view>
-			<input type="text" placeholder-style="color: #818FA; font-size: 26upx" placeholder="Pix Account" v-model="formPix.pix_account" class="address-input" />
+			<view style="color:#fff">{{i18n.withdraw.account}}：</view>
+			<input type="text" placeholder-style="color: #818FA; font-size: 26upx" :placeholder="i18n.withdraw.account" v-model="formPix.pix_account" class="address-input" />
 		</view>
 		<view class="title">
-			<text>提现金额</text>
+			<text>{{i18n.withdraw.withDrawAmount}}</text>
 			<u-image class="title-bg" src="../../static/images/wallet/title-long-bg.png" width="142upx" height="12upx" mode="" />
 		</view>
 		<text class="r-usdt">1R$ ≈ {{ withdrawInfo.usdt_pix_rate }}USDT</text>
 		<view class="all-btn" @click="handleAll">{{ i18n.withdraw.all }}</view>
 		<view class="money-wrapper flex_between_box">
 			<view class="flex_center_box">
-				<input type="number" @input="inputChange" v-model="amount" class="money-input" placeholder-style="color: #454D73;font-size: 26upx;" placeholder="请输入金额" />
+				<input type="number" @input="inputChange" v-model="amount" class="money-input" placeholder-style="color: #454D73;font-size: 26upx;" :placeholder="i18n.withdraw.withDrawAmount" />
 				<text style="color: #fff; margin-left: 10upx;">R$</text>
 			</view>
 			<view class="input-money">≈</view>

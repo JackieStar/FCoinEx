@@ -88,9 +88,10 @@ module.exports = {
 			noData: '暫無數據',
 			loading:'加載中',
 			lang: {
-				en: '英文',
-				zh: '中文',
-				hk: '繁體'
+				en: 'English',
+				zh: '中文简体',
+				hk: '中文繁體',
+				pt: 'Português'
 			},
 			close: '關閉',
 			request: '請求中...',
@@ -182,7 +183,14 @@ module.exports = {
 			noAmount: '請輸入提現金額',
 			noEmailCode: '請輸入郵箱驗證碼',
 			noPwd: '請輸入登錄密碼',
-			withdrawSuccess: '提現成功'
+			withdrawSuccess: '提現成功',
+			withDrawList: '提現記錄',
+			userName: '姓名',
+			account: '賬號',
+			withdrawAccount: '提現賬戶',
+			receiver: '收款地址',
+			pixType: 'PIX類型',
+			withDrawAmount: '提現金額'
 		},
 		recharge: {
 			title: '充值',
@@ -193,7 +201,9 @@ module.exports = {
 			placeholder: '請輸入充值金額',
 			submitBtn: '我已轉賬',
 			saveCode: '保存二維碼',
-			saveSuccess: '二維碼保存成功'
+			saveSuccess: '二維碼保存成功',
+			rechargeList: '充值記錄',
+			submit: '立即充值'
 		},
 		submitRecharge: {
 			title: '充值憑證',

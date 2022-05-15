@@ -140,11 +140,11 @@
 				}
 				this.financeRecharge(params).then(res => {
 					this.$u.toast(this.i18n.submitRecharge.rechargeSuccess)
-					setTimeout(()=> {
-						uni.switchTab({
-							url: '/pages/wallet/wallet'
-						})
-					}, 1500);
+					// setTimeout(()=> {
+					// 	uni.switchTab({
+					// 		url: '/pages/wallet/wallet'
+					// 	})
+					// }, 1500);
 				})
 			},
 			// 粘贴

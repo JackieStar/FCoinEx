@@ -106,6 +106,7 @@ export default {
 				index: 2,
 				text: this.$t('message').tabBar.assets
 			});
+			this.getAppConfig()
 		},
 		openPage(type, item) {
 			if (type === 0) {

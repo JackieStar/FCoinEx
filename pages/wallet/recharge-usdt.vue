@@ -1,10 +1,5 @@
 <template>
 	<view class="container">
-		<view class="market-header">
-			<u-icon class="arrow-left" @click="openPage(0)" name="arrow-left" color="#ffffff" size="44" />
-			<view class="market-text">{{ i18n.recharge.title }}</view>
-			<image @click="openPage(1)" src="../../static/images/wallet/list.png" class="right-icon" />
-		</view>
 		<view class="user-info">
 			<image :src="rechargeInfo.coin_icon" class="user-avatar" />
 			<view class="info">
@@ -117,38 +112,11 @@ export default {
 
 <style lang="scss" scoped>
 .container {
-	padding: 40upx 0 100upx 0;
-	.market-header {
-		width: 100%;
-		height: 120upx;
-		text-align: center;
-		left: 0;
-		top: 0;
-		right: 0;
-		background-color: #070219;
-		padding: 0 41upx;
-		position: fixed;
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		z-index: 1000;
-		.market-text {
-			height: 120upx;
-			font-size: 36upx;
-			font-family: PingFang SC;
-			font-weight: 400;
-			color: #ffffff;
-			line-height: 120upx;
-		}
-		.right-icon {
-			width: 35upx;
-			height: 40upx;
-		}
-	}
+	padding: 0 0 100upx 0;
 	.user-info {
 		width: 100%;
 		display: flex;
-		margin-top: 83upx;
+		margin-top: 60upx;
 		padding-left: 50upx;
 		.user-avatar {
 			width: 100upx;

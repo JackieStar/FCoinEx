@@ -2,7 +2,7 @@
 	<view class="container">
 		<!-- 充值提现 -->
 		<view class="menu">
-			<view class="fiat m-r" v-for="item in rechargeTypes" :key="item.type" @click="openPage(item.type)">
+			<view class="fiat" v-for="item in rechargeTypes" :key="item.type" @click="openPage(item.type)">
 				<image class="menu-icon" :src="item.icon" mode="widthFix" />
 				<view class="label">
 					<text>{{item.name}}</text>
@@ -10,7 +10,7 @@
 			</view>
 		</view>
 		<!-- 交易流水 -->
-		<view class="trade-title">充值记录</view>
+		<view class="trade-title">{{i18n.recharge.rechargeList}}</view>
 		<view class="tabs-wrapper">
 			<view class="tabs-item" @click="handleChange(1)">
 				<u-image v-if="tabIndex === 1" class="title-bg" src="../../static/images/wallet/title-long-bg.png" width="144upx" height="12upx" mode="" />
@@ -73,7 +73,7 @@ export default {
 	},
 	onShow() {
 		uni.setNavigationBarTitle({
-			title: this.i18n.wallet.title
+			title: this.i18n.recharge.title
 		});
 		this.getAppConfig()
 		if (this.loginInfo.hasLogin) {
@@ -237,12 +237,12 @@ page {
 		width: 330rpx;
 		height: 110rpx;
 		display: flex;
-		flex: 1;
 		align-items: center;
 		background: #1a1b28;
 		border-radius: 10rpx;
 		padding: 0 45upx;
 		justify-content: space-between;
+		box-sizing: border-box;
 		.label {
 			display: flex;
 			flex-direction: column;

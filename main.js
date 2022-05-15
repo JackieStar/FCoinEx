@@ -19,6 +19,7 @@ Vue.use(require('vue-moment'));
 let Chinese = require('./static/locales/zh-CN.js')
 let English = require('./static/locales/en-US.js')
 let Tradition = require('./static/locales/zh-HK.js')
+let PtBr = require('./static/locales/pt-BR.js')
 
 // VueI18n
 import VueI18n from 'vue-i18n'
@@ -38,7 +39,8 @@ const i18n = new VueI18n({
 	messages: {
 		'zh-CN': Chinese,
 		'en-US': English,
-		'zh-HK': Tradition
+		'zh-HK': Tradition,
+		'pt-BR': PtBr
 	}
 })
 /**
