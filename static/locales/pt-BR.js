@@ -194,7 +194,10 @@ module.exports = {
 			withdrawAccount: 'Conta de saque',
 			receiver: 'Endereço de pagamento',
 			pixType: 'Tipo PIX',
-			withDrawAmount: 'Quantidade de retirada'
+			withDrawAmount: 'Quantidade de retirada',
+			noUserName: 'Por favor, digite um nome',
+			noAccount: 'Por favor, insira um número de conta',
+			noAccount: 'Por favor, selecione o tipo de PIX'
 		},
 		recharge: {
 			title: 'Recarregar',

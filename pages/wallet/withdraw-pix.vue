@@ -51,7 +51,7 @@
 		<u-popup v-model="showModal" mode="bottom" class="password-modal" :border-radius="20" height="565upx">
 			<view class="title" style="margin-top: 40upx;">
 				<text>{{ i18n.withdraw.safe }}</text>
-				<u-image class="title-bg" src="../../static/images/wallet/title-long-bg.png" width="144upx" height="12upx" />
+				<u-image class="title-bg" src="../../static/images/wallet/title-long-bg.png"  width="142upx" height="12upx" />
 			</view>
 			<view class="modal-line-title">{{ i18n.withdraw.emailCode }}</view>
 			<view class="modal-input-wrapper">
@@ -61,7 +61,7 @@
 					v-model="form.email_code"
 					:placeholder="i18n.withdraw.placeholder"
 					maxlength="10"
-					style="padding-right: 150upx;"
+					style="padding-right: 100upx;"
 					type="text"
 				/>
 				<view>
@@ -184,6 +184,18 @@ export default {
 		},
 		// 交易密码弹窗
 		openModal() {
+			if (!this.formPix.pix_name) {
+				this.$api.msg(this.i18n.withdraw.noUsername);
+				return;
+			}
+			if (!this.formPix.pix_type) {
+				this.$api.msg(this.i18n.withdraw.noPixType);
+				return;
+			}
+			if (!this.formPix.pix_account) {
+				this.$api.msg(this.i18n.withdraw.noAccount);
+				return;
+			}
 			if (!this.amount) {
 				this.$api.msg(this.i18n.withdraw.noAmount);
 				return;
@@ -306,7 +318,7 @@ export default {
 		margin-top: -50upx;
 	}
 	.title {
-		width: 70%;
+		width: 100%;
 		height: 28upx;
 		font-size: 30upx;
 		font-family: PingFang SC;

@@ -31,7 +31,7 @@
 		{
 			"path": "pages/lottery/index",
 			"style": {
-				"navigationBarTitleText": "抽奖",
+				"navigationBarTitleText": "",
 				// #ifdef MP
 				"navigationStyle": "custom",
 				// #endif
@@ -48,7 +48,7 @@
 			"style": {
 				"navigationBarTextStyle": "white",
 				"navigationBarBackgroundColor": "#070219",
-				"navigationBarTitleText": "充值"
+				"navigationBarTitleText": ""
 			}
 		}, 
 		{
@@ -56,7 +56,7 @@
 			"style": {
 				"navigationBarTextStyle": "white",
 				"navigationBarBackgroundColor": "#070219",
-				"navigationBarTitleText": "充值"
+				"navigationBarTitleText": ""
 			}
 		}, 
 		{
@@ -64,7 +64,7 @@
 			"style": {
 				"navigationBarTextStyle": "white",
 				"navigationBarBackgroundColor": "#070219",
-				"navigationBarTitleText": "充值"
+				"navigationBarTitleText": ""
 			}
 		}, 
 		{
@@ -72,7 +72,7 @@
 			"style": {
 				"navigationBarTextStyle": "white",
 				"navigationBarBackgroundColor": "#070219",
-				"navigationBarTitleText": "充值凭证"
+				"navigationBarTitleText": ""
 			}
 		}, 
 		{
@@ -80,7 +80,7 @@
 			"style": {
 				"navigationBarTextStyle": "white",
 				"navigationBarBackgroundColor": "#070219",
-				"navigationBarTitleText": "提现"
+				"navigationBarTitleText": ""
 			}
 		},
 		{
@@ -88,7 +88,7 @@
 			"style": {
 				"navigationBarTextStyle": "white",
 				"navigationBarBackgroundColor": "#070219",
-				"navigationBarTitleText": "提现"
+				"navigationBarTitleText": ""
 			}
 		},
 		{
@@ -96,7 +96,7 @@
 			"style": {
 				"navigationBarTextStyle": "white",
 				"navigationBarBackgroundColor": "#070219",
-				"navigationBarTitleText": "Withdraw"
+				"navigationBarTitleText": ""
 			}
 		},
 		{
@@ -104,7 +104,7 @@
 			"style": {
 				"navigationBarTextStyle": "white",
 				"navigationBarBackgroundColor": "#070219",
-				"navigationBarTitleText": "资产记录"
+				"navigationBarTitleText": ""
 			}
 		},
 		{
@@ -130,7 +130,7 @@
 		{
 			"path": "pages/user/user",
 			"style": {
-				"navigationBarTitleText": "我的",
+				"navigationBarTitleText": "",
 				"navigationStyle": "custom",
 				"app-plus": {
 					// "bounce": "none"
@@ -142,14 +142,14 @@
 		}, {
 			"path": "pages/user/invit",
 			"style": {
-				"navigationBarTitleText": "邀请好友",
+				"navigationBarTitleText": "",
 				"navigationBarTextStyle": "white",
 				"navigationBarBackgroundColor": "#070219"
 			}
 		}, {
 			"path": "pages/user/updateLoginPwd",
 			"style": {
-				"navigationBarTitleText": "修改密码",
+				"navigationBarTitleText": "",
 				"navigationBarTextStyle": "white",
 				"navigationBarBackgroundColor": "#070219"
 			}
@@ -157,7 +157,7 @@
 		{
 			"path": "pages/public/forget",
 			"style": {
-				"navigationBarTitleText": "忘记密码",
+				"navigationBarTitleText": "",
 				"navigationBarTextStyle": "white",
 				"navigationBarBackgroundColor": "#070219"
 			}
@@ -165,7 +165,7 @@
 		{
 			"path": "pages/user/updateName",
 			"style": {
-				"navigationBarTitleText": "修改昵称",
+				"navigationBarTitleText": "",
 				"navigationBarTextStyle": "white",
 				"navigationBarBackgroundColor": "#070219"
 			}
@@ -173,7 +173,7 @@
 		{
 			"path": "pages/user/webview",
 			"style": {
-				"navigationBarTitleText": "网页",
+				"navigationBarTitleText": "",
 				"navigationBarTextStyle": "white",
 				"navigationBarBackgroundColor": "#070219"
 			}

@@ -194,7 +194,10 @@ module.exports = {
 			withdrawAccount: 'Withdrawal account',
 			receiver: 'Payment address',
 			pixType: 'PIX type',
-			withDrawAmount: 'Withdrawal amount'
+			withDrawAmount: 'Withdrawal amount',
+			noUsername: 'Please enter username',
+			noAccount: 'Please enter account',
+			noPixType: 'Please select PIX type'
 		},
 		recharge: {
 			title: 'Deposit',

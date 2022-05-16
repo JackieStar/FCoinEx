@@ -194,7 +194,10 @@ module.exports = {
 			withdrawAccount: '提现账户',
 			receiver: '收款地址',
 			pixType: 'PIX类型',
-			withDrawAmount: '提现金额'
+			withDrawAmount: '提现金额',
+			noUserName: '请输入姓名',
+			noAccount: '请输入账号',
+			noPixType: '请选择PIX类型'
 		},
 		recharge: {
 			title: '充值',
