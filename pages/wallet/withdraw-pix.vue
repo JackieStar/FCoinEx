@@ -29,17 +29,17 @@
 			<text>{{i18n.withdraw.withDrawAmount}}</text>
 			<u-image class="title-bg" src="../../static/images/wallet/title-long-bg.png" width="142upx" height="12upx" mode="" />
 		</view>
-		<text class="r-usdt">1R$ ≈ {{ withdrawInfo.usdt_pix_rate }}USDT</text>
+		<text class="r-usdt">1USDT ≈ {{ withdrawInfo.usdt_pix_rate }}R$</text>
 		<view class="all-btn" @click="handleAll">{{ i18n.withdraw.all }}</view>
 		<view class="money-wrapper flex_between_box">
 			<view class="flex_center_box">
 				<input type="number" @input="inputChange" v-model="amount" class="money-input" placeholder-style="color: #454D73;font-size: 26upx;" :placeholder="i18n.withdraw.withDrawAmount" />
-				<text style="color: #fff; margin-left: 10upx;">R$</text>
+				<text style="color: #fff; margin-left: 10upx;">USDT</text>
 			</view>
 			<view class="input-money">≈</view>
 			<view class="flex_center_box">
 				<view class="input-money">{{ inputMoney }}</view>
-				<text style="color: #fff; margin-left: 10upx;">USDT</text>
+				<text style="color: #fff; margin-left: 10upx;">R$</text>
 			</view>
 		</view>
 		<view class="tips-wrapper">

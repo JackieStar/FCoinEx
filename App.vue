@@ -8,12 +8,17 @@
 	} from 'vuex'
 	export default {
 		methods: {
-			...mapActions('common', ['coinList',  'getConfig'])
+			// ...mapActions('common', ['coinList',  'getConfig'])
 			// ...mapActions('user', ['initLogin'])
 		},
 		onShow: function() {
 			console.log('App Show')
-			// this.initLogin()
+			let lang = uni.setStorageSync('language', lang);
+			if (lang == 'zh-CN') {
+				uni.setLocale('zh-Hans')
+			} else {
+				uni.setLocale('en')
+			}
 			uni.setTabBarItem({
 				index: 0,
 				text: this.$t('message').tabBar.market

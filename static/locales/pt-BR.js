@@ -190,7 +190,7 @@ module.exports = {
 			withdrawSuccess: 'Retirada com sucesso',
 			withDrawList: 'Registro de retirada',
 			userName: 'Nome',
-			account: 'conta',
+			account: 'Conta',
 			withdrawAccount: 'Conta de saque',
 			receiver: 'Endereço de pagamento',
 			pixType: 'Tipo PIX',
