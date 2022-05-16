@@ -158,6 +158,11 @@ export default {
 		async loadData() {
 			this.getFinaceInfo({ config: 'withdraw', type: 'PIX' }).then(res => {
 				this.withdrawInfo = res.data;
+				this.formPix = {
+					pix_name: res.data.last_pix.pix_name,
+					pix_type: res.data.last_pix.pix_type,
+					pix_account: res.data.last_pix.pix_account
+				}
 				this.langList = res.data.pix_account_types.map((v, i)=> {
 					return {
 						text: v,
