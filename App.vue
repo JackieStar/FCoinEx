@@ -45,8 +45,8 @@
 	}
 	page{
 		width: 100%;
-		height: 100;
-		background: #070219;
+		height: 100%;
+		background: #efefef;
 	}
 	.flex_center_box {
 		display: flex;
