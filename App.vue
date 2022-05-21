@@ -13,7 +13,7 @@
 		},
 		onShow: function() {
 			console.log('App Show')
-			let lang = uni.setStorageSync('language', lang);
+			let lang = uni.getStorageSync('language');
 			if (lang == 'zh-CN') {
 				uni.setLocale('zh-Hans')
 			} else {
