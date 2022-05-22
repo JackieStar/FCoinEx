@@ -1,9 +1,57 @@
 module.exports = {
 	message: {
 		tabBar: {
-			market: '行情',
+			home: '首页',
 			trade: '交易',
-			assets: '资产'
+			record: '交易记录',
+			me: '我的'
+		},
+		home: {
+			title: '首页',
+			notice: '公告',
+			fastRecharge: '快捷充币',
+			fastTips: '支持USDT、美元等',
+			download: 'App下载',
+			help: '帮助中心',
+			lottery: '幸运转盘',
+			sign: '每日签到',
+			redPacket: '幸运红包',
+			newActivity: '最新活动',
+			redPacket: '幸运红包',
+			redPacket: '幸运红包',
+			market: {
+				title1: '币种/成交量',
+				title2: '市场价',
+				title3: '涨跌'
+			},
+			daySign: '每日签到',
+			fastSign: '立即签到',
+			signTips: '每日签到赢奖励',
+		},
+		me: {
+			title: '我的账户',
+			login: '去登录',
+			tcode: '邀请码',
+			assets: '总资产',
+			recharge: '充值',
+			withdraw: '提现',
+			setting: '收款设置',
+			userInfo: '个人资料',
+			record: '投资记录',
+			fund: '资金明细',
+			kf: '客服',
+			share: '分享',
+			lottery: '幸运大转盘',
+			redPacket: '幸运红包',
+			about: '关于我们',
+			lang: '语言选择'
+		},
+		redPacket: {
+			title: '幸运红包',
+			chooseOne: 'Choose One',
+			fail: '很遗憾',
+			failTips: '再接再厉·明日再来',
+			btn: '点击赢取更多奖励',
 		},
 		login: {
 			email: '请输入邮箱',

@@ -51,7 +51,6 @@ const user = {
 		[USER_LOGOUT](state, payload) {
 			uni.setStorageSync('token', '');
 			uni.setStorageSync('userInfo', '');
-			// uni.removeStorageSync('userInfo')
 			state.loginInfo = {
 				nickname: null,
 				profile: null,

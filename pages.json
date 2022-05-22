@@ -9,13 +9,13 @@
 				"navigationStyle": "custom"
 			}
 		},
-		{
-			"path": "pages/index/index",
-			"style": {
-				"navigationStyle": "custom",
-				"enablePullDownRefresh": true
-			}
-		},
+		// {
+		// 	"path": "pages/index/index",
+		// 	"style": {
+		// 		"navigationStyle": "custom",
+		// 		"enablePullDownRefresh": true
+		// 	}
+		// },
 		{
 			"path": "pages/trade/trade",
 			"style": {
@@ -42,7 +42,7 @@
 			}
 		},
 		{
-			"path": "pages/lottery/index",
+			"path": "pages/public/lottery",
 			"style": {
 				"navigationBarTitleText": "",
 				// #ifdef MP
@@ -130,7 +130,8 @@
 					"animationType": "slide-in-bottom"
 				}
 			}
-		}, {
+		},
+		{
 			"path": "pages/public/register",
 			"style": {
 				"navigationBarTitleText": "",
@@ -138,6 +139,14 @@
 				"app-plus": {
 					"titleNView": false
 				}
+			}
+		},
+		{
+			"path": "pages/public/redPacket",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#fff",
+				"navigationBarTitleText": "红包"
 			}
 		},
 		{
@@ -153,7 +162,7 @@
 				}
 			}
 		}, {
-			"path": "pages/user/invit",
+			"path": "pages/public/invit",
 			"style": {
 				"navigationBarTitleText": "",
 				"navigationBarTextStyle": "white",

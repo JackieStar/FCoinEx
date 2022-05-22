@@ -21,16 +21,20 @@
 			}
 			uni.setTabBarItem({
 				index: 0,
-				text: this.$t('message').tabBar.market
-			})
+				text: this.$t('message').tabBar.home
+			});
 			uni.setTabBarItem({
 				index: 1,
 				text: this.$t('message').tabBar.trade
-			})
+			});
 			uni.setTabBarItem({
 				index: 2,
-				text: this.$t('message').tabBar.assets
-			})
+				text: this.$t('message').tabBar.record
+			});
+			uni.setTabBarItem({
+				index: 3,
+				text: this.$t('message').tabBar.me
+			});
 		},
 		onHide: function() {
 			console.log('App Hide')

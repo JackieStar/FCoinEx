@@ -109,7 +109,7 @@
 					this.$api.msg(this.i18n.login.loginSuccess, 1000, false, 'none', function() {
 						setTimeout(function() {
 							uni.switchTab({
-								url: '/pages/index/index'
+								url: '/pages/home/home'
 							})
 							// if($this.redirect && $this.redirect == 'register'){
 							// 	uni.switchTab({

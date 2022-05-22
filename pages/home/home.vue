@@ -1,8 +1,8 @@
 <template>
 	<view class="container">
 		<view class="header">
-			<text>首页</text>
-			<text class="notice">公告</text>
+			<text>{{i18n.home.title}}</text>
+			<text class="notice">{{i18n.home.notice}}</text>
 		</view>
 		<!-- 头部轮播 -->
 		<view class="carousel-wrapper">
@@ -25,8 +25,8 @@
 		<!-- 跳转模块 -->
 		<view class="open-wrapper">
 			<view class="right-item" @click="navTo('/pages/wallte/recharge')">
-				<view class="right-item-title">快捷充币</view>
-				<view class="right-item-tip">支持USDT、美元等</view>
+				<view class="right-item-title">{{i18n.home.fastRecharge}}</view>
+				<view class="right-item-tip">{{i18n.home.fastTips}}</view>
 				<view class="icon-wrapper">
 					<image class="icon-3" src="../../static/images/home/icon_3.png" />
 					<image class="icon-2" src="../../static/images/home/icon_2.png" />
@@ -36,31 +36,31 @@
 			<view class="left-wrapper">
 				<view class="top-item" @click="openPage('download')">
 					<image class="download" src="../../static/images/home/download.png" />
-					<text>App下载</text>
+					<text>{{i18n.home.download}}</text>
 				</view>
 				<view class="bottom-item" @click="openPage('help')">
 					<image class="question" src="../../static/images/home/question.png" />
-					<text>帮助中心</text>
+					<text>{{i18n.home.help}}</text>
 				</view>
 			</view>
 		</view>
 		<!-- 快速入口 -->
 		<view class="fast-wraper">
-			<view class="fast-item" @click="navTo('/pages/lottery/index')">
+			<view class="fast-item" @click="navTo('/pages/public/lottery')">
 				<image src="../../static/images/home/lottery.png" />
-				<text>幸运转盘</text>
+				<text>{{i18n.home.lottery}}</text>
 			</view>
-			<view class="fast-item" @click="navTo('/pages/user/sign')">
+			<view class="fast-item" @click="openPage('sign')">
 				<image src="../../static/images/home/sign_in.png" />
-				<text>每日签到</text>
+				<text>{{i18n.home.sign}}</text>
 			</view>
-			<view class="fast-item" @click="navTo('/pages/user/red')">
+			<view class="fast-item" @click="openPage('red')">
 				<image src="../../static/images/home/red.png" />
-				<text>幸运红包</text>
+				<text>{{i18n.home.redPacket}}</text>
 			</view>
 			<view class="fast-item" @click="navTo('/pages/user/activity')">
 				<image src="../../static/images/home/gift.png" />
-				<text>最新活动</text>
+				<text>{{i18n.home.newActivity}}</text>
 			</view>
 		</view>
 		<!-- 分享页 -->
@@ -68,10 +68,10 @@
 		<!-- 市值排行 -->
 		<view class="coin-section m-t">
 			<view class="s-header">
-				<view class="col">{{ i18n.index.market.title1 }}</view>
-				<view class="col r">{{ i18n.index.market.title2 }}</view>
+				<view class="col">{{ i18n.home.market.title1 }}</view>
+				<view class="col r">{{ i18n.home.market.title2 }}</view>
 				<view class="col r">
-					<text style="margin-left: 60upx;">{{ i18n.index.market.title3 }}</text>
+					<text style="margin-left: 60upx;">{{ i18n.home.market.title3 }}</text>
 				</view>
 			</view>
 			<view class="s-row little-line" @click="navToTrade(item)" v-for="(item, i) in markets" :key="item.symbol">
@@ -91,19 +91,58 @@
 		</view>
 		<!-- 客服 -->
 		<view class="kf-icon"><u-image @click="openPage('kf')" src="../../static/images/home/kf.png" width="127rpx" height="127rpx" /></view>
+		<u-popup v-model="show" mode="center">
+			<view class="coupon-wrapper">
+				<view class="top-img"></view>
+				<view class="coupon-bg">
+					<view class="coupon-title">{{i18n.home.daySign}}</view>
+					<view class="money-wrapper">
+						<view class="money" :class="{'active': isActive}">
+							<text>day1</text>
+						</view>
+						<view class="money">
+							<text>day2</text>
+						</view>
+						<view class="money">
+							<text>day3</text>
+						</view>
+					</view>
+					<view class="money-wrapper">
+						<view class="money" :class="{'active': isActive}">
+							<text>day4</text>
+						</view>
+						<view class="money">
+							<text>day5</text>
+						</view>
+						<view class="money">
+							<text>day6</text>
+						</view>
+						<view class="money">
+							<text>day7</text>
+						</view>
+					</view>
+					<!-- <view class="money-tips">参与签到可以获得更多惊喜奖励</view> -->
+					<view class="coupon-btn">{{i18n.home.fastSign}}</view>
+					<view class="coupon-tips">{{i18n.home.signTips}}</view>
+				</view>
+				<view class="coupon-close" @click="show = false"></view>
+			</view>
+			
+		</u-popup>
 	</view>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import { uniNoticeBar, uniTag, uniImage, uniSwiperDot } from '@dcloudio/uni-ui';
-import noticeSwiper from '../../components/noticeSwiper.vue';
+import { uniTag } from '@dcloudio/uni-ui';
 import { commonMixin } from '@/common/mixin/mixin.js';
 export default {
-	components: { uniNoticeBar, uniTag, noticeSwiper },
+	components: { uniTag },
 	mixins: [commonMixin],
 	data() {
 		return {
+			show: false,
+			isActive: true,
 			markets: [],
 			notices: [],
 			carousels: [],
@@ -155,11 +194,6 @@ export default {
 				this.markets = res.data.data;
 			});
 		},
-		navToKline(item) {
-			uni.navigateTo({
-				url: `/pages/public/kline?symbol=${item.symbol}`
-			});
-		},
 		navToTrade(item) {
 			uni.setStorageSync('product', { code: item.code, name: item.name });
 			uni.switchTab({
@@ -167,10 +201,19 @@ export default {
 			});
 		},
 		openPage(type) {
-			if (type === 1) {
-				uni.navigateTo({
-					url: '/pages/user/user'
-				});
+			if (type === 'sign') {
+				this.show = true
+			}
+			if (type === 'red') {
+				if (this.loginInfo.hasLogin) {
+					uni.navigateTo({
+						url: `/pages/public/redPacket`
+					});
+				} else {
+					uni.navigateTo({
+						url: '/pages/public/login'
+					});
+				}
 			}
 			if (type === 'download') {
 				uni.navigateTo({
@@ -186,28 +229,6 @@ export default {
 				uni.navigateTo({
 					url: '/pages/user/webview?url=' + this.appData.kf_url
 				});
-			}
-			if (type === 3) {
-				if (this.loginInfo.hasLogin) {
-					uni.navigateTo({
-						url: '/pages/wallet/recharge'
-					});
-				} else {
-					uni.navigateTo({
-						url: '/pages/public/login'
-					});
-				}
-			}
-			if (type === 4) {
-				if (this.loginInfo.hasLogin) {
-					uni.navigateTo({
-						url: '/pages/wallet/withdraw'
-					});
-				} else {
-					uni.navigateTo({
-						url: '/pages/public/login'
-					});
-				}
 			}
 		}
 	}
@@ -474,6 +495,104 @@ export default {
 		position: fixed;
 		bottom: 160upx;
 		right: 30upx;
+	}
+	.coupon-wrapper {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		.top-img {
+			width: 377rpx;
+			height: 184rpx;
+			background: url(../../static/images/home/top_img.png);
+			background-size: 100% 100%;
+			z-index: 1000;
+		}
+		.coupon-bg {
+			width: 590rpx;
+			height: 686rpx;
+			background: url(../../static/images/home/coupon_img.png);
+			background-size: 100% 100%;
+			margin-top: -64rpx;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			.coupon-title {
+				font-size: 43rpx;
+				font-family: Source Han Sans CN;
+				font-weight: 400;
+				color: #FCBD4D;
+				line-height: 48rpx;
+				margin-top: 90rpx;
+				margin-bottom: 20rpx;
+			}
+			.money-tips {
+				font-size: 18rpx;
+				font-family: Source Han Sans CN;
+				font-weight: 400;
+				color: #999999;
+			}
+			.money-wrapper {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				.money {
+					width: 105rpx;
+					height: 125rpx;
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					font-size: 22rpx;
+					font-family: PingFang SC;
+					font-weight: 500;
+					color: #FFFFFF;
+					background: url(../../static/images/home/money.png);
+					background-size: 100% 100%;
+					text {
+						margin-top: 30rpx;
+					}
+				}
+				.active {
+					background: url(../../static/images/home/money_active.png);
+					background-size: 100% 100%;
+				}
+			}
+			.coupon-btn {
+				position: absolute;
+				width: 462rpx;
+				height: 76rpx;
+				border-radius: 40rpx;
+				background: #fff;
+				font-size: 26rpx;
+				font-family: PingFang SC;
+				font-weight: 500;
+				color: #FCC042;
+				bottom: 200rpx;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+			.coupon-tips {
+				position: absolute;
+				font-size: 26rpx;
+				font-family: Source Han Sans CN;
+				font-weight: 400;
+				color: #FFFFFF;
+				line-height: 48px;
+				bottom: 100rpx;
+			}
+		}
+		
+		.coupon-close {
+			width: 65rpx;
+			height: 65rpx;
+			background: url(../../static/images/home/close.png);
+			background-size: 100% 100%;
+			margin-top: 40rpx;
+		}
+	}
+	
+	/deep/ .u-mode-center-box {
+		background: none !important;
 	}
 }
 </style>
