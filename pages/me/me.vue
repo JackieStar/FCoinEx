@@ -131,7 +131,9 @@ export default {
 			title: this.i18n.tabBar.me
 		});
 		this.getAppConfig();
-		this.getUserInfo()
+		if (this.loginInfo.hasLogin) {
+			this.getUserInfo()
+		}
 	},
 	computed: {
 		...mapState('user', ['loginInfo'])

@@ -151,9 +151,6 @@ export default {
 		};
 	},
 	onShow() {
-		uni.setNavigationBarTitle({
-			title: this.i18n.index.title
-		});
 		this.loadData();
 		this.getMaketList();
 		this.clear = setInterval(this.getMaketList, 3000);
