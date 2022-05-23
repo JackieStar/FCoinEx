@@ -25,14 +25,8 @@
 		{
 			"path": "pages/wallet/wallet",
 			"style": {
-				"navigationBarTextStyle": "white",
-				"navigationBarBackgroundColor": "#070219",
-				"app-plus": {
-					"bounce": "none",
-					"titleNView": {
-						"type": "transparent"
-					}
-				}
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#ffffff"
 			}
 		},
 		{

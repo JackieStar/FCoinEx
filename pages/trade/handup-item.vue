@@ -137,8 +137,6 @@
 					this.$emit('handleGet')
 					clearInterval(this.clear);
 				}
-
-
 			},
 			handleSubmitSell(type) {
 				let num = 1

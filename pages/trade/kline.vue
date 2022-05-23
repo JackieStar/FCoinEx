@@ -223,29 +223,16 @@
 				activeId: 9,
 				activeName: '1h',
 				isSend: false
-
-
-				// list: {
-				// 	4: '1min',
-				// 	5: '5min',
-				// 	6: '15min',
-				// 	7: '30min',
-				// 	8: '1h',
-				// 	9: '4h',
-				// },
 			}
 		},
 		watch: {
 			productCode(val) {
 				console.log('productCode', val)
-				// this.changeLine(this.activeId)
 			}
 		},
 
 		onLoad() {
 			setTimeout(() => {
-				// this.CreateKLineChart();
-				// this.CreateMinuteChart();
 				this.changeLine(9)
 			}, 800)
 		},
@@ -259,8 +246,6 @@
 				this.$emit('changePro')
 			},
 			//不同的品种返回不同的小数位数
-
-
 			CreateKLineChart_app() {
 				if (this.KLine.JSChart) return;
 
@@ -306,7 +291,8 @@
 				this.KLine.Option.NetworkFilter = this.NetworkLineFilter;
 				this.KLine.Option.Symbol = this.Symbol;
 				this.KLine.Option.SplashTitle = this.i18n.common.loading;
-				this.KLine.Option.Language= uni.getStorageSync('language') == 'en-US' ? "EN" : 'CN';
+				// this.KLine.Option.Language= uni.getStorageSync('language') == 'en-US' ? "EN" : 'CN';
+				this.KLine.Option.Language= "EN"
 				this.KLine.Option.IsCorssOnlyDrawKLine = true; //十字光标只能在K线上
 				this.KLine.Option.CorssCursorTouchEnd = true; //手势结束十字光标自动隐藏
 				this.KLine.Option.IsClickShowCorssCursor = true;
@@ -524,6 +510,9 @@
 </script>
 
 <style lang="scss">
+	.divchart{
+		background-color: #000;
+	}
 	.red-text {
 		color: #ff0101 !important;
 	}

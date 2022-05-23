@@ -54,19 +54,21 @@
 	.s-row {
 		display: flex;
 		align-items: center;
-		height: 120upx;
+		height: 129upx;
+		border-top: 1rpx solid #e9e9e9;
 		.subtitle {
-			font-size: $font-sm;
-			font-weight: normal;
-			color: $font-color-dark;
+			font-size: 24rpx;
+			font-family: PingFang SC;
+			font-weight: 400;
+			color: #666666;
 			padding: 4upx 0 10upx 0;
 		}
 		.uni-tag--success {
 			color: #fff;
-			background-color: #23B57D;
+			background-color: #00b809;
 			border-width: 0.5px;
 			border-style: solid;
-			border-color: #23B57D;
+			border-color: #00b809;
 			width: 160upx;
 			height: 58upx;
 			display: flex;
@@ -76,10 +78,10 @@
 		}
 		.uni-tag--error {
 			color: #fff;
-			background-color: #D83A53;
+			background-color: #e91b00;
 			border-width: 0.5px;
 			border-style: solid;
-			border-color: #D83A53;
+			border-color: #e91b00;
 			width: 160upx;
 			height: 58upx;
 			display: flex;
@@ -89,21 +91,13 @@
 			float: right;
 		}
 		.col {
-			font-size: $font-base;
-			color: $font-color-light;
+			font-size: 26rpx;
+			color: #212121;
 			flex: 1;
-		}
-		.coinLogo {
-			width: 36upx;
-			height: 36upx;
-			margin-right: 8px;
-			display: inline-block;
-			vertical-align: middle;
-			float: left;
 		}
 		.light {
 			// font-weight: bold;
-			font-size: $font-lg;
+			color: #212121;
 			font-size: 30upx;
 		}
 		.r {

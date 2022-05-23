@@ -36,16 +36,16 @@
 			Type: '分钟走势图', //创建图形类型
 
 			Windows: [],
-			Language: uni.getStorageSync('language') == 'en-US' ? "EN" : 'CN',
-
+			// Language: uni.getStorageSync('language') == 'en-US' ? "EN" : 'CN',
+			Language: 'EN',
 			Symbol: '000001.sz',
-			SplashTitle:'',
+			SplashTitle: '',
 			IsAutoUpdate: true, //是自动更新数据
 			AutoUpdateFrequency: 61 * 1000,
 			DayCount: 1, //1 最新交易日数据 >1 多日走势图
 			IsShowCorssCursorInfo: true, //是否显示十字光标的刻度信息
 			IsShowRightMenu: false, //是否显示右键菜单
-			YCoordinateType:0,
+			YCoordinateType: 0,
 
 			MinuteLine: {
 				// IsDrawAreaPrice:false,      //是否画价格面积图
@@ -65,8 +65,8 @@
 						SplitCount: 7,
 						IsShowLeftText: true,
 						IsShowRightText: true,
-						YCoordinateType:0,
-						IsYReverse:true,
+						YCoordinateType: 0,
+						IsYReverse: true,
 						// RightTextFormat: 1,
 					},
 					{
@@ -91,7 +91,6 @@
 	export default {
 		mixins: [commonMixin],
 		props: {
-
 			productCode: {
 				type: String,
 				default () {
@@ -117,24 +116,20 @@
 				Symbol: '600000.sh',
 				ChartWidth: uni.upx2px(750),
 				ChartHeight: uni.upx2px(789),
-
 				Minute: {
 					Option: DefaultData.GetMinuteOption(),
 					IsShow: false,
 				},
 				activeId: 9,
-
 				isSend: false
 			}
 		},
 		watch: {
 			productCode(val) {
 				console.log('productCode--minute', val)
-				// this.CreateMinuteChart_app()
 				if (g_Minute.JSChart) {
 					g_Minute.JSChart.ChangeSymbol(this.Symbol); //重新请求当前得股票
 				}
-				// this.changeLine(this.activeId)
 			}
 		},
 
@@ -202,7 +197,7 @@
 				this.Minute.Option.NetworkFilter = this.NetworkFilter;
 				this.Minute.Option.Symbol = this.Symbol;
 				this.Minute.Option.SplashTitle = this.i18n.common.loading;
-				
+
 				this.Minute.Option.IsCorssOnlyDrawKLine = true; //十字光标只能在K线上
 				this.Minute.Option.CorssCursorTouchEnd = true; //手势结束十字光标自动隐藏
 				this.Minute.Option.IsClickShowCorssCursor = true;
