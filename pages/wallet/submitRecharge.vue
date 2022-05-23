@@ -228,7 +228,7 @@
 			width: 153upx;
 			height: 76upx;
 			line-height: 76upx;
-			background: url(../../static/images/public/login-btn.png);
+			// background: url(../../static/images/public/login-btn.png);
 			background-size: 100% 100%;
 			color: #fff;
 			display: flex;
@@ -260,7 +260,7 @@
 		align-items: center;
 		justify-content: center;
 		font-size: 26upx;
-		background: url(../../static/images/public/login-btn.png);
+		// background: url(../../static/images/public/login-btn.png);
 		background-size: 100% 100%;
 		color: #fff;
 		font-size: 26upx;

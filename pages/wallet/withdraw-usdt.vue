@@ -302,7 +302,7 @@ export default {
 			width: 153upx;
 			height: 76upx;
 			line-height: 76upx;
-			background: url(../../static/images/public/short-btn.png);
+			// background: url(../../static/images/public/short-btn.png);
 			background-size: 100% 100%;
 			color: #fff;
 			display: flex;
@@ -370,7 +370,7 @@ export default {
 		height: 76upx;
 		line-height: 76upx;
 		margin: 50upx auto;
-		background: url(../../static/images/public/login-btn.png);
+		// background: url(../../static/images/public/login-btn.png);
 		background-size: 100% 100%;
 		color: #fff;
 		display: flex;
@@ -399,7 +399,7 @@ export default {
 	.modal-input-wrapper {
 		width: 638upx;
 		height: 74upx;
-		background: url(../../static/images/public/login-btn.png);
+		// background: url(../../static/images/public/login-btn.png);
 		background-size: 100% 100%;
 		margin-left: 30upx;
 

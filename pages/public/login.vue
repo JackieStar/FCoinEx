@@ -1,14 +1,14 @@
 <template>
 	<view class="container">
-		<u-navbar title="登录" :background="background">
-			<view class="slot-wrap"><view class="nav-btn">language</view></view>
+		<u-navbar :title="i18n.login.title" :background="background">
+			<view class="slot-wrap"><view class="nav-btn" @click="changeLang">language</view></view>
 		</u-navbar>
 		<view class="wrapper">
 			<view class="welcome"><image mode="widthFix" src="../../static/images/public/logo.png" class="logo"></image></view>
 			<view class="input-content">
 				<view class="input-item">
 					<u-image src="../../static/images/public/user.png" width="36rpx" height="38rpx" />
-					<input placeholder-style="color: #ACACAC" v-model="form.account" :placeholder="i18n.login.email" />
+					<input placeholder-style="color: #ACACAC" v-model="form.account" :placeholder="i18n.login.account" />
 				</view>
 				<view class="input-item">
 					<u-image style="flex-shrink:0" src="../../static/images/public/password.png" width="36upx" height="42upx" />
@@ -41,13 +41,14 @@
 			<view v-if="form.account && form.password" @click="handleLogin" class="confirm-btn active">{{ i18n.login.login }}</view>
 			<view v-else class="confirm-btn">{{ i18n.login.login }}</view>
 			<view class="sign-wrapper">
-				<view class="sign-up" @click="toRegist">sign up</view>
+				<view class="sign-up" @click="toRegist">{{ i18n.login.sign }}</view>
 				<view class="forget" @click="toForgetPassword">{{ i18n.login.forget }}</view>
 			</view>
 		</view>
 		<view class="bottom-text">
-			<text @click="toRegist">{{ i18n.login.registration }}</text>
+			<text @click="toRegist">{{ i18n.login.bottomTxt }}</text>
 		</view>
+		<u-action-sheet :cancel-text="i18n.common.cancel" :border-radius="20" :list="langList" @click="clickLang" v-model="showLang"></u-action-sheet>
 	</view>
 </template>
 
@@ -66,11 +67,49 @@ export default {
 				password: '' // 123123
 			},
 			isOpenEyes: false,
-			redirect: undefined
+			showLang: false,
+			langList: []
 		};
 	},
+	onShow() {
+		this.getAppConfig();
+	},
 	methods: {
-		...mapActions('user', ['login']),
+		...mapActions('user', ['appConfig','login']),
+		getAppConfig() {
+			this.appConfig().then(res => {
+				this.langList = res.data.languages.map(v => {
+					return {
+						text: v.name,
+						lang: v.lang
+					};
+				});
+			});
+		},
+		changeLang() {
+			this.showLang = true;
+		},
+		clickLang(index) {
+			let lang = this.langList[index].lang;
+			uni.setStorageSync('language', lang);
+			this._i18n.locale = lang;
+			uni.setTabBarItem({
+				index: 0,
+				text: this.$t('message').tabBar.home
+			});
+			uni.setTabBarItem({
+				index: 1,
+				text: this.$t('message').tabBar.trade
+			});
+			uni.setTabBarItem({
+				index: 2,
+				text: this.$t('message').tabBar.record
+			});
+			uni.setTabBarItem({
+				index: 3,
+				text: this.$t('message').tabBar.me
+			});
+		},
 		toRegist() {
 			uni.navigateTo({
 				url: '/pages/public/register'
@@ -84,6 +123,7 @@ export default {
 		handleChange(type) {
 			this.isOpenEyes = type;
 		},
+		
 		handleLogin() {
 			console.log('2232323');
 			let $this = this;
@@ -108,7 +148,7 @@ export default {
 	flex-direction: row-reverse;
 }
 .nav-btn {
-	width: 150rpx;
+	width: 160rpx;
 	height: 51rpx;
 	background: #0072ff;
 	border-radius: 26rpx;

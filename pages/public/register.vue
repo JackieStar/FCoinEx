@@ -1,28 +1,30 @@
 <template>
 	<view class="container">
-		<view class="back-btn yticon icon-zuojiantou-up" @click="navBack"></view>
-		<!-- 设置白色背景防止软键盘把下部绝对定位元素顶上来盖住输入框等 -->
+		<u-navbar :title="i18n.register.title" :background="background"></u-navbar>
 		<view class="wrapper">
 			<view class="welcome">
 				<view class="txt">
-					<text class="b">{{ i18n.register.registrTitle }}</text>
+					<text class="title">{{ i18n.register.registrTitle }}</text>
+					<u-image src="../../static/images/public/title_bg.png" width="194rpx" height="18rpx" />
 					<text class="tips">{{ i18n.register.registrTips }}</text>
 				</view>
 			</view>
 			<view class="input-content">
 				<view class="input-item">
-					<u-image src="../../static/images/public/email.png" width="40upx" height="28upx" />
-					<input placeholder-style="color: #435687" v-model="form.email" :placeholder="i18n.register.email" @input="inputChange" />
+					<u-image src="../../static/images/public/phone.png" width="29rpx" height="40rpx" />
+					<input placeholder-style="color: #ACACAC" v-model="form.account" :placeholder="i18n.register.account" @input="inputChange" />
 				</view>
 				<view class="input-item">
-					<u-image src="../../static/images/public/code.png" width="30upx" height="35upx" />
+					<u-image src="../../static/images/public/email.png" width="34upx" height="26upx" />
+					<input placeholder-style="color: #ACACAC" v-model="form.email" :placeholder="i18n.register.email" @input="inputChange" />
+				</view>
+				<view class="input-item">
 					<input
-						placeholder-style="color: #435687"
+						placeholder-style="color: #ACACAC"
 						v-model="form.email_code"
 						:placeholder="i18n.register.emailCode"
-						placeholder-class="input-empty"
 						maxlength="20"
-						style="padding-right: 100upx;"
+						style="padding-right: 100rpx;"
 						type="text"
 						@input="inputChange"
 					/>
@@ -39,71 +41,66 @@
 					</view>
 				</view>
 				<view class="input-item">
-					<u-image src="../../static/images/public/password.png" width="32upx" height="35upx" />
+					<u-image src="../../static/images/public/password.png" width="28upx" height="32upx" />
 					<input
-						placeholder-style="color: #435687"
+						placeholder-style="color: #ACACAC"
 						type="password"
 						v-if="!isOpen"
 						v-model="form.password"
 						:placeholder="i18n.register.password"
-						placeholder-class="input-empty"
 						maxlength="20"
 					/>
 					<input
-						placeholder-style="color: #435687"
+						placeholder-style="color: #ACACAC"
 						v-else
 						type="text"
 						v-model="form.password"
 						:placeholder="i18n.register.password"
-						placeholder-class="input-empty"
 						maxlength="20"
 					/>
 					<view>
-						<u-image v-if="isOpen" src="../../static/images/public/open_eyes.png" @click="handleChange(false)" width="33upx" height="21upx" />
-						<u-image v-else src="../../static/images/public/close_eyes.png" width="33upx" @click="handleChange(true)" height="21upx" />
+						<u-image v-if="isOpen" src="../../static/images/public/open_eyes.png" @click="handleChange(false)" width="36upx" height="32upx" />
+						<u-image v-else src="../../static/images/public/close_eyes.png" @click="handleChange(true)" width="36upx" height="32upx" />
 					</view>
 				</view>
 				<view class="input-item">
-					<u-image src="../../static/images/public/password.png" width="32upx" height="35upx" />
+					<u-image src="../../static/images/public/password.png" width="28upx" height="32upx" />
 					<input
-						placeholder-style="color: #435687"
+						placeholder-style="color: #ACACAC"
 						v-if="!isOpenEyes"
 						type="password"
 						v-model="form.password_confirm"
 						:placeholder="i18n.register.passwordAgain"
-						placeholder-class="input-empty"
 						maxlength="20"
 						@input="inputChange"
 					/>
 					<input
-						placeholder-style="color: #435687"
+						placeholder-style="color: #ACACAC"
 						v-else
 						type="text"
 						v-model="form.password_confirm"
 						:placeholder="i18n.register.passwordAgain"
-						placeholder-class="input-empty"
 						maxlength="20"
 						@input="inputChange"
 					/>
 					<view>
-						<u-image v-if="isOpenEyes" src="../../static/images/public/open_eyes.png" @click="handleChangeEyes(false)" width="33upx" height="21upx" />
-						<u-image v-else src="../../static/images/public/close_eyes.png" width="33upx" @click="handleChangeEyes(true)" height="21upx" />
+						<u-image v-if="isOpenEyes" src="../../static/images/public/open_eyes.png" @click="handleChangeEyes(false)" width="36upx" height="32upx" />
+						<u-image v-else src="../../static/images/public/close_eyes.png" @click="handleChangeEyes(true)" width="36upx" height="32upx" />
 					</view>
 				</view>
 				<view class="input-item">
-					<u-image src="../../static/images/public/invite.png" width="36upx" height="36upx" />
+					<u-image src="../../static/images/public/invit.png" width="34upx" height="32upx" />
 					<input
-						placeholder-style="color: #435687"
+						placeholder-style="color: #ACACAC"
 						type="text"
 						v-model="form.tcode"
 						:placeholder="i18n.register.invitCode"
-						placeholder-class="input-empty"
 						maxlength="20"
 					/>
 				</view>
 			</view>
-			<view @click="toRegist" class="confirm-btn">{{ i18n.register.registration }}</view>
-			<!-- <button class="confirm-btn" @click="toRegist" :disabled="logining">{{ i18n.login.registration }}</button> -->
+			<view @click="toRegist" class="confirm-btn">{{ i18n.register.title }}</view>
+			
 		</view>
 		<view class="register-section">
 			{{ i18n.register.hasAccount }}
@@ -121,6 +118,9 @@ export default {
 	mixins: [commonMixin],
 	data() {
 		return {
+			background: {
+				backgroundColor: '#F6F6F6'
+			},
 			form: {
 				email: '',
 				password: '',
@@ -238,19 +238,11 @@ export default {
 </script>
 
 <style lang="scss">
-page {
-	background: #fff;
+.container {
+	padding-top: 40rpx;
 	width: 100%;
 	height: 100%;
-}
-.container {
-	padding-top: 200upx;
-	position: relative;
-	overflow-y: scroll;
-	background: url(../../static/images/public/bg.png);
-	background-size: 100% 100%;
-	width: 100%;
-	height: 1624upx;
+	background-color: #fff;
 }
 
 .wrapper {
@@ -259,69 +251,9 @@ page {
 	padding-bottom: 40upx;
 }
 
-.back-btn {
-	position: absolute;
-	left: 40upx;
-	z-index: 9999;
-	padding-top: var(--status-bar-height);
-	top: 40upx;
-	font-size: 40upx;
-	color: #ffffff;
-}
-
-.left-top-sign {
-	font-size: 120upx;
-	color: $page-color-base;
-	position: relative;
-	left: -16upx;
-}
-
-.right-top-sign {
-	position: absolute;
-	top: 80upx;
-	right: -30upx;
-	z-index: 95;
-
-	&:before,
-	&:after {
-		display: block;
-		content: '';
-		width: 400upx;
-		height: 80upx;
-		background: #b4f3e2;
-	}
-
-	&:before {
-		transform: rotate(50deg);
-		border-radius: 0 50px 0 0;
-	}
-
-	&:after {
-		position: absolute;
-		right: -198upx;
-		top: 0;
-		transform: rotate(-50deg);
-		border-radius: 50px 0 0 0;
-		/* background: pink; */
-	}
-}
-
-.left-bottom-sign {
-	position: absolute;
-	left: -270upx;
-	bottom: -320upx;
-	border: 100upx solid #d0d1fd;
-	border-radius: 50%;
-	padding: 180upx;
-}
-
 .welcome {
 	position: relative;
 	padding-left: 40upx;
-	padding-bottom: 50upx;
-	.logo {
-		width: 150upx;
-	}
 	.txt {
 		display: flex;
 		flex-direction: column;
@@ -329,16 +261,21 @@ page {
 		padding-left: 20upx;
 		padding-bottom: 40upx;
 		font-size: 26upx;
-		.b {
-			font-size: 48upx;
-			font-weight: bold;
+		.title {
+			margin-bottom: -30rpx;
+			margin-left: 4rpx;
+			font-size: 36rpx;
+			font-family: PingFang SC;
+			font-weight: 500;
+			color: #333333;
+			z-index: 10;
 		}
 		.tips {
-			font-size: 24upx;
-			font-weight: 300;
-			color: #ffffff;
-			opacity: 0.5;
-			margin-top: 23upx;
+			font-size: 24rpx;
+			font-family: PingFang SC;
+			font-weight: 500;
+			color: #333333;
+			margin-top: 20rpx;
 		}
 	}
 }
@@ -354,44 +291,33 @@ page {
 	padding: 0 10upx;
 	height: 80upx;
 	margin-bottom: 50upx;
-	border-bottom: 1px solid #0b2771;
-	color: #ffffff;
+	border-bottom: 1px solid #DEDEDE;
 	&:last-child {
 		margin-bottom: 0;
 	}
-	.icon {
-		width: 13px;
-		height: 17px;
-	}
-	.tit {
-		height: 50upx;
-		line-height: 56upx;
-		font-size: $font-sm + 2upx;
-		color: $font-color-base;
-	}
 	input {
 		height: 60upx;
-		font-size: $font-base + 2upx;
-		color: #ffffff;
+		font-size: 28rpx;
+		color: #333;
 		width: 100%;
 		padding-left: 20upx;
 	}
 }
 .link {
 	display: flex;
-	padding: 30upx 60upx;
+	padding: 30rpx 60rpx;
 	color: #ffffff;
 }
 .confirm-btn {
-	width: 630upx;
-	height: 76upx;
-	line-height: 76upx;
-	margin-top: 40upx;
-	margin: 40upx auto;
-	background: url(../../static/images/public/login-btn.png);
-	background-size: 100% 100%;
-	color: #fff;
-	font-size: $font-lg;
+	width: 650rpx;
+	height: 80rpx;
+	margin: 40rpx auto;
+	font-size: 32rpx;
+	font-family: PingFang SC;
+	font-weight: 500;
+	border-radius: 40rpx;
+	color: #FFFFFF;
+	background-color: #2b73f6;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -407,13 +333,13 @@ page {
 .register-section {
 	position: absolute;
 	left: 0;
-	bottom: 50upx;
+	bottom: 50rpx;
 	width: 100%;
-	font-size: $font-sm + 2upx;
-	color: #4e46d2;
+	font-size: 28rpx;
+	color: #212121;
 	text-align: center;
 	text {
-		color: #ffffff;
+		color: #0072FF;
 		margin-left: 10upx;
 	}
 }

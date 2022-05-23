@@ -3,7 +3,8 @@
 		<view class="header">
 			<view class="title">{{i18n.me.title}}</view>
 			<view class="user-wrapper">
-				<u-image src="../../static/images/user/avatar.png" width="102rpx" height="102rpx" />
+				<u-image @click="openPage('user')" v-if="userData.avatar" :src="userData.avatar" width="102rpx" height="102rpx" />
+				<u-image @click="openPage('user')" v-else src="../../static/images/user/avatar.png" width="102rpx" height="102rpx" />
 				<view class="user-info">
 					<view class="user-name">{{ userData.name || i18n.me.login }}</view>
 					<view class="user-invit">
@@ -60,7 +61,7 @@
 					<u-icon name="arrow-right" color="#999" size="17" />
 				</view>
 			</view>
-			<view class="cell-item">
+			<view class="cell-item" @click="openPage('kf')">
 				<u-image src="../../static/images/me/kf.png" width="27rpx" height="26rpx" />
 				<view class="cell-item-right">
 					<text class="cell-title">{{i18n.me.kf}}</text>
@@ -108,6 +109,7 @@
 			</view>
 			<u-action-sheet :cancel-text="i18n.common.cancel" :border-radius="20" :list="langList" @click="clickLang" v-model="showLang"></u-action-sheet>
 		</view>
+		<view class="logout" @click="toLogout">退出登录</view>
 	</view>
 </template>
 
@@ -123,7 +125,6 @@ export default {
 			showLang: false,
 			langList: [],
 			appData: {},
-			webLink: []
 		};
 	},
 	onShow() {
@@ -217,10 +218,27 @@ export default {
 					});
 				}
 			}
+			if (type === 'user') {
+				if (this.loginInfo.hasLogin) {
+					uni.navigateTo({
+						url: '/pages/me/userInfo'
+					});
+				} else {
+					uni.navigateTo({
+						url: '/pages/public/login'
+					});
+				}
+			}
 			if (type === 'kf') {
-				uni.navigateTo({
-					url: `/pages/user/webview?title=${this.i18n.me.kf}&url=${this.appData.kf_url}`
-				});
+				if (this.loginInfo.hasLogin) {
+					uni.navigateTo({
+						url: '/pages/me/kf'
+					});
+				} else {
+					uni.navigateTo({
+						url: '/pages/public/login'
+					});
+				}
 			}
 			if (type === "about") {
 				uni.navigateTo({
@@ -287,12 +305,12 @@ export default {
 				flex-direction: column;
 				margin: 10rpx 0 0 20rpx;
 			}
-			// .user-rz {
-			// 	width: 151rpx;
-			// 	height: 34rpx;
-			// 	background: url(../../static/images/me/rz_bg.png);
-			// 	background-size: 100% 100%;
-			// }
+			.user-rz {
+				width: 151rpx;
+				height: 34rpx;
+				background: url(../../static/images/me/rz_bg.png);
+				background-size: 100% 100%;
+			}
 		}
 		.user-money-wrapper {
 			width: 698rpx;
@@ -374,6 +392,17 @@ export default {
 				margin-left: 16rpx;
 			}
 		}
+	}
+	.logout {
+		width: 698rpx;
+		height: 105rpx;
+		border-radius: 10rpx;
+		margin: 20rpx auto;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: #333;
+		background-color: #fff;
 	}
 }
 </style>

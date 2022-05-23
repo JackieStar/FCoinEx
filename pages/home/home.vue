@@ -7,7 +7,7 @@
 		<!-- 头部轮播 -->
 		<view class="carousel-wrapper">
 			<swiper class="carousel" autoplay="true">
-				<swiper-item @click="open(item)" v-for="(item, index) in carousels" :key="index" class="carousel-item"><image :src="item" /></swiper-item>
+				<swiper-item @click="openBanner(item.link)" v-for="(item, index) in carousels" :key="index" class="carousel-item"><image :src="item.banner" /></swiper-item>
 			</swiper>
 		</view>
 		<!-- 公告 -->
@@ -58,7 +58,7 @@
 				<image src="../../static/images/home/red.png" />
 				<text>{{i18n.home.redPacket}}</text>
 			</view>
-			<view class="fast-item" @click="navTo('/pages/user/activity')">
+			<view class="fast-item" @click="openPage('activity')">
 				<image src="../../static/images/home/gift.png" />
 				<text>{{i18n.home.newActivity}}</text>
 			</view>
@@ -197,6 +197,13 @@ export default {
 				url: '/pages/trade/trade'
 			});
 		},
+		openBanner(link) {
+			if (type === 'download') {
+				uni.navigateTo({
+					url: `/pages/public/webview?url=${link}`
+				});
+			}
+		},
 		openPage(type) {
 			if (type === 'sign') {
 				this.show = true
@@ -218,14 +225,37 @@ export default {
 				});
 			}
 			if (type === 'help') {
-				uni.navigateTo({
-					url: `/pages/user/webview?title=xx&url=${this.appData.help_center}`
-				});
+				if (this.loginInfo.hasLogin) {
+					uni.navigateTo({
+						url: '/pages/home/help'
+					});
+				} else {
+					uni.navigateTo({
+						url: '/pages/public/login'
+					});
+				}
+			}
+			if (type === 'activity') {
+				if (this.loginInfo.hasLogin) {
+					uni.navigateTo({
+						url: '/pages/home/activity'
+					});
+				} else {
+					uni.navigateTo({
+						url: '/pages/public/login'
+					});
+				}
 			}
 			if (type === 'kf') {
-				uni.navigateTo({
-					url: '/pages/user/webview?url=' + this.appData.kf_url
-				});
+				if (this.loginInfo.hasLogin) {
+					uni.navigateTo({
+						url: '/pages/me/kf'
+					});
+				} else {
+					uni.navigateTo({
+						url: '/pages/public/login'
+					});
+				}
 			}
 		}
 	}

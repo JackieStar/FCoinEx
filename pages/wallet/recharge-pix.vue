@@ -127,7 +127,7 @@ export default {
 		height: 76upx;
 		line-height: 76upx;
 		margin: 50upx auto;
-		background: url(../../static/images/public/login-btn.png);
+		// background: url(../../static/images/public/login-btn.png);
 		background-size: 100% 100%;
 		color: #fff;
 		display: flex;
