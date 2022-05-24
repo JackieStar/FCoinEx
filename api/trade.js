@@ -33,7 +33,7 @@ export function submitOrder(data) {
 // 订单列表
 export function orderList(data) {
   return request({
-    url: `/api/order/list?type=${data.type}&status=${data.status}&code=${data.code}&page=${data.page}`,
+    url: `/api/order/list?type=${data.type}&code=${data.code}&page=${data.page}`,
     method: 'GET',
 	data
   })

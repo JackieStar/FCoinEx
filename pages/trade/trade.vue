@@ -37,117 +37,16 @@
 						{{ i18n.trade.open }}：{{priceInfo.open}}
 					</view>
 					<view class="price-text price-after">
-						{{ i18n.trade.messageTime }}：44444
+						{{ i18n.trade.messageTime }}：{{priceInfo.volume_format}}
 					</view>
 				</view>
 			</view>
-
 		</view>
 		<view class="">
 
 		</view>
 		<Kline ref="line" :productName="productName" :list="line" :productData="productData" :price="priceInfo.price"
 			:rate="priceInfo.diff_rate" :productCode="productCode"></Kline>
-		<!-- <view class="card-item-wrapper flex_between_box">
-			<view class="card-item">
-				<text>{{priceInfo.total_assets}}</text>
-				<view>{{ i18n.trade.totalEquity }}(USDT)</view>
-			</view>
-			<view class="card-item">
-				<text>{{ userData.balance || 0 }}</text>
-				<view>{{ i18n.trade.balance }}(USDT)</view>
-			</view>
-		</view> -->
-		<!-- <block v-if="mode=='heyue'">
-			<view class="title">
-				<text>{{ i18n.trade.lever }}</text>
-				<u-image class="title-bg" src="../../static/images/wallet/title-long-bg.png" width="144upx"
-					height="12upx" mode="" />
-			</view>
-			<view class="lever-wrapper">
-				<view v-for="item in productData.lever" :key="item" class="lever-btn"
-					@click="handelChooseMultiple(item)">
-					<view class="lever-text">{{ item }}x</view>
-					<image v-if="item == multipleValue" class="btn-bg-image"
-						src="../../static/images/trade/btn-radio.png" mode=""></image>
-				</view>
-			</view>
-			<view class="title">
-				<text>{{ i18n.trade.openPrice }}</text>
-				<u-image class="title-bg" src="../../static/images/wallet/title-long-bg.png" width="144upx"
-					height="12upx" mode="" />
-			</view>
-			<view class="lever-wrapper">
-				<view class="open-btn">
-					<view @click="handleChoosePrice('inputPrice')" class="lever-text flex_center_box">
-						<input type="number" @input="handleInputPrice" v-model="inputPrice"
-							:placeholder="i18n.trade.placeholder" placeholder-style="background: linear-gradient(-51deg, #3FBBFE 0%, #A541FF 100%);-webkit-background-clip: text;
-					-webkit-text-fill-color: transparent;font-size: 30upx" />
-					</view>
-				</view>
-				<view class="open-btn" @click="handleChoosePrice('Market')" :class="[price == 'Market'?'bg-btn':'']">
-					<view class="lever-text">{{i18n.trade.market}}</view>
-				</view>
-			</view>
-			<view class="title">
-				<text>{{ i18n.trade.openAmount }}</text>
-				<u-image class="title-bg" src="../../static/images/wallet/title-long-bg.png" width="144upx"
-					height="12upx" mode="" />
-			</view>
-			<view class="lever-wrapper">
-				<view v-for="item in productData.set_amount" :key="item" class="lever-btn"
-					@click="handelChooseAmount(item)">
-					<view class="lever-text">{{ item }}</view>
-					<image v-if="item == amountValue" class="btn-bg-image" src="../../static/images/trade/btn-radio.png"
-						mode=""></image>
-				</view>
-				<view class="custom-box" :class="[amountValue == amount?'bg-btn':'']"
-					@click="handelChooseAmount(amount)">
-					<view class="custom-btn flex_left_box">
-						<input type="number" v-model="amount" :placeholder="i18n.trade.custom" placeholder-style="background: linear-gradient(-51deg, #3FBBFE 0%, #A541FF 100%);-webkit-background-clip: text;
--webkit-text-fill-color: transparent;font-size: 30upx" />
-					</view>
-
-				</view>
-			</view>
-		</block> -->
-		<!-- <block v-if="mode=='qiquan'">
-			<view class="title">
-				<text>{{ i18n.trade.cycle }}</text>
-				<u-image class="title-bg" src="../../static/images/wallet/title-long-bg.png" width="144upx"
-					height="12upx" mode="" />
-			</view>
-			<view class="lever-wrapper">
-				<view v-for="item in productData.set_qi_time" :key="item.second" class="lever-btn"
-					@click="handelChoosePeriod(item.second)">
-					<view class="lever-text">{{ item.name }}</view>
-					<image v-if="item.second == period" class="btn-bg-image"
-						src="../../static/images/trade/btn-radio.png" mode=""></image>
-				</view>
-			</view>
-			<view class="title">
-				<text>{{ i18n.trade.openAmount }}</text>
-				<u-image class="title-bg" src="../../static/images/wallet/title-long-bg.png" width="144upx"
-					height="12upx" mode="" />
-			</view>
-			<view class="lever-wrapper">
-				<view v-for="item in productData.set_qi_amount" :key="item" class="lever-btn"
-					@click="handelChooseQiAmount(item)">
-					<view class="lever-text">{{ item }}</view>
-					<image v-if="item == set_qi_amount" class="btn-bg-image"
-						src="../../static/images/trade/btn-radio.png" mode=""></image>
-				</view>
-				<view class="custom-box" :class="[set_qi_amount == qiamount?'bg-btn':'']"
-					@click="handelChooseQiAmount(qiamount)">
-					<view class="custom-btn flex_left_box">
-						<input type="number" v-model="qiamount" :placeholder="i18n.trade.custom" placeholder-style="background: linear-gradient(-51deg, #3FBBFE 0%, #A541FF 100%);-webkit-background-clip: text;
-			-webkit-text-fill-color: transparent;font-size: 30upx" @blur="inputBlurChange" />
-					</view>
-
-				</view>
-			</view>
-		</block> -->
-
 		<view class="handle-btn-wrapper flex_between_box">
 			<view class="rise-btn" @click="handleTransaction(1)">
 				{{ i18n.trade.rise }}
@@ -156,114 +55,6 @@
 				{{ i18n.trade.down }}
 			</view>
 		</view>
-
-		<!-- 当前、历史 -->
-		<!-- 	<view class="tabs-switch-wrapper flex_between_box">
-			<view class="tabs-left-box">
-				<view v-if="mode=='heyue'" class="tab-item mar-right-57" @click="handleChangeType('handup')">
-					<view class="item-color" :class="[activeType == 'handup' ? 'active-color' : '']">
-						{{ i18n.trade.now }}<text>({{totalHandup}})</text>
-					</view>
-					<view v-if="activeType == 'handup'" class="text-line-box">
-						<image class="text-line" src="../../static/images/trade/text-line.png" mode=""></image>
-					</view>
-				</view>
-				<view class="tab-item mar-right-57" @click="handleChangeType('hold')">
-					<view class="item-color" :class="[activeType == 'hold' ? 'active-color' : '']">
-						{{ i18n.trade.hold }}<text>({{totalHold}})</text>
-					</view>
-					<view v-if="activeType == 'hold'" class="text-line-box">
-						<image class="text-line" src="../../static/images/trade/text-line.png" mode=""></image>
-					</view>
-				</view>
-				<view class="tab-item" @click="handleChangeType('history')">
-					<view class="item-color" :class="[activeType == 'history' ? 'active-color' : '']">
-						{{ i18n.trade.histroy }}
-					</view>
-					<view v-if="activeType == 'history'" class="text-line-box">
-						<image class="text-line" src="../../static/images/trade/text-line.png" mode=""></image>
-					</view>
-				</view>
-			</view>
-			<view class="right-text-box flex_right_box">
-				<view class="right-text">{{ i18n.trade.showAll }}</view>
-				<image @click="handleChangeOpen" v-if="!isOpen" class="right-open"
-					src="../../static/images/trade/close.png" mode=""></image>
-				<image @click="handleChangeOpen" v-if="isOpen" class="right-open"
-					src="../../static/images/trade/open.png" mode=""></image>
-			</view>
-		</view>
-
-
-		<view class="" v-if="activeType == 'history'">
-			<view class="item-card-box" v-for="item in orderDate" :key="item.id">
-				<view class="triangle-box"></view>
-				<view class="card-head">{{item.product_name}}_USDT <text style="padding-left: 16rpx;" v-if="mode=='heyue'">{{item.lever}}x</text>
-				</view>
-				<view class="card-content-box">
-					<view class="content-item flex_between_box">
-						<view class="content-text-box">
-							<view class="label">{{ i18n.trade.openAmount }}</view>
-							<view class="amount">{{item.hand_number}}</view>
-						</view>
-						<view class="content-text-box">
-							<view class="label">{{ i18n.trade.openPrice }}</view>
-							<view class="amount">{{item.price}}</view>
-						</view>
-						<view class="content-text-box">
-							<view class="label">{{ i18n.trade.riseDown }}</view>
-							<view class="amount" v-html="item.rise_fall_label"></view>
-						</view>
-					</view>
-					<view class="content-item flex_between_box">
-						<view class="content-text-box">
-							<view class="label">{{i18n.trade.sellPrice}}</view>
-							<view class="amount">{{item.sell_price}}</view>
-						</view>
-						<view v-if="mode=='heyue'" class="content-text-box">
-							<view class="label">{{i18n.trade.profit}}</view>
-							<view class="amount">{{item.profit}}(USDT)</view>
-						</view>
-						<view v-if="mode=='qiquan'" class="content-text-box">
-							<view class="label">{{i18n.trade.profit}}</view>
-							<view class="amount"  :class="[item.profit>0?'green-text':'red-text']"><text>{{item.profit>0?'+':''}}{{item.profit}}</text>(USDT)</view>
-						</view>
-						<view class="content-text-box" v-if="mode=='heyue'">
-							<view class="label">{{i18n.trade.profitRate}}</view>
-							<view class="amount" :class="[item.profit_rate>0?'green-text':'red-text']">
-								{{item.profit_rate>0?'+':''}}{{item.profit_rate}}%
-							</view>
-						</view>
-						<view class="content-text-box" v-if="mode=='qiquan'">
-							<view class="label">{{i18n.trade.tradeCycle}}</view>
-							<view class="amount ">
-								{{item.period}}
-							</view>
-						</view>
-					</view>
-				</view>
-				<view class="card-footer">
-					<view class="footer-item flex_between_box">
-						<view v-if="mode=='heyue'" class="left-text">{{ i18n.trade.fee }}</view>
-						<view v-if="mode=='qiquan'" class="left-text">{{ i18n.withdraw.fee }}</view>
-						<view class="right-text">{{item.fee}} USDT</view>
-					</view>
-					<view class="footer-item flex_between_box">
-						<view class="left-text">{{ i18n.trade.openTime }}</view>
-						<view class="right-text">{{item.created_at}}</view>
-					</view>
-					<view v-if="item.pingcang_at" class="footer-item flex_between_box">
-						<view class="left-text">{{ i18n.trade.pingcan }}</view>
-						<view class="right-text">{{item.pingcang_at}}</view>
-					</view>
-				</view>
-			</view>
-		</view>
-		<view v-else>
-			<handleup-item v-for="item in orderDate" @refreshOrder="getNewOrderList" :key="item.id" :infoItem="item"
-				:type="activeType" :mode="mode" @handleGet="handleGet"></handleup-item>
-		</view> -->
-
 		<u-popup v-model="productPopup" mode="top">
 			<view class="top-popup-box">
 				<view class="popup-coin-section">
@@ -311,7 +102,7 @@
 								{{i18n.trade.presentPrice}}
 							</view>
 							<view class="right-text">
-								21324.32
+								{{priceInfo.price}}
 							</view>
 						</view>
 						<view class="trade-form-item flex_between_box">
@@ -325,7 +116,7 @@
 							</view>
 						</view>
 						<view class="mode-show">
-							<view class="mode-item  flex_between_box" v-for="(item,index) in set_times"
+							<view class="mode-item  flex_between_box" v-for="(item,index) in set_times" :key="item.min"
 								:class="[modeActive==index?'mode-active':'']" @click="changeModeTrade(index)">
 								<view class="flex_left_box">
 									<view class="mode-choose-box flex_center_box">
@@ -337,7 +128,7 @@
 									</view>
 								</view>
 								<view class="mode-rate">
-									{{item.odds}}
+									{{item.odds}}%
 								</view>
 							</view>
 						</view>
@@ -351,18 +142,19 @@
 							<view class="custom-box" :class="[amountValue == amount?'bg-btn':'']"
 								@click="handelChooseAmount(amount)">
 								<view class="custom-btn flex_left_box">
-									<input type="number" v-model="amount" :placeholder="i18n.trade.custom" />
+									<input type="number" v-model="amount" @input="handleInputPrice"
+										:placeholder="i18n.trade.custom" />
 								</view>
 
 							</view>
 						</view>
 						<view class="trade-form-item flex_between_box">
 							<view class="label user-amount">
-								{{i18n.wallet.balance}}$214141324.12
+								{{i18n.wallet.balance}}${{userData.balance || 0}}
 							</view>
 							<view class="right-text">
-								<text class="fee-desc">手续费：</text>
-								<text class="fee-color">$122.00</text>
+								<text class="fee-desc">{{i18n.trade.ServiceCharge}}：</text>
+								<text class="fee-color">${{selfFee}}</text>
 							</view>
 						</view>
 						<view class="trade-form-item flex_between_box">
@@ -370,7 +162,7 @@
 								{{i18n.trade.EstimatedIncome}}
 							</view>
 							<view class="right-text">
-								<text class="red-text">$122.00</text>
+								<text class="red-text">${{aboutNum}}</text>
 							</view>
 						</view>
 					</view>
@@ -502,29 +294,28 @@
 			clearInterval(this.clearMarket);
 		},
 		onReachBottom() {
-			if (this.total > this.orderDate.length && !this.isSendLoading) {
-				this.page++
-				this.getOrderList()
-			}
+
 		},
 		computed: {
-			...mapState('user', ['loginInfo'])
+			...mapState('user', ['loginInfo']),
+			selfFee() {
+				let score = 0
+				score = Number(Number(this.productData.fee) / 100 * Number(this.amountValue))
+				return score.toFixed(2)
+			},
+			aboutNum() {
+				let count = 0
+				if (this.set_times && this.set_times.length > 0) {
+					count = Number(1 + (Number(this.set_times[this.modeActive].odds) / 100)) * Number(this.amountValue)
+				}
+
+				return count.toFixed(2)
+			}
 		},
 		methods: {
 			...mapActions('user', ['userInfo']),
 			...mapActions('trade', ['getProductList', 'productInfo', 'submitOrder', 'orderList', 'productPrice']),
 			...mapActions('common', ['marketList']),
-			changeMode(value) {
-				if (value == 'qiquan') {
-					if (this.activeType == 'handup') {
-						this.activeType = 'hold'
-					}
-				}
-				this.mode = value
-				if (this.loginInfo.hasLogin) {
-					this.getNewOrderList()
-				}
-			},
 			changeModeTrade(type) {
 				this.modeActive = type
 			},
@@ -542,6 +333,7 @@
 				this.multipleValue = '' // 倍数
 				this.amountValue = '' // 数量
 				this.firstAmount = ''
+				this.modeActive = 0
 				this.inputPrice = '' // 开仓价格
 				this.amount = ''
 				this.price = '' // 价格
@@ -558,15 +350,7 @@
 				if (!this.isOpen) {
 					this.page = 1
 				}
-				if (this.loginInfo.hasLogin) {
-					this.getNewOrderList()
-				}
 				this.productPopup = false
-			},
-			handleGet() {
-				if (this.mode == 'qiquan') {
-					this.getNewOrderList()
-				}
 			},
 			getMaketList(type) {
 				this.marketList().then(res => {
@@ -585,7 +369,6 @@
 					code: this.productCode
 				}).then(res => {
 					this.priceInfo = res.data
-					console.log(this.priceInfo)
 				});
 			},
 			getProductShow() {
@@ -598,9 +381,7 @@
 				this.productInfo(params).then(res => {
 					this.productData = res.data;
 					this.line = res.data.line
-					if (this.loginInfo.hasLogin) {
-						this.getNewOrderList()
-					}
+
 				});
 			},
 			getProductInfo(type) {
@@ -618,27 +399,12 @@
 					if (!this.amountValue) {
 						this.amountValue = this.productData.set_amounts[0]
 					}
-					// if (!this.multipleValue) {
-					// 	this.multipleValue = this.productData.lever[0]
-					// }
-					// this.set_qi_amount = this.productData.set_qi_amount[0]
-					// this.period = this.productData.set_qi_time[0].second
 					this.line = res.data.line
-					if (this.loginInfo.hasLogin) {
-						this.getNewOrderList()
-					}
 					if (type == 1) {
 						setTimeout(() => {
 							// this.$refs.line.CreateMinuteChart_app()
 							this.$refs.line.CreateKLineChart()
 						}, 1000)
-					} else {
-						// if(this.$refs.line.KLine.Option.Language=='EN'&&uni.getStorageSync('language') !== 'en-US'){
-						// 	this.$refs.line.CreateKLineChart()
-						// }
-						// if(this.$refs.line.KLine.Option.Language=='CN'&&uni.getStorageSync('language') == 'en-US'){
-						// 	this.$refs.line.CreateKLineChart()
-						// }
 					}
 					if (!this.haveProCode) {
 						this.$refs.line.openRequest()
@@ -652,77 +418,14 @@
 					this.userData = res.data;
 				});
 			},
-			getNewOrderList() {
-				this.page = 1
-				this.getNavTotal()
-
-				this.getOrderList()
-			},
-			getNavTotal() {
-				let paramsHold = {
-					type: 'hold',
-					code: this.isOpen ? '' : this.productCode,
-					status: '',
-					page: this.page,
-					mode: this.mode,
-					limit: 10
-				}
-				this.orderList(paramsHold).then(res => {
-					this.totalHold = res.data.length
-				});
-				let paramsHandup = {
-					type: 'handup',
-					code: this.isOpen ? '' : this.productCode,
-					status: 1,
-					page: this.page,
-					mode: this.mode,
-					limit: 10
-				}
-				this.orderList(paramsHandup).then(res => {
-					this.totalHandup = res.data.total
-				});
-			},
-			getOrderList() {
-				this.isSendLoading = true
-				let params = {
-					type: this.activeType == 'hold' ? this.activeType : 'handup',
-					code: this.isOpen ? '' : this.productCode,
-					status: this.activeType == 'hold' ? "" : this.activeType == 'history' ? 2 : 1,
-					page: this.page,
-					mode: this.mode,
-					limit: 10
-				}
-
-				this.orderList(params).then(res => {
-					console.log(res.data)
-					uni.hideLoading()
-					this.isSendLoading = false
-					if (this.activeType == 'hold') {
-						this.orderDate = res.data;
-						this.totalHold = res.data.length
-					} else {
-						if (this.activeType == 'handup') {
-							this.totalHandup = res.data.total
-						}
-						let records = res.data.data
-						this.total = res.data.total
-						if (this.page == 1) {
-							this.orderDate = records
-							this.isHavePage = true
-						} else {
-							this.orderDate = this.orderDate.concat(records)
-						}
-					}
-				});
-			},
 			handleInputPrice(event) {
 				let value = event.detail.value
 				if (value == '.') {
-					this.inputPrice = '0.'
+					this.amountValue = '0.'
 				} else {
 					let dealNum = this.clearNoNum(value)
 					setTimeout(() => {
-						this.inputPrice = dealNum
+						this.amountValue = dealNum
 					}, 0)
 				}
 			},
@@ -747,24 +450,17 @@
 			saveTrade(type) {
 				if (!this.isSendHttp) {
 					this.isSendHttp = true
-					uni.showLoading({
-
-					})
-
+					uni.showLoading({})
 					let params = {
 						code: this.productCode,
-						amount: this.mode == 'heyue' ? this.amountValue : this.set_qi_amount,
-						price: this.price == 'Market' ? this.price : this.inputPrice,
-						lever: this.multipleValue,
-						rise_fall: type,
-						mode: this.mode
+						amount: this.amountValue,
+						period: this.set_times[this.modeActive].min,
+						rise_fall: type
 					}
 					if (this.mode == 'qiquan') {
 						params.period = this.period
 					}
 					this.submitOrder(params).then(res => {
-						// this.getOrderList()
-						// this.getNavTotal()
 						this.tradePopup = false
 						setTimeout(() => {
 							this.$u.toast(res.message)
@@ -777,50 +473,10 @@
 					return false
 				}
 			},
-			// 选择倍数
-			handelChooseMultiple(index) {
-				this.multipleValue = index;
-			},
 			// 选择买入的数量
 			handelChooseAmount(index) {
 				this.amountValue = index;
 			},
-			// 选择周期
-			handelChoosePeriod(index) {
-				this.period = index;
-			},
-			// 选择买入的数量
-			handelChooseQiAmount(index) {
-				this.set_qi_amount = index;
-			},
-			inputBlurChange(val) {
-				console.log(val)
-				this.handelChooseQiAmount(val.detail.value)
-			},
-			// 切换是否查看全部
-			handleChangeOpen() {
-				this.isOpen = !this.isOpen;
-				this.page = 1
-				this.getNavTotal()
-				this.getOrderList()
-			},
-			// 切换订单类型
-			handleChangeType(type) {
-				this.activeType = type;
-				this.page = 1
-				uni.showLoading({
-
-				})
-				this.getOrderList()
-			},
-			handleChoosePrice(price) {
-				if (this.price == 'Market') {
-					this.price = 'inputPrice'
-				} else {
-					this.price = price
-				}
-
-			}
 		}
 	};
 </script>
@@ -876,12 +532,13 @@
 
 			.price-text {
 				font-size: 24rpx;
-				width: 150rpx;
+				// width: 150rpx;
+				margin-left: 20rpx;
 				text-align: left;
 			}
 
 			.price-after {
-				width: 190rpx
+				width: 200rpx
 			}
 		}
 
@@ -891,10 +548,6 @@
 
 		.mar-t-20 {
 			margin-top: 20rpx;
-		}
-
-		.mar-r-45 {
-			margin-right: 45rpx;
 		}
 	}
 
@@ -939,47 +592,6 @@
 		background-color: #fff !important;
 	}
 
-	.triangle-box {
-		width: 0px;
-		height: 0px;
-		border-style: solid;
-		border-width: 22rpx 31rpx 0px 0px;
-		border-top-color: #5a9bfe;
-		border-right-color: transparent;
-		position: absolute;
-		top: 0;
-		left: 0;
-	}
-
-	.card-item-wrapper {
-		padding: 34upx;
-
-		.card-item {
-			width: 328upx;
-			height: 173upx;
-			background: #1a1a1a;
-			border: 2upx solid;
-			border-radius: 0px 30upx 0px 30upx;
-			padding-left: 36upx;
-			padding-top: 23upx;
-
-			text {
-				font-size: 55upx;
-				font-family: PingFang SC;
-				font-weight: 500;
-				color: #ffffff;
-			}
-
-			view {
-				font-size: 24upx;
-				font-family: PingFang SC;
-				font-weight: 400;
-				color: #9294ab;
-				margin-top: 14upx;
-			}
-		}
-	}
-
 	.title {
 		width: 100%;
 		height: 28upx;
@@ -995,14 +607,9 @@
 			margin-left: 6upx;
 			z-index: 10;
 		}
-
-		.title-bg {
-			margin-top: -30upx;
-		}
 	}
 
 	.lever-wrapper {
-
 		box-sizing: border-box;
 		padding: 27upx 0upx 0rpx 26rpx;
 		display: flex;
@@ -1118,350 +725,20 @@
 			width: 320upx;
 			height: 96upx;
 			background: #00B809;
-			border-radius: 14upx;
+			border-radius: 48upx;
 			text-align: center;
 			line-height: 96upx;
 			color: #FFFFFF;
-
 		}
 
 		.down-btn {
 			width: 320upx;
 			height: 96upx;
 			background: #E91B00;
-			border-radius: 14upx;
+			border-radius: 48upx;
 			text-align: center;
 			line-height: 96upx;
 			color: #FFFFFF;
-		}
-	}
-
-	.tabs-switch-wrapper {
-		width: 100%;
-		box-sizing: border-box;
-		background: #1a1b28;
-		height: 94rpx;
-		padding: 0 34rpx 0 60rpx;
-		margin-bottom: 34rpx;
-		margin-top: 30rpx;
-
-		.tabs-left-box {
-			height: 94rpx;
-			display: flex;
-			align-items: center;
-
-			.tab-item {
-				width: 104upx;
-				height: 94rpx;
-				line-height: 94rpx;
-				position: relative;
-
-				.text-line-box {
-					width: 100%;
-					height: 6rpx;
-					margin-top: -6rpx;
-					text-align: center;
-					position: absolute;
-
-					.text-line {
-						width: 36rpx;
-						height: 6rpx;
-						position: absolute;
-						margin-left: -18rpx;
-					}
-				}
-
-				.item-color {
-					font-size: 26rpx;
-					font-family: PingFang SC;
-					font-weight: 400;
-					color: #ffffff;
-					line-height: 94rpx;
-					opacity: 0.6;
-				}
-
-				.active-color {
-					font-size: 30rpx;
-					font-family: PingFang SC;
-					font-weight: 500;
-					color: #ffffff;
-					line-height: 94rpx;
-					opacity: 1;
-				}
-			}
-
-			.mar-right-57 {
-				margin-right: 57rpx;
-			}
-		}
-
-		.right-text-box {
-			height: 100%;
-
-			.right-text {
-				font-size: 26rpx;
-				color: #ffffff;
-				line-height: 30rpx;
-				opacity: 0.6;
-				margin-right: 14rpx;
-			}
-
-			.right-open {
-				width: 77rpx;
-				height: 47rpx;
-			}
-		}
-	}
-
-	.item-card-box {
-		width: 694rpx;
-		margin: auto;
-		background: #1a1b28;
-		margin-bottom: 39rpx;
-		position: relative;
-
-		.card-head {
-			height: 100rpx;
-			box-sizing: border-box;
-			padding: 0 30rpx;
-			border-bottom: 1rpx solid #484e65;
-			font-size: 30rpx;
-			font-family: PingFang SC;
-			font-weight: 500;
-			color: #ffffff;
-			line-height: 49rpx;
-			display: flex;
-			align-items: center;
-		}
-
-		.card-content-box {
-			width: 100%;
-			box-sizing: border-box;
-			border-bottom: 1rpx solid #484e65;
-			padding-bottom: 10rpx;
-
-			.content-item {
-				width: 100%;
-				box-sizing: border-box;
-				padding: 29rpx 0;
-
-				.content-text-box {
-					width: 33.3%;
-					text-align: center;
-
-					.label {
-						height: 23rpx;
-						font-size: 24rpx;
-						font-family: PingFang SC;
-						font-weight: 500;
-						color: #8fa9d3;
-						line-height: 23rpx;
-					}
-
-					.amount {
-						height: 30rpx;
-						font-size: 30rpx;
-						font-family: PingFang SC;
-						font-weight: 500;
-						color: #ffffff;
-						line-height: 30rpx;
-						margin-top: 21rpx;
-					}
-				}
-			}
-		}
-
-		.card-footer {
-			width: 100%;
-			box-sizing: border-box;
-			padding: 19rpx 18rpx 19rpx 31rpx;
-
-			.footer-item {
-				padding: 19rpx 0;
-
-				.left-text {
-					font-size: 24rpx;
-					font-family: PingFang SC;
-					font-weight: 500;
-					color: #8fa9d3;
-				}
-
-				.right-text {
-					font-size: 30rpx;
-					font-family: PingFang SC;
-					font-weight: 500;
-					color: #ffffff;
-				}
-			}
-		}
-	}
-
-	.history-card-box {
-		width: 694rpx;
-		margin: auto;
-		background: #1a1b28;
-		margin-bottom: 39rpx;
-		position: relative;
-
-		.history-head {
-			box-sizing: border-box;
-			padding: 27rpx 18rpx 32rpx 30rpx;
-			font-size: 30rpx;
-			font-family: PingFang SC;
-			font-weight: 500;
-			color: #ffffff;
-
-			.title {
-				font-size: 30rpx;
-				font-family: PingFang SC;
-				font-weight: 500;
-				color: #ffffff;
-			}
-
-			.rate {
-				font-size: 22rpx;
-				font-family: PingFang SC;
-				font-weight: 400;
-				color: #10ff16;
-				margin-top: 21rpx;
-				text-align: right;
-			}
-
-			.num {
-				font-size: 30rpx;
-				text-align: right;
-				font-family: PingFang SC;
-				font-weight: 500;
-			}
-		}
-
-		.history-content-box {
-			width: 100%;
-			box-sizing: border-box;
-			border-bottom: 1rpx solid #484e65;
-			padding-bottom: 40rpx;
-
-			.content-item {
-				width: 100%;
-				box-sizing: border-box;
-
-				.content-text-box {
-					width: 33.3%;
-					text-align: center;
-
-					.label {
-						height: 23rpx;
-						font-size: 24rpx;
-						font-family: PingFang SC;
-						font-weight: 500;
-						color: #8fa9d3;
-						line-height: 23rpx;
-					}
-
-					.amount {
-						height: 30rpx;
-						font-size: 30rpx;
-						font-family: PingFang SC;
-						font-weight: 500;
-						color: #ffffff;
-						line-height: 30rpx;
-						margin-top: 21rpx;
-					}
-				}
-			}
-		}
-
-		.card-info {
-			width: 100%;
-			box-sizing: border-box;
-			border-bottom: 1rpx solid #484e65;
-			padding: 12rpx 18rpx 16rpx 31rpx;
-
-			.info-item {
-				padding: 19rpx 0;
-
-				.left-text {
-					font-size: 24rpx;
-					font-family: PingFang SC;
-					font-weight: 500;
-					color: #8fa9d3;
-				}
-
-				.right-text {
-					font-size: 30rpx;
-					font-family: PingFang SC;
-					font-weight: 500;
-					color: #ffffff;
-				}
-			}
-		}
-
-		.card-handle-wrapper {
-			padding: 27rpx 27rpx 41rpx 27rpx;
-
-			.form-item-box {
-				width: 639rpx;
-				height: 80rpx;
-				background: #333333;
-				margin: auto;
-				box-sizing: border-box;
-				padding: 0 33rpx 0 23rpx;
-
-				.login-input {
-					flex: 1;
-					font-size: 24rpx;
-					font-weight: 500;
-					color: #ffffff;
-				}
-
-				.dart-input {
-					font-size: 24rpx;
-					font-weight: 500;
-					color: #77798f;
-				}
-
-				.left-width {
-					width: 550rpx;
-				}
-
-				.arrow-image {
-					width: 22rpx;
-					height: 13rpx;
-				}
-			}
-
-			.mar-t-22 {
-				margin-top: 22rpx;
-			}
-
-			.handle-flex {
-				margin-top: 37rpx;
-
-				.handle-green {
-					width: 211rpx;
-					height: 80rpx;
-					background: #23b57d;
-					font-size: 28rpx;
-					font-family: PingFang SC;
-					font-weight: 500;
-					color: #1a1b28;
-					text-align: center;
-					line-height: 80rpx;
-				}
-
-				.handle-red {
-					width: 211rpx;
-					height: 80rpx;
-					background: #d83a53;
-					font-size: 28rpx;
-					font-family: PingFang SC;
-					font-weight: 500;
-					color: #1a1b28;
-					text-align: center;
-					line-height: 80rpx;
-					margin-left: 36rpx;
-				}
-			}
 		}
 	}
 
@@ -1524,15 +801,12 @@
 					}
 
 					.mode-minute {
-
 						font-weight: 400;
 						color: #666666;
 						margin-left: 12rpx;
 					}
 				}
 			}
-
-
 
 			.mode-active {
 				color: #0072FF;
@@ -1544,7 +818,6 @@
 				box-sizing: border-box;
 				padding: 0 24rpx;
 				height: 88rpx;
-
 
 				.label {
 					font-size: 32rpx;

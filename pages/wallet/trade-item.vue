@@ -3,27 +3,27 @@
 		<view class="record-top-rise">
 			<image class="rise-img" src="../../static/images/trade/top-item.png" mode=""></image>
 			<view class="rise-text">
-				{{ i18n.trade.rise }}
+				{{infoItem.rise_fall==1?i18n.trade.rise:i18n.trade.down}}
 			</view>
 		</view>
 		<view v-if="mode=='hold'" class="hold-item-time flex_center_box">
 			<view class="time-box">
-				10
+				{{first}}
 			</view>
 			<view class="time-middle">
 				:
 			</view>
 			<view class="time-box">
-				30
+				{{second}}
 			</view>
 		</view>
-		<view v-if="mode=='history'&&infoItem.type=='fail'" class="history-result history-result-fail">
+		<view v-if="mode=='history'&&Number(infoItem.profit)<0" class="history-result history-result-fail">
 			<image class="fail-icon" src="../../static/images/trade/lose.png" mode=""></image>
 			<view class="fail-text">
 				YOU LOST
 			</view>
 		</view>
-		<view v-if="mode=='history'&&infoItem.type=='success'" class="history-result history-result-success">
+		<view v-if="mode=='history'&&Number(infoItem.profit)>=0" class="history-result history-result-success">
 			<view class="success-box">
 				<image class="success-img" src="../../static/images/trade/won.png" mode=""></image>
 				<view class="success-content">
@@ -31,11 +31,11 @@
 						YOU WON!
 					</view>
 					<view class="success-amount">
-						$232.00
+						${{infoItem.profit}}
 					</view>
 				</view>
 			</view>
-			<view class="look-amount">
+			<view class="look-amount" @click="handleBalance">
 				{{i18n.trade.viewBalance}}
 			</view>
 		</view>
@@ -45,7 +45,7 @@
 					{{i18n.trade.type}}
 				</view>
 				<view class="trade-value">
-					BTC/USDT-2mins
+					{{infoItem.product_name}}/USDT-{{infoItem.period}}{{i18n.trade.minute}}
 				</view>
 			</view>
 			<view class="trade-desc flex_between_box">
@@ -53,7 +53,7 @@
 					{{i18n.trade.direction}}
 				</view>
 				<view class="trade-value">
-					买涨
+					<view v-html="infoItem.rise_fall_label"></view>
 				</view>
 			</view>
 			<view class="trade-desc flex_between_box">
@@ -61,7 +61,7 @@
 					{{i18n.trade.InvestmentAmount}}
 				</view>
 				<view class="trade-value">
-					$100.00
+					${{infoItem.buy_amount}}
 				</view>
 			</view>
 			<view class="trade-desc flex_between_box">
@@ -69,7 +69,7 @@
 					{{i18n.trade.ExpectedReturn}}
 				</view>
 				<view class="trade-value">
-					$100.00
+					${{infoItem.expect_profit}}
 				</view>
 			</view>
 			<view class="trade-desc flex_between_box">
@@ -77,7 +77,7 @@
 					{{i18n.trade.ServiceCharge}}
 				</view>
 				<view class="trade-value">
-					$100.00
+					${{infoItem.fee}}
 				</view>
 			</view>
 			<view class="trade-desc flex_between_box">
@@ -85,7 +85,7 @@
 					{{i18n.trade.BillingPrice}}
 				</view>
 				<view class="trade-value">
-					$100.00
+					${{infoItem.buy_price}}
 				</view>
 			</view>
 			<view class="trade-desc flex_between_box">
@@ -93,17 +93,17 @@
 					{{i18n.trade.SettlementPrice}}
 				</view>
 				<view class="trade-value">
-					$100.00
+					${{infoItem.sell_price}}
 				</view>
 			</view>
 		</view>
 		<view v-if="mode=='hold'" class="hold-rise-box">
 			<view class="hold-up-item">
-				<view class="hold-up-bg hold-up">
-					
+				<view class="hold-up-bg " :class="[infoItem.rise_fall==1?'hold-up':'hold-down']">
+
 				</view>
-				<view class="hold-up-amount hold-up">
-					$1232.33
+				<view class="hold-up-amount" :class="[infoItem.rise_fall==1?'hold-up':'hold-down']">
+					${{infoItem.current_price}}
 				</view>
 			</view>
 		</view>
@@ -126,20 +126,28 @@
 			} // 数据
 		},
 		mixins: [commonMixin],
-		data(){
-			return{
+		data() {
+			return {
 				seconds: '',
-				clear: null
+				clear: null,
+				first: '',
+				second: ''
+
 			}
 		},
 		created() {
 			setTimeout(() => {
-				if (this.infoItem.mode == 'qiquan') {
+				if (this.mode == 'hold') {
 					this.clear = setInterval(this.countTime, 1 * 1000)
 				}
 			}, 300)
 		},
-		methods:{
+		methods: {
+			handleBalance(){
+				uni.switchTab({
+					url:'/pages/me/me'
+				})
+			},
 			countTime() {
 				//获取当前时间  
 				//时间差  
@@ -155,14 +163,16 @@
 					let first = hour > 9 ? hour : `0${hour}`
 					let second = m > 9 ? m : `0${m}`
 					let third = s > 9 ? s : `0${s}`
-					this.seconds = first + ':' +
-						second + ':' + third
+					// this.seconds = first + ':' +
+					// 	second + ':' + third
+					this.first = second
+					this.second = third
 				} else {
 					this.$emit('handleGet')
 					clearInterval(this.clear);
 				}
 				// console.log(d, h, m, s)
-			
+
 				//递归每秒调用countTime方法，显示动态时间效果  
 				if (leftTime > 0) {
 					this.infoItem.remain_seconds--
@@ -209,10 +219,12 @@
 				color: #FFFFFF;
 			}
 		}
-		.hold-item-time{
+
+		.hold-item-time {
 			border-bottom: 1px solid #EAEAEA;
 			padding: 58rpx 0 46rpx 0;
-			.time-box{
+
+			.time-box {
 				width: 84rpx;
 				height: 84rpx;
 				background: #F2F2F2;
@@ -224,7 +236,8 @@
 				font-weight: 500;
 				color: #212121;
 			}
-			.time-middle{
+
+			.time-middle {
 				width: 120rpx;
 				height: 84rpx;
 				text-align: center;
@@ -349,41 +362,47 @@
 				}
 			}
 		}
-		.hold-rise-box{
+
+		.hold-rise-box {
 			width: 100%;
 			padding: 18rpx 0;
-			.hold-up-item{
+
+			.hold-up-item {
 				width: 616rpx;
 				height: 60rpx;
 				margin: auto;
 				position: relative;
 				display: flex;
 				align-items: center;
-				.hold-up-bg{
+
+				.hold-up-bg {
 					width: 616rpx;
 					position: absolute;
 					z-index: 10;
-					
+
 					height: 10rpx;
 					top: 25rpx;
 				}
-				.hold-up{
+
+				.hold-up {
 					background-color: #00B809;
 				}
-				.hold-down{
+
+				.hold-down {
 					background-color: #FF2F2F;
 				}
-				.hold-up-amount{
+
+				.hold-up-amount {
 					position: relative;
 					margin: auto;
 					z-index: 11;
-					padding: 0 ;
+					padding: 0;
 					height: 60rpx;
 					font-size: 28rpx;
 					font-family: PingFang SC;
 					font-weight: 500;
 					color: #FFFFFF;
-					
+
 					border-radius: 30rpx;
 					padding: 0 30rpx;
 					line-height: 60rpx;
