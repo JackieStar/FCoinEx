@@ -6,11 +6,20 @@
 				:barStyle="{'background-color':'#0072FF'}" inactive-color="#666666" />
 		</view>
 		<view v-show="headcurrent==0" class="trade-record-page">
-			<trade-item mode="hold" v-for="(item,index) in holdList" :key="index" :infoItem="item"></trade-item>
+			<trade-item mode="hold" v-for="(item,index) in holdList" :key="index" :infoItem="item" @handleGet="handleGet"></trade-item>
+			<empty v-if="holdList.length==0"></empty>
+			<view  v-if="holdList.length==0" class="trade-btn" @click="goTrade">
+				{{i18n.lottery.tip3}}
+			</view>
 		</view>
 		<view v-show="headcurrent==1" class="trade-record-page">
 			<trade-item mode="history" v-for="(item,index) in historyList" :key="index" :infoItem="item"></trade-item>
+			<empty v-if="historyList.length==0"></empty>
+			<view  v-if="historyList.length==0" class="trade-btn" @click="goTrade">
+				{{i18n.lottery.tip3}}
+			</view>
 		</view>
+		
 	</view>
 </template>
 
@@ -26,22 +35,20 @@
 		commonMixin
 	} from '@/common/mixin/mixin.js';
 	import TradeItem from './trade-item.vue'
+	import empty from '@/components/empty.vue'
 	export default {
 		components: {
 			uniIcons,
-			TradeItem
+			TradeItem,
+			empty
 		},
 		mixins: [commonMixin],
 		data() {
 			return {
 				headcurrent: 0,
 				headlist: [],
-				holdList: [{}],
-				historyList: [{
-					type: 'success'
-				}, {
-					type: 'fail'
-				}],
+				holdList: [],
+				historyList: [],
 				page: 1,
 				orderDate: [],
 				isHavePage: true,
@@ -50,7 +57,7 @@
 		},
 		onShow() {
 			uni.setNavigationBarTitle({
-				title: this.i18n.wallet.title
+				title: this.i18n.tabBar.record
 			});
 			this.headlist = [{
 				name: this.i18n.trade.nowhold,
@@ -67,45 +74,60 @@
 			// 		url: '/pages/public/login'
 			// 	})
 			// }
+			this.page= 1
+			this.getOrderList()
 		},
+		onLoad() {
+			
+		},
+		
 		computed: {
 			...mapState('user', ['loginInfo'])
 		},
 		methods: {
 			...mapActions('user', ['userInfo']),
-			...mapActions('wallet', ['getAccountLogs']),
+			...mapActions('trade', ['orderList']),
 			changeHead(val) {
+				this.page=1
 				this.headcurrent = val
+				this.getOrderList()
+			},
+			handleGet(){
+				this.page = 1
+				setTimeout(()=>{
+					this.getOrderList()
+				},500)
+				
+			},
+			goTrade(){
+				uni.switchTab({
+					url:'/pages/trade/trade'
+				})
 			},
 			getOrderList() {
 				this.isSendLoading = true
 				let params = {
-					type: this.activeType == 'hold' ? this.activeType : 'handup',
+					type: this.headcurrent == 0 ? 'hold' : 'history',
 					code: '',
-					status: this.activeType == 'hold' ? "" : this.activeType == 'history' ? 2 : 1,
 					page: this.page,
-					mode: 'heyue',
-					limit: 10
 				}
 
 				this.orderList(params).then(res => {
 					console.log(res.data)
 					uni.hideLoading()
 					this.isSendLoading = false
-					if (this.activeType == 'hold') {
-						this.orderDate = res.data;
-						this.totalHold = res.data.length
+					if (this.headcurrent == 0) {
+						this.holdList = res.data;
+						// this.totalHold = res.data.length
 					} else {
-						if (this.activeType == 'handup') {
-							this.totalHandup = res.data.total
-						}
+						
 						let records = res.data.data
 						this.total = res.data.total
 						if (this.page == 1) {
-							this.orderDate = records
+							this.historyList = records
 							this.isHavePage = true
 						} else {
-							this.orderDate = this.orderDate.concat(records)
+							this.historyList = this.historyList.concat(records)
 						}
 					}
 				});
@@ -136,10 +158,10 @@
 			},
 			onReachBottom() {
 				console.log('3333', this.isSendLoading);
-				// if (!this.isSendLoading) {
-				// 	this.page++;
-				// 	this.loadData();
-				// }
+				if (this.total > this.historyList.length && !this.isSendLoading) {
+					this.page++
+					this.getOrderList()
+				}
 			}
 		}
 	};
@@ -159,7 +181,22 @@
 
 		.trade-record-page {
 			// padding-top: 162rpx;
-			padding: 54rpx 26rpx 0 26rpx;
+			padding: 54rpx 26rpx 64rpx 26rpx;
+			.trade-btn{
+				width: 328rpx;
+				height: 76rpx;
+				background: #0079FF;
+				border-radius: 38rpx;
+				line-height: 76rpx;
+				font-size: 26rpx;
+				font-family: PingFang SC;
+				font-weight: 500;
+				text-align: center;
+				color: #FFFFFF;
+				text-align: center;
+				margin: auto;
+				margin-top: 100rpx;
+			}
 
 		}
 	}

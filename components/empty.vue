@@ -19,7 +19,7 @@
 		data() {
 			return {
 				typeSrc: {
-					empty: "/static/empty.jpg"
+					empty: "/static/images/public/empty.png"
 				},
 			}
 		},
@@ -38,16 +38,19 @@
 		align-items: center;
 		justify-content: center;
 		flex-direction: column;
-		background: #ffffff;
+		// background: #ffffff;
 		padding-top: 240upx;
 
 		&-image {
-			width: 200upx;
-			height: 200upx;
+			width: 543upx;
+			height: 481upx;
 		}
 		.label{
 			font-size: $font-base;
-			color: $font-color-light;
+			// color: $font-color-light;
+			color: #333333;
+			font-weight: 500;
+			margin-top: 25rpx;
 		}
 	}
 </style>
