@@ -128,18 +128,6 @@ module.exports = {
 			uid: '邀请UID',
 			inviter: '邀请人'
 		},
-		index: {
-			title: '市场',
-			prediction: {
-				title1: '充值',
-				title2: '提现'
-			},
-			market: {
-				title1: '币种/成交量',
-				title2: '市场价',
-				title3: '涨跌'
-			}
-		},
 		common: {
 			getCode: '获取验证码',
 			seconds: 'xS',
@@ -284,19 +272,20 @@ module.exports = {
 			copyBtn: '复制地址',
 			amount: '充值金额',
 			placeholder: '请输入充值金额',
-			submitBtn: '我已转账',
+			submitBtn: '申请充值',
 			saveCode: '保存二维码',
 			saveSuccess: '二维码保存成功',
-			rechargeList: '充值记录',
-			submit: '立即充值'
+			bottomSubmit: 'Buy Tether(USDT)',
+			network: '充值网络',
+			getAmount: '预计到账金额'
 		},
 		submitRecharge: {
-			title: '充值凭证',
+			title: '充值凭证提交',
 			rechargeImg: '转账截图',
 			exImg: '示列图片',
 			uploadFail: '上传失败',
 			uploadSuccess: '上传成功',
-			address: '地址',
+			address: '转账地址',
 			copyBtn: '粘贴',
 			submitBtn: '确认充值',
 			rechargeSuccess: '充值成功',

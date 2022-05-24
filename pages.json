@@ -32,13 +32,6 @@
 			}
 		},
 		{
-			"path": "pages/wallet/wallet",
-			"style": {
-				"navigationBarTextStyle": "black",
-				"navigationBarBackgroundColor": "#ffffff"
-			}
-		},
-		{
 			"path": "pages/me/me",
 			"style": {
 				"navigationStyle": "custom"
@@ -46,6 +39,34 @@
 		},
 		{
 			"path": "pages/me/userInfo",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#ffffff",
+				"navigationBarTitleText": ""
+			}
+		},
+		{
+			"path": "pages/me/recharge",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/me/submitRecharge",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#ffffff",
+				"navigationBarTitleText": ""
+			}
+		}, 
+		{
+			"path": "pages/me/withdraw",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/me/account",
 			"style": {
 				"navigationBarTextStyle": "black",
 				"navigationBarBackgroundColor": "#ffffff",
@@ -76,6 +97,13 @@
 			}
 		},
 		{
+			"path": "pages/wallet/wallet",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#ffffff"
+			}
+		},
+		{
 			"path": "pages/wallet/recharge",
 			"style": {
 				"navigationBarTextStyle": "white",
@@ -99,14 +127,7 @@
 				"navigationBarTitleText": ""
 			}
 		}, 
-		{
-			"path": "pages/wallet/submitRecharge",
-			"style": {
-				"navigationBarTextStyle": "white",
-				"navigationBarBackgroundColor": "#070219",
-				"navigationBarTitleText": ""
-			}
-		}, 
+		
 		{
 			"path": "pages/wallet/withdraw",
 			"style": {

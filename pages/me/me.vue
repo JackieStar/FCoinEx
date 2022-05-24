@@ -24,11 +24,11 @@
 			</view>
 			<!-- 快速入口 -->
 			<view class="fast-wrapper">
-				<view class="fast-item">
+				<view class="fast-item" @click="openPage('recharge')">
 					<view class="fast-item-title">{{i18n.me.recharge}}</view>
 					<u-image class="fast-item-img" src="../../static/images/me/recharge.png" width="50rpx" height="48rpx" />
 				</view>
-				<view class="fast-item">
+				<view class="fast-item" @click="openPage('withdraw')">
 					<view class="fast-item-title">{{i18n.me.withdraw}}</view>
 					<u-image class="fast-item-img" src="../../static/images/me/withdraw.png" width="45rpx" height="47rpx" />
 				</view>
@@ -233,6 +233,28 @@ export default {
 				if (this.loginInfo.hasLogin) {
 					uni.navigateTo({
 						url: '/pages/me/kf'
+					});
+				} else {
+					uni.navigateTo({
+						url: '/pages/public/login'
+					});
+				}
+			}
+			if (type === 'recharge') {
+				if (this.loginInfo.hasLogin) {
+					uni.navigateTo({
+						url: '/pages/me/recharge'
+					});
+				} else {
+					uni.navigateTo({
+						url: '/pages/public/login'
+					});
+				}
+			}
+			if (type === 'withdraw') {
+				if (this.loginInfo.hasLogin) {
+					uni.navigateTo({
+						url: '/pages/me/withdraw'
 					});
 				} else {
 					uni.navigateTo({

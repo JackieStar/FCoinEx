@@ -1,6 +1,6 @@
 <template>
 	<view class="tips-container">
-		<image class="tips-icon" src="../../static/images/public/tips-icon.png" />
+		<image class="tips-icon" src="../../static/images/me/tips_icon.png" />
 		<text>{{text}}</text>
 	</view>
 </template>
@@ -33,7 +33,7 @@
 			font-size: 26upx;
 			font-family: PingFang SC;
 			font-weight: 400;
-			color: #FFFFFF;
+			color: #666666;
 		}
 	}
 </style>

@@ -24,7 +24,7 @@
 		</view>
 		<!-- 跳转模块 -->
 		<view class="open-wrapper">
-			<view class="right-item" @click="navTo('/pages/wallte/recharge')">
+			<view class="right-item" @click="openPage('recharge')">
 				<view class="right-item-title">{{i18n.home.fastRecharge}}</view>
 				<view class="right-item-tip">{{i18n.home.fastTips}}</view>
 				<view class="icon-wrapper">
@@ -250,6 +250,17 @@ export default {
 				if (this.loginInfo.hasLogin) {
 					uni.navigateTo({
 						url: '/pages/me/kf'
+					});
+				} else {
+					uni.navigateTo({
+						url: '/pages/public/login'
+					});
+				}
+			}
+			if (type === 'recharge') {
+				if (this.loginInfo.hasLogin) {
+					uni.navigateTo({
+						url: '/pages/me/recharge'
 					});
 				} else {
 					uni.navigateTo({
