@@ -17,9 +17,9 @@ const lottery = {
 	actions: {
 		lotteryConfig({
 			commit
-		}) {
+		},data) {
 			return new Promise((resolve, reject) => {
-				lotteryConfig().then(res => {
+				lotteryConfig(data).then(res => {
 					resolve(res)
 				}).catch(error => {
 					reject(error)
@@ -28,9 +28,9 @@ const lottery = {
 		},
 		lotteryDraw({
 			commit
-		}) {
+		},data) {
 			return new Promise((resolve, reject) => {
-				lotteryDraw().then(res => {
+				lotteryDraw(data).then(res => {
 					resolve(res)
 				}).catch(error => {
 					reject(error)

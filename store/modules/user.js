@@ -17,7 +17,10 @@ import {
 	invitRewardList,
 	appConfig,
 	authInfo,
-	authSave
+	authSave,
+	addReceiver,
+	getReceiver,
+	deleteReceiver
 } from '@/api/user'
 
 const user = {
@@ -218,6 +221,39 @@ const user = {
 		}, data) {
 			return new Promise((resolve, reject) => {
 				authSave(data).then(res => {
+					resolve(res)
+				}).catch(error => {
+					reject(error)
+				})
+			})
+		},
+		addReceiver({
+			commit
+		}, data) {
+			return new Promise((resolve, reject) => {
+				addReceiver(data).then(res => {
+					resolve(res)
+				}).catch(error => {
+					reject(error)
+				})
+			})
+		},
+		getReceiver({
+			commit
+		}) {
+			return new Promise((resolve, reject) => {
+				getReceiver().then(res => {
+					resolve(res)
+				}).catch(error => {
+					reject(error)
+				})
+			})
+		},
+		deleteReceiver({
+			commit
+		},data) {
+			return new Promise((resolve, reject) => {
+				deleteReceiver(data).then(res => {
 					resolve(res)
 				}).catch(error => {
 					reject(error)

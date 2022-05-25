@@ -48,7 +48,7 @@ module.exports = {
 		},
 		redPacket: {
 			title: '幸运红包',
-			chooseOne: 'Choose One',
+			chooseOne: 'Choose',
 			fail: '很遗憾',
 			failTips: '再接再厉·明日再来',
 			btn: '点击赢取更多奖励',

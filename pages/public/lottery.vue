@@ -45,29 +45,29 @@ export default {
 	methods: {
 		...mapActions('lottery', ['lotteryConfig', 'lotteryDraw']),
 		getConfig() {
-			this.lotteryConfig().then(res => {
-				this.list = res.data.lotteries;
-				this.drawCount = res.data.count;
+			this.lotteryConfig({type: 'lucky_pannel'}).then(res => {
+				this.list = res.data.config.lucky_pannel;
+				this.drawCount = res.data.chance;
 			});
 		},
 		gridStart(callback) {
 			if(this.drawCount === 0) {
 				return this.$api.msg(this.i18n.lottery.noCount);
 			}
-				this.lotteryDraw().then(res => {
-					this.lottery_draw_param.winingIndex = res.data.lottery.lotterIndex;
+				this.lotteryDraw({type: 'lucky_pannel'}).then(res => {
+					this.lottery_draw_param.winingIndex = res.data.lotterIndex;
 					//props修改在小程序和APP端不成功，所以在这里使用回调函数传参，
 					callback(this.lottery_draw_param);
 					setTimeout(() => {
-						this.$api.msg(res.data.lottery.tips);
-						this.drawTips = res.data.lottery.tips;
-						this.drawCount = this.drawCount - 1;
+						this.$api.msg(res.data.tips);
+						this.drawTips = res.data.tips;
+						this.drawCount = res.data.chance;
 					}, 3000);
 				});
 		},
 		openPage() {
 			uni.switchTab({
-				url: '/pages/index/index'
+				url: '/pages/home/home'
 			});
 		}
 	}

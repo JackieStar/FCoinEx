@@ -3,22 +3,50 @@
 		<u-navbar :title="i18n.withdraw.title">
 			<view class="slot-wrap"><view class="nav-btn" @click="openPage('list')"></view></view>
 		</u-navbar>
-		<view class="coin-wrapper" @click="openPage('add')">
+		<view class="coin-wrapper" v-if="accountInfo" @click="openPage('add')">
+			<u-image style="flex-shrink: 0;" :src="accountInfo.icon" width="76rpx" height="76rpx" />
+			<view class="account-info">
+				<view class="account-txt">
+					<view style="flex-shrink: 0;">地址：</view>
+					<text class="account-addr">{{accountInfo.wallet_addr}}</text></view>
+				<view class="account-txt">网络：<text style="color:#666666">{{accountInfo.coin_type}}</text></view>
+				<view class="account-txt">
+					<view style="flex-shrink: 0;">备注：</view>
+					<text class="remark">{{accountInfo.remark || '无'}}</text></view>
+			</view>
+			<u-icon name="arrow-right" color="#333" size="24" />
+		</view>
+		<view class="coin-wrapper" v-if="!accountInfo" @click="openPage('add')">
 			<view class="no-account">您还未添加收款账号, <text style="color:#0072FF">去添加</text></view>
 			<u-icon name="arrow-right" color="#333" size="24" />
 		</view>
 		
 		<view class="money-wrapper">
-			<view class="money-title"></view>
-			<view style="color: #FF2929">wsdasd</view>
+			<view class="money-item">
+				<view class="money-title">{{ i18n.withdraw.balance }}</view>
+				<view style="color: #FF2929">${{userData.balance}}</view>
+			</view>
+			<view class="money-item">
+				<view class="money-title">提现金额</view>
+				<view class="money-input-wrapper">
+					<input type="number" @input="inputChange" v-model="amount" placeholder-style="color: #9F9F9F; font-size: 24rpx" placeholder="请输入" class="input-money">
+					<view style="color: #0072FF" @click="handleAll">全部</view>
+				</view>
+			</view>
+			<view class="money-item">
+				<view class="money-title">最小提现金额</view>
+				<view style="color: #666666">${{withdrawInfo.withdraw_min_amount}}</view>
+			</view>
+			<view class="money-item">
+				<view class="money-title">{{ i18n.withdraw.fee }}</view>
+				<view style="color: #666666">${{withdraw_fee || withdrawInfo.withdraw_min_fee}}</view>
+			</view>
+			
 		</view>
-		
-		<view class="tips-wrapper">
-			<text>{{ i18n.withdraw.balance }}：{{ userData.balance }}</text>
-			<text style="color:#fff">{{ i18n.withdraw.fee }}：{{ withdraw_fee || withdrawInfo.withdraw_min_fee }}</text>
+		<view class="btn-wrapper">
+			<view class="confirm-btn" @click="openModal">{{ i18n.withdraw.btn }}</view>
+			<view class="tips">提现手续费由用户自行承担</view>
 		</view>
-		<view><c-tips v-for="(item, index) in withdrawInfo.tips" :text="item" :key="index" /></view>
-		<view class="confirm-btn" @click="openModal">{{ i18n.withdraw.btn }}</view>
 		<u-popup v-model="showModal" mode="bottom" class="password-modal" :border-radius="20" height="565upx">
 			<view class="title" style="margin-top: 40upx;">
 				<text>{{ i18n.withdraw.safe }}</text>
@@ -88,6 +116,7 @@ export default {
 	data() {
 		this.inputChange = debounce(this.inputChange, 800);
 		return {
+			accountInfo: {},
 			withdrawInfo: {},
 			userData: {},
 			coin_type: null, // 网络
@@ -117,9 +146,12 @@ export default {
 		...mapActions('user', ['userInfo']),
 		//请求数据
 		async loadData() {
+			let accountInfo = uni.getStorageSync('accountInfo')
+			this.accountInfo = accountInfo
 			this.getFinaceInfo({ config: 'withdraw' }).then(res => {
 				this.withdrawInfo = res.data;
 			});
+			
 		},
 		// 获取用户信息
 		getUserInfo() {
@@ -236,7 +268,7 @@ export default {
 		height: 194rpx;
 		background: #FFFFFF;
 		border-radius: 10rpx;
-		margin: 20rpx auto;
+		margin: 60rpx auto 20rpx auto;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
@@ -248,41 +280,99 @@ export default {
 			color: #212121;
 		}
 	}
+	.account-info {
+		width: 480rpx;
+		margin-left: 42rpx;
+		display: flex;
+		flex-direction: column;
+		.account-txt {
+			font-size: 26rpx;
+			font-family: PingFang SC;
+			font-weight: 500;
+			color: #212121;
+			display: flex;
+			flex-shrink: 0;
+			margin-top: 10rpx;
+		}
+		.account-addr {
+			width: 400rpx;
+			color: #666666;
+			white-space:nowrap;
+			overflow:hidden;
+			text-overflow:ellipsis;
+		}
+		.remark {
+			width: 300rpx;
+			color: #666666;
+			white-space:nowrap;
+			overflow:hidden;
+			text-overflow:ellipsis;
+		}
+	}
 	.money-wrapper {
 		width: 697rpx;
-		height: 421rpx;
+		height: 439rpx;
 		background: #FFFFFF;
 		border-radius: 10rpx;
 		margin: 20rpx auto;
 		.money-item {
 			width: 100%;
 			height: 110rpx;
+			padding: 0 34rpx;
+			box-sizing: border-box;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
 			border-bottom: 1rpx solid #E3E3E3;
 			.money-title {
 				font-size: 28rpx;
 				font-family: PingFang SC;
 				font-weight: 500;
 				color: #212121;
-				margin-left: 35rpx;
+			}
+			.money-input-wrapper {
+				display: flex;
+				align-items: center;
+			}
+			.input-money {
+				width: 236rpx;
+				height: 62rpx;
+				background: #F5F5F5;
+				border: 1rpx solid #D8D8D8;
+				border-radius: 6rpx;
+				padding: 0 20rpx;
+				margin-right: 20rpx;
 			}
 		}
 	}
-	
-	
-	
-	.confirm-btn {
-		width: 610upx;
-		height: 76upx;
-		line-height: 76upx;
-		margin: 50upx auto;
-		// background: url(../../static/images/public/login-btn.png);
-		background-size: 100% 100%;
-		color: #fff;
+	.btn-wrapper {
+		width: 100%;
+		position: absolute;
+		bottom: 60rpx;
 		display: flex;
+		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		font-size: 26upx;
+		.confirm-btn {
+			width: 590rpx;
+			height: 76rpx;
+			background: #0079FF;
+			border-radius: 38rpx;
+			color: #fff;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 26upx;
+		}
+		.tips {
+			font-size: 26rpx;
+			font-family: PingFang SC;
+			font-weight: 500;
+			color: #666666;
+			margin-top: 50rpx;
+		}
 	}
+	
 	.password-modal {
 		width: 694upx;
 		margin: 0 auto;

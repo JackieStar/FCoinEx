@@ -1,22 +1,23 @@
 <template>
 	<view class="container">
 		<view class="red-packet">
-			<view class="choose-me" @click="handleSubmit">{{i18n.redPacket.chooseOne}}</view>
+			<view class="choose-me">{{i18n.redPacket.chooseOne}} {{drawCount}}</view>
 			<view class="red-packet-wrapper">
-				<view class="red-packet-btn"></view>
-				<view class="red-packet-btn"></view>
-				<view class="red-packet-btn"></view>
+				<view class="red-packet-btn" @click="handleSubmit"></view>
+				<view class="red-packet-btn" @click="handleSubmit"></view>
+				<view class="red-packet-btn" @click="handleSubmit"></view>
 			</view>
+			<view class="bottom-tips">首次充值后，每日都可以免费获得一次抽取幸运红包都机会</view>
 		</view>
 		<u-popup v-model="show" mode="center">
-			<view class="red-success" v-if="showType" @click="handleClose">
+			<view class="red-success" v-if="showType == 1" @click="handleClose">
 				<view class="red-price-wrapper">
 					<view class="red-price-icon">$</view>
 					<view class="red-price">100</view>
 				</view>
 				<text class="btn">{{i18n.redPacket.btn}}</text>
 			</view>
-			<view class="red-fail" v-if="!showType" @click="handleClose">
+			<view class="red-fail" v-if="showType == 0" @click="handleClose">
 				<view class="title">{{i18n.redPacket.fail}}</view>
 				<view class="title-tips">{{i18n.redPacket.failTips}}</view>
 				<view class="btn-text">{{i18n.redPacket.btn}}</view>
@@ -33,18 +34,35 @@ export default {
 	data() {
 		return {
 			show: false,
-			showType: null
+			showType: null,
+			drawCount: 0
 		};
 	},
 	onShow() {
 		uni.setNavigationBarTitle({
 			title: this.i18n.redPacket.title
 		});
+		this.getConfig()
 	},
 	methods: {
+		...mapActions('lottery', ['lotteryConfig', 'lotteryDraw']),
+		getConfig() {
+			this.lotteryConfig({type: 'lucky_hongbao'}).then(res => {
+				this.drawCount = res.data.chance;
+			});
+		},
 		handleSubmit() {
-			this.showType = true
+			this.showType = null
 			this.show = true
+			this.lotteryDraw({type: 'lucky_hongbao'}).then(res => {
+				if (res.data.luck) {
+					this.showType = 1
+				} else {
+					this.showType = 0
+				}
+				this.$api.msg(res.data.tips);
+			})
+			
 		},
 		handleClose() {
 			this.show = false
@@ -65,6 +83,7 @@ export default {
 			background: url(../../static/images/public/red_bg.png);
 			background-size: 100% 100%;
 			display: flex;
+			flex-direction: column;
 			align-items: center;
 			justify-content: center;
 		}
@@ -79,7 +98,7 @@ export default {
 			justify-content: center;
 			font-style: italic;
 			color: #fff;
-			top: 640rpx;
+			top: 600rpx;
 		}
 		.red-packet-wrapper {
 			position: relative;
@@ -87,7 +106,7 @@ export default {
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
-			margin-top: 560rpx;
+			margin-top: 600rpx;
 			padding: 20rpx 36rpx;
 			.red-packet-btn {
 				width: 198rpx;
@@ -177,6 +196,15 @@ export default {
 				line-height: 58rpx;
 				bottom: 60rpx;
 			}
+		}
+		.bottom-tips {
+			text-align: center;
+			margin-top: 60rpx;
+			font-size: 24rpx;
+			font-family: Microsoft YaHei;
+			font-weight: 400;
+			color: #FFFFFF;
+			line-height: 30rpx;
 		}
 		
 	}

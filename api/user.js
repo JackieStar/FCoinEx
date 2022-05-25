@@ -100,3 +100,29 @@ export function authSave(data) {
 		data: data
 	})
 }
+
+// 添加收款账号 
+export function addReceiver(data) {
+	return request({
+		url: '/api/user/receiver/add',
+		method: 'POST',
+		data: data
+	})
+}
+
+// 收款账号列表
+export function getReceiver() {
+	return request({
+		url: '/api/user/receiver/addrs',
+		method: 'GET'
+	})
+}
+
+// 删除收款账号
+export function deleteReceiver(data) {
+	return request({
+		url: '/api/user/receiver/delete',
+		method: 'POST',
+		data
+	})
+}
