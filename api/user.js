@@ -85,3 +85,18 @@ export function appConfig() {
 	})
 }
 
+// 认证详情
+export function authInfo() {
+	return request({
+		url: '/api/user/certification/info',
+		method: 'GET'
+	})
+}
+// 提交认证
+export function authSave(data) {
+	return request({
+		url: '/api/user/certification/add',
+		method: 'POST',
+		data: data
+	})
+}

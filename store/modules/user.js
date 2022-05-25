@@ -15,7 +15,9 @@ import {
 	invitInfo,
 	invitUserList,
 	invitRewardList,
-	appConfig
+	appConfig,
+	authInfo,
+	authSave
 } from '@/api/user'
 
 const user = {
@@ -194,6 +196,28 @@ const user = {
 		}) {
 			return new Promise((resolve, reject) => {
 				appConfig().then(res => {
+					resolve(res)
+				}).catch(error => {
+					reject(error)
+				})
+			})
+		},
+		authInfo({
+			commit
+		}) {
+			return new Promise((resolve, reject) => {
+				authInfo().then(res => {
+					resolve(res)
+				}).catch(error => {
+					reject(error)
+				})
+			})
+		},
+		authSave({
+			commit
+		}, data) {
+			return new Promise((resolve, reject) => {
+				authSave(data).then(res => {
 					resolve(res)
 				}).catch(error => {
 					reject(error)

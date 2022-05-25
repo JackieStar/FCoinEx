@@ -1,57 +1,78 @@
 <template>
 	<view class="container">
 		<!-- <c-navbar title="邀请好友" :isRightIcon="false" /> -->
-		<view class="invite-bg">
-			<view class="invite-title-cn" v-if="lang== 'zh-CN'">{{i18n.invit.invitFriends}}</view>
-			<view class="invite-title-en" v-else>{{i18n.invit.invitFriends}}</view>
-			<view class="invite-item-wrapper" style="margin-top: -60upx;" v-if="lang == 'pt-BR'">	
-				<view class="invite-item">
-					<text>{{ invitData.friends_count }}</text>
-					<view class="invite-text">{{ i18n.invit.friends }}</view>
-				</view>
-				<view class="invite-item">
-					<text>{{ invitData.total_reward }}</text>
-					<view class="invite-text">{{ i18n.invit.totalReward }}</view>
-				</view>
+		<view class="top-bg-box">
+			<image class="bg-logo" src="../../static/images/invit/logo.png" mode=""></image>
+			<image class="bg-image" src="../../static/images/invit/invit-bg.png" mode=""></image>
+			<image class="invite-type" src="../../static/images/invit/type-icon.png" mode=""></image>
+			<view class="invite-desc">
+				全球领先的数字资产交易平台
 			</view>
-			<view class="invite-item-wrapper" v-else>
-				<view class="invite-item">
-					<text>{{ invitData.friends_count }}</text>
-					<view class="invite-text">{{ i18n.invit.friends }}</view>
-				</view>
-				<view class="invite-item">
-					<text>{{ invitData.total_reward }}</text>
-					<view class="invite-text">{{ i18n.invit.totalReward }}</view>
+		</view>
+		<view class="invite-bg">
+
+			<view class="invite-item-box">
+				<!-- <view class="flex_between_box" style="margin-top: -60upx;" v-if="lang == 'pt-BR'">
+					<view class="invite-item">
+						<text>{{ invitData.friends_count }}</text>
+						<view class="invite-text">{{ i18n.invit.friends }}</view>
+					</view>
+					<view class="item-line">
+						
+					</view>
+					<view class="invite-item">
+						<text>{{ invitData.total_reward }}</text>
+						<view class="invite-text">{{ i18n.invit.totalReward }}</view>
+					</view>
+				</view> -->
+				<view class="flex_between_box invite-count-box">
+					<view class="invite-item">
+						<text>{{ invitData.friends_count||0 }}</text>
+						<view class="invite-text">{{ i18n.invit.friends }}</view>
+					</view>
+					<view class="item-line">
+
+					</view>
+					<view class="invite-item">
+						<text>{{ invitData.total_reward||0 }}</text>
+						<view class="invite-text">{{ i18n.invit.totalReward }}</view>
+					</view>
 				</view>
 			</view>
 			<view class="input-item">
 				<text class="input-item-title">{{ i18n.invit.tCode }}</text>
 				<view class="flex_left_box">
 					<text class="invite-code">{{ invitData.tcode }}</text>
-					<u-image @click="handleCopy(invitData.tcode)" src="../../static/images/user/copy.png" width="33upx" height="33upx" />
+					<u-image @click="handleCopy(invitData.tcode)" src="../../static/images/invit/copy.png" width="33upx"
+						height="33upx" />
 				</view>
 			</view>
 			<view class="input-item">
 				<text class="input-item-title">{{ i18n.invit.tLink }}</text>
 				<view class="flex_left_box">
 					<text class="invite-link">{{ invitData.tlink }}</text>
-					<u-image @click="handleCopy(invitData.tlink)" src="../../static/images/user/copy.png" width="33upx" height="33upx" />
+					<u-image @click="handleCopy(invitData.tlink)" src="../../static/images/invit/copy.png" width="33upx"
+						height="33upx" />
 				</view>
 			</view>
-			<view class="invit-tips-wrapper">
-				<view class="invit-tips" v-for="(item, index) in invitData.tips" :key="index">{{ item }}</view>
-			</view>
+
 		</view>
-		
+		<view class="invit-tips-wrapper">
+			<view class="invit-tips" v-for="(item, index) in invitData.tips" :key="index">{{ item }}</view>
+		</view>
 		<view class="list-bg">
 			<view class="tabs-wrapper">
 				<view class="tabs-item" @click="handleChange(1)">
-					<u-image v-if="tabIndex === 1" class="title-bg" src="../../static/images/wallet/title-long-bg.png" width="144upx" height="12upx" mode="" />
-					<text :style="{ opacity: tabIndex === 1 ? '1' : '0.6', 'margin-top': tabIndex === 1 ? '' : '-10upx' }">{{ i18n.invit.myInvit }}</text>
+					<u-image v-if="tabIndex === 1" class="title-bg" src="../../static/images/invit/tab-line.png"
+						width="144upx" height="12upx" mode="" />
+					<text
+						:style="{ opacity: tabIndex === 1 ? '1' : '0.6', 'margin-top': tabIndex === 1 ? '' : '-10upx' }">{{ i18n.invit.myInvit }}</text>
 				</view>
 				<view class="tabs-item" @click="handleChange(2)">
-					<u-image v-if="tabIndex === 2" class="title-bg" src="../../static/images/wallet/title-long-bg.png" width="144upx" height="12upx" mode="" />
-					<text :style="{ opacity: tabIndex === 2 ? '1' : '0.6', 'margin-top': tabIndex === 2 ? '' : '-10upx' }">{{ i18n.invit.tReward }}</text>
+					<u-image v-if="tabIndex === 2" class="title-bg" src="../../static/images/invit/tab-line.png"
+						width="144upx" height="12upx" mode="" />
+					<text
+						:style="{ opacity: tabIndex === 2 ? '1' : '0.6', 'margin-top': tabIndex === 2 ? '' : '-10upx' }">{{ i18n.invit.tReward }}</text>
 				</view>
 			</view>
 			<view class="list-header">
@@ -84,271 +105,394 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
-import { commonMixin } from '@/common/mixin/mixin.js';
-import CNavBar from '@/components/c-navbar/c-navbar';
-export default {
-	mixins: [commonMixin],
-	components: { CNavBar },
-	data() {
-		return {
-			tabIndex: 1,
-			invitData: {},
-			userList: [],
-			rewardList: [],
-			lang: 'zh_CN'
-		};
-	},
-	computed: {
-		...mapState('user', ['loginInfo'])
-	},
-	onLoad() {
-		uni.setNavigationBarTitle({
-			title: this.i18n.invit.title
-		});
-	},
-	onShow() {
-		// this.qrcode.val = this.loginInfo.registerUrl;
-		this.lang = uni.getStorageSync('language');
-		this.getInvitInfo();
-		this.getInviteUserList();
-		
-		// this.getInvitRewardList()
-	},
-	methods: {
-		...mapActions('user', ['invitInfo', 'invitUserList', 'invitRewardList']),
-		getInvitInfo() {
-			this.invitInfo().then(res => {
-				this.invitData = res.data;
+	import {
+		mapState,
+		mapActions
+	} from 'vuex';
+	import {
+		commonMixin
+	} from '@/common/mixin/mixin.js';
+	import CNavBar from '@/components/c-navbar/c-navbar';
+	export default {
+		mixins: [commonMixin],
+		components: {
+			CNavBar
+		},
+		data() {
+			return {
+				tabIndex: 1,
+				invitData: {},
+				userList: [],
+				rewardList: [],
+				lang: 'zh_CN'
+			};
+		},
+		computed: {
+			...mapState('user', ['loginInfo'])
+		},
+		onLoad() {
+			uni.setNavigationBarTitle({
+				title: this.i18n.invit.title
 			});
 		},
-		// 邀请用户列表
-		getInviteUserList() {
-			this.invitUserList().then(res => {
-				this.userList = res.data.data;
-			});
+		onShow() {
+			// this.qrcode.val = this.loginInfo.registerUrl;
+			this.lang = uni.getStorageSync('language');
+			this.getInvitInfo();
+			this.getInviteUserList();
+
+			// this.getInvitRewardList()
 		},
-		// 邀请奖励列表
-		getInvitRewardList() {
-			this.invitRewardList().then(res => {
-				this.rewardList = res.data.data;
-			});
-		},
-		handleChange(type) {
-			this.tabIndex = type;
-			if (type === 1) {
-				this.getInviteUserList();
-			} else {
-				this.getInvitRewardList();
-			}
-		},
-		handleCopy(e) {
-			uni.setClipboardData({
-				data: e.toString(),
-				success: () => {
-					this.$api.msg(this.i18n.toast.copySuccess);
+		methods: {
+			...mapActions('user', ['invitInfo', 'invitUserList', 'invitRewardList']),
+			getInvitInfo() {
+				this.invitInfo().then(res => {
+					this.invitData = res.data;
+				});
+			},
+			// 邀请用户列表
+			getInviteUserList() {
+				this.invitUserList().then(res => {
+					this.userList = res.data.data;
+				});
+			},
+			// 邀请奖励列表
+			getInvitRewardList() {
+				this.invitRewardList().then(res => {
+					this.rewardList = res.data.data;
+				});
+			},
+			handleChange(type) {
+				this.tabIndex = type;
+				if (type === 1) {
+					this.getInviteUserList();
+				} else {
+					this.getInvitRewardList();
 				}
-			});
+			},
+			handleCopy(e) {
+				uni.setClipboardData({
+					data: e.toString(),
+					success: () => {
+						this.$api.msg(this.i18n.toast.copySuccess);
+					}
+				});
+			}
 		}
-	}
-};
+	};
 </script>
 
 <style lang="scss" scoped>
-.container {
-	padding-bottom: 80upx;
-}
-.invit-tips-wrapper {
-	margin-top: 30upx;
-	.invit-tips {
-		font-size: 24upx;
-		color: #fff;
+	page {
+		background-color: #fff;
 	}
-}
-.invite-item-wrapper {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-}
-.invite-bg {
-	width: 688upx;
-	height: 979upx;
-	margin: 40upx auto 20upx auto;
-	background-size: 100% 100%;
-	background-image: url(../../static/images/invit/invite_bg.png);
-	padding: 55upx 50upx 50upx 50upx;
-	.invite-item {
-		width: 50%;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-	}
-	.invite-title-cn {
-		margin-bottom: 120upx;
-		text-align: center;
-		font-size: 50upx;
-		font-family: Source Han Sans CN;
-		font-weight: 500;
-		color: #78653A;
-		text-shadow: 0px 2px 0px rgba(255, 255, 255, 0.2);
-		background: linear-gradient(129.1836deg, #78653A 0%, #71571C 100%);
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent
-	}
-	.invite-title-en {
-		margin-bottom: 120upx;
-		text-align: center;
-		font-size: 34upx;
-		font-family: Source Han Sans CN;
-		font-weight: 500;
-		color: #78653A;
-		text-shadow: 0px 2px 0px rgba(255, 255, 255, 0.2);
-		background: linear-gradient(129.1836deg, #78653A 0%, #71571C 100%);
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent
-	}
-	text {
-		font-size: 60upx;
-		font-family: PingFang SC;
-		font-weight: 500;
-		color: #ffffff;
-	}
-	.invite-text {
-		font-size: 24upx;
-		font-family: PingFang SC;
-		font-weight: 500;
-		color: #ffffff;
-		margin-top: 25upx;
-		margin-bottom: 10upx;
-		opacity: 0.4;
-	}
-	.input-item {
-		width: 592upx;
-		height: 114upx;
-		background: #210a45;
-		border-radius: 6upx;
-		margin-top: 25upx;
-		padding: 0 30upx;
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		.input-item-title {
-			font-size: 28upx;
-			font-family: Source Han Sans CN;
-			font-weight: 400;
-			color: #ffffff;
-			opacity: 0.4;
-		}
-		.invite-code {
-			font-size: 28upx;
-			font-family: Source Han Sans CN;
-			font-weight: 400;
-			color: #ffffff;
-			margin-right: 20upx;
-		}
-		.invite-link {
-			width: 330upx;
-			font-size: 24upx;
-			font-family: Source Han Sans CN;
-			font-weight: 400;
-			color: #ffffff;
-			margin-right: 20upx;
-			word-break: break-all;
-		}
-	}
-}
-.invit-list-wrapper {
-	width: 100%;
-	height: 450upx;
-	overflow-y:scroll
-}
-.list-bg {
-	width: 688upx;
-	height: 680upx;
-	margin: 30upx auto 40upx auto;
-	background-size: 100% 100%;
-	background-image: url(../../static/images/invit/list_bg.png);
-	padding: 0 20upx;
-	.tabs-wrapper {
+
+	.top-bg-box {
 		width: 100%;
-		height: 140upx;
-		display: flex;
-		align-items: center;
-		.tabs-item {
-			width: 50%;
-			height: 140upx;
-			font-size: 30upx;
+		height: 747rpx;
+		position: relative;
+
+		.bg-image {
+			width: 100%;
+			height: 747rpx;
+			position: absolute;
+			top: 0;
+			z-index: 10;
+
+		}
+
+		.bg-logo {
+			width: 248rpx;
+			height: 73rpx;
+			position: absolute;
+			left: 239rpx;
+			top: 55rpx;
+			z-index: 12;
+		}
+
+		.invite-type {
+			width: 206rpx;
+			height: 98rpx;
+			position: absolute;
+			top: 466rpx;
+			left: 271rpx;
+			z-index: 11;
+
+		}
+
+		.invite-desc {
+			position: absolute;
+			top: 162rpx;
+			left: 50rpx;
+			z-index: 12;
+			font-size: 49rpx;
+			width: 650rpx;
 			font-family: PingFang SC;
-			font-weight: 500;
+			font-weight: bold;
+			font-style: italic;
+			color: #FB580E;
+			line-height: 26px;
+			text-shadow: 0px 4px 0px rgba(132, 199, 255, 0.49);
+
+			background: linear-gradient(180deg, #6717CD 0%, #2871FA 100%);
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+		}
+	}
+
+	.container {
+		padding-bottom: 80upx;
+	}
+
+	.invit-tips-wrapper {
+		width: 660rpx;
+		margin: auto;
+		margin-top: 30upx;
+
+		.invit-tips {
+			font-size: 24upx;
+			color: #4D4D4D;
+		}
+	}
+
+	.invite-item-wrapper {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.invite-bg {
+		width: 650rpx;
+		background: #FFFEFF;
+		box-shadow: 0px 1px 10rpx 0px rgba(179, 179, 179, 0.24);
+		border-radius: 20rpx;
+		margin: 0upx auto 20upx auto;
+		background-size: 100% 100%;
+		background-color: #fff;
+		margin-top: -132rpx;
+		position: relative;
+		z-index: 13;
+		// background-image: url(../../static/images/invit/invite_bg.png);
+		padding: 50upx 20upx 35upx 20upx;
+
+		.invite-item-box {
+			width: 583rpx;
+			height: 165rpx;
+			margin: auto;
+			background: #FFFEFF;
+			box-shadow: 0px 4rpx 16rpx 0px rgba(86, 107, 202, 0.49);
+			border-radius: 10rpx;
+
+			.invite-count-box {
+				height: 100%;
+			}
+		}
+
+		.invite-item {
+			width: 50%;
 			display: flex;
 			flex-direction: column;
 			align-items: center;
-			margin-top: 100upx;
-			text {
-				margin-left: 2upx;
-				z-index: 10;
-				color: #ffffff;
-			}
-			.title-bg {
-				margin-bottom: -22upx;
-			}
+			justify-content: center;
 		}
-	}
-	.list-header {
-		font-size: 26upx;
-		font-family: PingFang SC;
-		font-weight: 400;
-		color: #9292a3;
-		margin-bottom: 20upx;
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-	}
-	.header-1 {
-		width: 280upx;
-	}
-	.header-2 {
-		width: 220upx;
-	}
-	.header-3 {
-		width: 160upx;
-	}
-	.list-content {
-		width: 100%;
-		height: 120upx;
-		border-bottom: 1upx solid #2d2d4f;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		.invite-name {
-			text {
-				font-size: 26upx;
-				font-family: PingFang SC;
-				font-weight: 400;
-				color: #ffffff;
-			}
-			view {
-				font-size: 24upx;
-				font-family: PingFang SC;
-				font-weight: 300;
-				color: #7085a8;
-				margin-top: 10upx;
-			}
+
+		.item-line {
+			width: 1px;
+			height: 105rpx;
+			// border: 1rpx solid #9C4002;
+			background-color: #9C4002;
+			opacity: 0.43;
 		}
-		.invite-uid {
+
+		.invite-title-cn {
+			margin-bottom: 120upx;
+			text-align: center;
+			font-size: 50upx;
+			font-family: Source Han Sans CN;
+			font-weight: 500;
+			color: #78653A;
+			text-shadow: 0px 2px 0px rgba(255, 255, 255, 0.2);
+			background: linear-gradient(129.1836deg, #78653A 0%, #71571C 100%);
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent
+		}
+
+		.invite-title-en {
+			margin-bottom: 120upx;
+			text-align: center;
+			font-size: 34upx;
+			font-family: Source Han Sans CN;
+			font-weight: 500;
+			color: #78653A;
+			text-shadow: 0px 2px 0px rgba(255, 255, 255, 0.2);
+			background: linear-gradient(129.1836deg, #78653A 0%, #71571C 100%);
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent
+		}
+
+		text {
+			font-size: 60upx;
+			font-family: PingFang SC;
+			font-weight: 500;
+			color: #4D63C6;
+		}
+
+		.invite-text {
 			font-size: 24upx;
 			font-family: PingFang SC;
-			font-weight: 400;
-			color: #ffffff;
+			font-weight: 500;
+			color: #4D63C6;
+			// margin-top: 25upx;
+			margin-bottom: 10upx;
+			opacity: 0.4;
 		}
-		.invite-prize {
-			font-size: 36upx;
-			font-family: PingFang SC;
-			font-weight: 400;
-			color: #ffffff;
-			text-align: center;
+
+		.input-item {
+			width: 610upx;
+			height: 100upx;
+			background: #FBF2E5;
+			border-radius: 20upx;
+			margin-top: 22upx;
+			padding: 0 10upx 0 32rpx;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+
+			.input-item-title {
+				font-size: 28upx;
+				font-family: Source Han Sans CN;
+				font-weight: 400;
+				color: #262626;
+				// opacity: 0.4;
+			}
+
+			.invite-code {
+				font-size: 28upx;
+				font-family: Source Han Sans CN;
+				font-weight: 400;
+				color: #666666;
+				margin-right: 20upx;
+			}
+
+			.invite-link {
+				width: 350upx;
+				font-size: 24upx;
+				font-family: Source Han Sans CN;
+				font-weight: 400;
+				color: #666666;
+				margin-right: 20upx;
+				word-break: break-all;
+			}
 		}
 	}
-}
+
+	.invit-list-wrapper {
+		width: 100%;
+		height: 450upx;
+		overflow-y: scroll
+	}
+
+	.list-bg {
+		width: 650rpx;
+		background: #FFFEFF;
+		box-shadow: 0px 1px 10rpx 0px rgba(179, 179, 179, 0.44);
+		border-radius: 20rpx;
+		// background-image: url(../../static/images/invit/list_bg.png);
+		padding: 0 20upx;
+		margin: auto;
+		margin-top: 49rpx;
+
+		.tabs-wrapper {
+			width: 100%;
+			height: 140upx;
+			display: flex;
+			align-items: center;
+
+			.tabs-item {
+				width: 50%;
+				height: 140upx;
+				font-size: 30upx;
+				font-family: PingFang SC;
+				font-weight: 500;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				margin-top: 100upx;
+
+				text {
+					margin-left: 2upx;
+					z-index: 10;
+					color: #212121;
+				}
+
+				.title-bg {
+					margin-bottom: -22upx;
+				}
+			}
+		}
+
+		.list-header {
+			font-size: 26upx;
+			font-family: PingFang SC;
+			font-weight: 400;
+			color: #9292a3;
+			margin-bottom: 20upx;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+
+		.header-1 {
+			width: 280upx;
+		}
+
+		.header-2 {
+			width: 220upx;
+		}
+
+		.header-3 {
+			width: 160upx;
+		}
+
+		.list-content {
+			width: 100%;
+			height: 120upx;
+			border-bottom: 1upx solid #2d2d4f;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+
+			.invite-name {
+				text {
+					font-size: 26upx;
+					font-family: PingFang SC;
+					font-weight: 400;
+					color: #212121;
+				}
+
+				view {
+					font-size: 24upx;
+					font-family: PingFang SC;
+					font-weight: 300;
+					color: #212121;
+					margin-top: 10upx;
+				}
+			}
+
+			.invite-uid {
+				font-size: 24upx;
+				font-family: PingFang SC;
+				font-weight: 400;
+				color: #212121;
+			}
+
+			.invite-prize {
+				font-size: 36upx;
+				font-family: PingFang SC;
+				font-weight: 400;
+				color: #212121;
+				text-align: center;
+			}
+		}
+	}
 </style>

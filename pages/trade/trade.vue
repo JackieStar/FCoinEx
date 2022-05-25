@@ -59,9 +59,9 @@
 			<view class="top-popup-box">
 				<view class="popup-coin-section">
 					<view class="s-header">
-						<view class="col">{{ i18n.index.market.title1 }}</view>
-						<view class="col r">{{ i18n.index.market.title2 }}</view>
-						<view class="col r">{{ i18n.index.market.title3 }}</view>
+						<view class="col">{{ i18n.home.market.title1 }}</view>
+						<view class="col r">{{ i18n.home.market.title2 }}</view>
+						<view class="col r">{{ i18n.home.market.title3 }}</view>
 					</view>
 					<scroll-view scroll-y="true" style="max-height: 80vh;">
 						<product-item v-if="productPopup" v-for="(item, i) in markets" :item="item"
@@ -347,9 +347,6 @@
 				// this.$refs.line.clearLine()
 				this.haveProCode = false
 				this.getProductInfo();
-				if (!this.isOpen) {
-					this.page = 1
-				}
 				this.productPopup = false
 			},
 			getMaketList(type) {
@@ -720,6 +717,7 @@
 		padding: 0 26upx;
 		font-size: 32rpx;
 		font-weight: 500;
+		padding-bottom: 108rpx;
 
 		.rise-btn {
 			width: 320upx;

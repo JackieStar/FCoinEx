@@ -66,6 +66,16 @@
 			}
 		},
 		{
+		    "path" : "pages/me/authentication",
+		    "style" :                                                                                    
+		    {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		},
+		{
 			"path": "pages/me/account",
 			"style": {
 				"navigationBarTextStyle": "black",
@@ -98,6 +108,13 @@
 		},
 		{
 			"path": "pages/wallet/wallet",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#ffffff"
+			}
+		},
+		{
+			"path": "pages/wallet/fund-details",
 			"style": {
 				"navigationBarTextStyle": "black",
 				"navigationBarBackgroundColor": "#ffffff"
@@ -195,8 +212,8 @@
 			"path": "pages/public/invit",
 			"style": {
 				"navigationBarTitleText": "",
-				"navigationBarTextStyle": "white",
-				"navigationBarBackgroundColor": "#070219"
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#ffffff"
 			}
 		},
 		{
@@ -223,7 +240,8 @@
 				"navigationBarBackgroundColor": "#070219"
 			}
 		}
-	],
+	   
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "",

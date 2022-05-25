@@ -153,6 +153,27 @@ module.exports = {
 			lookdown: 'Put',
 			tradeCycle: 'Period'
 		},
+		
+		auth:{
+			uploadSuccess:'Uploaded successfully',
+			uploadFail:'Upload failed',
+			tipsTop:'Protect your privacy',
+			pageTitle:'身份认证',
+			realname:'Real name',
+			nameInput:'Please enter your name',
+			idNum:'ID number',
+			idInput:'Please enter your ID number',
+			cardImg:'Front photo of ID card',
+			cardImgTips:'请上传身份证正面照',
+			status:'Audit status',
+			statusText1:'认证中',
+			statusText2:'认证成功',
+			statusText3:'认证失败',
+			submit:'Immediate certification',
+			tipsTitle:'注意',
+			tips1:'审核通过，将不支持修改个人身份实名信息，',
+			tips2:'如有修改，可联系客服'
+		},
 		lottery: {
 			tip1: '',
 			tip2: 'chances to draw',

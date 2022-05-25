@@ -6,20 +6,21 @@
 				:barStyle="{'background-color':'#0072FF'}" inactive-color="#666666" />
 		</view>
 		<view v-show="headcurrent==0" class="trade-record-page">
-			<trade-item mode="hold" v-for="(item,index) in holdList" :key="index" :infoItem="item" @handleGet="handleGet"></trade-item>
+			<trade-item mode="hold" v-for="(item,index) in holdList" :key="index" :infoItem="item"
+				@handleGet="handleGet"></trade-item>
 			<empty v-if="holdList.length==0"></empty>
-			<view  v-if="holdList.length==0" class="trade-btn" @click="goTrade">
+			<view v-if="holdList.length==0" class="trade-btn" @click="goTrade">
 				{{i18n.lottery.tip3}}
 			</view>
 		</view>
 		<view v-show="headcurrent==1" class="trade-record-page">
 			<trade-item mode="history" v-for="(item,index) in historyList" :key="index" :infoItem="item"></trade-item>
 			<empty v-if="historyList.length==0"></empty>
-			<view  v-if="historyList.length==0" class="trade-btn" @click="goTrade">
+			<view v-if="historyList.length==0" class="trade-btn" @click="goTrade">
 				{{i18n.lottery.tip3}}
 			</view>
 		</view>
-		
+
 	</view>
 </template>
 
@@ -66,42 +67,46 @@
 				name: this.i18n.trade.historyList,
 				type: 'history'
 			}]
-			// if (this.loginInfo.hasLogin) {
-			// 	this.getUserInfo();
-			// 	this.loadData();
-			// } else {
-			// 	uni.navigateTo({
-			// 		url: '/pages/public/login'
-			// 	})
-			// }
-			this.page= 1
-			this.getOrderList()
+			if (this.loginInfo.hasLogin) {
+				this.page = 1
+				this.getOrderList()
+			} else {
+				uni.navigateTo({
+					url: '/pages/public/login'
+				})
+			}
 		},
 		onLoad() {
-			
+
 		},
-		
 		computed: {
 			...mapState('user', ['loginInfo'])
+		},
+		onReachBottom() {
+			console.log('3333', this.isSendLoading);
+			if (this.total > this.historyList.length && !this.isSendLoading) {
+				this.page++
+				this.getOrderList()
+			}
 		},
 		methods: {
 			...mapActions('user', ['userInfo']),
 			...mapActions('trade', ['orderList']),
 			changeHead(val) {
-				this.page=1
+				this.page = 1
 				this.headcurrent = val
 				this.getOrderList()
 			},
-			handleGet(){
+			handleGet() {
 				this.page = 1
-				setTimeout(()=>{
+				setTimeout(() => {
 					this.getOrderList()
-				},500)
-				
+				}, 500)
+
 			},
-			goTrade(){
+			goTrade() {
 				uni.switchTab({
-					url:'/pages/trade/trade'
+					url: '/pages/trade/trade'
 				})
 			},
 			getOrderList() {
@@ -120,7 +125,7 @@
 						this.holdList = res.data;
 						// this.totalHold = res.data.length
 					} else {
-						
+
 						let records = res.data.data
 						this.total = res.data.total
 						if (this.page == 1) {
@@ -132,37 +137,6 @@
 					}
 				});
 			},
-			//请求数据
-			loadData() {
-				this.isSendLoading = true;
-				let parmas = {
-					page: this.page,
-					limit: 10
-				};
-				if (!this.isHavePage) return this.$api.msg(this.i18n.toast.noMore);
-				this.getAccountLogs(parmas)
-					.then(res => {
-						this.isSendLoading = false;
-						if (this.page == 1) {
-							this.tradeList = res.data.data;
-						} else {
-							if (res.data.data.length >= 10) {
-								this.isHavePage = true;
-							} else {
-								this.isHavePage = false;
-							}
-							this.tradeList = this.tradeList.concat(res.data.data);
-						}
-					})
-					.catch(error => {});
-			},
-			onReachBottom() {
-				console.log('3333', this.isSendLoading);
-				if (this.total > this.historyList.length && !this.isSendLoading) {
-					this.page++
-					this.getOrderList()
-				}
-			}
 		}
 	};
 </script>
@@ -175,14 +149,19 @@
 	.container {
 		.tab-box {
 			width: 100%;
-			// position: fixed;
-			// top: 0;
+			/* #ifdef APP-PLUS */
+			position: fixed;
+			top: 0;
+			/* #endif */
 		}
 
 		.trade-record-page {
-			// padding-top: 162rpx;
 			padding: 54rpx 26rpx 64rpx 26rpx;
-			.trade-btn{
+			/* #ifdef APP-PLUS */
+			padding-top: 162rpx;
+
+			/* #endif */
+			.trade-btn {
 				width: 328rpx;
 				height: 76rpx;
 				background: #0079FF;
@@ -197,7 +176,6 @@
 				margin: auto;
 				margin-top: 100rpx;
 			}
-
 		}
 	}
 </style>
