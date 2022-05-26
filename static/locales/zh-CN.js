@@ -27,6 +27,7 @@ module.exports = {
 			daySign: '每日签到',
 			fastSign: '立即签到',
 			signTips: '每日签到赢奖励',
+			signSuccess:'已签到'
 		},
 		me: {
 			title: '我的账户',
@@ -117,6 +118,8 @@ module.exports = {
 			logout: '退出'
 		},
 		invit: {
+			topTitle: '全球领先的数字资产交易平台',
+			rateType: '充值返佣',
 			title: '邀请好友',
 			invitFriends: '邀好友领福利',
 			friends: '我的好友数',
@@ -325,7 +328,14 @@ module.exports = {
 		record: {
 			title: '资产记录',
 			rechargeList: '充值记录',
-			withdrawList: '提现记录'
+			withdrawList: '提现记录',
+			init: '待到账',
+			done: '已到账',
+			fail: '失败',
+			transfer_amount:'预计到账',
+			coin_type:'网络',
+			receiver:'地址',
+			create:'时间'
 		},
 		toast: {
 			codeSend: '验证码已发送',

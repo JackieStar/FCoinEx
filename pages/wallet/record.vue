@@ -1,187 +1,292 @@
 <template>
 	<view class="container">
-		<view class="tabs-wrapper">
-			<view class="tabs-item" @click="handleChange(1)">
-				<u-image v-if="tabIndex === 1" class="title-bg" src="../../static/images/wallet/title-long-bg.png" width="144upx" height="12upx" mode="" />
-				<text :style="{ color: tabIndex === 1 ? '#fff' : '#646F7B', 'margin-top': tabIndex === 1 ? '' : '-10upx' }">{{i18n.record.rechargeList}}</text>
-			</view>
-			<view class="tabs-item" @click="handleChange(2)">
-				<u-image v-if="tabIndex === 2" class="title-bg" src="../../static/images/wallet/title-long-bg.png" width="144upx" height="12upx" mode="" />
-				<text :style="{ color: tabIndex === 2 ? '#fff' : '#646F7B', 'margin-top': tabIndex === 2 ? '' : '-10upx' }">{{i18n.record.withdrawList}}</text>
+		<view class="record-head flex_left_box">
+			<view class="record-type-box flex_between_box" @click="show=true">
+				<text>{{typeName}}</text>
+				<image class="select-icon" src="../../static/images/trade/xiala@2x.png" mode=""></image>
 			</view>
 		</view>
-		<view class="trade-list-wrapper" v-show="tabIndex === 1">
-			<view class="trade-list" v-for="item in rechargeData" :key="item.id">
-				<view class="trade-money">
-					<text>{{ item.status_text }}</text>
-					<text>{{ item.amount }}</text>
+		<view class="record-content">
+			<view class="record-item" v-for="(item,index) in rechargeData" :key="index">
+				<view class="record-info">
+					<view class="amount-label">
+						{{i18n.withdraw.money}}：{{item.amount}} USDT
+					</view>
+					<view class="flex_left_box record-label-item">
+						<view class="left-label">
+							预计到账：
+						</view>
+						<view class="desc red-text">
+							{{item.amount}} $
+						</view>
+					</view>
+					<view class="flex_left_box record-label-item">
+						<view class="left-label">
+							网络：
+						</view>
+						<view class="desc">
+							{{item.coin_type}}
+						</view>
+					</view>
+					<view class="flex_left_box record-label-item">
+						<view class="left-label">
+							地址：
+						</view>
+						<view class="desc">
+							{{item.payer_account}}
+						</view>
+					</view>
+					<view class="flex_left_box record-label-item">
+						<view class="left-label">
+							时间：
+						</view>
+						<view class="desc">
+							{{item.created_at}}
+						</view>
+					</view>
+					<view class="flex_left_box record-label-item">
+						<view class="left-label">
+							备注：
+						</view>
+						<view class="desc">
+							{{item.remark}}
+						</view>
+					</view>
 				</view>
-				<view class="trade-time">
-					<text>{{ item.created_at }}</text>
-					<text>{{ item.coin_type }}</text>
+				<view v-if="item.status=='done'" class="record-type done-color">
+					{{i18n.record.done}}
+				</view>
+				<view v-if="item.status=='init'" class="record-type init-color">
+					{{i18n.record.init}}
+				</view>
+				<view v-if="item.status=='fail'" class="record-type fail-color">
+					{{i18n.record.fail}}
 				</view>
 			</view>
+			<empty v-if="rechargeData.length==0"></empty>
 		</view>
-		<view class="trade-list-wrapper" v-show="tabIndex === 2">
-			<view class="trade-list" v-for="item in withdrawData" :key="item.id">
-				<view class="trade-money">
-					<text>{{ item.status_text }}</text>
-					<text>{{ item.amount }}</text>
-				</view>
-				<view class="trade-time">
-					<text>{{ item.created_at }}</text>
-					<text>{{ item.coin_type }}</text>
-				</view>
-			</view>
-		</view>
+		<u-select v-model="show" mode="single-column" :list="selectList" @confirm="confirm"
+			:confirm-text="i18n.common.ok" :cancel-text="i18n.common.cancel"></u-select>
 	</view>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
-import { commonMixin } from '@/common/mixin/mixin.js';
-export default {
-	mixins: [commonMixin],
-	data() {
-		return {
-			tabIndex: 1,
-			rechargeData: [],
-			withdrawData: [],
-			pageRe: 1,
-			pageWi: 1,
-			isHavePageRe: true,
-			isHavePageWi: true,
-			isSendLoadingRe: false,
-			isSendLoadingWi: false
-		};
-	},
-	onShow() {
-		uni.setNavigationBarTitle({
-			title: this.i18n.record.title
-		});
-		this.getWithDrawList();
-		this.getRechargeList();
-	},
-	methods: {
-		...mapActions('wallet', ['withdrawList', 'rechargeList']),
-		handleChange(type) {
-			this.tabIndex = type;
+	import {
+		mapState,
+		mapActions
+	} from 'vuex';
+	import {
+		commonMixin
+	} from '@/common/mixin/mixin.js';
+	import empty from '@/components/empty.vue'
+	export default {
+		mixins: [commonMixin],
+		components: {
+			empty
 		},
-		getWithDrawList() {
-			this.isSendLoadingWi = true;
-			let parmas = {
-				page: this.pageWi,
-				limit: 10
+		data() {
+			return {
+				rechargeData: [],
+				pageRe: 1,
+				show: false,
+				isHavePageRe: true,
+				isSendLoadingRe: false,
+				selectList: [],
+				selectIndex: 0,
+				typeName: '',
+				typeValue: ''
 			};
-			if (!this.isHavePageWi) return this.$api.msg(this.i18n.toast.noMore);
-			this.withdrawList(parmas).then(res => {
-				
-				this.isSendLoadingWi = false;
-				if (this.pageWi == 1) {
-					this.withdrawData = res.data.data;
-				} else {
-					if (res.data.data.length >= 10) {
-						this.isHavePageWi = true;
-					} else {
-						this.isHavePageWi = false;
-					}
-					this.withdrawData = this.withdrawData.concat(res.data.data);
-				}
-			});
 		},
-		getRechargeList() {
-			this.isSendLoadingRe = true;
-			let parmas = {
-				page: this.pageRe,
-				limit: 10
-			};
-			if (!this.isHavePageRe) return this.$api.msg(this.i18n.toast.noMore);
-			this.rechargeList(parmas).then(res => {
-				this.isSendLoadingRe = false;
-				if (this.pageRe == 1) {
-					this.rechargeData = res.data.data;
-				} else {
-					if (res.data.data.length >= 10) {
-						this.isHavePageRe = true;
-					} else {
-						this.isHavePageRe = false;
-					}
-					this.rechargeData = this.rechargeData.concat(res.data.data);
-				}
+		onShow() {
+			uni.setNavigationBarTitle({
+				title: this.i18n.record.rechargeList
 			});
+			this.typeName = this.i18n.common.type
+			this.selectList = [{
+					value: '',
+					label: this.i18n.wallet.all
+				},
+				{
+					value: 'done',
+					label: this.i18n.record.done
+				},
+				{
+					value: 'init',
+					label: this.i18n.record.init
+				},
+				{
+					value: 'fail',
+					label: this.i18n.record.fail
+				},
+			]
+
+			this.getRechargeList();
 		},
 		onReachBottom() {
 			if (!this.isSendLoadingRe) {
 				this.pageRe++;
 				this.getRechargeList();
 			}
-			if (!this.isSendLoadingWi) {
-				this.pageWi++;
-				this.getWithDrawList();
-			}
+		},
+		methods: {
+			...mapActions('wallet', ['withdrawList', 'rechargeList']),
+			confirm(val) {
+				this.typeValue = val[0].value
+				this.typeName = val[0].label
+				this.pageRe = 1
+				this.isHavePageRe = true
+				this.getRechargeList()
+			},
+			getWithDrawList() {
+				this.isSendLoadingWi = true;
+				let parmas = {
+					page: this.pageWi,
+					limit: 10
+				};
+				if (!this.isHavePageWi) return this.$api.msg(this.i18n.toast.noMore);
+				this.withdrawList(parmas).then(res => {
+
+					this.isSendLoadingWi = false;
+					if (this.pageWi == 1) {
+						this.withdrawData = res.data.data;
+					} else {
+						if (res.data.data.length >= 10) {
+							this.isHavePageWi = true;
+						} else {
+							this.isHavePageWi = false;
+						}
+						this.withdrawData = this.withdrawData.concat(res.data.data);
+					}
+				});
+			},
+			getRechargeList() {
+				this.isSendLoadingRe = true;
+				let parmas = {
+					page: this.pageRe,
+					limit: 10,
+					status: this.typeValue
+				};
+				if (!this.isHavePageRe) return this.$api.msg(this.i18n.toast.noMore);
+				this.rechargeList(parmas).then(res => {
+					this.isSendLoadingRe = false;
+					if (this.pageRe == 1) {
+						this.rechargeData = res.data.data;
+					} else {
+						if (res.data.data.length >= 10) {
+							this.isHavePageRe = true;
+						} else {
+							this.isHavePageRe = false;
+						}
+						this.rechargeData = this.rechargeData.concat(res.data.data);
+					}
+				});
+			},
+
 		}
-	}
-};
+	};
 </script>
 
 <style lang="scss" scoped>
-.tabs-wrapper {
-	width: 100%;
-	height: 140upx;
-	display: flex;
-	align-items: center;
-	.tabs-item {
-		width: 50%;
-		height: 140upx;
-		font-size: 30upx;
-		font-family: PingFang SC;
-		font-weight: 500;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		margin-top: 100upx;
-		// justify-content: center;
-		text {
-			margin-left: 2upx;
-			z-index: 10;
-		}
-		.title-bg {
-			margin-bottom: -22upx;
-		}
+	page {
+		background: #F6F6F6;
 	}
-}
-.trade-list {
-	padding: 20upx 40upx;
-	background-color: #1a1a1a;
-	border-bottom: 1upx solid #303030;
-	.trade-money {
+
+	.record-head {
 		width: 100%;
-		display: flex;
-		justify-content: space-between;
-		text {
-			font-size: 30upx;
-			font-family: PingFang SC;
-			font-weight: 400;
-			color: #ffffff;
+		padding: 36rpx 26rpx;
+
+		.record-type-box {
+			padding: 12rpx 12rpx;
+			background: #FFFFFF;
+			border: 1px solid #C1C1C1;
+			box-shadow: 0px 0px 15rpx 1px rgba(180, 180, 180, 0.21);
+			border-radius: 10rpx;
+			font-size: 24rpx;
+			color: #333;
+
+			.select-icon {
+				width: 22rpx;
+				height: 13rpx;
+				margin-left: 14rpx;
+			}
 		}
 	}
-	.trade-time {
-		width: 100%;
-		display: flex;
-		margin-top: 4upx;
-		justify-content: space-between;
-		text {
-			font-size: 24upx;
-			font-family: PingFang SC;
-			font-weight: 400;
-			color: #5c6672;
+
+	.record-content {
+		padding: 12rpx 26rpx 64rpx 26rpx;
+
+		.record-item {
+			width: 100%;
+			background: #FFFFFF;
+			border-radius: 10rpx;
+			margin-bottom: 30rpx;
+			box-sizing: border-box;
+			padding: 17rpx 27rpx 20rpx 27rpx;
+			position: relative;
+
+			.record-info {
+				.amount-label {
+					font-size: 28rpx;
+					font-family: PingFang SC;
+					font-weight: 600;
+					color: #212121;
+					padding: 20rpx 0;
+				}
+				.record-label-item{
+					width: 100%;
+					padding: 20rpx 0;
+					.left-label{
+						font-size: 28rpx;
+						color: #212121;
+					}
+					.desc {
+						font-size: 28rpx;
+						color: #666666;
+					}
+					.red-text{
+						color: #FF2929;
+					}
+				}
+			}
+
+			.record-desc-box {
+				width: 100%;
+				font-size: 24rpx;
+				color: #666666;
+				padding: 30rpx 0;
+				display: flex;
+				justify-content: flex-start;
+				border-top: 1px solid #EDEDED;
+
+				.record-desc-label {
+					flex-shrink: 0;
+				}
+			}
+
+			.record-type {
+				height: 47rpx;
+				border-radius: 0px 10rpx 0px 10rpx;
+				padding: 0 13rpx;
+				line-height: 47rpx;
+				color: #FFFFFF;
+				font-size: 22rpx;
+				font-family: PingFang SC;
+				font-weight: 500;
+				position: absolute;
+				top: 0;
+				right: 0;
+				min-width: 203rpx;
+				text-align: center;
+			}
+			.done-color{
+				background: #00BD47;
+			}
+			.init-color{
+				background-color: #F47300;
+			}
+			.fail-color{
+				background-color: #F43400;
+			}
 		}
 	}
-}
-.trade-list-wrapper {
-	width: 100%;
-	height: 80vh;
-	overflow-y: scroll;
-	margin-bottom: 40upx;
-}
 </style>

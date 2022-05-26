@@ -42,3 +42,17 @@ export function uploadImg(data) {
 	data: data
   })
 }
+// 点击签到
+export function clickSign() {
+  return request({
+    url: '/api/user/sign',
+    method: 'POST'
+  })
+}
+// 签到详情
+export function signInfo() {
+  return request({
+    url: '/api/user/sign/info',
+    method: 'GET'
+  })
+}

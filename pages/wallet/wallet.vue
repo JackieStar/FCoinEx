@@ -20,7 +20,6 @@
 				{{i18n.lottery.tip3}}
 			</view>
 		</view>
-
 	</view>
 </template>
 

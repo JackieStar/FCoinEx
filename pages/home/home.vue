@@ -97,37 +97,31 @@
 				<view class="coupon-bg">
 					<view class="coupon-title">{{i18n.home.daySign}}</view>
 					<view class="money-wrapper">
-						<view class="money" :class="{'active': isActive}">
-							<text>day1</text>
-						</view>
-						<view class="money">
-							<text>day2</text>
-						</view>
-						<view class="money">
-							<text>day3</text>
-						</view>
+						<block v-for="(item,index) in signData.sign_schedule" v-if="index<=2">
+							<view v-if="index<=2" class="money"  :class="{'active': item.signed==1}">
+								<text>{{item.label}}</text>
+								<view class="sign-reward">
+									+{{item.reward}}
+								</view>
+							</view>
+						</block>
 					</view>
-					<view class="money-wrapper">
-						<view class="money" :class="{'active': isActive}">
-							<text>day4</text>
-						</view>
-						<view class="money">
-							<text>day5</text>
-						</view>
-						<view class="money">
-							<text>day6</text>
-						</view>
-						<view class="money">
-							<text>day7</text>
-						</view>
+					<view class="money-wrapper mar-t-money">
+						<block v-for="(item,index) in signData.sign_schedule" >
+							<view v-if="index>2" class="money"  :class="{'active': item.signed==1}">
+								<text>{{item.label}}</text>
+								<view class="sign-reward">
+									+{{item.reward}}
+								</view>
+							</view>
+						</block>
 					</view>
 					<!-- <view class="money-tips">参与签到可以获得更多惊喜奖励</view> -->
-					<view class="coupon-btn">{{i18n.home.fastSign}}</view>
+					<view class="coupon-btn" @click="handlePostSign">{{signData.today_signed==1?i18n.home.signSuccess:i18n.home.fastSign}}</view>
 					<view class="coupon-tips">{{i18n.home.signTips}}</view>
 				</view>
 				<view class="coupon-close" @click="show = false"></view>
 			</view>
-			
 		</u-popup>
 	</view>
 </template>
@@ -147,7 +141,13 @@ export default {
 			notices: [],
 			carousels: [],
 			appData: {},
-			clear: '' // 定时器
+			clear: '', // 定时器
+			signData:{
+				consecutive_sign_days:0,
+				reward_total:0,
+				today_signed:0,
+				sign_schedule:[]
+			}
 		};
 	},
 	onShow() {
@@ -167,10 +167,10 @@ export default {
 		clearInterval(this.clear);
 	},
 	computed: {
-		...mapState('user', ['loginInfo'])
+		...mapState('user', ['loginInfo']),
 	},
 	methods: {
-		...mapActions('common', ['marketList', 'adList', 'noticeList']),
+		...mapActions('common', ['marketList', 'adList', 'noticeList','clickSign','signInfo']),
 		...mapActions('user', ['appConfig']),
 		loadData() {
 			this.noticeList({ limit: 20 }).then(res => {
@@ -191,6 +191,20 @@ export default {
 				this.markets = res.data.data;
 			});
 		},
+		handleGetSign(){
+			this.signInfo().then(res => {
+				this.show = true
+				this.signData=res.data
+			});
+		},
+		handlePostSign(){
+			if(this.signData.today_signed==0){
+				this.clickSign().then(res => {
+					this.$u.toast(res.message)
+					this.handleGetSign()
+				});
+			}
+		},
 		navToTrade(item) {
 			uni.setStorageSync('product', { code: item.code, name: item.name });
 			uni.switchTab({
@@ -206,7 +220,13 @@ export default {
 		},
 		openPage(type) {
 			if (type === 'sign') {
-				this.show = true
+				if (this.loginInfo.hasLogin) {
+					this.handleGetSign()
+				} else {
+					uni.navigateTo({
+						url: '/pages/public/login'
+					});
+				}
 			}
 			if (type === 'red') {
 				if (this.loginInfo.hasLogin) {
@@ -560,19 +580,32 @@ export default {
 				font-weight: 400;
 				color: #FCBD4D;
 				line-height: 48rpx;
-				margin-top: 90rpx;
+				margin-top: 80rpx;
 				margin-bottom: 20rpx;
 			}
+			
 			.money-tips {
+				width: 100%;
+				text-align: center;
 				font-size: 18rpx;
 				font-family: Source Han Sans CN;
 				font-weight: 400;
 				color: #999999;
+				position: absolute;
+				left: 0;
+				top: 380rpx;
+				z-index: 14;
+			}
+			.mar-t-money{
+				margin-top: 23rpx;
 			}
 			.money-wrapper {
 				display: flex;
 				align-items: center;
 				justify-content: space-between;
+				position: relative;
+				z-index: 10;
+				background-color: #fff;
 				.money {
 					width: 105rpx;
 					height: 125rpx;
@@ -582,16 +615,34 @@ export default {
 					font-size: 22rpx;
 					font-family: PingFang SC;
 					font-weight: 500;
-					color: #FFFFFF;
+					color: #212121;
 					background: url(../../static/images/home/money.png);
 					background-size: 100% 100%;
+					position: relative;
+					z-index: 10;
+					.sign-reward{
+						padding: 0 4rpx;
+						height: 23rpx;
+						line-height: 23rpx;
+						background: #FF2121;
+						border-radius: 12rpx 12rpx 12rpx 0px;
+						font-size: 18rpx;
+						font-family: PingFang SC;
+						font-weight: 400;
+						color: #FFFFFF;
+						position: absolute;
+						top: 12rpx;
+						right: -30rpx;
+						z-index: 12;
+					}
 					text {
-						margin-top: 30rpx;
+						margin-top: 26rpx;
 					}
 				}
 				.active {
 					background: url(../../static/images/home/money_active.png);
 					background-size: 100% 100%;
+					color: #FFFFFF;
 				}
 			}
 			.coupon-btn {

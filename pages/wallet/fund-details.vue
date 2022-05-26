@@ -44,17 +44,11 @@
 		mapActions
 	} from 'vuex';
 	import {
-		uniIcons
-	} from '@dcloudio/uni-ui';
-	import {
 		commonMixin
 	} from '@/common/mixin/mixin.js';
-	import TradeItem from './trade-item.vue'
 	import empty from '@/components/empty.vue'
 	export default {
 		components: {
-			uniIcons,
-			TradeItem,
 			empty
 		},
 		mixins: [commonMixin],

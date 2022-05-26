@@ -4,13 +4,18 @@
 		<view class="top-bg-box">
 			<image class="bg-logo" src="../../static/images/invit/logo.png" mode=""></image>
 			<image class="bg-image" src="../../static/images/invit/invit-bg.png" mode=""></image>
-			<image class="invite-type" src="../../static/images/invit/type-icon.png" mode=""></image>
+			<!-- <image class="invite-type" src="../../static/images/invit/type-icon.png" mode=""></image> -->
 			<view class="invite-desc">
-				全球领先的数字资产交易平台
+				{{ i18n.invit.topTitle }}
+			</view>
+			<view class="reward-rate">
+				{{invitData.reward_rate}}%
+			</view>
+			<view class="invite-type">
+				{{ i18n.invit.rateType }}
 			</view>
 		</view>
 		<view class="invite-bg">
-
 			<view class="invite-item-box">
 				<!-- <view class="flex_between_box" style="margin-top: -60upx;" v-if="lang == 'pt-BR'">
 					<view class="invite-item">
@@ -78,7 +83,7 @@
 			<view class="list-header">
 				<text class="header-1">{{ i18n.invit.inviter }}</text>
 				<text class="header-2">{{ i18n.invit.uid }}</text>
-				<text class="header-3">{{ i18n.invit.totalReward }}</text>
+				<text class="header-3 text-center">{{ i18n.invit.totalReward }}</text>
 			</view>
 			<view class="invit-list-wrapper" v-if="tabIndex === 1">
 				<view class="list-content" v-for="item in userList" :key="item.id">
@@ -160,6 +165,20 @@
 			getInvitRewardList() {
 				this.invitRewardList().then(res => {
 					this.rewardList = res.data.data;
+					// this.rewardList=[
+					// 	{s_user_name:'1231***@1.com',
+					// 	cdate:'2022-01-02 11:22',
+					// 	s_user_id:'1231***@1.com',
+					// 	amount:'30'},
+					// 	{s_user_name:'1231***@1.com',
+					// 	cdate:'2022-01-02 11:22',
+					// 	s_user_id:'1231***@1.com',
+					// 	amount:'30'},
+					// 	{s_user_name:'1231***@1.com',
+					// 	cdate:'2022-01-02 11:22',
+					// 	s_user_id:'1231***@1.com',
+					// 	amount:'30'}
+					// ]
 				});
 			},
 			handleChange(type) {
@@ -211,11 +230,16 @@
 		}
 
 		.invite-type {
-			width: 206rpx;
+			width: 100%;
 			height: 98rpx;
+			line-height: 80rpx;
+			color: #fff;
+			text-align: center;
+			font-size: 40rpx;
+			font-weight: 500;
 			position: absolute;
 			top: 466rpx;
-			left: 271rpx;
+			left: 0;
 			z-index: 11;
 
 		}
@@ -230,13 +254,27 @@
 			font-family: PingFang SC;
 			font-weight: bold;
 			font-style: italic;
+			text-align: center;
 			color: #FB580E;
 			line-height: 26px;
 			text-shadow: 0px 4px 0px rgba(132, 199, 255, 0.49);
-
 			background: linear-gradient(180deg, #6717CD 0%, #2871FA 100%);
 			-webkit-background-clip: text;
 			-webkit-text-fill-color: transparent;
+		}
+		.reward-rate{
+			width: 100%;
+			height: 80rpx;
+			font-size: 86rpx;
+			text-align: center;
+			line-height: 80rpx;
+			font-weight: bold;
+			color: #DB301E;
+			text-shadow: 0px 11rpx 32rpx rgba(219, 48, 30, 0.22);
+			position: absolute;
+			left: 0;
+			top: 330rpx;
+			z-index: 30;
 		}
 	}
 
@@ -344,7 +382,7 @@
 			color: #4D63C6;
 			// margin-top: 25upx;
 			margin-bottom: 10upx;
-			opacity: 0.4;
+			// opacity: 0.4;
 		}
 
 		.input-item {
@@ -398,7 +436,7 @@
 		box-shadow: 0px 1px 10rpx 0px rgba(179, 179, 179, 0.44);
 		border-radius: 20rpx;
 		// background-image: url(../../static/images/invit/list_bg.png);
-		padding: 0 20upx;
+		
 		margin: auto;
 		margin-top: 49rpx;
 
@@ -437,6 +475,7 @@
 			font-weight: 400;
 			color: #9292a3;
 			margin-bottom: 20upx;
+			padding: 0 20upx;
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
@@ -453,11 +492,15 @@
 		.header-3 {
 			width: 160upx;
 		}
+		.text-center{
+			text-align: center;
+		}
 
 		.list-content {
 			width: 100%;
+			padding: 0 20upx;
 			height: 120upx;
-			border-bottom: 1upx solid #2d2d4f;
+			border-bottom: 1upx solid #E3E3E3;
 			display: flex;
 			justify-content: space-between;
 			align-items: center;

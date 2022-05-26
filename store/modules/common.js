@@ -5,7 +5,9 @@ import {
 	marketList,
 	adList,
 	noticeList,
-	uploadImg
+	uploadImg,
+	clickSign,
+	signInfo
 } from '@/api/common'
 import {
 	COMMON_COIN_LIST,
@@ -111,6 +113,28 @@ const common = {
 		},data) {
 			return new Promise((resolve, reject) => {
 				uploadImg(data).then(res => {
+					resolve(res)
+				}).catch(error => {
+					reject(error)
+				})
+			})
+		},
+		clickSign({
+			commit
+		}) {
+			return new Promise((resolve, reject) => {
+				clickSign().then(res => {
+					resolve(res)
+				}).catch(error => {
+					reject(error)
+				})
+			})
+		},
+		signInfo({
+			commit
+		}) {
+			return new Promise((resolve, reject) => {
+				signInfo().then(res => {
 					resolve(res)
 				}).catch(error => {
 					reject(error)

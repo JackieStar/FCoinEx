@@ -231,6 +231,11 @@ export default {
 			});
 		},
 		openPage(type) {
+			if (type === 'list') {
+				uni.navigateTo({
+					url: '/pages/wallet/withdraw'
+				});
+			}
 			
 			if (type === 'add')
 				uni.navigateTo({
