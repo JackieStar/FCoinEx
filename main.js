@@ -20,6 +20,10 @@ let Chinese = require('./static/locales/zh-CN.js')
 let English = require('./static/locales/en-US.js')
 let Tradition = require('./static/locales/zh-HK.js')
 let PtBr = require('./static/locales/pt-BR.js')
+let Ru = require('./static/locales/ru-RU.js')
+let Th = require('./static/locales/th-TH.js')
+let Ja = require('./static/locales/ja-JP.js')
+
 
 // VueI18n
 import VueI18n from 'vue-i18n'
@@ -40,7 +44,10 @@ const i18n = new VueI18n({
 		'zh-CN': Chinese,
 		'en-US': English,
 		'zh-HK': Tradition,
-		'pt-BR': PtBr
+		'pt-BR': PtBr,
+		'ru-RU': Ru,
+		'th-TH': Th,
+		'ja-JP': Ja
 	}
 })
 /**
