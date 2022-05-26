@@ -73,9 +73,11 @@ module.exports = {
 			emailCode: 'Please enter email verification code',
 			password: '请输入密码(至少6个字符)',
 			passwordAgain: '请再次输入密码',
-			invitCode: '推荐码(必选)',
+			invitCode: '推荐码',
 			hasAccount: '您已经有账号了， ',
-			logining: '去登录'
+			logining: '去登录',
+			tips1: '我已同意',
+			tips2: '用户协议和隐私政策'
 		},
 		userInfo: {
 			title: '个人资料',

@@ -56,3 +56,20 @@ export function signInfo() {
     method: 'GET'
   })
 }
+
+// 文章，帮助，最新活动
+export function getArticle(data) {
+  return request({
+    url: `/api/article/list?type=${data.type}`,
+    method: 'GET'
+  })
+}
+
+
+// 文章，帮助，最新活动
+export function getKefu() {
+  return request({
+    url: `/api/app/kefu`,
+    method: 'GET'
+  })
+}

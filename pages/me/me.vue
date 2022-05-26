@@ -3,9 +3,9 @@
 		<view class="header">
 			<view class="title">{{i18n.me.title}}</view>
 			<view class="user-wrapper">
-				<u-image @click="openPage('user')" v-if="userData.avatar" :src="userData.avatar" width="102rpx"
+				<u-image @click="openPage('user')" shape="circle" v-if="userData.avatar" :src="userData.avatar" width="102rpx"
 					height="102rpx" />
-				<u-image @click="openPage('user')" v-else src="../../static/images/user/avatar.png" width="102rpx"
+				<u-image @click="openPage('user')" shape="circle" v-else src="../../static/images/user/avatar.png" width="102rpx"
 					height="102rpx" />
 				<view class="user-info">
 					<view class="user-name">{{ userData.name || i18n.me.login }}</view>
@@ -37,7 +37,7 @@
 					<u-image class="fast-item-img" src="../../static/images/me/withdraw.png" width="45rpx"
 						height="47rpx" />
 				</view>
-				<view class="fast-item">
+				<view class="fast-item" @click="openPage('setting')">
 					<view class="fast-item-title">{{i18n.me.setting}}</view>
 					<u-image class="fast-item-img" src="../../static/images/me/setting.png" width="48rpx"
 						height="45rpx" />
@@ -46,14 +46,14 @@
 		</view>
 
 		<view class="fast-cell-wrapper">
-			<view class="cell-item">
+			<view class="cell-item" @click="openPage('userInfo')">
 				<u-image src="../../static/images/me/user_info.png" width="34rpx" height="30rpx" />
 				<view class="cell-item-right">
 					<text class="cell-title">{{i18n.me.userInfo}}</text>
 					<u-icon name="arrow-right" color="#999" size="17" />
 				</view>
 			</view>
-			<view class="cell-item">
+			<view class="cell-item" @click="openPage('wallet')">
 				<u-image src="../../static/images/me/j_l.png" width="29rpx" height="34rpx" />
 				<view class="cell-item-right">
 					<text class="cell-title">{{i18n.me.record}}</text>
@@ -99,7 +99,7 @@
 			</view>
 		</view>
 		<view class="fast-cell-wrapper" style="height: 210rpx;">
-			<view class="cell-item">
+			<view class="cell-item" @click="openPage('about')">
 				<u-image src="../../static/images/me/about_us.png" width="33rpx" height="33rpx" />
 				<view class="cell-item-right">
 					<text class="cell-title">{{i18n.me.about}}</text>
@@ -116,7 +116,7 @@
 			<u-action-sheet :cancel-text="i18n.common.cancel" :border-radius="20" :list="langList" @click="clickLang"
 				v-model="showLang"></u-action-sheet>
 		</view>
-		<view class="logout" @click="toLogout">退出登录</view>
+		<view class="logout" v-if="loginInfo.hasLogin" @click="toLogout">退出登录</view>
 	</view>
 </template>
 
@@ -208,10 +208,43 @@
 						});
 					}
 				}
+				if (type === 'userInfo') {
+					if (this.loginInfo.hasLogin) {
+						uni.navigateTo({
+							url: '/pages/me/userInfo'
+						});
+					} else {
+						uni.navigateTo({
+							url: '/pages/public/login'
+						});
+					}
+				}
 				if (type === 'lottery') {
 					if (this.loginInfo.hasLogin) {
 						uni.navigateTo({
 							url: '/pages/public/lottery'
+						});
+					} else {
+						uni.navigateTo({
+							url: '/pages/public/login'
+						});
+					}
+				}
+				if (type === 'setting') {
+					if (this.loginInfo.hasLogin) {
+						uni.navigateTo({
+							url: '/pages/me/account'
+						});
+					} else {
+						uni.navigateTo({
+							url: '/pages/public/login'
+						});
+					}
+				}
+				if (type === 'wallet') {
+					if (this.loginInfo.hasLogin) {
+						uni.switchTab({
+							url: '/pages/wallet/wallet'
 						});
 					} else {
 						uni.navigateTo({
@@ -278,7 +311,7 @@
 				}
 				if (type === "about") {
 					uni.navigateTo({
-						url: `/pages/user/webview?title=${this.i18n.me.about}&url=${this.appData.abount_me}`
+						url: `/pages/public/webview?title=${this.i18n.me.about}&url=${this.appData.abount_me}`
 					});
 				}
 				if (type === 'authentication') {

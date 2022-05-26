@@ -1,6 +1,5 @@
 <template>
 	<view class="container">
-		<u-navbar :title="i18n.register.title" :background="background"></u-navbar>
 		<view class="wrapper">
 			<view class="welcome">
 				<view class="txt">
@@ -12,7 +11,7 @@
 			<view class="input-content">
 				<view class="input-item">
 					<u-image src="../../static/images/public/phone.png" width="29rpx" height="40rpx" />
-					<input placeholder-style="color: #ACACAC" v-model="form.account" :placeholder="i18n.register.account" @input="inputChange" />
+					<input placeholder-style="color: #ACACAC" v-model="form.mobile" :placeholder="i18n.register.account" @input="inputChange" />
 				</view>
 				<view class="input-item">
 					<u-image src="../../static/images/public/email.png" width="34upx" height="26upx" />
@@ -99,6 +98,10 @@
 					/>
 				</view>
 			</view>
+			<u-checkbox v-model="isChecked" style="margin-left: 60rpx;">
+				<view class="check-wrapper"@click="openPage('xieyi')">{{i18n.register.tips1}}<text style="color: #2b73f6">{{i18n.register.tips2}}</text></view>
+				
+			</u-checkbox>
 			<view @click="toRegist" class="confirm-btn">{{ i18n.register.title }}</view>
 			
 		</view>
@@ -118,10 +121,8 @@ export default {
 	mixins: [commonMixin],
 	data() {
 		return {
-			background: {
-				backgroundColor: '#F6F6F6'
-			},
 			form: {
+				mobile: null,
 				email: '',
 				password: '',
 				password_confirm: '',
@@ -139,7 +140,8 @@ export default {
 			authCode: {
 				captchaCode: undefined,
 				token: undefined
-			}
+			},
+			isChecked: false
 		};
 	},
 	onLoad(e) {
@@ -148,15 +150,30 @@ export default {
 			this.form.tcode = e.t
 		}
 	},
+	onShow() {
+		uni.setNavigationBarTitle({
+			title: this.i18n.register.title
+		});
+		this.getAppConfig()
+	},
 	methods: {
-		...mapActions('user', ['register', 'login']),
+		...mapActions('user', ['register', 'login', 'appConfig']),
 		...mapActions('common', ['sendSms']),
+		getAppConfig() {
+			this.appConfig().then(res => {
+				this.appData = res.data;
+			});
+		},
 		inputChange(e) {
 			const key = e.currentTarget.dataset.key;
 			this[key] = e.detail.value;
 		},
-		navBack() {
-			uni.navigateBack();
+		openPage(type) {
+			if (type === 'xieyi') {
+				uni.navigateTo({
+					url: `/pages/public/webview?title=${this.i18n.register.tips2}&url=${this.appData.privacy}`
+				});
+			}
 		},
 		navToLogin() {
 			uni.navigateTo({
@@ -219,12 +236,12 @@ export default {
 					setTimeout(() => {
 						this.logining = false;
 						let params = {
-							email: this.form.email,
+							account: this.form.account,
 							password: this.form.password
 						};
 						this.login(params).then(res => {
 							uni.navigateTo({
-								url: '/pages/lottery/index'
+								url: '/pages/public/lottery'
 							});
 						});
 					}, 1000);
@@ -322,6 +339,13 @@ export default {
 	align-items: center;
 	justify-content: center;
 }
+.check-wrapper {
+	width: 100%;
+	padding: 20rpx 24rpx;
+	font-size: 26rpx;
+	font-weight: 500;
+	
+}
 
 .forget-section {
 	font-size: $font-sm + 2upx;
@@ -347,12 +371,9 @@ export default {
 	float: right;
 	width: 200upx;
 	text-align: right;
-	color: #4f5b87;
+	color: #0072FF;
 	font-size: 26upx;
 	font-family: PingFang SC;
 	font-weight: 400;
-	background: linear-gradient(0deg, #3fbbfe 0%, #a541ff 100%);
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
 }
 </style>

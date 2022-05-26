@@ -44,6 +44,7 @@
 				<view class="sign-up" @click="toRegist">{{ i18n.login.sign }}</view>
 				<view class="forget" @click="toForgetPassword">{{ i18n.login.forget }}</view>
 			</view>
+			<view class="online">Online <text style="color: #E20804;margin-left: 20rpx;">{{online_numbers}}</text></view>
 		</view>
 		<view class="bottom-text">
 			<text @click="toRegist">{{ i18n.login.bottomTxt }}</text>
@@ -68,7 +69,8 @@ export default {
 			},
 			isOpenEyes: false,
 			showLang: false,
-			langList: []
+			langList: [],
+			online_numbers: 0
 		};
 	},
 	onShow() {
@@ -78,6 +80,7 @@ export default {
 		...mapActions('user', ['appConfig','login']),
 		getAppConfig() {
 			this.appConfig().then(res => {
+				this.online_numbers = res.data.online_numbers
 				this.langList = res.data.languages.map(v => {
 					return {
 						text: v.name,
@@ -246,5 +249,13 @@ export default {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+}
+.online {
+	font-size: 26rpx;
+	font-family: PingFang SC;
+	font-weight: 400;
+	color: #212121;
+	text-align: center;
+	margin-top: 60rpx;
 }
 </style>

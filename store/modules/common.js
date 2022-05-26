@@ -7,7 +7,9 @@ import {
 	noticeList,
 	uploadImg,
 	clickSign,
-	signInfo
+	signInfo,
+	getArticle,
+	getKefu
 } from '@/api/common'
 import {
 	COMMON_COIN_LIST,
@@ -135,6 +137,28 @@ const common = {
 		}) {
 			return new Promise((resolve, reject) => {
 				signInfo().then(res => {
+					resolve(res)
+				}).catch(error => {
+					reject(error)
+				})
+			})
+		},
+		getArticle({
+			commit
+		}, data) {
+			return new Promise((resolve, reject) => {
+				getArticle(data).then(res => {
+					resolve(res)
+				}).catch(error => {
+					reject(error)
+				})
+			})
+		},
+		getKefu({
+			commit
+		}) {
+			return new Promise((resolve, reject) => {
+				getKefu().then(res => {
 					resolve(res)
 				}).catch(error => {
 					reject(error)

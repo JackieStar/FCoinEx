@@ -8,50 +8,92 @@
 			<view class="account-info">
 				<view class="account-txt">
 					<view style="flex-shrink: 0;">地址：</view>
-					<text class="account-addr">{{accountInfo.wallet_addr}}</text></view>
-				<view class="account-txt">网络：<text style="color:#666666">{{accountInfo.coin_type}}</text></view>
+					<text class="account-addr">{{ accountInfo.wallet_addr }}</text>
+				</view>
+				<view class="account-txt">
+					网络：
+					<text style="color:#666666">{{ accountInfo.coin_type }}</text>
+				</view>
 				<view class="account-txt">
 					<view style="flex-shrink: 0;">备注：</view>
-					<text class="remark">{{accountInfo.remark || '无'}}</text></view>
+					<text class="remark">{{ accountInfo.remark || '无' }}</text>
+				</view>
 			</view>
 			<u-icon name="arrow-right" color="#333" size="24" />
 		</view>
 		<view class="coin-wrapper" v-if="!accountInfo" @click="openPage('add')">
-			<view class="no-account">您还未添加收款账号, <text style="color:#0072FF">去添加</text></view>
+			<view class="no-account">
+				您还未添加收款账号,
+				<text style="color:#0072FF">去添加</text>
+			</view>
 			<u-icon name="arrow-right" color="#333" size="24" />
 		</view>
-		
+
 		<view class="money-wrapper">
 			<view class="money-item">
 				<view class="money-title">{{ i18n.withdraw.balance }}</view>
-				<view style="color: #FF2929">${{userData.balance}}</view>
+				<view style="color: #FF2929">${{ userData.balance }}</view>
 			</view>
 			<view class="money-item">
 				<view class="money-title">提现金额</view>
 				<view class="money-input-wrapper">
-					<input type="number" @input="inputChange" v-model="amount" placeholder-style="color: #9F9F9F; font-size: 24rpx" placeholder="请输入" class="input-money">
+					<input type="number" @input="inputChange" v-model="amount" placeholder-style="color: #9F9F9F; font-size: 24rpx" placeholder="请输入" class="input-money" />
 					<view style="color: #0072FF" @click="handleAll">全部</view>
 				</view>
 			</view>
 			<view class="money-item">
 				<view class="money-title">最小提现金额</view>
-				<view style="color: #666666">${{withdrawInfo.withdraw_min_amount}}</view>
+				<view style="color: #666666">${{ withdrawInfo.withdraw_min_amount }}</view>
 			</view>
 			<view class="money-item">
 				<view class="money-title">{{ i18n.withdraw.fee }}</view>
-				<view style="color: #666666">${{withdraw_fee || withdrawInfo.withdraw_min_fee}}</view>
+				<view style="color: #666666">${{ withdraw_fee || withdrawInfo.withdraw_min_fee }}</view>
 			</view>
-			
 		</view>
 		<view class="btn-wrapper">
 			<view class="confirm-btn" @click="openModal">{{ i18n.withdraw.btn }}</view>
 			<view class="tips">提现手续费由用户自行承担</view>
 		</view>
-		<u-popup v-model="showModal" mode="bottom" class="password-modal" :border-radius="20" height="565upx">
-			<view class="title" style="margin-top: 40upx;">
-				<text>{{ i18n.withdraw.safe }}</text>
-				<u-image class="title-bg" src="../../static/images/wallet/title-long-bg.png" width="144upx" height="12upx" />
+		<u-popup v-model="show" mode="center">
+			<view class="coupon-1-wrapper">
+				<view class="top-img"></view>
+				<view class="rz-wrapper">
+					<view class="coupon-title">提示</view>
+					<view class="coupon-tips">您还未实名认证，暂不能提现</view>
+					<view class="btn-wrapper">
+						<view class="cancel" @click="show = false">取消</view>
+						<view class="confirm" @click="openPage('auth')">去认证</view>
+					</view>
+				</view>
 			</view>
+		</u-popup>
+		<u-popup v-model="showSure" mode="center" border-radius="20" closeable>
+			<view class="coupon-wrapper">
+				<view class="coupon-title">充值确认</view>
+				<view class="coupon-txt-wrapper">
+					<view class="coupon-txt">
+						提现网络：
+						<text style="color:#666666">{{accountInfo.coin_type }}</text>
+					</view>
+					<view class="coupon-txt">
+						提现地址：
+						<text style="color:#666666">{{accountInfo.wallet_addr }}</text>
+					</view>
+					<view class="coupon-txt">
+						{{ i18n.recharge.amount }}：
+						<text style="color:#666666">{{ amount }}$</text>
+					</view>
+					<view class="coupon-txt">
+						预计到账金额：
+						<text style="color:#FF2929">{{ amount - withdraw_fee}}</text>
+					</view>
+				</view>
+				
+				<view class="coupon-btn" @click="handleConfirm">确认充值</view>
+			</view>
+		</u-popup>
+		<u-popup v-model="showModal" mode="bottom" class="password-modal" closeable :border-radius="20" height="660rpx">
+			<view class="modal-title">添加收款账号</view>
 			<view class="modal-line-title">{{ i18n.withdraw.emailCode }}</view>
 			<view class="modal-input-wrapper">
 				<input
@@ -123,6 +165,8 @@ export default {
 			amount: null, // 提现金额
 			withdraw_addr: null, // 提现地址
 			showModal: false,
+			show: false,
+			showSure: false,
 			seconds: 60,
 			tips: '',
 			form: {
@@ -146,12 +190,11 @@ export default {
 		...mapActions('user', ['userInfo']),
 		//请求数据
 		async loadData() {
-			let accountInfo = uni.getStorageSync('accountInfo')
-			this.accountInfo = accountInfo
+			let accountInfo = uni.getStorageSync('accountInfo');
+			this.accountInfo = accountInfo;
 			this.getFinaceInfo({ config: 'withdraw' }).then(res => {
 				this.withdrawInfo = res.data;
 			});
-			
 		},
 		// 获取用户信息
 		getUserInfo() {
@@ -165,10 +208,10 @@ export default {
 		},
 		// 交易密码弹窗
 		openModal() {
-			if (!this.withdraw_addr) {
-				this.$api.msg(this.i18n.withdraw.noWithdrawAddr);
-				return;
-			}
+			// if (!this.withdraw_addr) {
+			// 	this.$api.msg(this.i18n.withdraw.noWithdrawAddr);
+			// 	return;
+			// }
 			if (!this.amount) {
 				this.$api.msg(this.i18n.withdraw.noAmount);
 				return;
@@ -177,7 +220,11 @@ export default {
 				email_code: null,
 				password: null
 			};
-			this.showModal = true;
+			if (!this.userData.certification_status) {
+				this.show = true;
+				return;
+			}
+			this.showSure = true;
 		},
 		handleSubmit() {
 			if (!this.form.email_code) {
@@ -189,8 +236,7 @@ export default {
 				return;
 			}
 			let params = {
-				coin_type: this.withdrawInfo.coin_type,
-				withdraw_addr: this.withdraw_addr,
+				addr_id: this.accountInfo.id,
 				amount: this.amount,
 				...this.form
 			};
@@ -236,11 +282,19 @@ export default {
 					url: '/pages/wallet/withdraw'
 				});
 			}
-			
+			if (type === 'auth') {
+				uni.navigateTo({
+					url: '/pages/me/authentication'
+				});
+			}
 			if (type === 'add')
 				uni.navigateTo({
 					url: '/pages/me/account'
 				});
+		},
+		handleConfirm() {
+			this.showSure = false
+			this.showModal = true
 		},
 		inputChange(e) {
 			console.log('e', e.detail.value);
@@ -267,11 +321,14 @@ export default {
 	background: url(../../static/images/me/list.png);
 	background-size: 100% 100%;
 }
+/deep/ .u-mode-center-box {
+	background: none !important;
+}
 .container {
 	.coin-wrapper {
 		width: 697rpx;
 		height: 194rpx;
-		background: #FFFFFF;
+		background: #ffffff;
 		border-radius: 10rpx;
 		margin: 60rpx auto 20rpx auto;
 		display: flex;
@@ -302,22 +359,22 @@ export default {
 		.account-addr {
 			width: 400rpx;
 			color: #666666;
-			white-space:nowrap;
-			overflow:hidden;
-			text-overflow:ellipsis;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
 		}
 		.remark {
 			width: 300rpx;
 			color: #666666;
-			white-space:nowrap;
-			overflow:hidden;
-			text-overflow:ellipsis;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
 		}
 	}
 	.money-wrapper {
 		width: 697rpx;
 		height: 439rpx;
-		background: #FFFFFF;
+		background: #ffffff;
 		border-radius: 10rpx;
 		margin: 20rpx auto;
 		.money-item {
@@ -328,7 +385,7 @@ export default {
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
-			border-bottom: 1rpx solid #E3E3E3;
+			border-bottom: 1rpx solid #e3e3e3;
 			.money-title {
 				font-size: 28rpx;
 				font-family: PingFang SC;
@@ -342,8 +399,8 @@ export default {
 			.input-money {
 				width: 236rpx;
 				height: 62rpx;
-				background: #F5F5F5;
-				border: 1rpx solid #D8D8D8;
+				background: #f5f5f5;
+				border: 1rpx solid #d8d8d8;
 				border-radius: 6rpx;
 				padding: 0 20rpx;
 				margin-right: 20rpx;
@@ -361,7 +418,7 @@ export default {
 		.confirm-btn {
 			width: 590rpx;
 			height: 76rpx;
-			background: #0079FF;
+			background: #0079ff;
 			border-radius: 38rpx;
 			color: #fff;
 			display: flex;
@@ -377,65 +434,175 @@ export default {
 			margin-top: 50rpx;
 		}
 	}
-	
+	.coupon-1-wrapper {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		.top-img {
+			width: 116rpx;
+			height: 116rpx;
+			background: url(../../static/images/me/coupon_img.png);
+			background-size: 100% 100%;
+			z-index: 1000;
+			margin-bottom: -58rpx;
+		}
+		.rz-wrapper {
+			width: 629rpx;
+			height: 375rpx;
+			background: #ffffff;
+			border-radius: 20rpx;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			.coupon-title {
+				font-size: 36rpx;
+				font-family: PingFang SC;
+				font-weight: 500;
+				color: #212121;
+				margin-top: 80rpx;
+			}
+			.coupon-tips {
+				font-size: 30rpx;
+				font-family: PingFang SC;
+				font-weight: 500;
+				color: #666666;
+				margin: 20rpx 0;
+			}
+			.btn-wrapper {
+				width: 100%;
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				justify-content: space-between;
+				padding: 0 40rpx;
+				margin-top: 50rpx;
+				.cancel {
+					width: 240rpx;
+					height: 76rpx;
+					background: #ffffff;
+					border: 2rpx solid #e9e9e9;
+					border-radius: 38rpx;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					color: #666666;
+					font-size: 26rpx;
+					font-family: PingFang SC;
+					font-weight: 500;
+				}
+				.confirm {
+					width: 240rpx;
+					height: 76rpx;
+					background: #0079ff;
+					border-radius: 38rpx;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					color: #fff;
+					font-size: 26rpx;
+					font-family: PingFang SC;
+					font-weight: 500;
+				}
+			}
+		}
+	}
+	.coupon-wrapper {
+		width: 629rpx;
+		height: 636rpx;
+		background: #FFFFFF;
+		border-radius: 20rpx;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		.coupon-title {
+			font-size: 32rpx;
+			font-family: PingFang SC;
+			font-weight: 500;
+			color: #212121;
+			margin-top: 40rpx;
+		}
+		.coupon-txt-wrapper {
+			width: 100%;
+			padding: 0 46rpx;
+			.coupon-txt {
+				color: #212121;
+				font-size: 30rpx;
+				margin-top: 40rpx;
+			}
+		}
+		.coupon-btn {
+			width: 413rpx;
+			height: 76rpx;
+			background: #0079FF;
+			border-radius: 38rpx;
+			display: flex;
+			align-items: center;	
+			justify-content: center;
+			color: #fff;
+			margin-top: 80rpx;
+		}
+	}
 	.password-modal {
 		width: 694upx;
 		margin: 0 auto;
 		border-radius: 20upx;
-		margin-bottom: 60upx;
+		margin-bottom: 30upx;
 		::v-deep .u-drawer-bottom {
-			background-color: #262c4a;
+			background-color: #fff;
 		}
+	}
+	.modal-title {
+		font-size: 30rpx;
+		font-family: PingFang SC;
+		font-weight: 500;
+		color: #212121;
+		margin: 60upx 0 20rpx 20rpx;
+		padding-left: 10rpx;
+		line-height: 30rpx;
+		border-left: 8rpx solid #0072FF;
 	}
 	.modal-line-title {
-		font-size: 24upx;
+		font-size: 28rpx;
 		font-family: PingFang SC;
-		font-weight: 400;
-		color: #ffffff;
-		padding-left: 30upx;
-		margin-top: 40upx;
-		margin-bottom: 20upx;
+		font-weight: 500;
+		color: #212121;
+		margin-left: 38rpx;
+		margin-bottom: 20rpx;
+		margin-top: 50rpx;
 	}
 	.modal-input-wrapper {
-		width: 638upx;
+		width: 100%;
 		height: 74upx;
-		// background: url(../../static/images/public/login-btn.png);
-		background-size: 100% 100%;
-		margin-left: 30upx;
-
+		display: flex;
+		align-items: center;
+		padding-left: 24rpx;
 		.input-item {
-			width: 440upx;
-			height: 76upx;
-			padding: 0 32upx;
-			color: #fff;
+			width: 468rpx;
+			height: 74rpx;
+			background: #FFFFFF;
+			border: 1rpx solid #E9E9E9;
+			border-radius: 10rpx;
+			padding: 0 20rpx;
 		}
 		.code-btn {
-			float: right;
-			margin-top: -56upx;
-			margin-right: 50upx;
-			border-left: 1upx solid #dadada;
-			padding-left: 20upx;
-			color: #4f5b87;
+			color: #0072FF;
 			font-size: 26upx;
 			font-family: PingFang SC;
 			font-weight: 400;
-			background: linear-gradient(0deg, #3fbbfe 0%, #a541ff 100%);
-			-webkit-background-clip: text;
-			-webkit-text-fill-color: transparent;
+			margin-left: 20rpx;
 		}
 	}
 	.submit-btn {
-		width: 638upx;
-		height: 80upx;
-		line-height: 80upx;
+		width: 590rpx;
+		height: 76rpx;
+		background: #0079FF;
+		border-radius: 38rpx;
 		margin: 46upx auto;
 		color: #fff;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		font-size: 26upx;
-		background: linear-gradient(90deg, #3fbbfe, #a541ff);
-		border-radius: 4upx;
+		font-size: 26rpx;
 	}
 }
 </style>

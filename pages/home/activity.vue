@@ -1,8 +1,8 @@
 <template>
 	<view class="container">
-		<view class="fast-cell-wrapper">
-			<view class="cell-item" @click="openPage('password')">
-				<text class="cell-title">{{i18n.userInfo.password}}</text>
+		<view class="fast-cell-wrapper" v-for="(item, index) in helpList" @click="openPage(item)" :key="item.id">
+			<view class="cell-item">
+				<text class="cell-title">{{ item.title }}</text>
 				<view class="cell-item-right"><u-icon name="arrow-right" color="#999" size="17" /></view>
 			</view>
 		</view>
@@ -17,29 +17,27 @@ export default {
 	mixins: [commonMixin],
 	data() {
 		return {
-			userData: {}
+			helpList: []
 		};
 	},
 	onShow() {
 		uni.setNavigationBarTitle({
 			title: this.i18n.home.newActivity
 		});
-		this.getUserInfo();
+		this.getArticleList();
 	},
 	methods: {
-		...mapActions('user', ['userInfo']),
+		...mapActions('common', ['getArticle']),
 		// 获取用户信息
-		getUserInfo() {
-			this.userInfo().then(res => {
-				this.userData = res.data;
+		getArticleList() {
+			this.getArticle({ type: 'activity' }).then(res => {
+				this.helpList = res.data.data;
 			});
 		},
-		openPage(type, item) {
-			if (type === 'password') {
-				uni.navigateTo({
-					url: '/pages/public/password'
-				});
-			}
+		openPage(item) {
+			uni.navigateTo({
+				url: `/pages/public/webview?title=${item.title}&url=${item.url}`
+			});
 		}
 	}
 };
@@ -62,6 +60,10 @@ export default {
 			justify-content: space-between;
 			padding: 0 25rpx 0 37rpx;
 			.cell-title {
+				width: 500rpx;
+				white-space:nowrap;
+				overflow:hidden;
+				text-overflow:ellipsis;
 				font-size: 28rpx;
 				font-family: PingFang SC;
 				font-weight: 500;

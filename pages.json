@@ -235,8 +235,8 @@
 			"path": "pages/public/webview",
 			"style": {
 				"navigationBarTitleText": "",
-				"navigationBarTextStyle": "white",
-				"navigationBarBackgroundColor": "#070219"
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#ffffff"
 			}
 		}
 	   
