@@ -2,27 +2,10 @@
 	<view class="container">
 		<input
 			class="input-item"
-			type="password"
+			type="text"
 			placeholder-style="color: #4F5B87; font-size: 26upx"
-			v-model="form.old_password"
-			:placeholder="i18n.updatePwd.oldPwd"
-			maxlength="10"
-		/>
-		<input
-			class="input-item"
-			type="password"
-			placeholder-style="color: #4F5B87; font-size: 26upx"
-			v-model="form.password"
-			:placeholder="i18n.updatePwd.newPwd"
-			maxlength="10"
-		/>
-		<input
-			class="input-item"
-			type="password"
-			placeholder-style="color: #4F5B87; font-size: 26upx"
-			v-model="form.password_confirm"
-			:placeholder="i18n.updatePwd.newPwdAgain"
-			maxlength="10"
+			v-model="form.email"
+			:placeholder="i18n.updatePwd.email"
 		/>
 		<view class="input-wrapper">
 			<input
@@ -62,24 +45,19 @@ export default {
 			seconds: 60,
 			tips: '',
 			form: {
-				old_password: undefined,
-				password: undefined,
-				password_confirm: undefined,
+				email: undefined,
 				email_code: undefined
 			}
 		};
 	},
-	computed: {
-		...mapState('user', ['loginInfo'])
-	},
 	onShow() {
 		uni.setNavigationBarTitle({
-			title: this.i18n.updatePwd.title
+			title: this.i18n.updatePwd.title1
 		});
 	},
 	methods: {
 		...mapActions('common', ['sendSms']),
-		...mapActions('user', ['updatePwd']),
+		...mapActions('user', ['updateEmail']),
 		codeChange(text) {
 			console.log('text', text);
 			this.tips = text;
@@ -90,8 +68,8 @@ export default {
 					title: this.i18n.toast.coding
 				});
 				let data = {
-					usage: 'changePwd',
-					email: this.loginInfo.email
+					usage: 'changeEmail',
+					email: this.form.email
 				};
 				this.sendSms(data)
 					.then(res => {
@@ -104,27 +82,14 @@ export default {
 			}
 		},
 		handleSubmit() {
-			// if (!this.form.old_password) {
-			// 	this.$api.msg(this.i18n.toast.inputPwd);
-			// 	return;
-			// }
-			// if (!this.form.againPwd) {
-			// 	this.$api.msg(this.i18n.toast.inputPwd);
-			// 	return;
-			// }
-			// if (this.form.againPwd !== this.form.newPwd) {
-			// 	this.$api.msg(this.i18n.toast.againPwdError);
-			// 	return;
-			// }
 			this.loading = true;
-			console.log(this.form);
-			this.updatePwd(this.form)
+			this.updateEmail(this.form)
 				.then(res => {
 					this.$api.msg(this.i18n.toast.updatePwdSuccess, 1000, false, 'none', function() {
 						setTimeout(function() {
 							this.loading = false;
-							uni.navigateTo({
-								url: '/pages/public/login'
+							uni.reLaunch({
+								url: '/pages/me/userInfo'
 							});
 						}, 1000);
 					});

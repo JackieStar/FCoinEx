@@ -6,7 +6,7 @@
 				<text class="cell-title">{{i18n.userInfo.avatar}}</text>
 				<view class="cell-item-right"><u-image width="95rpx" height="95rpx" border-radius="6rpx" :src="userData.avatar" /></view>
 			</view>
-			<view class="cell-item">
+			<view class="cell-item" @click="openPage('username')">
 				<text class="cell-title">{{i18n.userInfo.username}}</text>
 				<view class="cell-item-right">
 					<text class="cell-tips">{{userData.name}}</text>
@@ -23,7 +23,7 @@
 		</view>
 		<view class="user-info-title" style="margin-top: 90rpx;">{{i18n.userInfo.title2}}</view>
 		<view class="fast-cell-wrapper" style="height: 220rpx;">
-			<view class="cell-item">
+			<view class="cell-item" @click="openPage('email')">
 				<text class="cell-title">{{i18n.userInfo.email}}</text>
 				<view class="cell-item-right">
 					<text class="cell-tips">{{userData.email}}</text>
@@ -74,6 +74,21 @@ export default {
 			});
 		},
 		openPage(type, item) {
+			if (type === 'username') {
+				uni.navigateTo({
+					url: '/pages/public/username'
+				});
+			}
+			if (type === 'email') {
+				uni.navigateTo({
+					url: '/pages/public/updateEmail'
+				});
+			}
+			if (type === 'moblie') {
+				uni.navigateTo({
+					url: '/pages/public/updateMoblie'
+				});
+			}
 			if (type === 'password') {
 				uni.navigateTo({
 					url: '/pages/public/password'

@@ -200,6 +200,22 @@
 			}
 		},
 		{
+			"path": "pages/public/username",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#ffffff",
+				"navigationBarTitleText": ""
+			}
+		},
+		{
+			"path": "pages/public/updateEmail",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#ffffff",
+				"navigationBarTitleText": ""
+			}
+		},
+		{
 			"path": "pages/public/redPacket",
 			"style": {
 				"navigationBarTextStyle": "black",
@@ -219,16 +235,8 @@
 			"path": "pages/public/forget",
 			"style": {
 				"navigationBarTitleText": "",
-				"navigationBarTextStyle": "white",
-				"navigationBarBackgroundColor": "#070219"
-			}
-		},
-		{
-			"path": "pages/user/updateName",
-			"style": {
-				"navigationBarTitleText": "",
-				"navigationBarTextStyle": "white",
-				"navigationBarBackgroundColor": "#070219"
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#ffffff"
 			}
 		},
 		{

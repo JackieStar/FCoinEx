@@ -11,6 +11,7 @@ import {
 	updatePwd,
 	resetPwd,
 	updateUserName,
+	updateEmail,
 	userInfo,
 	invitInfo,
 	invitUserList,
@@ -143,6 +144,17 @@ const user = {
 			return new Promise((resolve, reject) => {
 				updateUserName(data).then(res => {
 					commit(USER_UPDATE_NAME, data)
+					resolve()
+				}).catch(error => {
+					reject(error)
+				})
+			})
+		},
+		updateEmail({
+			commit
+		}, data) {
+			return new Promise((resolve, reject) => {
+				updateEmail(data).then(res => {
 					resolve()
 				}).catch(error => {
 					reject(error)

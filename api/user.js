@@ -47,6 +47,14 @@ export function updateUserName(data) {
 		data: data
 	})
 }
+//修改邮箱
+export function updateEmail(data) {
+	return request({
+		url: '/api/user/change-email',
+		method: 'POST',
+		data: data
+	})
+}
 // 用户信息
 export function userInfo(data) {
 	return request({

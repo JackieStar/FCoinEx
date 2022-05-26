@@ -11,7 +11,7 @@
 			</swiper>
 		</view>
 		<!-- 公告 -->
-		<view class="notice-wrapper"><u-notice-bar mode="vertical" font-size="26rpx" padding="30rpx" :list="notices"></u-notice-bar></view>
+		<view class="notice-wrapper"><u-notice-bar mode="horizontal" font-size="26rpx" padding="30rpx" :list="notices"></u-notice-bar></view>
 		<!-- 币种列表 -->
 		<view class="coin-wrapper">
 			<view class="coin-item" v-for="(item, i) in markets" :key="item.id">

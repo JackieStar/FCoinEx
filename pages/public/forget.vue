@@ -13,7 +13,6 @@
 			placeholder-style="color: #4F5B87; font-size: 26upx"
 			v-model="form.password"
 			:placeholder="i18n.updatePwd.newPwd"
-			maxlength="10"
 		/>
 		<input
 			class="input-item"
@@ -21,7 +20,6 @@
 			placeholder-style="color: #4F5B87; font-size: 26upx"
 			v-model="form.password_confirm"
 			:placeholder="i18n.updatePwd.newPwdAgain"
-			maxlength="10"
 		/>
 		<view class="input-wrapper">
 			<input
@@ -103,20 +101,7 @@ export default {
 			}
 		},
 		handleSubmit() {
-			// if (!this.form.old_password) {
-			// 	this.$api.msg(this.i18n.toast.inputPwd);
-			// 	return;
-			// }
-			// if (!this.form.againPwd) {
-			// 	this.$api.msg(this.i18n.toast.inputPwd);
-			// 	return;
-			// }
-			// if (this.form.againPwd !== this.form.newPwd) {
-			// 	this.$api.msg(this.i18n.toast.againPwdError);
-			// 	return;
-			// }
 			this.loading = true;
-			console.log(this.form);
 			this.resetPwd(this.form)
 				.then(res => {
 					this.$api.msg(this.i18n.toast.updatePwdSuccess, 1000, false, 'none', function() {
@@ -138,6 +123,9 @@ export default {
 
 <style lang="scss" scoped>
 .container {
+	width: 100%;
+	height: 100%;
+	background-color: #fff;
 	padding-top: 70upx;
 	.bg {
 		position: absolute;
@@ -148,13 +136,14 @@ export default {
 	}
 }
 .input-item {
-	border: 2upx solid #232e55;
-	border-radius: 4upx;
+	background: #FFFFFF;
+	border: 1rpx solid #E9E9E9;
+	border-radius: 10rpx;
 	margin: 31upx auto 0 auto;
 	width: 690upx;
 	height: 88upx;
 	padding: 0 32upx;
-	color: #fff;
+	color: #333;
 }
 .input-wrapper {
 	.num {
@@ -170,13 +159,10 @@ export default {
 .confirm-btn {
 	width: 630upx;
 	height: 76upx;
-	line-height: 76upx;
-	margin-top: 40upx;
-	margin: 40upx auto;
-	// background: url(../../static/images/public/login-btn.png);
-	background-size: 100% 100%;
+	margin: 120upx auto;
+	background: #0072FF;
 	color: #fff;
-	font-size: $font-lg;
+	border-radius: 40rpx;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -186,12 +172,9 @@ export default {
 	float: right;
 	margin-top: -60upx;
 	margin-right: 50upx;
-	color: #4f5b87;
+	color: #0072FF;
 	font-size: 26upx;
 	font-family: PingFang SC;
 	font-weight: 400;
-	background: linear-gradient(0deg, #3fbbfe 0%, #a541ff 100%);
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
 }
 </style>
