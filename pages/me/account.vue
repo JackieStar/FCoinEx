@@ -5,12 +5,12 @@
 				<u-image style="flex-shrink: 0;" :src="item.icon" width="76rpx" height="76rpx" />
 				<view class="account-info">
 					<view class="account-txt">
-						<view style="flex-shrink: 0;">地址：</view>
+						<view style="flex-shrink: 0;">{{i18n.withdraw.withdrawwAddr}}：</view>
 						<text class="account-addr">{{item.wallet_addr}}</text></view>
-					<view class="account-txt">网络：<text style="color:#666666">{{item.coin_type}}</text></view>
+					<view class="account-txt">{{i18n.withdraw.network}}：<text style="color:#666666">{{item.coin_type}}</text></view>
 					<view class="account-txt">
-						<view style="flex-shrink: 0;">备注：</view>
-						<text class="remark">{{item.remark || '无'}}</text></view>
+						<view style="flex-shrink: 0;">{{i18n.common.desc}}：</view>
+						<text class="remark">{{item.remark || i18n.common.no }}</text></view>
 				</view>
 				<view class="delete-wrapper" @click="handleDelete(item)">
 					<u-icon name="trash" color="#ABABAB" size="40" />
@@ -19,37 +19,37 @@
 		</view>
 		<view class="no-data-wrapper" v-if="accountList.length === 0">
 			<u-image src="../../static/images/me/no_data.png" width="543rpx" height="481rpx" />
-			<view class="no-data">还未添加地址，马上去添加吧</view>
+			<view class="no-data">{{i18n.withdraw.tips3}}</view>
 		</view>
 		<view class="add-btn-wrapper">
-			<view class="add-btn" @click="handleAdd">添加</view>
+			<view class="add-btn" @click="handleAdd">{{i18n.withdraw.add}}</view>
 		</view>
 		<u-popup v-model="showModal" closeable mode="bottom" class="account-modal" :border-radius="20" height="770rpx">
-			<view class="modal-title">添加收款账号</view>
+			<view class="modal-title">{{i18n.withdraw.addAccount}}</view>
 			<view class="modal-line-title">{{ i18n.withdraw.emailCode }}</view>
 			<view class="network-input">
-				<u-field :border-bottom="false" @click="handleShowAction" v-model="form.coin_type" :disabled="true" placeholder="请选择网络" right-icon="arrow-down-fill" />
+				<u-field :border-bottom="false" @click="handleShowAction" v-model="form.coin_type" :disabled="true" :placeholder="i18n.withdraw.network" right-icon="arrow-down-fill" />
 				<u-action-sheet border-radius="20" @click="getCoinType" :list="coinTypeList" v-model="showAction"></u-action-sheet>
 			</view>
-			<view class="modal-line-title">收款地址</view>
+			<view class="modal-line-title">{{i18n.withdraw.receiver}}</view>
 			<view class="modal-input-wrapper">
 				<input
 					class="input-item"
 					placeholder-style="color: #818FA; font-size: 26upx"
 					v-model="form.addr"
-					:placeholder="i18n.withdraw.placeholder"
+					:placeholder="i18n.withdraw.receiver"
 					style="padding-right: 10upx;"
 					type="text"
 				/>
-				<view class="copy-btn" @click="handleCopy">粘贴</view>
+				<view class="copy-btn" @click="handlePaste">{{i18n.withdraw.copyBtn}}</view>
 			</view>
-			<view class="modal-line-title">备注</view>
+			<view class="modal-line-title">{{i18n.common.desc}}</view>
 			<view class="modal-input-wrapper">
 				<input
 					class="input-item"
 					placeholder-style="color: #818FA; font-size: 26upx"
 					v-model="form.remark"
-					:placeholder="i18n.withdraw.placeholder1"
+					:placeholder="i18n.common.desc"
 				/>
 			</view>
 			<view class="submit-btn" @click="handleSubmit">{{ i18n.withdraw.submitBtn }}</view>
@@ -80,7 +80,7 @@ export default {
 	},
 	onShow() {
 		uni.setNavigationBarTitle({
-			title: this.i18n.me.kf
+			title: this.i18n.withdraw.title2
 		});
 		this.loadData()
 		this.getList()
@@ -103,6 +103,11 @@ export default {
 		},
 		handleAdd() {
 			this.showModal = true
+			this.form = {
+				coin_type: null,
+				addr: null,
+				remark: null
+			}
 		},
 		handleShowAction() {
 			this.showAction = true
@@ -119,8 +124,8 @@ export default {
 			this.form.coin_type = this.coinTypeList[e].text
 		},
 		handleSubmit() {
-			if (!this.form.coin_type) return this.$api.msg('1111')
-			if (!this.form.addr) return this.$api.msg('2222')
+			if (!this.form.coin_type) return this.$api.msg(this.i18n.withdraw.noNetwork)
+			if (!this.form.addr) return this.$api.msg(this.i18n.withdraw.noWithdrawAddr)
 			this.addReceiver(this.form).then(res => {
 				this.$api.msg(res.message)
 				this.getList()
@@ -133,7 +138,15 @@ export default {
 				this.getList()
 			})
 		},
-		handleCopy() {	}
+		// 粘贴
+		handlePaste() {
+			uni.getClipboardData({
+				success: res => {
+					this.form.addr = res.data;
+					console.log(res.data);
+				}
+			});
+		},
 	}
 };
 </script>
@@ -145,6 +158,7 @@ export default {
 	.account-list-wrapper {
 		width: 100%;
 		height: 100%;
+		padding-bottom: 180rpx;
 		overflow-y: scroll;
 		.account-list {
 			width: 697rpx;
@@ -252,12 +266,15 @@ export default {
 			margin-top: 50rpx;
 		}
 		.network-input  {
-			width: 619rpx;
+			width: 490rpx;
 			height: 74rpx;
 			background: #FFFFFF;
 			border: 1rpx solid #E9E9E9;
 			border-radius: 10rpx;
-			margin: 20rpx auto;
+			margin: 30upx;
+			display: flex;
+			align-items: center;
+			justify-content: center;
 		}
 		.modal-input-wrapper {
 			width: 638upx;

@@ -30,7 +30,7 @@
 				<view class="money-title">{{i18n.me.assets}}</view>
 				<view class="money">
 					${{userData.balance}}
-					<text class="money-tips">≈JPY-$1234324</text>
+					<text class="money-tips">≈{{userData.currency.currency}}-{{userData.currency.symbol}}{{(userData.balance * Number(userData.currency.rate)).toFixed(2)}}</text>
 				</view>
 			</view>
 			<!-- 快速入口 -->

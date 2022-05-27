@@ -55,6 +55,22 @@ export function updateEmail(data) {
 		data: data
 	})
 }
+//修改货币单位
+export function updateCurrency(data) {
+	return request({
+		url: '/api/user/set-currency',
+		method: 'POST',
+		data: data
+	})
+}
+//修改头像
+export function updateAvatar(data) {
+	return request({
+		url: '/api/user/change-avatar',
+		method: 'POST',
+		data: data
+	})
+}
 // 用户信息
 export function userInfo(data) {
 	return request({

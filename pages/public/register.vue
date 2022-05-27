@@ -99,7 +99,7 @@
 				</view>
 			</view>
 			<u-checkbox v-model="isChecked" style="margin-left: 60rpx;">
-				<view class="check-wrapper"@click="openPage('xieyi')">{{i18n.register.tips1}}<text style="color: #2b73f6">{{i18n.register.tips2}}</text></view>
+				<view class="check-wrapper" @click="openPage('xieyi')">{{i18n.register.tips1}}<text style="color: #2b73f6">{{i18n.register.tips2}}</text></view>
 				
 			</u-checkbox>
 			<view @click="toRegist" class="confirm-btn">{{ i18n.register.title }}</view>
@@ -216,16 +216,12 @@ export default {
 			this.isOpenEyes = type;
 		},
 		toRegist() {
-			// if (!isMobile(this.form.username)) {
-			// 	this.$api.msg(this.i18n.login.mobileError);
-			// 	return;
-			// }
-			// if (!isPassword(this.form.password)) {
-			// 	this.$api.msg(this.i18n.login.pwdError);
-			// 	return;
-			// }
 			if (this.form.password != this.form.password_confirm) {
-				this.$api.msg(this.i18n.login.pwdNotMatch);
+				this.$api.msg(this.i18n.toast.againPwdError);
+				return;
+			}
+			if (!this.isChecked) {
+				this.$api.msg(this.i18n.register.tips3);
 				return;
 			}
 
@@ -236,7 +232,7 @@ export default {
 					setTimeout(() => {
 						this.logining = false;
 						let params = {
-							account: this.form.account,
+							email: this.form.email,
 							password: this.form.password
 						};
 						this.login(params).then(res => {

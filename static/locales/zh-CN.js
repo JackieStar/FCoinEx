@@ -9,6 +9,7 @@ module.exports = {
 		home: {
 			title: '首页',
 			notice: '公告',
+			noticeBtn: '我知道了',
 			fastRecharge: '快捷充币',
 			fastTips: '支持USDT、美元等',
 			download: 'App下载',
@@ -17,7 +18,6 @@ module.exports = {
 			sign: '每日签到',
 			redPacket: '幸运红包',
 			newActivity: '最新活动',
-			redPacket: '幸运红包',
 			redPacket: '幸运红包',
 			market: {
 				title1: '币种/成交量',
@@ -53,6 +53,7 @@ module.exports = {
 			fail: '很遗憾',
 			failTips: '再接再厉·明日再来',
 			btn: '点击赢取更多奖励',
+			bottomTips: '首次充值后，每日都可以免费获得一次抽取幸运红包都机会'
 		},
 		login: {
 			title: '登录',
@@ -77,7 +78,8 @@ module.exports = {
 			hasAccount: '您已经有账号了， ',
 			logining: '去登录',
 			tips1: '我已同意',
-			tips2: '用户协议和隐私政策'
+			tips2: '用户协议和隐私政策',
+			tips3: '请勾选用户协议'
 		},
 		userInfo: {
 			title: '个人资料',
@@ -139,6 +141,7 @@ module.exports = {
 			again: '重新获取',
 			ok: '确认',
 			cancel: '取消',
+			no: '无',
 			noData: '暂无数据',
 			loading: '加载中',
 			lang: {
@@ -150,7 +153,6 @@ module.exports = {
 			close: '关闭',
 			request: '请求中...',
 			verifyTitle: '请完成安全验证',
-			explain: '向右滑动完成验证',
 			verifySuccess: '验证成功',
 			verifyFail: '验证失败',
 			nomoreText: '没有更多了',
@@ -255,18 +257,28 @@ module.exports = {
 			invite_reward: '下级返佣',
 			lucky_pannel: '幸运大转盘',
 			lucky_hongbao: '幸运红包'
-
-
 		},
 		withdraw: {
 			title: '提现',
+			title2: '收款账号管理',
 			network: '网络',
 			withdrawwAddr: '地址',
 			copyBtn: '粘贴',
 			inputAddr: '输入或按粘贴地址',
+			noAddAccount: '您还未添加收款账号',
+			addAccount: '添加收款账号',
+			toAdd: '去添加',
+			add: '添加',
 			money: '金额',
 			balance: '当前可用余额',
 			all: '全部',
+			minWithdrawMoney: '最小提现金额',
+			tips1: '提现手续费由用户自行承担',
+			tips2: '您还未实名认证，暂不能提现',
+			tips3: '还未添加地址，马上去添加吧',
+			warning: '提示',
+			warning2: '提现确认',
+			toAuth: '去认证',
 			fee: '手续费',
 			btn: '确定',
 			safe: '提现安全确认',
@@ -279,17 +291,13 @@ module.exports = {
 			noAmount: '请输入提现金额',
 			noEmailCode: '请输入邮箱验证码',
 			noPwd: '请输入登录密码',
+			noNetwork: '请选择网络',
 			withdrawSuccess: '提现成功',
 			withDrawList: '提现记录',
 			userName: '姓名',
 			account: '账号',
 			withdrawAccount: '提现账户',
-			receiver: '收款地址',
-			pixType: 'PIX类型',
-			withDrawAmount: '提现金额',
-			noUserName: '请输入姓名',
-			noAccount: '请输入账号',
-			noPixType: '请选择PIX类型'
+			receiver: '收款地址'
 		},
 		recharge: {
 			title: '充值',

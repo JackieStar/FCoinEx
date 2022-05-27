@@ -7,7 +7,7 @@
 				<view class="red-packet-btn" @click="handleSubmit"></view>
 				<view class="red-packet-btn" @click="handleSubmit"></view>
 			</view>
-			<view class="bottom-tips">首次充值后，每日都可以免费获得一次抽取幸运红包都机会</view>
+			<view class="bottom-tips">{{i18n.redPacket.bottomTips}}会</view>
 		</view>
 		<u-popup v-model="show" mode="center">
 			<view class="red-success" v-if="showType == 1" @click="handleClose">
@@ -61,6 +61,9 @@ export default {
 					this.showType = 0
 				}
 				this.$api.msg(res.data.tips);
+			})
+			.catch(()=>{
+				this.show = false
 			})
 			
 		},
