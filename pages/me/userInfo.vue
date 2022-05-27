@@ -4,7 +4,7 @@
 		<view class="fast-cell-wrapper">
 			<view class="cell-item">
 				<text class="cell-title">{{i18n.userInfo.avatar}}</text>
-				<view class="cell-item-right"><u-image width="95rpx" height="95rpx" border-radius="6rpx" :src="userData.avatar" /></view>
+				<view class="cell-item-right" @click="selectImg"><u-image width="95rpx" height="95rpx" border-radius="6rpx" :src="userData.avatar" /></view>
 			</view>
 			<view class="cell-item" @click="openPage('username')">
 				<text class="cell-title">{{i18n.userInfo.username}}</text>
@@ -71,11 +71,64 @@ export default {
 		this.getAppConfig()
 	},
 	methods: {
-		...mapActions('user', ['userInfo', 'appConfig', 'updateCurrency']),
+		...mapActions('user', ['userInfo', 'appConfig', 'updateCurrency','updateAvatar']),
 		// 获取用户信息
 		getUserInfo() {
 			this.userInfo().then(res => {
 				this.userData = res.data;
+			});
+		},
+		selectImg() {
+			let _this = this
+			uni.chooseImage({
+				count: 1,
+				sizeType: ['compressed'],
+				sourceType: ['camera', 'album'],
+				success: (chooseImageRes) => {
+					const tempFilePaths = chooseImageRes.tempFilePaths;
+					// 调用上传文件接口
+					_this.sendUpload(tempFilePaths[0]);
+		
+				},
+				fail: (err) => {
+					console.log(err)
+				}
+			});
+		},
+		sendUpload(tempFilePaths) {
+			// 拦截请求
+			const lang = uni.getStorageSync('language');
+			uni.showLoading();
+			uni.uploadFile({
+				url: this.$g.REQUEST_URL + '/api/upload',
+				filePath: tempFilePaths,
+				name: 'img',
+				header: {
+					'Accept-Language': lang ? lang.replace('_', '-') : 'zh-CN',
+					Authorization: 'Bearer' + ' ' + uni.getStorageSync('token')
+				},
+				success: res => {
+					console.log(res, 'res');
+					uni.hideLoading();
+					if (res.statusCode == 200) {
+						if (JSON.parse(res.data).code == 200) {
+							let data = JSON.parse(res.data).data;
+							this.updateAvatar({avatar:data.full_url}).then(res=>{
+								this.$u.toast(this.i18n.toast.updateAvatarSuccess);
+								this.userData.avatar = data.full_url;
+							})
+							console.log(data);
+						} else {
+							this.$u.toast(this.i18n.auth.uploadFail);
+						}
+					} else {
+						this.$u.toast(this.i18n.auth.uploadFail);
+					}
+				},
+				fail: err => {
+					uni.hideLoading();
+					console.log(err);
+				}
 			});
 		},
 		getAppConfig() {

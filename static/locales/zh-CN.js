@@ -348,6 +348,7 @@ module.exports = {
 			updatePwdSuccess: '登录密码修改成功',
 			copySuccess: '复制成功',
 			updateNameSuccess: '修改昵称成功',
+			updateAvatarSuccess: '修改头像成功',
 			noMore: '没有更多数据'
 		}
 	}
