@@ -20,7 +20,7 @@
 		<view v-if="mode=='history'&&Number(infoItem.profit)<0" class="history-result history-result-fail">
 			<image class="fail-icon" src="../../static/images/trade/lose.png" mode=""></image>
 			<view class="fail-text">
-				YOU LOST
+			   {{i18n.trade.lost}}
 			</view>
 		</view>
 		<view v-if="mode=='history'&&Number(infoItem.profit)>=0" class="history-result history-result-success">
@@ -28,7 +28,7 @@
 				<image class="success-img" src="../../static/images/trade/won.png" mode=""></image>
 				<view class="success-content">
 					<view class="success-tips">
-						YOU WON!
+						{{i18n.trade.won}}
 					</view>
 					<view class="success-amount">
 						${{infoItem.profit}}

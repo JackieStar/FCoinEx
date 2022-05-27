@@ -5,21 +5,25 @@
 				@change="changeHead" active-color="#0072FF" line-color="#0072FF"
 				:barStyle="{'background-color':'#0072FF'}" inactive-color="#666666" />
 		</view>
-		<view v-show="headcurrent==0" class="trade-record-page">
+		<view v-show="headcurrent==0&&holdList.length>0" class="trade-record-page">
 			<trade-item mode="hold" v-for="(item,index) in holdList" :key="index" :infoItem="item"
 				@handleGet="handleGet"></trade-item>
-			<empty v-if="holdList.length==0"></empty>
-			<view v-if="holdList.length==0" class="trade-btn" @click="goTrade">
-				{{i18n.lottery.tip3}}
-			</view>
 		</view>
-		<view v-show="headcurrent==1" class="trade-record-page">
+		<view v-show="headcurrent==1&&historyList.length>0" class="trade-record-page">
 			<trade-item mode="history" v-for="(item,index) in historyList" :key="index" :infoItem="item"></trade-item>
-			<empty v-if="historyList.length==0"></empty>
-			<view v-if="historyList.length==0" class="trade-btn" @click="goTrade">
+		</view>
+		<block v-if="headcurrent==1&&historyList.length==0">
+			<empty ></empty>
+			<view  class="trade-btn" @click="goTrade">
 				{{i18n.lottery.tip3}}
 			</view>
-		</view>
+		</block>
+		<block v-if="headcurrent==0&&holdList.length==0">
+			<empty ></empty>
+			<view  class="trade-btn" @click="goTrade">
+				{{i18n.lottery.tip3}}
+			</view>
+		</block>
 	</view>
 </template>
 
@@ -158,23 +162,22 @@
 			padding: 54rpx 26rpx 64rpx 26rpx;
 			/* #ifdef APP-PLUS */
 			padding-top: 162rpx;
-
 			/* #endif */
-			.trade-btn {
-				width: 328rpx;
-				height: 76rpx;
-				background: #0079FF;
-				border-radius: 38rpx;
-				line-height: 76rpx;
-				font-size: 26rpx;
-				font-family: PingFang SC;
-				font-weight: 500;
-				text-align: center;
-				color: #FFFFFF;
-				text-align: center;
-				margin: auto;
-				margin-top: 100rpx;
-			}
+		}
+		.trade-btn {
+			width: 328rpx;
+			height: 76rpx;
+			background: #0079FF;
+			border-radius: 38rpx;
+			line-height: 76rpx;
+			font-size: 26rpx;
+			font-family: PingFang SC;
+			font-weight: 500;
+			text-align: center;
+			color: #FFFFFF;
+			text-align: center;
+			margin: auto;
+			margin-top: 100rpx;
 		}
 	}
 </style>

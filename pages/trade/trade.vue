@@ -177,7 +177,6 @@
 
 <script>
 	import Kline from './kline.vue'
-	import handleupItem from './handup-item.vue'
 	import productItem from '../../components/product-item.vue'
 	import {
 		mapState,
@@ -190,7 +189,6 @@
 		mixins: [commonMixin],
 		components: {
 			Kline,
-			handleupItem,
 			productItem
 		},
 		data() {
