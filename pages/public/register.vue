@@ -100,7 +100,6 @@
 			</view>
 			<u-checkbox v-model="isChecked" style="margin-left: 60rpx;">
 				<view class="check-wrapper" @click="openPage('xieyi')">{{i18n.register.tips1}}<text style="color: #2b73f6">{{i18n.register.tips2}}</text></view>
-				
 			</u-checkbox>
 			<view @click="toRegist" class="confirm-btn">{{ i18n.register.title }}</view>
 			

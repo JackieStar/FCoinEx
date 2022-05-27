@@ -7,13 +7,13 @@
 				<view class="red-packet-btn" @click="handleSubmit"></view>
 				<view class="red-packet-btn" @click="handleSubmit"></view>
 			</view>
-			<view class="bottom-tips">{{i18n.redPacket.bottomTips}}会</view>
+			<view class="bottom-tips">{{i18n.redPacket.bottomTips}}</view>
 		</view>
 		<u-popup v-model="show" mode="center">
 			<view class="red-success" v-if="showType == 1" @click="handleClose">
 				<view class="red-price-wrapper">
 					<view class="red-price-icon">$</view>
-					<view class="red-price">100</view>
+					<view class="red-price">{{redMoney}}</view>
 				</view>
 				<text class="btn">{{i18n.redPacket.btn}}</text>
 			</view>
@@ -35,7 +35,8 @@ export default {
 		return {
 			show: false,
 			showType: null,
-			drawCount: 0
+			drawCount: 0,
+			redMoney: null
 		};
 	},
 	onShow() {
@@ -55,6 +56,7 @@ export default {
 			this.showType = null
 			this.show = true
 			this.lotteryDraw({type: 'lucky_hongbao'}).then(res => {
+				this.redMoney = res.data.usdt
 				if (res.data.luck) {
 					this.showType = 1
 				} else {
@@ -69,6 +71,9 @@ export default {
 		},
 		handleClose() {
 			this.show = false
+			uni.switchTab({
+				url: '/pages/home/home'
+			})
 		}
 	}
 };

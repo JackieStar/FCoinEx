@@ -22,7 +22,7 @@
 		</view>
 		<view class="btn-wrapper" style="padding: 0 30upx;">
 			<view class="submit-btn" @click="handleSubmit">{{ i18n.submitRecharge.submitBtn }}</view>
-			<view class="close-btn" @click="openPage">{{ i18n.submitRecharge.closeBtn }}</view>
+			<view class="close-btn" @click="openPage('close')">{{ i18n.submitRecharge.closeBtn }}</view>
 		</view>
 		<view>
 			<view class="note">{{ i18n.submitRecharge.note }}</view>
@@ -154,6 +154,9 @@ export default {
 				uni.navigateTo({
 					url: '/pages/me/kf'
 				});
+			}
+			if (type === 'close') {
+				uni.navigateBack()
 			}
 		},
 		handlePreview() {

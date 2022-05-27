@@ -160,8 +160,7 @@
 			...mapState('user', ['loginInfo'])
 		},
 		methods: {
-			...mapActions('user', ['appConfig', 'logout']),
-			...mapActions('user', ['userInfo']),
+			...mapActions('user', ['appConfig', 'logout', 'userInfo']),
 			getAppConfig() {
 				this.appConfig().then(res => {
 					this.appData = res.data;

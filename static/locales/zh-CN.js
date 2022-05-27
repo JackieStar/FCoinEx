@@ -144,17 +144,8 @@ module.exports = {
 			no: '无',
 			noData: '暂无数据',
 			loading: '加载中',
-			lang: {
-				en: '英文',
-				zh: '中文',
-				hk: '繁体',
-				pt: ''
-			},
 			close: '关闭',
 			request: '请求中...',
-			verifyTitle: '请完成安全验证',
-			verifySuccess: '验证成功',
-			verifyFail: '验证失败',
 			nomoreText: '没有更多了',
 			loadingText: '正在加载...',
 			loadmoreText: '加载更多',
@@ -269,13 +260,13 @@ module.exports = {
 			noNetwork: '请选择网络',
 			withdrawSuccess: '提现成功',
 			withDrawList: '提现记录',
-			userName: '姓名',
 			account: '账号',
 			withdrawAccount: '提现账户',
 			receiver: '收款地址'
 		},
 		recharge: {
 			title: '充值',
+			sure: '确认',
 			saveImg: '长按保存二维码',
 			rechargeAddr: '充值地址',
 			copyBtn: '复制地址',

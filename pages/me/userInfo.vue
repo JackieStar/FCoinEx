@@ -40,7 +40,7 @@
 			<view class="cell-item" @click="changeLang">
 				<text class="cell-title">{{i18n.userInfo.coin}}</text>
 				<view class="cell-item-right">
-					<text class="cell-tips">{{userData.currency.currency}}- {{userData.currency.symbol}}</text>
+					<text class="cell-tips">{{userData.currency.currency}}-{{userData.currency.symbol}}</text>
 					<u-icon name="arrow-right" color="#999" size="17" />
 				</view>
 			</view>

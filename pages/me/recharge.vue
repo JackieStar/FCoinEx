@@ -10,7 +10,7 @@
 			</view>
 		</view>
 		<view class="title-wrapper">
-			<text>网络</text>
+			<text>{{i18n.withdraw.network}}</text>
 			<u-image class="title-bg" src="../../static/images/me/title_bg.png" width="74rpx" height="12rpx" mode="" />
 		</view>
 		<view class="network">{{ coinType.coin_type }}</view>
@@ -46,7 +46,7 @@
 		<view class="kf-icon"><u-image @click="openPage('kf')" src="../../static/images/home/kf.png" width="127rpx" height="127rpx" /></view>
 		<u-popup v-model="show" mode="center" border-radius="20" closeable>
 			<view class="coupon-wrapper">
-				<view class="coupon-title">充值确认</view>
+				<view class="coupon-title">{{i18n.recharge.title}}{{i18n.recharge.sure}}</view>
 				<view class="coupon-txt-wrapper">
 					<view class="coupon-txt">
 						{{ i18n.recharge.network }}：
@@ -58,11 +58,11 @@
 					</view>
 					<view class="coupon-txt">
 						{{ i18n.recharge.getAmount }}：
-						<text style="color:#FF2929">{{ amount }}$ ≈JPY-¥2890.32</text>
+						<text style="color:#FF2929">{{ amount }}$ ≈ {{appData.currency.currency}}-{{appData.currency.symbol}}{{(amount * Number(appData.currency.rate)).toFixed(2)}}</text>
 					</view>
 				</view>
 				
-				<view class="coupon-btn" @click="handleSubmit">确认充值</view>
+				<view class="coupon-btn" @click="handleSubmit">{{i18n.recharge.sure}}{{i18n.recharge.title}}</view>
 			</view>
 		</u-popup>
 	</view>
@@ -80,19 +80,27 @@ export default {
 			coinType: {},
 			itemIndex: 0,
 			amount: null,
-			show: false
+			show: false,
+			appData: {}
 		};
 	},
 	onShow() {
 		this.loadData();
+		this.getUserInfo()
 	},
 	methods: {
 		...mapActions('wallet', ['getFinaceInfo']),
+		...mapActions('user', ['userInfo']),
 		//请求数据
 		async loadData() {
 			this.getFinaceInfo({ config: 'recharge' }).then(res => {
 				this.rechargeInfo = res.data;
 				this.coinType = res.data.coin_types[0];
+			});
+		},
+		getUserInfo() {
+			this.userInfo().then(res => {
+				this.appData = res.data;
 			});
 		},
 		// 切换币种
