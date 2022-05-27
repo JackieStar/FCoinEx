@@ -129,6 +129,14 @@
 			}
 		},
 		{
+			"path": "pages/wallet/withdraw",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#ffffff",
+				"navigationBarTitleText": ""
+			}
+		},
+		{
 			"path": "pages/public/login",
 			"style": {
 				"navigationBarTitleText": "",
