@@ -30,7 +30,6 @@
 			</view>
 		</view>
 		<view @click="handleSubmit" class="confirm-btn">{{ i18n.updatePwd.btn }}</view>
-		<image src="../../static/images/public/update-pwd.png" class="bg"></image>
 	</view>
 </template>
 

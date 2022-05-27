@@ -9,6 +9,7 @@ module.exports = {
 		home: {
 			title: '首页',
 			notice: '公告',
+			noticeBtn: '我知道了',
 			fastRecharge: '快捷充币',
 			fastTips: '支持USDT、美元等',
 			download: 'App下载',

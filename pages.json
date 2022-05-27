@@ -121,21 +121,6 @@
 			}
 		},
 		{
-			"path": "pages/wallet/recharge",
-			"style": {
-				"navigationBarTextStyle": "white",
-				"navigationBarBackgroundColor": "#070219",
-				"navigationBarTitleText": ""
-			}
-		}, 
-		{
-			"path": "pages/wallet/withdraw",
-			"style": {
-				"navigationBarTextStyle": "black",
-				"navigationBarBackgroundColor": "#ffffff"
-			}
-		},
-		{
 			"path": "pages/wallet/record",
 			"style": {
 				"navigationBarTextStyle": "black",

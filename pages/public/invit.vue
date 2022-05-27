@@ -1,6 +1,5 @@
 <template>
 	<view class="container">
-		<!-- <c-navbar title="邀请好友" :isRightIcon="false" /> -->
 		<view class="top-bg-box">
 			<image class="bg-logo" src="../../static/images/invit/logo.png" mode=""></image>
 			<image class="bg-image" src="../../static/images/invit/invit-bg.png" mode=""></image>
@@ -117,12 +116,8 @@
 	import {
 		commonMixin
 	} from '@/common/mixin/mixin.js';
-	import CNavBar from '@/components/c-navbar/c-navbar';
 	export default {
 		mixins: [commonMixin],
-		components: {
-			CNavBar
-		},
 		data() {
 			return {
 				tabIndex: 1,

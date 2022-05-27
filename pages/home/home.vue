@@ -92,13 +92,14 @@
 		</view>
 		<!-- 客服 -->
 		<view class="kf-icon"><u-image @click="openPage('kf')" src="../../static/images/home/kf.png" width="127rpx" height="127rpx" /></view>
+		<!-- 签到 -->
 		<u-popup v-model="show" mode="center">
 			<view class="coupon-wrapper">
 				<view class="top-img"></view>
 				<view class="coupon-bg">
 					<view class="coupon-title">{{ i18n.home.daySign }}</view>
 					<view class="money-wrapper">
-						<block v-for="(item, index) in signData.sign_schedule" v-if="index <= 2">
+						<block v-for="(item, index) in signData.sign_schedule" v-if="index <= 2" :key="index">
 							<view v-if="index <= 2" class="money" :class="{ active: item.signed == 1 }">
 								<text>{{ item.label }}</text>
 								<view class="sign-reward">+{{ item.reward }}</view>
@@ -106,7 +107,7 @@
 						</block>
 					</view>
 					<view class="money-wrapper mar-t-money">
-						<block v-for="(item, index) in signData.sign_schedule">
+						<block v-for="(item, index) in signData.sign_schedule" :key="index">
 							<view v-if="index > 2" class="money" :class="{ active: item.signed == 1 }">
 								<text>{{ item.label }}</text>
 								<view class="sign-reward">+{{ item.reward }}</view>
@@ -120,6 +121,10 @@
 				<view class="coupon-close" @click="show = false"></view>
 			</view>
 		</u-popup>
+		<!-- 公告 -->
+		<u-modal v-model="showNotice" :confirm-text="i18n.home.noticeBtn" :title="i18n.home.notice" @cancel="showNotice = false" @confirm="showNotice = false">
+			<view class="u-update-content"><rich-text :nodes="appData.notice"></rich-text></view>
+		</u-modal>
 	</view>
 </template>
 
@@ -147,7 +152,8 @@ export default {
 				reward_total: 0,
 				today_signed: 0,
 				sign_schedule: []
-			}
+			},
+			showNotice: false
 		};
 	},
 	onShow() {
@@ -298,6 +304,9 @@ export default {
 						url: '/pages/public/login'
 					});
 				}
+			}
+			if (type === 'notice') {
+				this.showNotice = true;
 			}
 		}
 	}
@@ -681,6 +690,12 @@ export default {
 			background-size: 100% 100%;
 			margin-top: 40rpx;
 		}
+	}
+	.u-update-content {
+		font-size: 30rpx;
+		color: #333;
+		line-height: 1.7;
+		padding: 30rpx;
 	}
 
 	/deep/ .u-mode-center-box {

@@ -2,11 +2,10 @@
 	<view class="container">
 		<view class="input-wrapper">
 			<input class="input-item" placeholder-style="color: #4F5B87; font-size: 26upx" v-model="name" :placeholder="i18n.updateName.placeholder" maxlength="10" type="text" />
-			<text class="num">{{name.length}}/10</text>
+			<text class="num">{{ name.length }}/10</text>
 		</view>
 		<view class="tips">{{ i18n.updateName.tips }}</view>
 		<view @click="handleSubmit" class="confirm-btn">{{ i18n.updateName.btn }}</view>
-		<image src="../../static/images/public/update-name.png" class="bg"></image>
 	</view>
 </template>
 
@@ -28,38 +27,38 @@ export default {
 	methods: {
 		...mapActions('user', ['updateUserName']),
 		handleSubmit() {
-			this.updateUserName({name: this.name}).then((res)=> {
-				this.$u.toast(this.i18n.toast.updateNameSuccess)
+			this.updateUserName({ name: this.name }).then(res => {
+				this.$u.toast(this.i18n.toast.updateNameSuccess);
 				uni.redirectTo({
 					url: '/pages/me/userInfo'
-				})
-			})
+				});
+			});
 		}
 	}
 };
 </script>
 
 <style lang="scss" scoped>
-	.input-wrapper {
-		.input-item {
-			width: 690rpx;
-			height: 90rpx;
-			background: #FFFFFF;
-			border: 1rpx solid #E9E9E9;
-			border-radius: 10rpx;
-			padding: 0 30rpx;
-			margin: 40rpx auto;
-		}
-		.num {
-			font-size: 26upx;
-			font-family: PingFang SC;
-			font-weight: 400;
-			color: #4F5B87;
-			float: right;
-			margin-top: -100upx;
-			margin-right: 46upx;
-		}
+.input-wrapper {
+	.input-item {
+		width: 690rpx;
+		height: 90rpx;
+		background: #ffffff;
+		border: 1rpx solid #e9e9e9;
+		border-radius: 10rpx;
+		padding: 0 30rpx;
+		margin: 40rpx auto;
 	}
+	.num {
+		font-size: 26upx;
+		font-family: PingFang SC;
+		font-weight: 400;
+		color: #4f5b87;
+		float: right;
+		margin-top: -100upx;
+		margin-right: 46upx;
+	}
+}
 
 .tips {
 	font-size: 26upx;
@@ -75,7 +74,7 @@ export default {
 	margin-top: 40upx;
 	margin: 40upx auto;
 	border-radius: 40rpx;
-	background: #0079FF;
+	background: #0079ff;
 	color: #fff;
 	display: flex;
 	align-items: center;
