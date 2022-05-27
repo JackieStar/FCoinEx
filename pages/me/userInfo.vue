@@ -17,7 +17,7 @@
 				<text class="cell-title">{{i18n.userInfo.phone}}</text>
 				<view class="cell-item-right">
 					<text class="cell-tips">{{userData.mobile}}</text>
-					<u-icon name="arrow-right" color="#999" size="17" />
+					<!-- <u-icon name="arrow-right" color="#999" size="17" /> -->
 				</view>
 			</view>
 		</view>
@@ -37,14 +37,16 @@
 		</view>
 		
 		<view class="fast-cell-wrapper" style="height: 110rpx;">
-			<view class="cell-item">
+			<view class="cell-item" @click="changeLang">
 				<text class="cell-title">{{i18n.userInfo.coin}}</text>
 				<view class="cell-item-right">
-					<text class="cell-tips">RMB-¥</text>
+					<text class="cell-tips">{{userData.currency.currency}}- {{userData.currency.symbol}}</text>
 					<u-icon name="arrow-right" color="#999" size="17" />
 				</view>
 			</view>
 		</view>
+		<u-action-sheet :cancel-text="i18n.common.cancel" :border-radius="20" :list="currencysList" @click="clickLang"
+			v-model="showLang"></u-action-sheet>
 	</view>
 </template>
 
@@ -56,7 +58,9 @@ export default {
 	mixins: [commonMixin],
 	data() {
 		return {
-			userData: {}
+			userData: {},
+			currencysList: [],
+			showLang: false
 		};
 	},
 	onShow() {
@@ -64,14 +68,33 @@ export default {
 			title: this.i18n.userInfo.title
 		});
 		this.getUserInfo();
+		this.getAppConfig()
 	},
 	methods: {
-		...mapActions('user', ['userInfo']),
+		...mapActions('user', ['userInfo', 'appConfig', 'updateCurrency']),
 		// 获取用户信息
 		getUserInfo() {
 			this.userInfo().then(res => {
 				this.userData = res.data;
 			});
+		},
+		getAppConfig() {
+			this.appConfig().then(res => {
+				this.currencysList = res.data.currencys.map(v=> {
+					return {
+						text: v.currency
+					}
+				})
+			});
+		},
+		changeLang() {
+			this.showLang = true;
+		},
+		clickLang(index) {
+			let currency = this.currencysList[index].text;
+			this.updateCurrency({ currency }).then(res => {
+				this.getUserInfo()
+			})
 		},
 		openPage(type, item) {
 			if (type === 'username') {

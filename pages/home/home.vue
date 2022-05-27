@@ -1,9 +1,10 @@
 <template>
 	<view class="container">
-		<view class="header">
-			<text>{{i18n.home.title}}</text>
-			<text class="notice">{{i18n.home.notice}}</text>
-		</view>
+		<u-navbar :isBack="false" :title="i18n.home.title" :background="background">
+			<view class="slot-wrap">
+				<view class="notice" @click="openPage('notice')">{{ i18n.home.notice }}</view>
+			</view>
+		</u-navbar>
 		<!-- 头部轮播 -->
 		<view class="carousel-wrapper">
 			<swiper class="carousel" autoplay="true">
@@ -25,8 +26,8 @@
 		<!-- 跳转模块 -->
 		<view class="open-wrapper">
 			<view class="right-item" @click="openPage('recharge')">
-				<view class="right-item-title">{{i18n.home.fastRecharge}}</view>
-				<view class="right-item-tip">{{i18n.home.fastTips}}</view>
+				<view class="right-item-title">{{ i18n.home.fastRecharge }}</view>
+				<view class="right-item-tip">{{ i18n.home.fastTips }}</view>
 				<view class="icon-wrapper">
 					<image class="icon-3" src="../../static/images/home/icon_3.png" />
 					<image class="icon-2" src="../../static/images/home/icon_2.png" />
@@ -36,11 +37,11 @@
 			<view class="left-wrapper">
 				<view class="top-item" @click="openPage('download')">
 					<image class="download" src="../../static/images/home/download.png" />
-					<text>{{i18n.home.download}}</text>
+					<text>{{ i18n.home.download }}</text>
 				</view>
 				<view class="bottom-item" @click="openPage('help')">
 					<image class="question" src="../../static/images/home/question.png" />
-					<text>{{i18n.home.help}}</text>
+					<text>{{ i18n.home.help }}</text>
 				</view>
 			</view>
 		</view>
@@ -48,23 +49,23 @@
 		<view class="fast-wraper">
 			<view class="fast-item" @click="navTo('/pages/public/lottery')">
 				<image src="../../static/images/home/lottery.png" />
-				<text>{{i18n.home.lottery}}</text>
+				<text>{{ i18n.home.lottery }}</text>
 			</view>
 			<view class="fast-item" @click="openPage('sign')">
 				<image src="../../static/images/home/sign_in.png" />
-				<text>{{i18n.home.sign}}</text>
+				<text>{{ i18n.home.sign }}</text>
 			</view>
 			<view class="fast-item" @click="openPage('red')">
 				<image src="../../static/images/home/red.png" />
-				<text>{{i18n.home.redPacket}}</text>
+				<text>{{ i18n.home.redPacket }}</text>
 			</view>
 			<view class="fast-item" @click="openPage('activity')">
 				<image src="../../static/images/home/gift.png" />
-				<text>{{i18n.home.newActivity}}</text>
+				<text>{{ i18n.home.newActivity }}</text>
 			</view>
 		</view>
 		<!-- 分享页 -->
-		<view class="share-wrapper" @click="navTo('/pages/user/invit')"><image src="http://43.130.115.212:82/statics/images/banner.png" /></view>
+		<view class="share-wrapper" @click="openPage('invit')"><image :src="appData.invite_banner" /></view>
 		<!-- 市值排行 -->
 		<view class="coin-section m-t">
 			<view class="s-header">
@@ -95,30 +96,26 @@
 			<view class="coupon-wrapper">
 				<view class="top-img"></view>
 				<view class="coupon-bg">
-					<view class="coupon-title">{{i18n.home.daySign}}</view>
+					<view class="coupon-title">{{ i18n.home.daySign }}</view>
 					<view class="money-wrapper">
-						<block v-for="(item,index) in signData.sign_schedule" v-if="index<=2">
-							<view v-if="index<=2" class="money"  :class="{'active': item.signed==1}">
-								<text>{{item.label}}</text>
-								<view class="sign-reward">
-									+{{item.reward}}
-								</view>
+						<block v-for="(item, index) in signData.sign_schedule" v-if="index <= 2">
+							<view v-if="index <= 2" class="money" :class="{ active: item.signed == 1 }">
+								<text>{{ item.label }}</text>
+								<view class="sign-reward">+{{ item.reward }}</view>
 							</view>
 						</block>
 					</view>
 					<view class="money-wrapper mar-t-money">
-						<block v-for="(item,index) in signData.sign_schedule" >
-							<view v-if="index>2" class="money"  :class="{'active': item.signed==1}">
-								<text>{{item.label}}</text>
-								<view class="sign-reward">
-									+{{item.reward}}
-								</view>
+						<block v-for="(item, index) in signData.sign_schedule">
+							<view v-if="index > 2" class="money" :class="{ active: item.signed == 1 }">
+								<text>{{ item.label }}</text>
+								<view class="sign-reward">+{{ item.reward }}</view>
 							</view>
 						</block>
 					</view>
 					<!-- <view class="money-tips">参与签到可以获得更多惊喜奖励</view> -->
-					<view class="coupon-btn" @click="handlePostSign">{{signData.today_signed==1?i18n.home.signSuccess:i18n.home.fastSign}}</view>
-					<view class="coupon-tips">{{i18n.home.signTips}}</view>
+					<view class="coupon-btn" @click="handlePostSign">{{ signData.today_signed == 1 ? i18n.home.signSuccess : i18n.home.fastSign }}</view>
+					<view class="coupon-tips">{{ i18n.home.signTips }}</view>
 				</view>
 				<view class="coupon-close" @click="show = false"></view>
 			</view>
@@ -135,6 +132,9 @@ export default {
 	mixins: [commonMixin],
 	data() {
 		return {
+			background: {
+				backgroundColor: '#fff'
+			},
 			show: false,
 			isActive: true,
 			markets: [],
@@ -142,11 +142,11 @@ export default {
 			carousels: [],
 			appData: {},
 			clear: '', // 定时器
-			signData:{
-				consecutive_sign_days:0,
-				reward_total:0,
-				today_signed:0,
-				sign_schedule:[]
+			signData: {
+				consecutive_sign_days: 0,
+				reward_total: 0,
+				today_signed: 0,
+				sign_schedule: []
 			}
 		};
 	},
@@ -167,10 +167,10 @@ export default {
 		clearInterval(this.clear);
 	},
 	computed: {
-		...mapState('user', ['loginInfo']),
+		...mapState('user', ['loginInfo'])
 	},
 	methods: {
-		...mapActions('common', ['marketList', 'adList', 'noticeList','clickSign','signInfo']),
+		...mapActions('common', ['marketList', 'adList', 'noticeList', 'clickSign', 'signInfo']),
 		...mapActions('user', ['appConfig']),
 		loadData() {
 			this.noticeList({ limit: 20 }).then(res => {
@@ -191,17 +191,17 @@ export default {
 				this.markets = res.data.data;
 			});
 		},
-		handleGetSign(){
+		handleGetSign() {
 			this.signInfo().then(res => {
-				this.show = true
-				this.signData=res.data
+				this.show = true;
+				this.signData = res.data;
 			});
 		},
-		handlePostSign(){
-			if(this.signData.today_signed==0){
+		handlePostSign() {
+			if (this.signData.today_signed == 0) {
 				this.clickSign().then(res => {
-					this.$u.toast(res.message)
-					this.handleGetSign()
+					this.$u.toast(res.message);
+					this.handleGetSign();
 				});
 			}
 		},
@@ -221,7 +221,7 @@ export default {
 		openPage(type) {
 			if (type === 'sign') {
 				if (this.loginInfo.hasLogin) {
-					this.handleGetSign()
+					this.handleGetSign();
 				} else {
 					uni.navigateTo({
 						url: '/pages/public/login'
@@ -232,6 +232,17 @@ export default {
 				if (this.loginInfo.hasLogin) {
 					uni.navigateTo({
 						url: `/pages/public/redPacket`
+					});
+				} else {
+					uni.navigateTo({
+						url: '/pages/public/login'
+					});
+				}
+			}
+			if (type === 'invit') {
+				if (this.loginInfo.hasLogin) {
+					uni.navigateTo({
+						url: `/pages/public/invit`
 					});
 				} else {
 					uni.navigateTo({
@@ -295,25 +306,17 @@ export default {
 
 <style lang="scss" scoped>
 .container {
-	.header {
+	.slot-wrap {
 		width: 100%;
-		height: 186rpx;
-		background-color: #fff;
-		font-size: 36rpx;
+		display: flex;
+		flex-direction: row-reverse;
+	}
+	.notice {
+		font-size: 28rpx;
 		font-family: PingFang SC;
 		font-weight: 500;
-		color: #212121;
-		text-align: center;
-		padding-top: 100rpx;
-		.notice {
-			position: absolute;
-			right: 30rpx;
-			font-size: 28rpx;
-			font-family: PingFang SC;
-			font-weight: 500;
-			color: #0072ff;
-			margin-top: 10rpx;
-		}
+		color: #0072ff;
+		margin-right: 36rpx;
 	}
 	.carousel {
 		width: 100%;
@@ -578,12 +581,12 @@ export default {
 				font-size: 43rpx;
 				font-family: Source Han Sans CN;
 				font-weight: 400;
-				color: #FCBD4D;
+				color: #fcbd4d;
 				line-height: 48rpx;
 				margin-top: 80rpx;
 				margin-bottom: 20rpx;
 			}
-			
+
 			.money-tips {
 				width: 100%;
 				text-align: center;
@@ -596,7 +599,7 @@ export default {
 				top: 380rpx;
 				z-index: 14;
 			}
-			.mar-t-money{
+			.mar-t-money {
 				margin-top: 23rpx;
 			}
 			.money-wrapper {
@@ -620,16 +623,16 @@ export default {
 					background-size: 100% 100%;
 					position: relative;
 					z-index: 10;
-					.sign-reward{
+					.sign-reward {
 						padding: 0 4rpx;
 						height: 23rpx;
 						line-height: 23rpx;
-						background: #FF2121;
+						background: #ff2121;
 						border-radius: 12rpx 12rpx 12rpx 0px;
 						font-size: 18rpx;
 						font-family: PingFang SC;
 						font-weight: 400;
-						color: #FFFFFF;
+						color: #ffffff;
 						position: absolute;
 						top: 12rpx;
 						right: -30rpx;
@@ -642,7 +645,7 @@ export default {
 				.active {
 					background: url(../../static/images/home/money_active.png);
 					background-size: 100% 100%;
-					color: #FFFFFF;
+					color: #ffffff;
 				}
 			}
 			.coupon-btn {
@@ -654,7 +657,7 @@ export default {
 				font-size: 26rpx;
 				font-family: PingFang SC;
 				font-weight: 500;
-				color: #FCC042;
+				color: #fcc042;
 				bottom: 200rpx;
 				display: flex;
 				align-items: center;
@@ -665,12 +668,12 @@ export default {
 				font-size: 26rpx;
 				font-family: Source Han Sans CN;
 				font-weight: 400;
-				color: #FFFFFF;
+				color: #ffffff;
 				line-height: 48px;
 				bottom: 100rpx;
 			}
 		}
-		
+
 		.coupon-close {
 			width: 65rpx;
 			height: 65rpx;
@@ -679,7 +682,7 @@ export default {
 			margin-top: 40rpx;
 		}
 	}
-	
+
 	/deep/ .u-mode-center-box {
 		background: none !important;
 	}

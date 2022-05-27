@@ -12,6 +12,8 @@ import {
 	resetPwd,
 	updateUserName,
 	updateEmail,
+	updateCurrency,
+	updateAvatar,
 	userInfo,
 	invitInfo,
 	invitUserList,
@@ -155,6 +157,28 @@ const user = {
 		}, data) {
 			return new Promise((resolve, reject) => {
 				updateEmail(data).then(res => {
+					resolve()
+				}).catch(error => {
+					reject(error)
+				})
+			})
+		},
+		updateCurrency({
+			commit
+		}, data) {
+			return new Promise((resolve, reject) => {
+				updateCurrency(data).then(res => {
+					resolve()
+				}).catch(error => {
+					reject(error)
+				})
+			})
+		},
+		updateAvatar({
+			commit
+		}, data) {
+			return new Promise((resolve, reject) => {
+				updateAvatar(data).then(res => {
 					resolve()
 				}).catch(error => {
 					reject(error)

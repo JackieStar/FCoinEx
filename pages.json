@@ -129,43 +129,10 @@
 			}
 		}, 
 		{
-			"path": "pages/wallet/recharge-usdt",
-			"style": {
-				"navigationBarTextStyle": "white",
-				"navigationBarBackgroundColor": "#070219",
-				"navigationBarTitleText": ""
-			}
-		}, 
-		{
-			"path": "pages/wallet/recharge-pix",
-			"style": {
-				"navigationBarTextStyle": "white",
-				"navigationBarBackgroundColor": "#070219",
-				"navigationBarTitleText": ""
-			}
-		}, 
-		
-		{
 			"path": "pages/wallet/withdraw",
 			"style": {
 				"navigationBarTextStyle": "black",
 				"navigationBarBackgroundColor": "#ffffff"
-			}
-		},
-		{
-			"path": "pages/wallet/withdraw-usdt",
-			"style": {
-				"navigationBarTextStyle": "white",
-				"navigationBarBackgroundColor": "#070219",
-				"navigationBarTitleText": ""
-			}
-		},
-		{
-			"path": "pages/wallet/withdraw-pix",
-			"style": {
-				"navigationBarTextStyle": "white",
-				"navigationBarBackgroundColor": "#070219",
-				"navigationBarTitleText": ""
 			}
 		},
 		{

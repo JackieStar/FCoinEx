@@ -7,24 +7,24 @@
 			<u-image style="flex-shrink: 0;" :src="accountInfo.icon" width="76rpx" height="76rpx" />
 			<view class="account-info">
 				<view class="account-txt">
-					<view style="flex-shrink: 0;">地址：</view>
+					<view style="flex-shrink: 0;">{{i18n.withdraw.withdrawwAddr}}：</view>
 					<text class="account-addr">{{ accountInfo.wallet_addr }}</text>
 				</view>
 				<view class="account-txt">
-					网络：
+					{{i18n.withdraw.network}}：
 					<text style="color:#666666">{{ accountInfo.coin_type }}</text>
 				</view>
 				<view class="account-txt">
-					<view style="flex-shrink: 0;">备注：</view>
-					<text class="remark">{{ accountInfo.remark || '无' }}</text>
+					<view style="flex-shrink: 0;">{{i18n.common.desc}}：</view>
+					<text class="remark">{{ accountInfo.remark || i18n.common.no }}</text>
 				</view>
 			</view>
 			<u-icon name="arrow-right" color="#333" size="24" />
 		</view>
 		<view class="coin-wrapper" v-if="!accountInfo" @click="openPage('add')">
 			<view class="no-account">
-				您还未添加收款账号,
-				<text style="color:#0072FF">去添加</text>
+				{{i18n.withdraw.noAddAccount}},
+				<text style="color:#0072FF">{{i18n.withdraw.toAdd}}</text>
 			</view>
 			<u-icon name="arrow-right" color="#333" size="24" />
 		</view>
@@ -35,65 +35,65 @@
 				<view style="color: #FF2929">${{ userData.balance }}</view>
 			</view>
 			<view class="money-item">
-				<view class="money-title">提现金额</view>
+				<view class="money-title">{{i18n.withdraw.title}}{{i18n.withdraw.money}}</view>
 				<view class="money-input-wrapper">
-					<input type="number" @input="inputChange" v-model="amount" placeholder-style="color: #9F9F9F; font-size: 24rpx" placeholder="请输入" class="input-money" />
-					<view style="color: #0072FF" @click="handleAll">全部</view>
+					<input type="number" @input="inputChange" v-model="amount" placeholder-style="color: #9F9F9F; font-size: 24rpx" :placeholder="i18n.withdraw.withDrawAmount" class="input-money" />
+					<view style="color: #0072FF" @click="handleAll">{{i18n.withdraw.all}}</view>
 				</view>
 			</view>
 			<view class="money-item">
-				<view class="money-title">最小提现金额</view>
+				<view class="money-title">{{i18n.withdraw.minWithdrawMoney}}</view>
 				<view style="color: #666666">${{ withdrawInfo.withdraw_min_amount }}</view>
 			</view>
 			<view class="money-item">
 				<view class="money-title">{{ i18n.withdraw.fee }}</view>
-				<view style="color: #666666">${{ withdraw_fee || withdrawInfo.withdraw_min_fee }}</view>
+				<view style="color: #666666">${{ withdraw_fee }}</view>
 			</view>
 		</view>
 		<view class="btn-wrapper">
 			<view class="confirm-btn" @click="openModal">{{ i18n.withdraw.btn }}</view>
-			<view class="tips">提现手续费由用户自行承担</view>
+			<view class="tips">{{i18n.withdraw.tips1}}</view>
 		</view>
 		<u-popup v-model="show" mode="center">
 			<view class="coupon-1-wrapper">
 				<view class="top-img"></view>
 				<view class="rz-wrapper">
-					<view class="coupon-title">提示</view>
-					<view class="coupon-tips">您还未实名认证，暂不能提现</view>
+					<view class="coupon-title">{{i18n.withdraw.warning}}</view>
+					<view class="coupon-tips">{{i18n.withdraw.tips2}}</view>
 					<view class="btn-wrapper">
-						<view class="cancel" @click="show = false">取消</view>
-						<view class="confirm" @click="openPage('auth')">去认证</view>
+						<view class="cancel" @click="show = false">{{i18n.common.cancel}}</view>
+						<view class="confirm" @click="openPage('auth')">{{i18n.withdraw.toAuth}}</view>
 					</view>
 				</view>
 			</view>
 		</u-popup>
 		<u-popup v-model="showSure" mode="center" border-radius="20" closeable>
 			<view class="coupon-wrapper">
-				<view class="coupon-title">充值确认</view>
+				<view class="coupon-title">{{i18n.withdraw.warning2}}</view>
 				<view class="coupon-txt-wrapper">
 					<view class="coupon-txt">
-						提现网络：
+						{{i18n.withdraw.title}}{{i18n.withdraw.network}}：
 						<text style="color:#666666">{{accountInfo.coin_type }}</text>
 					</view>
 					<view class="coupon-txt">
-						提现地址：
+						{{i18n.withdraw.title}}{{i18n.withdraw.withdrawwAddr}}：
 						<text style="color:#666666">{{accountInfo.wallet_addr }}</text>
 					</view>
 					<view class="coupon-txt">
-						{{ i18n.recharge.amount }}：
+						{{i18n.withdraw.title}}{{i18n.withdraw.money}}：
 						<text style="color:#666666">{{ amount }}$</text>
 					</view>
 					<view class="coupon-txt">
-						预计到账金额：
+						{{i18n.recharge.getAmount}}：
 						<text style="color:#FF2929">{{ amount - withdraw_fee}}</text>
 					</view>
 				</view>
 				
-				<view class="coupon-btn" @click="handleConfirm">确认充值</view>
+				<view class="coupon-btn" @click="handleConfirm">{{i18n.withdraw.submitBtn}}</view>
 			</view>
 		</u-popup>
 		<u-popup v-model="showModal" mode="bottom" class="password-modal" closeable :border-radius="20" height="660rpx">
-			<view class="modal-title">添加收款账号</view>
+			<view class="modal-title">{{i18n.withdraw.safe}}</view>
 			<view class="modal-line-title">{{ i18n.withdraw.emailCode }}</view>
 			<view class="modal-input-wrapper">
 				<input
@@ -298,8 +298,11 @@ export default {
 		},
 		inputChange(e) {
 			console.log('e', e.detail.value);
-
-			this.withdrawFee({ amount: e.detail.value }).then(res => {
+			const params = {
+				coin_type: this.accountInfo.coin_type,
+				amount: e.detail.value
+			}
+			this.withdrawFee(params).then(res => {
 				this.withdraw_fee = res.data.fee;
 				console.log('e2222', this.withdraw_fee);
 			});

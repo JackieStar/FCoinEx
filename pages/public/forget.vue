@@ -101,6 +101,10 @@ export default {
 			}
 		},
 		handleSubmit() {
+			if (this.form.password != this.form.password_confirm) {
+				this.$api.msg(this.i18n.toast.againPwdError);
+				return;
+			}
 			this.loading = true;
 			this.resetPwd(this.form)
 				.then(res => {
