@@ -260,7 +260,8 @@
 
 				g_KLine.JSChart = JSCommon.JSChart.Init(element);
 
-				var blackStyle = JSCommonHQStyle.GetStyleConfig(JSCommonHQStyle.STYLE_TYPE_ID.BLACK_ID);
+				var blackStyle = JSCommonHQStyle.GetStyleConfig(JSCommonHQStyle.STYLE_TYPE_ID.WHITE_ID);
+				console.log(blackStyle)
 				blackStyle.BGColor = 'rgb(12,23,37)'; //背景
 				blackStyle.FrameTitleBGColor = 'rgb(16,28,45)'; //指标标题背景
 				blackStyle.FrameSplitTextColor = 'rgb(101,117,138)'; //刻度颜色
@@ -285,7 +286,8 @@
 				blackStyle.CloseLineAreaColor = ['rgba(36,41,57,0.8)', 'rgba(22,34,53,0.3)']; //收盘价面积图颜色
 
 				//最高最低价颜色
-				blackStyle.KLine.MaxMin.Color = 'rgb(255,250,240)';
+				// blackStyle.KLine.MaxMin.Color = 'rgb(255,250,240)';
+				 blackStyle.KLine.MaxMin.Color = 'rgb(113,121,133)';
 				JSCommon.JSChart.SetStyle(blackStyle);
 
 				this.KLine.Option.NetworkFilter = this.NetworkLineFilter;
@@ -511,7 +513,8 @@
 
 <style lang="scss">
 	.divchart{
-		background-color: #000;
+		// background-color: #000;
+		background-color: #ffffff;
 	}
 	.red-text {
 		color: #ff0101 !important;

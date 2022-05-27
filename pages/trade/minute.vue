@@ -166,7 +166,7 @@
 					return this.GetSHSZData(upperSymbol, width)
 				}
 
-				var blackStyle = JSCommonHQStyle.GetStyleConfig(JSCommonHQStyle.STYLE_TYPE_ID.BLACK_ID);
+				var blackStyle = JSCommonHQStyle.GetStyleConfig(JSCommonHQStyle.STYLE_TYPE_ID.WHITE_ID);
 				blackStyle.BGColor = 'rgb(12,23,37)'; //背景
 				blackStyle.FrameTitleBGColor = 'rgb(16,28,45)'; //指标标题背景
 				blackStyle.FrameSplitTextColor = 'rgb(101,117,138)'; //刻度颜色

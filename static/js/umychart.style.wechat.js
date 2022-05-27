@@ -205,6 +205,13 @@ var WHITE_STYLE=    //白色风格
         PriceColor : "rgb(50,171,205)",
         AvPriceColor : "rgb(238,127,9)",
     },
+	FrameLatestPrice: {
+	    TextColor: 'rgb(255,255,255)',   //最新价格文字颜色
+	    UpBarColor: "rgb(238,21,21)",    //上涨
+	    DownBarColor: "rgb(25,158,0)",   //下跌
+	    UnchagneBarColor: "rgb(190,190,190)",   //平盘
+	    BGAlpha: 0.6
+	},
 
     DefaultTextColor: "rgb(43,54,69)",
     DefaultTextFont: '14px 微软雅黑',
