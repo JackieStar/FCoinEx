@@ -7,15 +7,23 @@
 					height="102rpx" />
 				<u-image @click="openPage('user')" shape="circle" v-else src="../../static/images/user/avatar.png" width="102rpx"
 					height="102rpx" />
-				<view class="user-info">
-					<view class="user-name">{{ userData.name || i18n.me.login }}</view>
-					<view class="user-invit">
-						<text style="margin-right: 10rpx">{{i18n.me.tcode}}： {{userData.tcode}}</text>
-						<u-image @click="handleCopy(userData.tcode)" src="../../static/images/me/copy.png" width="21rpx"
-							height="21rpx" />
+				<view class="user-flex">
+					<view class="user-info">
+						<view class="user-name">{{ userData.name || i18n.me.login }}</view>
+						<view class="user-invit">
+							<text style="margin-right: 10rpx">{{i18n.me.tcode}}： {{userData.tcode}}</text>
+							<u-image @click="handleCopy(userData.tcode)" src="../../static/images/me/copy.png" width="21rpx"
+								height="21rpx" />
+						</view>
+					</view>
+					<view class="user-rz"  @click="openPage('authentication')">
+						<!-- <image class="" src="../../static/iamges/me/auth-bg.png" mode=""></image> -->
+						<image class="user-rz-icon" src="../../static/images/me/auth-icon.png" mode=""></image>
+						<view class="user-rz-text flex_left_box">
+							{{i18n.auth.pageTitle}} <image class="rz-right" src="../../static/images/me/to-right.png" mode=""></image>
+						</view>
 					</view>
 				</view>
-				<view class="user-rz" @click="openPage('authentication')"></view>
 			</view>
 			<!-- 资产 -->
 			<view class="user-money-wrapper">
@@ -395,6 +403,12 @@
 				width: 100%;
 				padding: 20rpx;
 				display: flex;
+				.user-flex{
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+					flex: 1;
+				}
 
 				.user-info {
 					width: 400rpx;
@@ -404,10 +418,30 @@
 				}
 
 				.user-rz {
-					width: 151rpx;
+					// width: 151rpx;
 					height: 34rpx;
-					background: url(../../static/images/me/rz_bg.png);
+					background: url(../../static/images/me/auth-bg.png);
 					background-size: 100% 100%;
+					display: flex;
+					align-items: center;
+					.user-rz-icon{
+						width: 34rpx;
+						height: 34rpx;
+					}
+					.user-rz-text{
+						margin-left: 4rpx;
+						font-size: 22rpx;
+						line-height: 34rpx;
+						font-family: PingFang SC;
+						font-weight: 400;
+						color: #FFFFFF;
+						padding-right: 10rpx;
+						.rz-right{
+							width: 10rpx;
+							height: 16rpx;
+							margin-left: 6rpx;
+						}
+					}
 				}
 			}
 

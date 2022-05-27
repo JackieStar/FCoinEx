@@ -14,7 +14,7 @@
 					</view>
 					<view class="flex_left_box record-label-item">
 						<view class="left-label">
-							预计到账：
+							{{i18n.record.transfer_amount}}：
 						</view>
 						<view class="desc red-text">
 							{{item.amount}} $
@@ -22,7 +22,7 @@
 					</view>
 					<view class="flex_left_box record-label-item">
 						<view class="left-label">
-							网络：
+							{{i18n.record.coin_type}}：
 						</view>
 						<view class="desc">
 							{{item.coin_type}}
@@ -30,7 +30,7 @@
 					</view>
 					<view class="flex_left_box record-label-item">
 						<view class="left-label">
-							地址：
+							{{i18n.record.receiver}}：
 						</view>
 						<view class="desc">
 							{{item.payer_account}}
@@ -38,7 +38,7 @@
 					</view>
 					<view class="flex_left_box record-label-item">
 						<view class="left-label">
-							时间：
+							{{i18n.record.create}}：
 						</view>
 						<view class="desc">
 							{{item.created_at}}
@@ -46,7 +46,7 @@
 					</view>
 					<view class="flex_left_box record-label-item">
 						<view class="left-label">
-							备注：
+							{{i18n.common.desc}}：
 						</view>
 						<view class="desc">
 							{{item.remark}}
