@@ -90,6 +90,12 @@
 				</view>
 			</view>
 		</view>
+		<!-- 平仓播报 -->
+		<view class="bobao-wrapper">
+			<view class="bobao-bg">
+				<u-notice-bar mode="vertical" color='#fff' :volume-icon="false" type="none" class="notice-bar" :list="bobaoList" />
+			</view>
+		</view>
 		<!-- 客服 -->
 		<view class="kf-icon"><u-image @click="openPage('kf')" src="../../static/images/home/kf.png" width="127rpx" height="127rpx" /></view>
 		<!-- 签到 -->
@@ -144,6 +150,7 @@ export default {
 			isActive: true,
 			markets: [],
 			notices: [],
+			bobaoList: [],
 			carousels: [],
 			appData: {},
 			clear: '', // 定时器
@@ -178,12 +185,13 @@ export default {
 		...mapActions('user', ['appConfig']),
 		loadData() {
 			this.noticeList({ limit: 20 }).then(res => {
-				this.notices = res.data;
+				this.bobaoList = res.data;
 			});
 		},
 		getAppConfig() {
 			this.appConfig().then(res => {
 				this.appData = res.data;
+				this.notices = [res.data.notice];
 			});
 			this.adList().then(res => {
 				let casrousels = res.data;
@@ -699,6 +707,26 @@ export default {
 		color: #333;
 		line-height: 1.7;
 		padding: 30rpx;
+	}
+	.bobao-wrapper {
+		position: fixed;
+		width: 100%;
+		height: 70rpx;
+		bottom: 140rpx;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		.bobao-bg {
+			width: 460rpx;
+			height: 70rpx;
+			background: #333;
+			opacity: 0.6;
+			border-radius: 14rpx;
+		}
+		.notice-bar {
+			width: 460rpx;
+			height: 80rpx;
+		}
 	}
 
 	/deep/ .u-mode-center-box {

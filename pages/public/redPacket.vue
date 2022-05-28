@@ -72,7 +72,7 @@ export default {
 		handleClose() {
 			this.show = false
 			uni.switchTab({
-				url: '/pages/home/home'
+				url: '/pages/trade/kline'
 			})
 		}
 	}

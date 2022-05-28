@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<u-navbar :title="i18n.login.title" :background="background">
+		<u-navbar :custom-back="navBack" :title="i18n.login.title" :background="background">
 			<view class="slot-wrap"><view class="nav-btn" @click="changeLang">language</view></view>
 		</u-navbar>
 		<view class="wrapper">
@@ -92,6 +92,17 @@ export default {
 					};
 				});
 			});
+		},
+		navBack() {
+			// console.log('333333333')
+			let pages = getCurrentPages();
+			if (pages && pages.length > 1 && pages[0].route === 'pages/wallet/wallet') {
+				uni.switchTab({
+					url: '/pages/home/home'
+				});
+			} else {
+				uni.navigateBack();
+			}
 		},
 		changeLang() {
 			this.showLang = true;

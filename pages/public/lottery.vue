@@ -11,6 +11,7 @@
 			<view class="lottery"><LotteryDraw @get_winingIndex="gridStart" :grid_info_arr="list" @luck_draw_finish="luckDrawFinish"></LotteryDraw></view>
 		</view>
 		<view class="lottery-btn" @click="openPage">{{ i18n.lottery.tip3 }}</view>
+		<view class="bottom-tips">{{ i18n.redPacket.bottomTips }}</view>
 	</view>
 </template>
 
@@ -45,25 +46,25 @@ export default {
 	methods: {
 		...mapActions('lottery', ['lotteryConfig', 'lotteryDraw']),
 		getConfig() {
-			this.lotteryConfig({type: 'lucky_pannel'}).then(res => {
+			this.lotteryConfig({ type: 'lucky_pannel' }).then(res => {
 				this.list = res.data.config.lucky_pannel;
 				this.drawCount = res.data.chance;
 			});
 		},
 		gridStart(callback) {
-			if(this.drawCount === 0) {
+			if (this.drawCount === 0) {
 				return this.$api.msg(this.i18n.lottery.noCount);
 			}
-				this.lotteryDraw({type: 'lucky_pannel'}).then(res => {
-					this.lottery_draw_param.winingIndex = res.data.lotterIndex;
-					//props修改在小程序和APP端不成功，所以在这里使用回调函数传参，
-					callback(this.lottery_draw_param);
-					setTimeout(() => {
-						this.$api.msg(res.data.tips);
-						this.drawTips = res.data.tips;
-						this.drawCount = res.data.chance;
-					}, 3000);
-				});
+			this.lotteryDraw({ type: 'lucky_pannel' }).then(res => {
+				this.lottery_draw_param.winingIndex = res.data.lotterIndex;
+				//props修改在小程序和APP端不成功，所以在这里使用回调函数传参，
+				callback(this.lottery_draw_param);
+				setTimeout(() => {
+					this.$api.msg(res.data.tips);
+					this.drawTips = res.data.tips;
+					this.drawCount = res.data.chance;
+				}, 3000);
+			});
 		},
 		openPage() {
 			uni.switchTab({
@@ -82,7 +83,7 @@ page {
 .container {
 	position: absolute;
 	width: 100%;
-	height: 100%;
+	min-height: 100%;
 	background-size: 100% 100%;
 	background-color: blue;
 	background-image: url(../../static/images/lottey/cj_bg.png);
@@ -145,5 +146,14 @@ page {
 	background-image: url(../../static/images/lottey/lottery_bt.png);
 	background-size: 100% 100%;
 	margin: 20upx auto;
+}
+.bottom-tips {
+	text-align: center;
+	margin: 40rpx 0;
+	font-size: 24rpx;
+	font-family: Microsoft YaHei;
+	font-weight: 400;
+	color: #ffffff;
+	line-height: 30rpx;
 }
 </style>
