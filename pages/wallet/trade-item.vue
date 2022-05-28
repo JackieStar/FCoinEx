@@ -283,8 +283,8 @@
 			padding: 54rpx 0 38rpx 0;
 
 			.fail-icon {
-				width: 159rpx;
-				height: 159rpx;
+				width: 112rpx;
+				height: 121rpx;
 			}
 
 			.fail-text {
