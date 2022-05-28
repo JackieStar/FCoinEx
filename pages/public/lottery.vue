@@ -1,7 +1,11 @@
 <template>
 	<view class="container">
 		<view class="head-bg-cn" v-if="lang == 'zh-CN'"></view>
-		<view class="head-bg-en" v-else></view>
+		<view class="head-bg-en" v-if="lang == 'en-US'"></view>
+		<view class="head-bg-hk" v-if="lang == 'zh-HK'"></view>
+		<view class="head-bg-th" v-if="lang == 'th-TH'"></view>
+		<view class="head-bg-ru" v-if="lang == 'ru-RU'"></view>
+		<view class="head-bg-jp" v-if="lang == 'ja-JP'"></view>
 		<view class="lottery-bg">
 			<view class="count-bg">
 				{{ i18n.lottery.tip1 }}
@@ -119,6 +123,38 @@ page {
 	margin-left: 110upx;
 	background-size: 100% 100%;
 	background-image: url(../../static/images/lottey/cj_text_en.png);
+}
+.head-bg-th {
+	// margin-top: 60upx;
+	width: 583upx;
+	height: 283upx;
+	margin-left: 110upx;
+	background-size: 100% 100%;
+	background-image: url(../../static/images/lottey/cj_text_th.png);
+}
+.head-bg-hk {
+	// margin-top: 60upx;
+	width: 583upx;
+	height: 283upx;
+	margin-left: 110upx;
+	background-size: 100% 100%;
+	background-image: url(../../static/images/lottey/cj_text_hk.png);
+}
+.head-bg-ru {
+	// margin-top: 60upx;
+	width: 583upx;
+	height: 283upx;
+	margin-left: 110upx;
+	background-size: 100% 100%;
+	background-image: url(../../static/images/lottey/cj_text_ru.png);
+}
+.head-bg-jp {
+	// margin-top: 60upx;
+	width: 583upx;
+	height: 283upx;
+	margin-left: 110upx;
+	background-size: 100% 100%;
+	background-image: url(../../static/images/lottey/cj_text_jp.png);
 }
 .lottery {
 	width: 280px;
