@@ -15,12 +15,12 @@
 		<view class="notice-wrapper"><u-notice-bar mode="horizontal" font-size="26rpx" padding="30rpx" :list="notices"></u-notice-bar></view>
 		<!-- 币种列表 -->
 		<view class="coin-wrapper">
-			<view class="coin-item" v-for="(item, i) in markets" :key="item.id">
+			<view class="coin-item" @click="navToTrade(item)" v-for="(item, i) in markets" :key="item.id">
 				<view class="coin-name">{{ item.name }}/USDT</view>
 				<view class="coin-price" v-if="item.diff_rate < 0" style="color: #E91B00">{{ item.price }}</view>
 				<view class="coin-price" v-else style="color: #00B809">+{{ item.price }}</view>
-				<view class="coin-price" v-if="item.diff_rate < 0" style="color: #E91B00">{{ item.diff_rate }}</view>
-				<view class="coin-price" v-else style="color: #00B809">+{{ item.diff_rate }}</view>
+				<view class="coin-price" v-if="item.diff_rate < 0" style="color: #E91B00">{{ item.diff_rate }}%</view>
+				<view class="coin-price" v-else style="color: #00B809">+{{ item.diff_rate }}%</view>
 			</view>
 		</view>
 		<!-- 跳转模块 -->

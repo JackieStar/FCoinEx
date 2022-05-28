@@ -40,7 +40,7 @@
 		</view>
 		<view class="confirm-btn" @click="openPage('recharge')">{{ i18n.recharge.submitBtn }}</view>
 		<view><c-tips v-for="(item, index) in rechargeInfo.tips" :text="item" :key="index" /></view>
-		<view class="bottom-submit">
+		<view class="bottom-submit" @click="openPage('bottom')">
 			<text>{{ i18n.recharge.bottomSubmit }}</text>
 		</view>
 		<view class="kf-icon"><u-image @click="openPage('kf')" src="../../static/images/home/kf.png" width="127rpx" height="127rpx" /></view>
@@ -129,6 +129,12 @@ export default {
 					url: '/pages/me/kf'
 				});
 			}
+			if (type === 'bottom') {
+				uni.switchTab({
+					url: '/pages/home/home'
+				});
+			}
+			
 			if (type === 'recharge') {
 				if (!this.amount) return this.$api.msg(this.i18n.recharge.placeholder);
 				this.show = true

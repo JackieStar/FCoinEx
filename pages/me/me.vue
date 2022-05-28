@@ -8,15 +8,15 @@
 				<u-image @click="openPage('user')" shape="circle" v-else src="../../static/images/user/avatar.png" width="102rpx"
 					height="102rpx" />
 				<view class="user-flex">
-					<view class="user-info">
+					<view class="user-info" @click="openPage('userInfo')">
 						<view class="user-name">{{ userData.name || i18n.me.login }}</view>
-						<view class="user-invit">
+						<view class="user-invit" v-if="userData.tcode">
 							<text style="margin-right: 10rpx">{{i18n.me.tcode}}： {{userData.tcode}}</text>
 							<u-image @click="handleCopy(userData.tcode)" src="../../static/images/me/copy.png" width="21rpx"
 								height="21rpx" />
 						</view>
 					</view>
-					<view class="user-rz"  @click="openPage('authentication')">
+					<view class="user-rz" @click="openPage('authentication')">
 						<!-- <image class="" src="../../static/iamges/me/auth-bg.png" mode=""></image> -->
 						<image class="user-rz-icon" src="../../static/images/me/auth-icon.png" mode=""></image>
 						<view class="user-rz-text flex_left_box">
@@ -30,7 +30,7 @@
 				<view class="money-title">{{i18n.me.assets}}</view>
 				<view class="money">
 					${{userData.balance}}
-					<text class="money-tips">≈{{userData.currency.currency}}-{{userData.currency.symbol}}{{(userData.balance * Number(userData.currency.rate)).toFixed(2)}}</text>
+					<text class="money-tips" v-if="loginInfo.hasLogin">≈{{userData.currency.currency}}-{{userData.currency.symbol}}{{(userData.balance * Number(userData.currency.rate)).toFixed(2)}}</text>
 				</view>
 			</view>
 			<!-- 快速入口 -->
@@ -154,6 +154,8 @@
 			this.getAppConfig();
 			if (this.loginInfo.hasLogin) {
 				this.getUserInfo()
+			} else {
+				this.userData = {}
 			}
 		},
 		computed: {

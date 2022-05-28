@@ -49,7 +49,7 @@ module.exports = {
 		},
 		redPacket: {
 			title: '幸运红包',
-			chooseOne: 'Choose',
+			chooseOne: '选择其中一个',
 			fail: '很遗憾',
 			failTips: '再接再厉·明日再来',
 			btn: '点击赢取更多奖励',
@@ -57,21 +57,21 @@ module.exports = {
 		},
 		login: {
 			title: '登录',
-			account: 'Please fill in your phone number',
+			account: '请输入手机号',
 			password: '请输入密码',
 			login: '登录',
-			sign: 'sign up',
-			forget: 'forget password',
-			bottomTxt: 'BitAnt-Global Digital Investment Bank',
+			sign: '注册',
+			forget: '忘记密码',
+			bottomTxt: 'BitAnt - 全球数字投资银行',
 			loginSuccess: '登录成功'
 		},
 		register: {
 			title: '注册',
 			registrTitle: '创建新账号',
 			registrTips: '开始你在Bitantox的加密货币投资之旅吧',
-			account: 'Please fill in your phone number',
-			email: 'Please enter email address',
-			emailCode: 'Please enter email verification code',
+			account: '请输入手机号',
+			email: '请输入邮箱地址',
+			emailCode: '请输入邮箱验证码',
 			password: '请输入密码(至少6个字符)',
 			passwordAgain: '请再次输入密码',
 			invitCode: '推荐码',
@@ -89,7 +89,7 @@ module.exports = {
 			username: '昵称',
 			phone: '手机号',
 			email: '邮箱',
-			password: '登陆密码',
+			password: '登录密码',
 			coin: '货币单位'
 		},
 		updateName: {
@@ -275,7 +275,7 @@ module.exports = {
 			submitBtn: '申请充值',
 			saveCode: '保存二维码',
 			saveSuccess: '二维码保存成功',
-			bottomSubmit: 'Buy Tether(USDT)',
+			bottomSubmit: '去购买USDT',
 			network: '充值网络',
 			getAmount: '预计到账金额'
 		},
@@ -290,7 +290,7 @@ module.exports = {
 			submitBtn: '确认充值',
 			rechargeSuccess: '充值成功',
 			closeBtn: '取消',
-			note: 'Note'
+			note: '注意'
 		},
 		record: {
 			title: '资产记录',
