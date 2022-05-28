@@ -29,8 +29,8 @@
 			<view class="user-money-wrapper">
 				<view class="money-title">{{i18n.me.assets}}</view>
 				<view class="money">
-					${{userData.balance}}
-					<text class="money-tips" v-if="userData.currency">≈{{userData.currency.currency}}-{{userData.currency.symbol}}{{(userData.balance * Number(userData.currency.rate)).toFixed(2)}}</text>
+					${{userData.balance  || '0.00'}}
+					<text class="money-tips" v-if="userData.currency && userData.currency.currency !=='USD'">≈{{userData.currency.currency}}-{{userData.currency.symbol}}{{(userData.balance * Number(userData.currency.rate)).toFixed(2)}}</text>
 				</view>
 			</view>
 			<!-- 快速入口 -->
@@ -285,15 +285,9 @@
 				}
 
 				if (type === 'kf') {
-					if (this.loginInfo.hasLogin) {
-						uni.navigateTo({
-							url: '/pages/me/kf'
-						});
-					} else {
-						uni.navigateTo({
-							url: '/pages/public/login'
-						});
-					}
+					uni.navigateTo({
+						url: '/pages/me/kf'
+					});
 				}
 				if (type === 'recharge') {
 					if (this.loginInfo.hasLogin) {

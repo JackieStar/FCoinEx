@@ -67,7 +67,7 @@ export default {
 		},
 		openPage() {
 			uni.switchTab({
-				url: '/pages/home/home'
+				url: '/pages/trade/trade'
 			});
 		}
 	}

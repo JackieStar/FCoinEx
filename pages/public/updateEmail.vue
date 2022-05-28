@@ -51,7 +51,7 @@ export default {
 	},
 	onShow() {
 		uni.setNavigationBarTitle({
-			title: this.i18n.updatePwd.title1
+			title: this.i18n.userInfo.email
 		});
 	},
 	methods: {

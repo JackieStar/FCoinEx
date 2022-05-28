@@ -182,8 +182,8 @@ module.exports = {
 			minute: 'minute',
 			EstimatedIncome: 'Expected earnings',
 			ConfirmOrder: 'OK',
-			lost:'YOU LOST',
-			won:'YOU WON!'
+			lost:'You Lost',
+			won:'You Won!'
 		},
 		auth: {
 			uploadSuccess: 'Uploaded successfully',

@@ -159,10 +159,8 @@ export default {
 	onShow() {
 		this.loadData();
 		this.getMaketList();
-		this.clear = setInterval(this.getMaketList, 3000);
-	},
-	onLoad() {
 		this.getAppConfig();
+		this.clear = setInterval(this.getMaketList, 3000);
 	},
 	onHide() {
 		console.log('离开页面');
@@ -284,15 +282,9 @@ export default {
 				}
 			}
 			if (type === 'kf') {
-				if (this.loginInfo.hasLogin) {
-					uni.navigateTo({
-						url: '/pages/me/kf'
-					});
-				} else {
-					uni.navigateTo({
-						url: '/pages/public/login'
-					});
-				}
+				uni.navigateTo({
+					url: '/pages/me/kf'
+				});
 			}
 			if (type === 'recharge') {
 				if (this.loginInfo.hasLogin) {

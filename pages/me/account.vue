@@ -12,7 +12,7 @@
 						<view style="flex-shrink: 0;">{{i18n.common.desc}}：</view>
 						<text class="remark">{{item.remark || i18n.common.no }}</text></view>
 				</view>
-				<view class="delete-wrapper" @click="handleDelete(item)">
+				<view class="delete-wrapper" @click.stop="handleDelete(item)">
 					<u-icon name="trash" color="#ABABAB" size="40" />
 				</view>
 			</view>
@@ -26,18 +26,18 @@
 		</view>
 		<u-popup v-model="showModal" closeable mode="bottom" class="account-modal" :border-radius="20" height="770rpx">
 			<view class="modal-title">{{i18n.withdraw.addAccount}}</view>
-			<view class="modal-line-title">{{ i18n.withdraw.emailCode }}</view>
+			<view class="modal-line-title">{{ i18n.withdraw.network }}</view>
 			<view class="network-input">
-				<u-field :border-bottom="false" @click="handleShowAction" v-model="form.coin_type" :disabled="true" :placeholder="i18n.withdraw.network" right-icon="arrow-down-fill" />
+				<u-field :border-bottom="false" @click="handleShowAction" :label-width="0" v-model="form.coin_type" :disabled="true" :placeholder="i18n.withdraw.noNetwork" right-icon="arrow-down" />
 				<u-action-sheet border-radius="20" @click="getCoinType" :list="coinTypeList" v-model="showAction"></u-action-sheet>
 			</view>
-			<view class="modal-line-title">{{i18n.withdraw.receiver}}</view>
+			<view class="modal-line-title">{{i18n.withdraw.withdrawwAddr}}</view>
 			<view class="modal-input-wrapper">
 				<input
 					class="input-item"
 					placeholder-style="color: #818FA; font-size: 26upx"
 					v-model="form.addr"
-					:placeholder="i18n.withdraw.receiver"
+					:placeholder="i18n.withdraw.noWithdrawAddr"
 					style="padding-right: 10upx;"
 					type="text"
 				/>
@@ -52,7 +52,7 @@
 					:placeholder="i18n.common.desc"
 				/>
 			</view>
-			<view class="submit-btn" @click="handleSubmit">{{ i18n.withdraw.submitBtn }}</view>
+			<view class="submit-btn" @click="handleSubmit">{{ i18n.updatePwd.btn }}</view>
 		</u-popup>
 	</view>
 </template>
@@ -124,8 +124,8 @@ export default {
 			this.form.coin_type = this.coinTypeList[e].text
 		},
 		handleSubmit() {
-			if (!this.form.coin_type) return this.$api.msg(this.i18n.withdraw.noNetwork)
-			if (!this.form.addr) return this.$api.msg(this.i18n.withdraw.noWithdrawAddr)
+			if (!this.form.coin_type) return this.$api.msg(this.i18n.withdraw.noNetwork	)
+			if (!this.form.addr) return this.$api.msg(this.i18n.withdraw.placeholder1)
 			this.addReceiver(this.form).then(res => {
 				this.$api.msg(res.message)
 				this.getList()
@@ -200,7 +200,7 @@ export default {
 			}
 		}
 		.delete-wrapper {
-			width: 60rpx;
+			width: 80rpx;
 			height: 140rpx;;
 			display: flex;
 			flex-direction: column-reverse;
@@ -266,7 +266,7 @@ export default {
 			margin-top: 50rpx;
 		}
 		.network-input  {
-			width: 490rpx;
+			width: 630rpx;
 			height: 74rpx;
 			background: #FFFFFF;
 			border: 1rpx solid #E9E9E9;

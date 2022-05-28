@@ -44,11 +44,15 @@
 				<view class="sign-up" @click="toRegist">{{ i18n.login.sign }}</view>
 				<view class="forget" @click="toForgetPassword">{{ i18n.login.forget }}</view>
 			</view>
-			<view class="online">Online <text style="color: #E20804;margin-left: 20rpx;">{{online_numbers}}</text></view>
+			<view class="online">
+				Online
+				<text style="color: #E20804;margin-left: 20rpx;">{{ online_numbers }}</text>
+			</view>
 		</view>
 		<view class="bottom-text">
 			<text @click="toRegist">{{ i18n.login.bottomTxt }}</text>
 		</view>
+		<view class="kf-icon"><u-image @click="openPage('kf')" src="../../static/images/home/kf.png" width="127rpx" height="127rpx" /></view>
 		<u-action-sheet :cancel-text="i18n.common.cancel" :border-radius="20" :list="langList" @click="clickLang" v-model="showLang"></u-action-sheet>
 	</view>
 </template>
@@ -77,10 +81,10 @@ export default {
 		this.getAppConfig();
 	},
 	methods: {
-		...mapActions('user', ['appConfig','login']),
+		...mapActions('user', ['appConfig', 'login']),
 		getAppConfig() {
 			this.appConfig().then(res => {
-				this.online_numbers = res.data.online_numbers
+				this.online_numbers = res.data.online_numbers;
 				this.langList = res.data.languages.map(v => {
 					return {
 						text: v.name,
@@ -123,10 +127,17 @@ export default {
 				url: '/pages/public/forget'
 			});
 		},
+		openPage(type) {
+			if (type === 'kf') {
+				uni.navigateTo({
+					url: '/pages/me/kf'
+				});
+			}
+		},
 		handleChange(type) {
 			this.isOpenEyes = type;
 		},
-		
+
 		handleLogin() {
 			console.log('2232323');
 			let $this = this;
@@ -257,5 +268,10 @@ export default {
 	color: #212121;
 	text-align: center;
 	margin-top: 60rpx;
+}
+.kf-icon {
+	position: fixed;
+	bottom: 160upx;
+	right: 30upx;
 }
 </style>

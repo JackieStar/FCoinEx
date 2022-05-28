@@ -1,7 +1,7 @@
 <template>
 	<view class="container">
 		<view class="red-packet">
-			<view class="choose-me">{{i18n.redPacket.chooseOne}} {{drawCount}}</view>
+			<view class="choose-me">{{i18n.redPacket.chooseOne}}</view>
 			<view class="red-packet-wrapper">
 				<view class="red-packet-btn" @click="handleSubmit"></view>
 				<view class="red-packet-btn" @click="handleSubmit"></view>

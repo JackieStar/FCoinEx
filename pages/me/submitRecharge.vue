@@ -133,11 +133,11 @@ export default {
 			};
 			this.financeRecharge(params).then(res => {
 				this.$u.toast(this.i18n.submitRecharge.rechargeSuccess);
-				// setTimeout(()=> {
-				// 	uni.switchTab({
-				// 		url: '/pages/wallet/wallet'
-				// 	})
-				// }, 1500);
+				setTimeout(()=> {
+					uni.navigateTo({
+						url: '/pages/wallet/record'
+					})
+				}, 1500);
 			});
 		},
 		// 粘贴
@@ -156,7 +156,9 @@ export default {
 				});
 			}
 			if (type === 'close') {
-				uni.navigateBack()
+				uni.switchTab({
+					url: '/pages/home/home'
+				});
 			}
 		},
 		handlePreview() {

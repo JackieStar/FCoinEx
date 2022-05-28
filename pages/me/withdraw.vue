@@ -47,7 +47,7 @@
 			</view>
 			<view class="money-item">
 				<view class="money-title">{{ i18n.withdraw.fee }}</view>
-				<view style="color: #666666">${{ withdraw_fee }}</view>
+				<view style="color: #666666">${{ withdraw_fee || '0'}}</view>
 			</view>
 		</view>
 		<view class="btn-wrapper">
@@ -61,7 +61,7 @@
 					<view class="coupon-title">{{i18n.withdraw.warning}}</view>
 					<view class="coupon-tips">{{i18n.withdraw.tips2}}</view>
 					<view class="btn-wrapper">
-						<view class="cancel" @click="show = false">{{i18n.common.cancel}}</view>
+						<view class="cancel" @click="openPage('close')">{{i18n.common.cancel}}</view>
 						<view class="confirm" @click="openPage('auth')">{{i18n.withdraw.toAuth}}</view>
 					</view>
 				</view>
@@ -85,7 +85,7 @@
 					</view>
 					<view class="coupon-txt">
 						{{i18n.recharge.getAmount}}：
-						<text style="color:#FF2929">{{ amount - withdraw_fee}}</text>
+						<text style="color:#FF2929">{{ amount - withdraw_fee}}$</text>
 					</view>
 				</view>
 				
@@ -124,11 +124,10 @@
 					placeholder-style="color: #818FA; font-size: 26upx"
 					v-model="form.password"
 					:placeholder="i18n.withdraw.placeholder1"
-					maxlength="10"
 					type="password"
 				/>
 			</view>
-			<view class="submit-btn" @click="handleSubmit">{{ i18n.withdraw.submitBtn }}</view>
+			<view class="submit-btn" @click="handleSubmit">{{ i18n.updatePwd.submitBtn }}</view>
 		</u-popup>
 	</view>
 </template>
@@ -200,6 +199,10 @@ export default {
 		getUserInfo() {
 			this.userInfo().then(res => {
 				this.userData = res.data;
+				if (!this.userData.certification_status) {
+					this.show = true;
+					return;
+				}
 			});
 		},
 		// 全部
@@ -212,6 +215,10 @@ export default {
 			// 	this.$api.msg(this.i18n.withdraw.noWithdrawAddr);
 			// 	return;
 			// }
+			if (!this.accountInfo) {
+				this.$api.msg(this.i18n.withdraw.noAddAccount);
+				return
+			}
 			if (!this.amount) {
 				this.$api.msg(this.i18n.withdraw.noAmount);
 				return;
@@ -220,10 +227,6 @@ export default {
 				email_code: null,
 				password: null
 			};
-			if (!this.userData.certification_status) {
-				this.show = true;
-				return;
-			}
 			this.showSure = true;
 		},
 		handleSubmit() {
@@ -243,6 +246,9 @@ export default {
 			this.withdraw(params).then(res => {
 				this.$api.msg(this.i18n.withdraw.withdrawSuccess);
 				this.showModal = false;
+				uni.switchTab({
+					url: '/pages/me/me'
+				})
 			});
 		},
 		codeChange(text) {
@@ -287,10 +293,16 @@ export default {
 					url: '/pages/me/authentication'
 				});
 			}
-			if (type === 'add')
+			if (type === 'add') {
 				uni.navigateTo({
 					url: '/pages/me/account'
 				});
+			}
+			if (type === 'close') {
+				uni.switchTab({
+					url: '/pages/me/me'
+				})
+			}
 		},
 		handleConfirm() {
 			this.showSure = false
@@ -451,7 +463,7 @@ export default {
 		}
 		.rz-wrapper {
 			width: 629rpx;
-			height: 375rpx;
+			height: 420rpx;
 			background: #ffffff;
 			border-radius: 20rpx;
 			display: flex;
@@ -470,6 +482,7 @@ export default {
 				font-weight: 500;
 				color: #666666;
 				margin: 20rpx 0;
+				padding: 0 40rpx;
 			}
 			.btn-wrapper {
 				width: 100%;
@@ -478,9 +491,9 @@ export default {
 				align-items: center;
 				justify-content: space-between;
 				padding: 0 40rpx;
-				margin-top: 50rpx;
+				margin-top: 60rpx;
 				.cancel {
-					width: 240rpx;
+					width: 260rpx;
 					height: 76rpx;
 					background: #ffffff;
 					border: 2rpx solid #e9e9e9;
@@ -492,19 +505,24 @@ export default {
 					font-size: 26rpx;
 					font-family: PingFang SC;
 					font-weight: 500;
+					word-wrap: break-word;
 				}
 				.confirm {
-					width: 240rpx;
+					width: 260rpx;
 					height: 76rpx;
+					padding: 0 20rpx;
 					background: #0079ff;
 					border-radius: 38rpx;
 					display: flex;
 					align-items: center;
 					justify-content: center;
+					line-height: 24rpx;
+					text-align: center;
 					color: #fff;
 					font-size: 26rpx;
 					font-family: PingFang SC;
 					font-weight: 500;
+					word-wrap: break-word;
 				}
 			}
 		}
