@@ -530,9 +530,11 @@
 		display: flex;
 		// height: 80rpx;
 		margin-bottom: 20rpx;
-		flex-wrap: wrap;
+		// flex-wrap: wrap;
+		overflow-x: scroll;
 
 		.tab-item-default {
+			flex-shrink: 0;
 			padding: 0 16rpx;
 			height: 80rpx;
 			box-sizing: border-box;
