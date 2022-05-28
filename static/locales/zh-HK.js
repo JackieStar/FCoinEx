@@ -131,7 +131,8 @@ module.exports = {
 			tReward: '邀请奖励',
 			myInvit: '我的邀请',
 			uid: '邀请UID',
-			inviter: '邀请人'
+			inviter: '邀请人',
+			invitBtn:'立即邀请好友'
 		},
 		common: {
 			getCode: '获取验证码',

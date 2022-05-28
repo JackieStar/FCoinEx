@@ -300,17 +300,17 @@
 
 		.history-result-success {
 			border-bottom: 1px solid #EAEAEA;
-			padding: 23rpx 0 33rpx 0;
+			padding: 12rpx 0 33rpx 0;
 
 			.success-box {
 				width: 554rpx;
-				height: 207rpx;
+				height: 274rpx;
 				margin: auto;
 				position: relative;
 
 				.success-img {
 					width: 554rpx;
-					height: 207rpx;
+					height: 274rpx;
 					position: absolute;
 					z-index: 10;
 					left: 0;
@@ -318,10 +318,11 @@
 
 				.success-content {
 					width: 554rpx;
-					height: 207rpx;
+					height: 180rpx;
 					position: absolute;
 					z-index: 11;
 					left: 0;
+					bottom: 0;
 					display: flex;
 					flex-direction: column;
 					align-items: center;
@@ -333,7 +334,7 @@
 						font-size: 48rpx;
 						font-family: PingFang SC;
 						font-weight: 500;
-						color: #9B6200;
+						color: #C98500;
 					}
 
 					.success-amount {
@@ -341,9 +342,9 @@
 						text-align: center;
 						font-size: 44rpx;
 						font-family: PingFang SC;
-						font-weight: 500;
-						color: #212121;
-						margin-top: 28rpx;
+						font-weight: 600;
+						color: #FFFFFF;
+						margin-top: 8rpx;
 					}
 				}
 			}
