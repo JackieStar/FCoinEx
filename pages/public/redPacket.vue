@@ -62,7 +62,7 @@ export default {
 				} else {
 					this.showType = 0
 				}
-				this.$api.msg(res.data.tips);
+				// this.$api.msg(res.data.tips);
 			})
 			.catch(()=>{
 				this.show = false
@@ -160,9 +160,16 @@ export default {
 			}
 			.btn {
 				position: absolute;
-				bottom: 70rpx;
+				width: 300rpx;
+				height: 50rpx;
+				bottom: 60rpx;
 				font-size: 24rpx;
+				line-height: 20rpx;
+				display: flex;
+				align-items: center;
+				justify-content: center;
 				font-family: PingFang SC;
+				text-align: center;
 				font-weight: 500;
 				font-style: italic;
 				color: #FFF5F7;
@@ -203,6 +210,13 @@ export default {
 				color: #FFFFFF;
 				line-height: 58rpx;
 				bottom: 60rpx;
+				line-height: 20rpx;
+				text-align: center;	
+				width: 300rpx;
+				height: 70rpx;
+				display: flex;
+				align-items: center;
+				justify-content: center;
 			}
 		}
 		.bottom-tips {

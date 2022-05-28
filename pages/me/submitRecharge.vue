@@ -4,11 +4,11 @@
 			<view class="flex_center_box">
 				<view class="recharge-img">{{ i18n.submitRecharge.rechargeImg }}</view>
 				<uni-file-picker disable-preview :del-icon="false" return-type="object" @select="select" :image-styles="imageStyles">
-					<u-image src="../../static/images/me/upload_img.png" width="129rpx" height="129rpx" />
+					<u-image style="flex-shrink: 0;" src="../../static/images/me/upload_img.png" width="129rpx" height="129rpx" />
 				</uni-file-picker>
 			</view>
 			<view class="ex-img-wrapper" @click="handlePreview">
-				<text style="color: #212121; margin-right: 20upx;">{{ i18n.submitRecharge.exImg }}</text>
+				<text style="width: 120rpx; color: #212121; margin-right: 20upx;">{{ i18n.submitRecharge.exImg }}</text>
 				<u-image :src="rechargeInfo.recharge_res_demo" width="112upx" height="224upx" />
 			</view>
 		</view>
@@ -174,7 +174,7 @@ export default {
 	background-color: #fff;
 }
 .upload-wrapper {
-	padding: 100upx 131upx 50upx 74rpx;
+	padding: 100upx 100upx 50upx 60rpx;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -245,6 +245,9 @@ export default {
 	align-items: center;
 	justify-content: center;
 	font-size: 26rpx;
+	line-height: 24rpx;
+	padding: 0 20rpx;
+	text-align: center;
 }
 
 .close-btn {
@@ -269,6 +272,7 @@ export default {
 }
 
 .recharge-img {
+	width: 130rpx;
 	font-size: 24rpx;
 	font-family: PingFang SC;
 	font-weight: 500;

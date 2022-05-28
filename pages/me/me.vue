@@ -3,15 +3,15 @@
 		<view class="header">
 			<view class="title">{{i18n.me.title}}</view>
 			<view class="user-wrapper">
-				<u-image @click="openPage('user')" shape="circle" v-if="userData.avatar" :src="userData.avatar" width="102rpx"
+				<u-image style="flex-shrink: 0;" @click="openPage('user')" shape="circle" v-if="userData.avatar" :src="userData.avatar" width="102rpx"
 					height="102rpx" />
-				<u-image @click="openPage('user')" shape="circle" v-else src="../../static/images/user/avatar.png" width="102rpx"
+				<u-image style="flex-shrink: 0;"  @click="openPage('user')" shape="circle" v-else src="../../static/images/user/avatar.png" width="102rpx"
 					height="102rpx" />
 				<view class="user-flex">
-					<view class="user-info" @click="openPage('userInfo')">
-						<view class="user-name">{{ userData.name || i18n.me.login }}</view>
+					<view class="user-info">
+						<view class="user-name" @click="openPage('userInfo')">{{ userData.name || i18n.me.login }}</view>
 						<view class="user-invit" v-if="userData.tcode">
-							<text style="margin-right: 10rpx">{{i18n.me.tcode}}： {{userData.tcode}}</text>
+							<text style="margin-right: 20rpx">{{i18n.me.tcode}}： {{userData.tcode}}</text>
 							<u-image @click="handleCopy(userData.tcode)" src="../../static/images/me/copy.png" width="21rpx"
 								height="21rpx" />
 						</view>
@@ -30,7 +30,7 @@
 				<view class="money-title">{{i18n.me.assets}}</view>
 				<view class="money">
 					${{userData.balance}}
-					<text class="money-tips" v-if="loginInfo.hasLogin">≈{{userData.currency.currency}}-{{userData.currency.symbol}}{{(userData.balance * Number(userData.currency.rate)).toFixed(2)}}</text>
+					<text class="money-tips" v-if="userData.currency">≈{{userData.currency.currency}}-{{userData.currency.symbol}}{{(userData.balance * Number(userData.currency.rate)).toFixed(2)}}</text>
 				</view>
 			</view>
 			<!-- 快速入口 -->
@@ -124,7 +124,7 @@
 			<u-action-sheet :cancel-text="i18n.common.cancel" :border-radius="20" :list="langList" @click="clickLang"
 				v-model="showLang"></u-action-sheet>
 		</view>
-		<view class="logout" v-if="loginInfo.hasLogin" @click="toLogout">退出登录</view>
+		<view class="logout" v-if="loginInfo.hasLogin" @click="toLogout">{{i18n.user.logout}}</view>
 	</view>
 </template>
 
@@ -398,6 +398,7 @@
 
 			.user-invit {
 				display: flex;
+				margin-top: 10rpx;
 			}
 
 			.user-wrapper {
@@ -420,6 +421,9 @@
 
 				.user-rz {
 					// width: 151rpx;
+					position: absolute;
+					margin-bottom: 20rpx;
+					right: 20rpx;
 					height: 34rpx;
 					background: url(../../static/images/me/auth-bg.png);
 					background-size: 100% 100%;
@@ -490,18 +494,22 @@
 					height: 125rpx;
 					background: #ffffff;
 					border-radius: 10rpx;
-					padding: 20rpx;
+					padding: 18rpx;
 					box-sizing: border-box;
-
+					position: relative;
 					.fast-item-title {
 						font-size: 28rpx;
+						line-height: 26rpx;
 						font-family: PingFang SC;
 						font-weight: 500;
 						color: #212121;
 					}
 
 					.fast-item-img {
-						float: right;
+						position: absolute;
+						// float: right;
+						right: 14rpx;
+						bottom: 14rpx;
 					}
 				}
 			}
@@ -543,6 +551,8 @@
 			height: 105rpx;
 			border-radius: 10rpx;
 			margin: 20rpx auto;
+			font-family: PingFang SC;
+			font-weight: 500;
 			display: flex;
 			align-items: center;
 			justify-content: center;

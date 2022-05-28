@@ -53,7 +53,7 @@ module.exports = {
 			fail: '很遗憾',
 			failTips: '再接再厉·明日再来',
 			btn: '点击赢取更多奖励',
-			bottomTips: '首次充值后，每日都可以免费获得一次抽取幸运红包都机会'
+			bottomTips: '首次充值后，每日都可以免费获得一次抽取幸运红包的机会'
 		},
 		login: {
 			title: '登录',
@@ -219,7 +219,7 @@ module.exports = {
 			recharge: '充值',
 			withdraw: '提现',
 			trade: '投资',
-			sign: '签到红包',
+			sign: '签到奖励',
 			invite_reward: '下级返佣',
 			lucky_pannel: '幸运大转盘',
 			lucky_hongbao: '幸运红包'

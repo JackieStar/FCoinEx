@@ -49,19 +49,19 @@
 		<view class="fast-wraper">
 			<view class="fast-item" @click="navTo('/pages/public/lottery')">
 				<image src="../../static/images/home/lottery.png" />
-				<text>{{ i18n.home.lottery }}</text>
+				<view class="fast-item-name">{{ i18n.home.lottery }}</view>
 			</view>
 			<view class="fast-item" @click="openPage('sign')">
 				<image src="../../static/images/home/sign_in.png" />
-				<text>{{ i18n.home.sign }}</text>
+				<view class="fast-item-name">{{ i18n.home.sign }}</view>
 			</view>
 			<view class="fast-item" @click="openPage('red')">
 				<image src="../../static/images/home/red.png" />
-				<text>{{ i18n.home.redPacket }}</text>
+				<view class="fast-item-name">{{ i18n.home.redPacket }}</view>
 			</view>
 			<view class="fast-item" @click="openPage('activity')">
 				<image src="../../static/images/home/gift.png" />
-				<text>{{ i18n.home.newActivity }}</text>
+				<view class="fast-item-name">{{ i18n.home.newActivity }}</view>
 			</view>
 		</view>
 		<!-- 分享页 -->
@@ -385,14 +385,16 @@ export default {
 			background: #ffffff;
 			border-radius: 10rpx;
 			margin-right: 22rpx;
+			position: relative;
 			.right-item-title {
 				font-size: 32rpx;
 				font-family: PingFang SC;
 				font-weight: 500;
 				color: #212121;
-				margin: 24rpx 0 10rpx 21rpx;
+				margin: 20rpx 0 10rpx 21rpx;
 			}
 			.right-item-tip {
+				position: absolute;
 				font-size: 24rpx;
 				font-family: PingFang SC;
 				font-weight: 400;
@@ -400,10 +402,11 @@ export default {
 				margin-left: 21rpx;
 			}
 			.icon-wrapper {
-				width: flex;
+				width: 100%;
+				position: absolute;
+				bottom: 10rpx;
 				display: flex;
 				flex-direction: row-reverse;
-				margin-top: 24rpx;
 				margin-right: 14rpx;
 				.icon-1 {
 					width: 52rpx;
@@ -418,6 +421,7 @@ export default {
 				.icon-3 {
 					width: 52rpx;
 					height: 52rpx;
+					margin-right: 20rpx;
 				}
 			}
 		}
@@ -477,6 +481,13 @@ export default {
 			width: 108rpx;
 			height: 108rpx;
 			margin-bottom: 24rpx;
+		}
+		.fast-item-name {
+			width: 90%;
+			height: 70rpx;
+			padding: 0 10rpx;
+			text-align: center;
+			
 		}
 	}
 	.share-wrapper {

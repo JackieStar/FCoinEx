@@ -57,8 +57,8 @@
 						<text style="color:#666666">{{ amount }}$</text>
 					</view>
 					<view class="coupon-txt">
-						{{ i18n.recharge.getAmount }}：
-						<text style="color:#FF2929">{{ amount }}$ ≈ {{appData.currency.currency}}-{{appData.currency.symbol}}{{(amount * Number(appData.currency.rate)).toFixed(2)}}</text>
+						<text>{{ i18n.recharge.getAmount }}：</text> 
+						<text class="get-amount" style="color:#FF2929" v-if="appData.currency">{{ amount }}$ ≈ {{appData.currency.currency}}-{{appData.currency.symbol}}{{(amount * Number(appData.currency.rate)).toFixed(2)}}</text>
 					</view>
 				</view>
 				
@@ -265,7 +265,7 @@ export default {
 		padding: 0 29upx;
 		margin: 40upx 0;
 		.address-input {
-			width: 440rpx;
+			width: 420rpx;
 			font-size: 32rpx;
 			font-family: PingFang SC;
 			font-weight: 400;
@@ -276,7 +276,7 @@ export default {
 		}
 		.copy-btn {
 			height: 70rpx;
-			padding: 0 30rpx;
+			padding: 0 20rpx;
 			background: #0072ff;
 			border-radius: 35rpx;
 			color: #fff;
@@ -284,6 +284,8 @@ export default {
 			align-items: center;
 			justify-content: center;
 			font-size: 26rupx;
+			line-height: 24rpx;
+			text-align: center;
 		}
 	}
 	.money-wrapper {
@@ -330,7 +332,7 @@ export default {
 	}
 	.coupon-wrapper {
 		width: 629rpx;
-		height: 536rpx;
+		height: auto;
 		background: #FFFFFF;
 		border-radius: 20rpx;
 		display: flex;
@@ -351,6 +353,11 @@ export default {
 				font-size: 30rpx;
 				margin-top: 40rpx;
 			}
+			.get-amount {
+				width: 300rpx;
+				display: inline-block;
+				white-space:nowrap;
+			}
 		}
 		.coupon-btn {
 			width: 413rpx;
@@ -362,7 +369,9 @@ export default {
 			justify-content: center;
 			color: #fff;
 			margin-top: 80rpx;
+			margin-bottom: 40rpx;
 		}
 	}
+	
 }
 </style>

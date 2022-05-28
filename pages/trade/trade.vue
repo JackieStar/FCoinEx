@@ -530,6 +530,7 @@
 				// width: 150rpx;
 				margin-left: 20rpx;
 				text-align: left;
+				white-space:nowrap;
 			}
 
 			.price-after {
