@@ -78,6 +78,13 @@
 					url: '/pages/public/login'
 				})
 			}
+			if(uni.getStorageSync('isBuy')){
+				this.headcurrent=0
+				this.page = 1
+				uni.removeStorageSync('isBuy')
+				this.getOrderList()
+			}
+			
 		},
 		onLoad() {
 

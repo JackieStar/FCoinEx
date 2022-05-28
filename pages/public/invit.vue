@@ -61,6 +61,14 @@
 			</view>
 
 		</view>
+		<!-- #ifdef H5 -->
+		<view class="invite-btn flex_center_box" @click="handleShare">
+			<image class="btn-icon" src="../../static/images/invit/whatsapp@2x.png" mode=""></image>
+			<view class="text">
+				{{i18n.invit.invitBtn||''}}
+			</view>
+		</view>
+		<!-- #endif -->
 		<view class="invit-tips-wrapper">
 			<view class="invit-tips" v-for="(item, index) in invitData.tips" :key="index">{{ item }}</view>
 		</view>
@@ -156,24 +164,25 @@
 					this.userList = res.data.data;
 				});
 			},
+			// 点击立即邀请
+			handleShare(){
+				if (navigator.share) {
+				    navigator.share({
+				      title: this.i18n.invit.invitBtn,
+				      url: this.invitData.tlink
+				    }).then(() => {
+				      console.log('Thanks for sharing!');
+				    })
+				    .catch(console.error);
+				  } else {
+					  this.$api.msg(this.i18n.record.fail);
+				    // shareDialog.classList.add('is-open');
+				  }
+			},
 			// 邀请奖励列表
 			getInvitRewardList() {
 				this.invitRewardList().then(res => {
 					this.rewardList = res.data.data;
-					// this.rewardList=[
-					// 	{s_user_name:'1231***@1.com',
-					// 	cdate:'2022-01-02 11:22',
-					// 	s_user_id:'1231***@1.com',
-					// 	amount:'30'},
-					// 	{s_user_name:'1231***@1.com',
-					// 	cdate:'2022-01-02 11:22',
-					// 	s_user_id:'1231***@1.com',
-					// 	amount:'30'},
-					// 	{s_user_name:'1231***@1.com',
-					// 	cdate:'2022-01-02 11:22',
-					// 	s_user_id:'1231***@1.com',
-					// 	amount:'30'}
-					// ]
 				});
 			},
 			handleChange(type) {
@@ -276,11 +285,33 @@
 	.container {
 		padding-bottom: 80upx;
 	}
+	.invite-btn{
+		width: 650rpx;
+		margin: auto;
+		margin-top: 30rpx;
+		height: 81rpx;
+		background: #0072FF;
+		border-radius: 41rpx;
+		text-align: center;
+		line-height: 81rpx;
+		color: #fff;
+		.btn-icon{
+			width: 48rpx;
+			height: 48rpx;
+		}
+		.text{
+			margin-left: 10rpx;
+			font-size: 30rpx;
+			font-family: PingFang SC;
+			font-weight: 500;
+			color: #FFFFFF;
+		}
+	}
 
 	.invit-tips-wrapper {
 		width: 660rpx;
 		margin: auto;
-		margin-top: 30upx;
+		margin-top: 35upx;
 
 		.invit-tips {
 			font-size: 24upx;
