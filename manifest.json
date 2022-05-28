@@ -114,7 +114,7 @@
         }
     },
     "h5" : {
-        "title" : "FexWallet",
+        "title" : "BitAntOx",
         "router" : {
             "base" : "",
             "mode" : "history"
