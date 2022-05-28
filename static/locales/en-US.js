@@ -179,7 +179,7 @@ module.exports = {
 			TradingDirection: 'Trading direction',
 			presentPrice: 'Current price',
 			TransactionMode: 'Trading mode',
-			minute: 'minute',
+			minute: 'minutes',
 			EstimatedIncome: 'Expected earnings',
 			ConfirmOrder: 'OK',
 			lost:'YOU LOST',

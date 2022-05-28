@@ -1,7 +1,8 @@
 <template>
 	<view class="trade-record-item">
 		<view class="record-top-rise">
-			<image class="rise-img" src="../../static/images/trade/top-item.png" mode=""></image>
+			<image v-if="infoItem.rise_fall==1" class="rise-img" src="../../static/images/trade/top-item.png" mode=""></image>
+			<image v-if="infoItem.rise_fall==2" class="rise-img" src="../../static/images/trade/bottom-item.png" mode=""></image>
 			<view class="rise-text">
 				{{infoItem.rise_fall==1?i18n.trade.rise:i18n.trade.down}}
 			</view>
@@ -97,13 +98,13 @@
 				</view>
 			</view>
 		</view>
-		<view v-if="mode=='hold'" class="hold-rise-box">
+		<view v-if="mode=='hold'&&infoItem.remain_seconds>10" class="hold-rise-box">
 			<view class="hold-up-item">
-				<view class="hold-up-bg " :class="[infoItem.rise_fall==1?'hold-up':'hold-down']">
+				<view class="hold-up-bg " :class="[(infoItem.rise_fall==1&&infoItem.buy_price<priceInfo.price)||(infoItem.rise_fall==2&&infoItem.buy_price>priceInfo.price)?'hold-up':'hold-down']">
 
 				</view>
-				<view class="hold-up-amount" :class="[infoItem.rise_fall==1?'hold-up':'hold-down']">
-					${{infoItem.current_price}}
+				<view class="hold-up-amount" :class="[(infoItem.rise_fall==1&&infoItem.buy_price<priceInfo.price)||(infoItem.rise_fall==2&&infoItem.buy_price>priceInfo.price)?'hold-up':'hold-down']">
+					${{priceInfo.price}}
 				</view>
 			</view>
 		</view>
@@ -114,6 +115,10 @@
 	import {
 		commonMixin
 	} from '@/common/mixin/mixin.js';
+	import {
+		mapState,
+		mapActions
+	} from 'vuex';
 	export default {
 		name: 'trade-item',
 		props: {
@@ -131,11 +136,17 @@
 				seconds: '',
 				clear: null,
 				first: '',
-				second: ''
+				second: '',
+				priceInfo:{
+					price:''
+				}
 
 			}
 		},
 		created() {
+			if (this.mode == 'hold') {
+				this.getProductPrice()
+			}
 			setTimeout(() => {
 				if (this.mode == 'hold') {
 					this.clear = setInterval(this.countTime, 1 * 1000)
@@ -143,10 +154,19 @@
 			}, 300)
 		},
 		methods: {
+			...mapActions('trade', [ 'productPrice']),
+			
 			handleBalance(){
 				uni.switchTab({
 					url:'/pages/me/me'
 				})
+			},
+			getProductPrice() {
+				this.productPrice({
+					code: this.infoItem.code
+				}).then(res => {
+					this.priceInfo = res.data
+				});
 			},
 			countTime() {
 				//获取当前时间  
@@ -167,6 +187,7 @@
 					// 	second + ':' + third
 					this.first = second
 					this.second = third
+					this.getProductPrice()
 				} else {
 					this.$emit('handleGet')
 					clearInterval(this.clear);

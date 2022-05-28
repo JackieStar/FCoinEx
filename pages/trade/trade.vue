@@ -12,35 +12,40 @@
 					{{i18n.trade.nowhold}}
 				</view>
 			</view>
-			<view class="flex_between_box price-item mar-t-24">
-				<view class="high-text" :class=" { 'green-text' : Number(priceInfo.diff_rate)>=0,
-						'red-text': Number(priceInfo.diff_rate)<0 }">
-					{{priceInfo.price}}
-				</view>
-				<view class="flex_right_box">
-					<view class="price-text">
-						{{ i18n.trade.high }}：{{priceInfo.high}}
+			<view class="flex_between_box mar-t-24">
+				<view class=" price-item ">
+					<view class="high-text price-big" :class=" { 'green-text' : Number(priceInfo.diff_rate)>=0,
+							'red-text': Number(priceInfo.diff_rate)<0 }">
+						{{priceInfo.price}}
 					</view>
-					<view class="price-text price-after">
-						{{ i18n.trade.low }}：{{priceInfo.low}}
+					<view class="high-text flex_left_box mar-t-20">
+						<text
+							:class=" { 'green-text' : Number(priceInfo.diff_rate)>=0,
+							'red-text': Number(priceInfo.diff_rate)<0 }">{{Number(priceInfo.diff_rate)>0?'+':''}}{{priceInfo.diff_rate}}%</text>
+					</view>
+				</view>
+				<view class=" price-item flex_right_box">
+					<view class="">
+						<view class="price-text">
+							{{ i18n.trade.high }}：{{priceInfo.high}}
+						</view>
+						<view class="price-text mar-t-20">
+							{{ i18n.trade.open }}：{{priceInfo.open}}
+						</view>
+						
+					</view>
+					<view class="">
+						<view class="price-text price-after">
+							{{ i18n.trade.low }}：{{priceInfo.low}}
+						</view>
+						<view class="price-text price-after mar-t-20">
+							{{ i18n.trade.messageTime }}：{{priceInfo.volume_format}}
+						</view>
 					</view>
 				</view>
 			</view>
-			<view class="flex_between_box price-item mar-t-20">
-				<view class="high-text flex_left_box">
-					<text
-						:class=" { 'green-text' : Number(priceInfo.diff_rate)>=0,
-						'red-text': Number(priceInfo.diff_rate)<0 }">{{Number(priceInfo.diff_rate)>0?'+':''}}{{priceInfo.diff_rate}}%</text>
-				</view>
-				<view class="flex_right_box">
-					<view class="price-text">
-						{{ i18n.trade.open }}：{{priceInfo.open}}
-					</view>
-					<view class="price-text price-after">
-						{{ i18n.trade.messageTime }}：{{priceInfo.volume_format}}
-					</view>
-				</view>
-			</view>
+			
+			
 		</view>
 		<view class="">
 
@@ -63,7 +68,7 @@
 						<view class="col r">{{ i18n.home.market.title2 }}</view>
 						<view class="col r">{{ i18n.home.market.title3 }}</view>
 					</view>
-					<scroll-view scroll-y="true" style="max-height: 80vh;">
+					<scroll-view scroll-y="true" style="max-height: 50vh;">
 						<product-item v-if="productPopup" v-for="(item, i) in markets" :item="item"
 							@handleChoose="chooseProduct" :key="item.id"></product-item>
 					</scroll-view>
@@ -234,7 +239,8 @@
 				set_amounts: [],
 
 				set_amount: '',
-				rise_fall: 1
+				rise_fall: 1,
+				language:''
 			};
 		},
 		onLoad(e) {
@@ -276,7 +282,16 @@
 			}
 			this.getMaketList();
 			this.clear = setInterval(this.getMaketList, 8 * 1000)
-			this.clearMarket = setInterval(this.getProductPrice, 15 * 1000)
+			this.clearMarket = setInterval(this.getProductPrice, 3 * 1000)
+			if(uni.getStorageSync('language')){
+				console.log(this.language)
+				if(this.language){
+					if(uni.getStorageSync('language')!=this.language){
+						this.getProductInfo(1)
+					}
+				}
+				this.language=uni.getStorageSync('language')
+			}
 
 		},
 		//隐藏的时候 停止定时器和清空hqchart的实例
@@ -436,8 +451,14 @@
 			},
 			// 开仓买入
 			handleTransaction(type) {
-				this.rise_fall = type
-				this.tradePopup = true
+				if (this.loginInfo.hasLogin) {
+					this.rise_fall = type
+					this.tradePopup = true
+				} else {
+					uni.navigateTo({
+						url: '/pages/public/login'
+					});
+				}
 			},
 			handleSave() {
 				this.saveTrade(this.rise_fall)
@@ -460,6 +481,10 @@
 						setTimeout(() => {
 							this.$u.toast(res.message)
 						}, 1000)
+						uni.setStorageSync('isBuy','sucess')
+						uni.switchTab({
+							url:'/pages/wallet/wallet'
+						})
 						this.isSendHttp = false
 					}).catch(err => {
 						this.isSendHttp = false
@@ -524,6 +549,10 @@
 				font-family: PingFang SC;
 				font-weight: 400;
 			}
+			.price-big{
+				font-size: 32rpx;
+				font-weight: 500;
+			}
 
 			.price-text {
 				font-size: 24rpx;
@@ -534,12 +563,13 @@
 			}
 
 			.price-after {
-				width: 200rpx
+				// width: 200rpx
+				flex-shrink: 0;
 			}
 		}
 
 		.mar-t-24 {
-			margin-top: 24rpx;
+			margin-top: 40rpx;
 		}
 
 		.mar-t-20 {
