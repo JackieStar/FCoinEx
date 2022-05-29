@@ -133,8 +133,7 @@ module.exports = {
 			tReward: '邀请奖励',
 			myInvit: '我的邀请',
 			uid: '邀请UID',
-			inviter: '邀请人',
-			invitBtn:'立即邀请好友'
+			inviter: '邀请人'
 		},
 		common: {
 			getCode: '获取验证码',
@@ -268,6 +267,7 @@ module.exports = {
 		},
 		recharge: {
 			title: '充值',
+			rechargeConfim: '充值确认',
 			sure: '确认',
 			saveImg: '长按保存二维码',
 			rechargeAddr: '充值地址',

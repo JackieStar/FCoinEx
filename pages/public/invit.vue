@@ -65,7 +65,7 @@
 		<view class="invite-btn flex_center_box" @click="handleShare">
 			<image class="btn-icon" src="../../static/images/invit/whatsapp@2x.png" mode=""></image>
 			<view class="text">
-				{{i18n.invit.invitBtn||''}}
+				{{i18n.invit.title||''}}
 			</view>
 		</view>
 		<!-- #endif -->
