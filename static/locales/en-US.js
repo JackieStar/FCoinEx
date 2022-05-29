@@ -262,7 +262,8 @@ module.exports = {
 			withDrawList: 'Withdrawals record',
 			account: 'Account',
 			withdrawAccount: 'Withdraw account',
-			receiver: 'Withdraw address'
+			receiver: 'Withdraw address',
+			isDelete: 'Delete or not'
 		},
 		recharge: {
 			title: 'Deposit',

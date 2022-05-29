@@ -262,7 +262,8 @@ module.exports = {
 			withDrawList: 'บันทึกการถอน',
 			account: 'บัญชีผู้ใช้',
 			withdrawAccount: 'บัญชีถอนเงิน',
-			receiver: 'ที่อยู่ถอนเงิน'
+			receiver: 'ที่อยู่ถอนเงิน',
+			isDelete: 'ลบหรือไม่'
 		},
 		recharge: {
 			title: 'เติมเงิน',

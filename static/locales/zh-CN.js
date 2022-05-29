@@ -263,7 +263,8 @@ module.exports = {
 			withDrawList: '提现记录',
 			account: '账号',
 			withdrawAccount: '提现账户',
-			receiver: '收款地址'
+			receiver: '收款地址',
+			isDelete: '是否删除？'
 		},
 		recharge: {
 			title: '充值',

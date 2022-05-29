@@ -262,7 +262,8 @@ module.exports = {
 			withDrawList: 'Запись о снятии средств',
 			account: 'учетная запись',
 			withdrawAccount: 'Счет для снятия',
-			receiver: 'Платежный адрес'
+			receiver: 'Платежный адрес',
+			isDelete: 'удалить или нет'
 		},
 		recharge: {
 			title: 'перезарядка',

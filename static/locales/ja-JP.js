@@ -262,7 +262,8 @@ module.exports = {
 			withDrawList: '引き出し記録',
 			account: 'アカウント',
 			withdrawAccount: '引き出し口座',
-			receiver: 'アカウントを受け取る'
+			receiver: 'アカウントを受け取る',
+			isDelete: '削除するかどうか'
 		},
 		recharge: {
 			title: 'リチャージ',
