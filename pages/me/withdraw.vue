@@ -72,19 +72,19 @@
 				<view class="coupon-title">{{i18n.withdraw.warning2}}</view>
 				<view class="coupon-txt-wrapper">
 					<view class="coupon-txt">
-						{{i18n.withdraw.title}}{{i18n.withdraw.network}}：
+						{{i18n.withdraw.network}}：
 						<text style="color:#666666">{{accountInfo.coin_type }}</text>
 					</view>
 					<view class="coupon-txt">
-						{{i18n.withdraw.title}}{{i18n.withdraw.withdrawwAddr}}：
+						{{i18n.withdraw.withdrawwAddr}}：
 						<text style="color:#666666">{{accountInfo.wallet_addr }}</text>
 					</view>
 					<view class="coupon-txt">
-						{{i18n.withdraw.title}}{{i18n.withdraw.money}}：
+						{{i18n.withdraw.money}}：
 						<text style="color:#666666">{{ amount }}$</text>
 					</view>
 					<view class="coupon-txt">
-						{{i18n.recharge.getAmount}}：
+						<view>{{i18n.recharge.getAmount}}：</view>
 						<text style="color:#FF2929">{{ amount - withdraw_fee}}$</text>
 					</view>
 				</view>
@@ -127,7 +127,7 @@
 					type="password"
 				/>
 			</view>
-			<view class="submit-btn" @click="handleSubmit">{{ i18n.updatePwd.submitBtn }}</view>
+			<view class="submit-btn" @click="handleSubmit">{{ i18n.updatePwd.btn }}</view>
 		</u-popup>
 	</view>
 </template>
@@ -189,7 +189,8 @@ export default {
 		...mapActions('user', ['userInfo']),
 		//请求数据
 		async loadData() {
-			let accountInfo = uni.getStorageSync('accountInfo');
+			let userId = uni.getStorageSync('userInfo').id
+			let accountInfo = uni.getStorageSync(`accountInfo-${userId}`);
 			this.accountInfo = accountInfo;
 			this.getFinaceInfo({ config: 'withdraw' }).then(res => {
 				this.withdrawInfo = res.data;
@@ -246,8 +247,8 @@ export default {
 			this.withdraw(params).then(res => {
 				this.$api.msg(this.i18n.withdraw.withdrawSuccess);
 				this.showModal = false;
-				uni.switchTab({
-					url: '/pages/me/me'
+				uni.redirectTo({
+					url: '/pages/wallet/withdraw'
 				})
 			});
 		},
@@ -546,6 +547,8 @@ export default {
 			width: 100%;
 			padding: 0 46rpx;
 			.coupon-txt {
+				width: 100%;
+				display: flex;
 				color: #212121;
 				font-size: 30rpx;
 				margin-top: 40rpx;

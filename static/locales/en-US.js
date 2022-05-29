@@ -260,7 +260,7 @@ module.exports = {
 			noNetwork: 'Please select a network',
 			withdrawSuccess: 'Withdrawal success',
 			withDrawList: 'Withdrawals record',
-			account: 'account',
+			account: 'Account',
 			withdrawAccount: 'Withdraw account',
 			receiver: 'Withdraw address'
 		},
@@ -270,13 +270,13 @@ module.exports = {
 			saveImg: 'Long press to save the QR code',
 			rechargeAddr: 'Deposit address',
 			copyBtn: 'Copy address',
-			amount: 'Deposit amount',
+			amount: 'Amount',
 			placeholder: 'Please enter deposit amount',
 			submitBtn: 'Apply for deposit',
 			saveCode: 'Save QR code',
 			saveSuccess: 'QR code saved successfully',
 			bottomSubmit: 'Buy Tether(USDT)',
-			network: 'Deposit network',
+			network: 'Network',
 			getAmount: 'Amount received'
 		},
 		submitRecharge: {

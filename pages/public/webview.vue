@@ -15,6 +15,7 @@
 		},
 		onLoad(e) {
 			this.url = e.url
+			console.log('this.url', this.url)
 			uni.setNavigationBarTitle({
 				title: e.title
 			});

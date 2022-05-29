@@ -123,9 +123,7 @@
 		{
 			"path": "pages/wallet/record",
 			"style": {
-				"navigationBarTextStyle": "black",
-				"navigationBarBackgroundColor": "#ffffff",
-				"navigationBarTitleText": ""
+				"navigationStyle": "custom"
 			}
 		},
 		{

@@ -46,7 +46,7 @@
 		<view class="kf-icon"><u-image @click="openPage('kf')" src="../../static/images/home/kf.png" width="127rpx" height="127rpx" /></view>
 		<u-popup v-model="show" mode="center" border-radius="20" closeable>
 			<view class="coupon-wrapper">
-				<view class="coupon-title">{{i18n.recharge.title}}{{i18n.recharge.sure}}</view>
+				<view class="coupon-title">{{i18n.recharge.title}}</view>
 				<view class="coupon-txt-wrapper">
 					<view class="coupon-txt">
 						{{ i18n.recharge.network }}：
@@ -54,15 +54,15 @@
 					</view>
 					<view class="coupon-txt">
 						{{ i18n.recharge.amount }}：
-						<text style="color:#666666">{{ amount }}$</text>
+						<text style="color:#666666">{{ amount }}{{coinType.symbol}}</text>
 					</view>
 					<view class="coupon-txt">
 						<text>{{ i18n.recharge.getAmount }}：</text> 
-						<text class="get-amount" style="color:#FF2929">{{ amount }}$<text v-if="appData.currency && appData.currency.currency !=='USD'" style="font-size: 24rpx;">≈{{appData.currency.currency}}-{{appData.currency.symbol}}{{(amount * Number(appData.currency.rate)).toFixed(2)}}</text></text>
+						<text class="get-amount" style="color:#FF2929">{{ amount }}{{coinType.symbol}}<text v-if="appData.currency && appData.currency.currency !=='USD'" style="font-size: 24rpx;">≈{{appData.currency.currency}}-{{appData.currency.symbol}}{{(amount * Number(appData.currency.rate)).toFixed(2)}}</text></text>
 					</view>
 				</view>
 				
-				<view class="coupon-btn" @click="handleSubmit">{{i18n.recharge.sure}}{{i18n.recharge.title}}</view>
+				<view class="coupon-btn" @click="handleSubmit">{{i18n.submitRecharge.submitBtn}}</view>
 			</view>
 		</u-popup>
 	</view>
@@ -130,11 +130,11 @@ export default {
 				});
 			}
 			if (type === 'bottom') {
-				uni.switchTab({
-					url: '/pages/home/home'
-				});
+				window.open(this.rechargeInfo.usdt_recharge_url)
+				// uni.navigateTo({
+				// 	url: `/pages/public/webview?url=${this.rechargeInfo.usdt_recharge_url}`
+				// });
 			}
-			
 			if (type === 'recharge') {
 				if (!this.amount) return this.$api.msg(this.i18n.recharge.placeholder);
 				this.show = true
@@ -349,12 +349,14 @@ export default {
 			width: 100%;
 			padding: 0 46rpx;
 			.coupon-txt {
+				width: 100%;
+				display: flex;
 				color: #212121;
 				font-size: 30rpx;
 				margin-top: 40rpx;
 			}
 			.get-amount {
-				width: 300rpx;
+				// width: 300rpx;
 				display: inline-block;
 				white-space:nowrap;
 			}

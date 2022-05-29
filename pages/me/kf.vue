@@ -38,9 +38,10 @@ export default {
 			});
 		},
 		openPage(item) {
-			uni.navigateTo({
-				url: `/pages/public/webview?title=${item.name}&url=${item.link}`
-			});
+			window.open(item.link)
+			// uni.navigateTo({
+			// 	url: `/pages/public/webview?title=${item.name}&url=${item.link}`
+			// });
 		}
 	}
 };

@@ -28,8 +28,8 @@
 			<view class="modal-title">{{i18n.withdraw.addAccount}}</view>
 			<view class="modal-line-title">{{ i18n.withdraw.network }}</view>
 			<view class="network-input">
-				<u-field :border-bottom="false" @click="handleShowAction" :label-width="0" v-model="form.coin_type" :disabled="true" :placeholder="i18n.withdraw.noNetwork" right-icon="arrow-down" />
-				<u-action-sheet border-radius="20" @click="getCoinType" :list="coinTypeList" v-model="showAction"></u-action-sheet>
+				<u-field class="u-input" :border-bottom="false" @click="handleShowAction" :label-width="0" v-model="form.coin_type" :disabled="true" :placeholder="i18n.withdraw.noNetwork" right-icon="arrow-down" />
+				<u-action-sheet :cancel-text="i18n.common.cancel" border-radius="20" @click="getCoinType" :list="coinTypeList" v-model="showAction"></u-action-sheet>
 			</view>
 			<view class="modal-line-title">{{i18n.withdraw.withdrawwAddr}}</view>
 			<view class="modal-input-wrapper">
@@ -38,7 +38,7 @@
 					placeholder-style="color: #818FA; font-size: 26upx"
 					v-model="form.addr"
 					:placeholder="i18n.withdraw.noWithdrawAddr"
-					style="padding-right: 10upx;"
+					style="padding-right: 20upx;"
 					type="text"
 				/>
 				<view class="copy-btn" @click="handlePaste">{{i18n.withdraw.copyBtn}}</view>
@@ -75,7 +75,8 @@ export default {
 				remark: null
 			},
 			showAction: false,
-			coinTypeList: []
+			coinTypeList: [],
+			userData: {}
 		};
 	},
 	onShow() {
@@ -113,10 +114,9 @@ export default {
 			this.showAction = true
 		},
 		handleSelect(item) {
-			uni.setStorageSync('accountInfo', item)
-			uni.redirectTo({
-				url: '/pages/me/withdraw'
-			});
+			let userId = uni.getStorageSync('userInfo').id
+			uni.setStorageSync(`accountInfo-${userId}`, item)
+			uni.navigateBack();
 		},
 		// 获取网络
 		getCoinType(e) {
@@ -133,10 +133,22 @@ export default {
 			})
 		},
 		handleDelete(item) {
-			this.deleteReceiver({addr_id: item.id}).then(res => {
-				this.$api.msg(res.message)
-				this.getList()
-			})
+			uni.showModal({
+				content: '是否删除？',
+				success: e => {
+					if (e.confirm) {
+						this.deleteReceiver({addr_id: item.id}).then(res => {
+							this.$api.msg(res.message)
+							let addrId = uni.getStorageSync('accountInfo').id
+							if (addrId == item.id) {
+								uni.removeStorageSync('accountInfo')
+							}
+							this.getList()
+						})
+					}
+				}
+			});
+			
 		},
 		// 粘贴
 		handlePaste() {
@@ -275,6 +287,9 @@ export default {
 			display: flex;
 			align-items: center;
 			justify-content: center;
+			.u-input {
+				width: 630rpx;
+			}
 		}
 		.modal-input-wrapper {
 			width: 638upx;
@@ -291,7 +306,7 @@ export default {
 				background: #FFFFFF;
 				border: 1rpx solid #E9E9E9;
 				border-radius: 10rpx;
-				padding: 0 20rpx;
+				padding: 0 28rpx;
 			}
 			.copy-btn {
 				width: 100rpx;

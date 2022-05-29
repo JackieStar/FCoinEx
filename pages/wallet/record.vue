@@ -1,5 +1,6 @@
 <template>
 	<view class="container">
+		<u-navbar :custom-back="navBack" :title="i18n.record.rechargeList" />
 		<view class="record-head flex_left_box">
 			<view class="record-type-box flex_between_box" @click="show=true">
 				<text>{{typeName}}</text>
@@ -98,9 +99,9 @@
 			};
 		},
 		onShow() {
-			uni.setNavigationBarTitle({
-				title: this.i18n.record.rechargeList
-			});
+			// uni.setNavigationBarTitle({
+			// 	title: this.i18n.record.rechargeList
+			// });
 			this.typeName = this.i18n.common.type
 			this.selectList = [{
 					value: '',
@@ -136,6 +137,17 @@
 				this.pageRe = 1
 				this.isHavePageRe = true
 				this.getRechargeList()
+			},
+			navBack() {
+				let pages = getCurrentPages();
+				console.log('333333333-pages',pages)
+				if (pages && pages.length > 1 && pages[pages.length - 2].route === 'pages/me/submitRecharge') {
+					uni.switchTab({
+						url: '/pages/me/me'
+					});
+				} else {
+					uni.navigateBack();
+				}
 			},
 			getWithDrawList() {
 				this.isSendLoadingWi = true;
