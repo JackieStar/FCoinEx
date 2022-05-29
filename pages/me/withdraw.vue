@@ -85,7 +85,7 @@
 					</view>
 					<view class="coupon-txt">
 						<view>{{i18n.recharge.getAmount}}：</view>
-						<text class="get-amount" style="color:#FF2929">{{ target_amount }}USD<text v-if="userData.currency && userData.currency.currency !=='USD'" style="font-size: 24rpx;">≈{{userData.currency.currency}}-{{userData.currency.symbol}}{{(amount * Number(userData.currency.rate)).toFixed(2)}}</text></text>
+						<text class="get-amount" style="color:#FF2929">{{ target_amount }}$<text v-if="userData.currency && userData.currency.currency !=='USD'" style="font-size: 24rpx;">≈{{userData.currency.currency}}-{{userData.currency.symbol}}{{(Number(target_amount) * Number(userData.currency.rate)).toFixed(2)}}</text></text>
 					</view>
 				</view>
 				
