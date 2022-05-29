@@ -73,3 +73,12 @@ export function getKefu() {
     method: 'GET'
   })
 }
+
+// 币种金额转换
+export function exchange(data) {
+  return request({
+    url: `/api/coin/exchange`,
+    method: 'POST',
+	data
+  })
+}

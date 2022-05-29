@@ -9,7 +9,8 @@ import {
 	clickSign,
 	signInfo,
 	getArticle,
-	getKefu
+	getKefu,
+	exchange
 } from '@/api/common'
 import {
 	COMMON_COIN_LIST,
@@ -159,6 +160,17 @@ const common = {
 		}) {
 			return new Promise((resolve, reject) => {
 				getKefu().then(res => {
+					resolve(res)
+				}).catch(error => {
+					reject(error)
+				})
+			})
+		},
+		exchange({
+			commit
+		},data) {
+			return new Promise((resolve, reject) => {
+				exchange(data).then(res => {
 					resolve(res)
 				}).catch(error => {
 					reject(error)

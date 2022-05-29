@@ -81,11 +81,11 @@
 					</view>
 					<view class="coupon-txt">
 						{{i18n.withdraw.money}}：
-						<text style="color:#666666">{{ amount }}$</text>
+						<text style="color:#666666">{{ amount }}{{accountInfo.symbol}}</text>
 					</view>
 					<view class="coupon-txt">
 						<view>{{i18n.recharge.getAmount}}：</view>
-						<text style="color:#FF2929">{{ amount - withdraw_fee}}$</text>
+						<text class="get-amount" style="color:#FF2929">{{ target_amount }}USD<text v-if="userData.currency && userData.currency.currency !=='USD'" style="font-size: 24rpx;">≈{{userData.currency.currency}}-{{userData.currency.symbol}}{{(amount * Number(userData.currency.rate)).toFixed(2)}}</text></text>
 					</view>
 				</view>
 				
@@ -172,6 +172,7 @@ export default {
 				email_code: null,
 				password: null
 			},
+			target_amount: null, // 转换后的金额
 			withdraw_fee: null // 提现手续费，计算
 		};
 	},
@@ -184,7 +185,7 @@ export default {
 		this.getUserInfo();
 	},
 	methods: {
-		...mapActions('common', ['sendSms']),
+		...mapActions('common', ['sendSms', 'exchange']),
 		...mapActions('wallet', ['getFinaceInfo', 'withdraw', 'withdrawFee']),
 		...mapActions('user', ['userInfo']),
 		//请求数据
@@ -205,6 +206,18 @@ export default {
 					return;
 				}
 			});
+		},
+		getExchange(item) {
+			let params = {
+				coin_type: this.accountInfo.coin_type,
+				amount: this.amount,
+				target_coin_type: 'USD'
+			}
+			this.exchange(params).then(res => {
+				console.log('res', res)
+				this.target_amount = res.data.target_amount
+				this.showSure = true;
+			})
 		},
 		// 全部
 		handleAll() {
@@ -228,7 +241,7 @@ export default {
 				email_code: null,
 				password: null
 			};
-			this.showSure = true;
+			this.getExchange()
 		},
 		handleSubmit() {
 			if (!this.form.email_code) {
@@ -627,6 +640,11 @@ export default {
 		align-items: center;
 		justify-content: center;
 		font-size: 26rpx;
+	}
+	.get-amount {
+		// width: 300rpx;
+		display: inline-block;
+		// white-space:nowrap;
 	}
 }
 </style>

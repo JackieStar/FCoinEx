@@ -58,7 +58,7 @@
 					</view>
 					<view class="coupon-txt">
 						<text>{{ i18n.recharge.getAmount }}：</text> 
-						<text class="get-amount" style="color:#FF2929">{{ amount }}{{coinType.symbol}}<text v-if="appData.currency && appData.currency.currency !=='USD'" style="font-size: 24rpx;">≈{{appData.currency.currency}}-{{appData.currency.symbol}}{{(amount * Number(appData.currency.rate)).toFixed(2)}}</text></text>
+						<text class="get-amount" style="color:#FF2929">{{ target_amount }}USD<text v-if="appData.currency && appData.currency.currency !=='USD'" style="font-size: 24rpx;">≈{{appData.currency.currency}}-{{appData.currency.symbol}}{{(amount * Number(appData.currency.rate)).toFixed(2)}}</text></text>
 					</view>
 				</view>
 				
@@ -81,7 +81,8 @@ export default {
 			itemIndex: 0,
 			amount: null,
 			show: false,
-			appData: {}
+			appData: {},
+			target_amount: null
 		};
 	},
 	onShow() {
@@ -91,6 +92,7 @@ export default {
 	methods: {
 		...mapActions('wallet', ['getFinaceInfo']),
 		...mapActions('user', ['userInfo']),
+		...mapActions('common', ['exchange']),
 		//请求数据
 		async loadData() {
 			this.getFinaceInfo({ config: 'recharge' }).then(res => {
@@ -107,6 +109,18 @@ export default {
 		handleChange(e, item) {
 			this.itemIndex = e;
 			this.coinType = item;
+		},
+		getExchange(item) {
+			let params = {
+				coin_type: this.coinType.coin_type,
+				amount: this.amount,
+				target_coin_type: 'USD'
+			}
+			this.exchange(params).then(res => {
+				console.log('res', res)
+				this.target_amount = res.data.target_amount
+				this.show = true
+			})
 		},
 
 		handleCopy() {
@@ -137,7 +151,7 @@ export default {
 			}
 			if (type === 'recharge') {
 				if (!this.amount) return this.$api.msg(this.i18n.recharge.placeholder);
-				this.show = true
+				this.getExchange()
 			}
 		},
 		// 确认充值
@@ -358,7 +372,7 @@ export default {
 			.get-amount {
 				// width: 300rpx;
 				display: inline-block;
-				white-space:nowrap;
+				// white-space:nowrap;
 			}
 		}
 		.coupon-btn {
