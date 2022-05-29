@@ -70,7 +70,7 @@
 							</view>
 						</view>
 					</view>
-					<view v-if="status==-1&&status==2" class="auth-submit" @click="handleSubmit">
+					<view v-if="status==-1||status==2" class="auth-submit" @click="handleSubmit">
 						{{i18n.auth.submit}}
 					</view>
 					<view class="footer-tips-box">
