@@ -134,7 +134,7 @@ export default {
 		},
 		handleDelete(item) {
 			uni.showModal({
-				content: '是否删除？',
+				content: this.i18n.withdraw.isDelete,
 				success: e => {
 					if (e.confirm) {
 						this.deleteReceiver({addr_id: item.id}).then(res => {

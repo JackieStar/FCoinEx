@@ -158,7 +158,7 @@ export default {
 		handleSubmit() {
 			this.show = false
 			uni.navigateTo({
-				url: '/pages/me/submitRecharge?amount=' + this.amount
+				url: `/pages/me/submitRecharge?amount=${this.amount}&coin_type=${this.coinType.coin_type}` 
 			});
 		},
 		// 保存图片

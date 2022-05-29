@@ -11,14 +11,14 @@
 			<view class="record-item" v-for="(item,index) in rechargeData" :key="index">
 				<view class="record-info">
 					<view class="amount-label">
-						{{i18n.withdraw.money}}：{{item.amount}} USDT
+						{{i18n.withdraw.money}}：{{item.amount}}
 					</view>
 					<view class="flex_left_box record-label-item">
 						<view class="left-label">
 							{{i18n.record.transfer_amount}}：
 						</view>
 						<view class="desc red-text">
-							{{item.amount}} $
+							{{item.actual_amount_show}}
 						</view>
 					</view>
 					<view class="flex_left_box record-label-item">
@@ -248,10 +248,13 @@
 					width: 100%;
 					padding: 20rpx 0;
 					.left-label{
+						flex-shrink: 0;
 						font-size: 28rpx;
 						color: #212121;
 					}
 					.desc {
+						// width: 500rpx;
+						word-break: break-all;
 						font-size: 28rpx;
 						color: #666666;
 					}

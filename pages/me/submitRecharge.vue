@@ -50,6 +50,7 @@ export default {
 			tabIndex: 1,
 			rechargeInfo: {},
 			amount: null,
+			coin_type: null,
 			transfer_img: '',
 			transfer_addr: null,
 			imageStyles: {
@@ -64,6 +65,7 @@ export default {
 	},
 	onLoad(e) {
 		this.amount = e.amount;
+		this.coin_type = e.coin_type
 	},
 	onShow() {
 		uni.setNavigationBarTitle({
@@ -126,7 +128,7 @@ export default {
 		},
 		handleSubmit() {
 			let params = {
-				coin_type: 'USDT-TRC20',
+				coin_type: this.coin_type,
 				amount: this.amount,
 				transfer_img: this.transfer_img,
 				transfer_addr: this.transfer_addr

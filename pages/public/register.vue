@@ -231,7 +231,7 @@ export default {
 					setTimeout(() => {
 						this.logining = false;
 						let params = {
-							email: this.form.email,
+							account: this.form.email,
 							password: this.form.password
 						};
 						this.login(params).then(res => {

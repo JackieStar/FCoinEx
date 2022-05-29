@@ -54,7 +54,7 @@
 			<view class="confirm-btn" @click="openModal">{{ i18n.withdraw.btn }}</view>
 			<view class="tips">{{i18n.withdraw.tips1}}</view>
 		</view>
-		<u-popup v-model="show" mode="center">
+		<u-popup v-model="show" mode="center" :mask-close-able="false">
 			<view class="coupon-1-wrapper">
 				<view class="top-img"></view>
 				<view class="rz-wrapper">
@@ -81,11 +81,11 @@
 					</view>
 					<view class="coupon-txt">
 						{{i18n.withdraw.money}}：
-						<text style="color:#666666">{{ amount }}{{accountInfo.symbol}}</text>
+						<text style="color:#666666">{{ amount }}$</text>
 					</view>
 					<view class="coupon-txt">
 						<view>{{i18n.recharge.getAmount}}：</view>
-						<text class="get-amount" style="color:#FF2929">{{ target_amount }}$<text v-if="userData.currency && userData.currency.currency !=='USD'" style="font-size: 24rpx;">≈{{userData.currency.currency}}-{{userData.currency.symbol}}{{(Number(target_amount) * Number(userData.currency.rate)).toFixed(2)}}</text></text>
+						<text class="get-amount" style="color:#FF2929">{{ target_amount }}{{accountInfo.symbol}}<text v-if="userData.currency && userData.currency.currency !=='USD'" style="font-size: 24rpx;">≈{{userData.currency.currency}}-{{userData.currency.symbol}}{{(Number(target_amount) * Number(userData.currency.rate)).toFixed(2)}}</text></text>
 					</view>
 				</view>
 				
@@ -209,9 +209,9 @@ export default {
 		},
 		getExchange(item) {
 			let params = {
-				coin_type: this.accountInfo.coin_type,
+				coin_type: 'USD',
 				amount: this.amount,
-				target_coin_type: 'USD'
+				target_coin_type: this.accountInfo.coin_type
 			}
 			this.exchange(params).then(res => {
 				console.log('res', res)
@@ -222,6 +222,14 @@ export default {
 		// 全部
 		handleAll() {
 			this.amount = this.userData.balance;
+			const params = {
+				coin_type: this.accountInfo.coin_type,
+				amount: this.userData.balance
+			}
+			this.withdrawFee(params).then(res => {
+				this.withdraw_fee = res.data.fee;
+				console.log('e2222', this.withdraw_fee);
+			});
 		},
 		// 交易密码弹窗
 		openModal() {
@@ -241,6 +249,14 @@ export default {
 				email_code: null,
 				password: null
 			};
+			if (Number(this.amount) < Number(this.withdrawInfo.withdraw_min_amount)) {
+				// this.$api.msg(this.i18n.withdraw.noAmount);
+				return;
+			}
+			if (Number(this.userData.balance) < Number(this.amount)) {
+				// this.$api.msg(this.i18n.withdraw.noAmount);
+				return;
+			}
 			this.getExchange()
 		},
 		handleSubmit() {
