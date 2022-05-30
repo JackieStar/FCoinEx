@@ -91,10 +91,11 @@
 			</view>
 		</view>
 		<!-- 平仓播报 -->
-		<view class="bobao-wrapper" v-if="bobaoList.length> 0">
-			<view class="bobao-bg">
+		<view class="bobao-wrapper" v-if="bobaoList.length > 0">
+			<noticeSwiper :swiperWidth="swiperWidth" :list="bobaoList" />
+			<!-- <view class="bobao-bg">
 				<u-notice-bar :style="{'width': swiperWidth}" :no-list-hidden="false" mode="vertical" color='#fff' :volume-icon="false" type="none" class="notice-bar" :list="bobaoList" />
-			</view>
+			</view> -->
 		</view>
 		<!-- 客服 -->
 		<view class="kf-icon"><u-image @click="openPage('kf')" src="../../static/images/home/kf.png" width="127rpx" height="127rpx" /></view>
@@ -137,9 +138,10 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import { uniTag } from '@dcloudio/uni-ui';
+import noticeSwiper from '../../components/noticeSwiper.vue';
 import { commonMixin } from '@/common/mixin/mixin.js';
 export default {
-	components: { uniTag },
+	components: { uniTag, noticeSwiper },
 	mixins: [commonMixin],
 	data() {
 		return {
@@ -187,21 +189,21 @@ export default {
 		loadData() {
 			this.noticeList({ limit: 20 }).then(res => {
 				this.bobaoList = res.data;
-				let lang = uni.getStorageSync('language')
+				let lang = uni.getStorageSync('language');
 				if (lang == 'zh-CN' || lang == 'zh-HK') {
-					this.swiperWidth = '480rpx'
+					this.swiperWidth = '460rpx';
 				}
 				if (lang == 'ja-JP') {
-					this.swiperWidth = '610rpx'
-				} 
+					this.swiperWidth = '560rpx';
+				}
 				if (lang == 'th-TH') {
-					this.swiperWidth = '640rpx'
+					this.swiperWidth = '620rpx';
 				}
 				if (lang == 'en-US') {
-					this.swiperWidth = '560rpx'
-				} 
+					this.swiperWidth = '540rpx';
+				}
 				if (lang == 'ru-RU') {
-					this.swiperWidth = '700rpx'
+					this.swiperWidth = '660rpx';
 				}
 			});
 		},
@@ -504,7 +506,6 @@ export default {
 			height: 70rpx;
 			padding: 0 10rpx;
 			text-align: center;
-			
 		}
 	}
 	.share-wrapper {
@@ -740,7 +741,7 @@ export default {
 			border-radius: 14rpx;
 		}
 		.notice-bar {
-			min-width: 460rpx;
+			text-align: center;
 			height: 80rpx;
 		}
 	}
@@ -748,7 +749,7 @@ export default {
 	/deep/ .u-mode-center-box {
 		background: none !important;
 	}
-	/deep/ .u-news-item  {
+	/deep/ .u-news-item {
 		overflow: auto;
 	}
 }

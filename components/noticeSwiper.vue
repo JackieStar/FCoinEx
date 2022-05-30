@@ -1,19 +1,15 @@
 <template>
 	<view class="uni-swiper-msg">
-		<u-icon name="volume-fill" size="30" class="notice"></u-icon>
-		<swiper vertical="true" autoplay="true" circular="true" interval="3000">
-			<swiper-item v-for="(item, index) in list_" :key="index" @click="navTo(`/pages/notice/detail?id=${item.noticeId}`)">
-				<navigator><view style="padding-right: 10upx;">{{item}}</view></navigator>
+		<swiper :style="{'width': swiperWidth}" vertical="true" autoplay="true" circular="true" interval="3000">
+			<swiper-item v-for="(item, index) in list_" :key="index">
+				<view class="uni-swiper-txt" v-html="item"></view>
 			</swiper-item>
 		</swiper>
-		<!-- <u-icon name="list" size="30" class="notice" @click="navTo(`/pages/notice/notice`)"></u-icon> -->
 	</view>
 </template>
 
 <script>
-	import {uniIcons} from '@dcloudio/uni-ui'
 	export default {
-		components: {uniIcons},
 		data() {
 			return {
 			};
@@ -24,6 +20,9 @@
 				default: () => {
 					return []
 				}
+			},
+			swiperWidth: {
+				type: String
 			}
 		},
 		computed: {
@@ -31,47 +30,39 @@
 				return this.list;
 			}
 		},
-		methods: {
-			navTo(url){
-				uni.navigateTo({
-					url: url
-				})
-			},
-			onClick(e) {
+		watch: {
+			swiperWidth(newVal) {
+				console.log('newVal', newVal)
+				this.swiperWidth = newVal
 			}
-		}
+		},
+		methods: {}
 	}
 </script>
 
 <style lang="scss" scoped>
 	.uni-swiper-msg{
-		padding: 10upx 10upx; 
 		flex-wrap:nowrap; 
 		display:flex;
 		align-items: center;
-		positon : relative;
-		font-size: 26upx;
+		justify-content: center;
+		font-size: 26rpx;
 		font-weight: 500;
-		color: #DCE6F1;
-		// background-color: #EEF2F5;
-		border-radius: 10upx;
-	}
-	.uni-swiper-msg-icon{
-		width:50upx; 
-		margin-right:20upx;
-	}
-	.uni-swiper-msg-icon image{
-		width:100%; 
-		flex-shrink:0;
+		color: #fff;
+		background: #333;
+		opacity: 0.6;
+		border-radius: 14rpx;
 	}
 	.uni-swiper-msg swiper{
-		width:100%; 
-		height:50upx; 
-		line-height:50upx; 
-		text-align: left;
+		height:70rpx; 
+		line-height:70rpx;
 	}
 	.uni-swiper-msg swiper-item{
-		line-height:50upx;
+		line-height:70rpx;
+	}
+	.uni-swiper-txt {
+		text-align: center;
+		height: 70rpx;
 	}
 	.notice{
 		margin-top: 2upx;
