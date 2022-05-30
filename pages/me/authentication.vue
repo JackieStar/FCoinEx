@@ -70,7 +70,7 @@
 							</view>
 						</view>
 					</view>
-					<view v-if="status && (status==-1||status==2)" class="auth-submit" @click="handleSubmit">
+					<view v-if="status==-1||status==2" class="auth-submit" @click="handleSubmit">
 						{{i18n.auth.submit}}
 					</view>
 					<view class="footer-tips-box">
@@ -106,14 +106,14 @@
 				real_name: '',
 				cardId: '',
 				auth_img: '',
-				status: -1,
+				status: 3,
 				fail_reason: ''
 			};
 		},
 		onShow() {
 
 		},
-		onLoad() {
+		onLoad(options) {
 			let systemInfo = uni.getSystemInfoSync();
 			this.statusBarHeight = systemInfo.statusBarHeight
 			let height = systemInfo.platform == 'ios' ? 44 : 48;
@@ -189,11 +189,15 @@
 			getAuthInfo() {
 				this.authInfo().then(res => {
 					if (res && res.code == 200) {
-						this.real_name = res.data.realname
-						this.auth_img = res.data.id_photo
-						this.cardId = res.data.id_number
-						this.status = res.data.status
-						this.fail_reason = res.data.fail_reason
+						if(res.data&&res.data.realname){
+							this.real_name = res.data.realname
+							this.auth_img = res.data.id_photo
+							this.cardId = res.data.id_number
+							this.status = res.data.status
+							this.fail_reason = res.data.fail_reason
+						}else{
+							this.status=-1
+						}
 					}
 				})
 			},
