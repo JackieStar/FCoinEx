@@ -355,6 +355,8 @@
 			toLogout() {
 				uni.showModal({
 					content: this.i18n.user.isLogout,
+					cancelText: this.i18n.common.cancel,
+					confirmText: this.i18n.common.ok,
 					success: e => {
 						if (e.confirm) {
 							this.logout();

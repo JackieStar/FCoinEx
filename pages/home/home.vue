@@ -93,7 +93,7 @@
 		<!-- 平仓播报 -->
 		<view class="bobao-wrapper" v-if="bobaoList.length> 0">
 			<view class="bobao-bg">
-				<u-notice-bar :no-list-hidden="false" mode="vertical" color='#fff' :volume-icon="false" type="none" class="notice-bar" :list="bobaoList" />
+				<u-notice-bar :style="{'width': swiperWidth}" :no-list-hidden="false" mode="vertical" color='#fff' :volume-icon="false" type="none" class="notice-bar" :list="bobaoList" />
 			</view>
 		</view>
 		<!-- 客服 -->
@@ -160,7 +160,8 @@ export default {
 				today_signed: 0,
 				sign_schedule: []
 			},
-			showNotice: false
+			showNotice: false,
+			swiperWidth: null
 		};
 	},
 	onShow() {
@@ -186,6 +187,22 @@ export default {
 		loadData() {
 			this.noticeList({ limit: 20 }).then(res => {
 				this.bobaoList = res.data;
+				let lang = uni.getStorageSync('language')
+				if (lang == 'zh-CN' || lang == 'zh-HK') {
+					this.swiperWidth = '480rpx'
+				}
+				if (lang == 'ja-JP') {
+					this.swiperWidth = '610rpx'
+				} 
+				if (lang == 'th-TH') {
+					this.swiperWidth = '640rpx'
+				}
+				if (lang == 'en-US') {
+					this.swiperWidth = '560rpx'
+				} 
+				if (lang == 'ru-RU') {
+					this.swiperWidth = '700rpx'
+				}
 			});
 		},
 		getAppConfig() {
@@ -717,20 +734,22 @@ export default {
 		align-items: center;
 		justify-content: center;
 		.bobao-bg {
-			// min-width: 460rpx;
 			height: 70rpx;
 			background: #333;
 			opacity: 0.6;
 			border-radius: 14rpx;
 		}
 		.notice-bar {
-			min-width: 660rpx;
+			min-width: 460rpx;
 			height: 80rpx;
 		}
 	}
 
 	/deep/ .u-mode-center-box {
 		background: none !important;
+	}
+	/deep/ .u-news-item  {
+		overflow: auto;
 	}
 }
 </style>

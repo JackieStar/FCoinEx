@@ -133,7 +133,8 @@ module.exports = {
 			tReward: '招待ボーナス',
 			myInvit: '私の招待状',
 			uid: 'リファラーUID',
-			inviter: '推薦者'
+			inviter: '推薦者',
+			shareTitle: '登録して再充電すると、100ドルの現金の赤い封筒、登録リンクを入手できます'
 		},
 		common: {
 			getCode: 'OTP',

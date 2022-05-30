@@ -148,7 +148,8 @@ export default {
 		handleShare() {
 			// whatsApp(contentId){
 			let share_url = this.invitData.tlink;
-			let share_title = '注册充值即有机会获得100$现金红包，注册链接：';
+			let share_title = this.i18n.invit.shareTitle;
+			console.log('share_title', share_title)
 			location = 'whatsapp://send?text=' + encodeURIComponent(share_title) + encodeURIComponent(share_url) + '&via=lopscoop';
 			// }
 

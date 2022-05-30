@@ -254,7 +254,7 @@ export default {
 				return;
 			}
 			if (Number(this.userData.balance) < Number(this.amount)) {
-				// this.$api.msg(this.i18n.withdraw.noAmount);
+				this.$api.msg(this.i18n.withdraw.balance + ' ' + this.userData.balance + '$');
 				return;
 			}
 			this.getExchange()

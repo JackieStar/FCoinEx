@@ -133,7 +133,8 @@ module.exports = {
 			tReward: 'Referral reward',
 			myInvit: 'My referral',
 			uid: 'Referral UID',
-			inviter: 'Referred'
+			inviter: 'Referred',
+			shareTitle: 'Register and deposit for a chance to get 100$ in cash, register link'
 		},
 		common: {
 			getCode: 'OTP',
