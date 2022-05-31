@@ -17,7 +17,7 @@
 		<view class="code-wrapper">
 			<img :src="coinType.qrcode" class="code-img" />
 			<!-- #ifdef H5 -->
-			<view class="save-code" @click="saveImg(rechargeInfo.recharge_qr)">{{ i18n.recharge.saveImg }}</view>
+			<view class="save-code">{{ i18n.recharge.saveImg }}</view>
 			<!-- #endif -->
 			<!-- #ifdef APP-PLUS -->
 			<view class="save-code" @click="saveImg(rechargeInfo.recharge_qr)">{{ i18n.recharge.saveCode }}</view>
@@ -162,15 +162,13 @@ export default {
 			});
 		},
 		// 保存图片
-		async saveImg(url) {
-			// #ifndef APP-NVUE
+		saveImg(url) {
 			uni.saveImageToPhotosAlbum({
 				filePath: url,
 				success: () => {
 					this.$api.msg(this.i18n.recharge.saveSuccess);
 				}
 			});
-			// #endif
 		}
 	}
 };

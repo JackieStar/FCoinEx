@@ -9,7 +9,7 @@
 			</view>
 			<view class="ex-img-wrapper" @click="handlePreview">
 				<text style="width: 120rpx; color: #212121; margin-right: 20upx;">{{ i18n.submitRecharge.exImg }}</text>
-				<u-image :show-loading="false" :src="rechargeInfo.recharge_res_demo" width="112upx" height="224upx" />
+				<image class="ex-img" :src="rechargeInfo.recharge_res_demo" />
 			</view>
 		</view>
 		<view class="title-wrapper">
@@ -65,7 +65,7 @@ export default {
 	},
 	onLoad(e) {
 		this.amount = e.amount;
-		this.coin_type = e.coin_type
+		this.coin_type = e.coin_type;
 	},
 	onShow() {
 		uni.setNavigationBarTitle({
@@ -135,10 +135,10 @@ export default {
 			};
 			this.financeRecharge(params).then(res => {
 				this.$u.toast(this.i18n.submitRecharge.rechargeSuccess);
-				setTimeout(()=> {
+				setTimeout(() => {
 					uni.navigateTo({
 						url: '/pages/wallet/record'
-					})
+					});
 				}, 1500);
 			});
 		},
@@ -187,6 +187,10 @@ export default {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	.ex-img {
+		width: 112upx;
+		height: 224upx;
+	}
 }
 .btn-wrapper {
 	display: flex;

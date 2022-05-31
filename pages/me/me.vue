@@ -69,7 +69,7 @@
 				</view>
 			</view>
 			<view class="cell-item" @click="openPage('fund')">
-				<u-image style="flex-shrink: 0;" :show-loading="false" :fade="false" src="/static/images/me/z_j.png" width="28rpx" height="32rpx" />
+				<u-image style="flex-shrink: 0;" :show-loading="false" :fade="false" src="/static/images/me/z_j.png" width="28rpx" height="34rpx" />
 				<view class="cell-item-right">
 					<text class="cell-title">{{i18n.me.fund}}</text>
 					<u-icon name="arrow-right" color="#999" size="17" />
