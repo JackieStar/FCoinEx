@@ -4,7 +4,7 @@
 			<view class="flex_center_box">
 				<view class="recharge-img">{{ i18n.submitRecharge.rechargeImg }}</view>
 				<uni-file-picker disable-preview :del-icon="false" return-type="object" @select="select" :image-styles="imageStyles">
-					<u-image style="flex-shrink: 0;" :show-loading="false" src="/static/images/me/upload_img.png" width="129rpx" height="129rpx" />
+					<u-image style="flex-shrink: 0;" :fade="false" :show-loading="false" src="/static/images/me/upload_img.png" width="129rpx" height="129rpx" />
 				</uni-file-picker>
 			</view>
 			<view class="ex-img-wrapper" @click="handlePreview">
@@ -14,7 +14,7 @@
 		</view>
 		<view class="title-wrapper">
 			<text>{{ i18n.submitRecharge.address }}</text>
-			<u-image :show-loading="false" class="title-bg" src="/static/images/me/title_bg.png" width="144rpx" height="12rpx" mode="" />
+			<u-image :show-loading="false" :fade="false" class="title-bg" src="/static/images/me/title_bg.png" width="144rpx" height="12rpx" mode="" />
 		</view>
 		<view class="input-wrapper">
 			<input type="text" v-model="transfer_addr" placeholder-style="color: #B6B6B6;font-size: 26rpx;" :placeholder="i18n.submitRecharge.address" class="address-input" />
@@ -31,7 +31,7 @@
 		<u-popup v-model="show" mode="top" length="100%" closeable>
 			<image class="recharge-res-demo" @click="show = false" :src="rechargeInfo.recharge_res_demo" mode=""></image>
 		</u-popup>
-		<view class="kf-icon"><u-image :show-loading="false" @click="openPage('kf')" src="/static/images/home/kf.png" width="127rpx" height="127rpx" /></view>
+		<view class="kf-icon"><u-image :fade="false" :show-loading="false" @click="openPage('kf')" src="/static/images/home/kf.png" width="127rpx" height="127rpx" /></view>
 	</view>
 </template>
 

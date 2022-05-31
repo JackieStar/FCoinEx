@@ -5,13 +5,13 @@
 		</u-navbar>
 		<view class="coin-wrapper">
 			<view class="coin-item" @click="handleChange(index, item)" :class="{ active: itemIndex == index }" v-for="(item, index) in rechargeInfo.coin_types" :key="index">
-				<u-image :show-loading="false" class="coin-img" :src="item.icon" width="34rpx" height="34rpx" />
+				<u-image :fade="false" :show-loading="false" class="coin-img" :src="item.icon" width="34rpx" height="34rpx" />
 				<text>{{ item.coin_type }}</text>
 			</view>
 		</view>
 		<view class="title-wrapper">
 			<text>{{i18n.withdraw.network}}</text>
-			<u-image class="title-bg" :show-loading="false" src="/static/images/me/title_bg.png" width="74rpx" height="12rpx" />
+			<u-image :fade="false" class="title-bg" :show-loading="false" src="/static/images/me/title_bg.png" width="74rpx" height="12rpx" />
 		</view>
 		<view class="network">{{ coinType.coin_type }}</view>
 		<view class="code-wrapper">
@@ -25,7 +25,7 @@
 		</view>
 		<view class="title-wrapper">
 			<text>{{ i18n.recharge.rechargeAddr }}</text>
-			<u-image class="title-bg" :show-loading="false" src="/static/images/me/title_bg.png" width="144rpx" height="12rpx" />
+			<u-image :fade="false" class="title-bg" :show-loading="false" src="/static/images/me/title_bg.png" width="144rpx" height="12rpx" />
 		</view>
 		<view class="input-wrapper">
 			<text class="address-input">{{ coinType.addr }}</text>
@@ -33,7 +33,7 @@
 		</view>
 		<view class="title-wrapper">
 			<text>{{ i18n.recharge.amount }}</text>
-			<u-image class="title-bg" :show-loading="false" src="/static/images/me/title_bg.png" width="144rpx" height="12rpx" />
+			<u-image :fade="false" class="title-bg" :show-loading="false" src="/static/images/me/title_bg.png" width="144rpx" height="12rpx" />
 		</view>
 		<view class="money-wrapper">
 			<input type="number" v-model="amount" class="money-input" placeholder-style="color: #B6B6B6;font-size: 26rpx;" :placeholder="i18n.recharge.placeholder" />
@@ -43,7 +43,7 @@
 		<view class="bottom-submit" @click="openPage('bottom')">
 			<text>{{ i18n.recharge.bottomSubmit }}</text>
 		</view>
-		<view class="kf-icon"><u-image :show-loading="false" @click="openPage('kf')" src="/static/images/home/kf.png" width="127rpx" height="127rpx" /></view>
+		<view class="kf-icon"><u-image :fade="false" :show-loading="false" @click="openPage('kf')" src="/static/images/home/kf.png" width="127rpx" height="127rpx" /></view>
 		<u-popup v-model="show" mode="center" border-radius="20" closeable>
 			<view class="coupon-wrapper">
 				<view class="coupon-title">{{i18n.recharge.title}}</view>

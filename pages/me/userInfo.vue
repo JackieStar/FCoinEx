@@ -4,7 +4,9 @@
 		<view class="fast-cell-wrapper">
 			<view class="cell-item">
 				<text class="cell-title">{{i18n.userInfo.avatar}}</text>
-				<view class="cell-item-right" @click="selectImg"><u-image width="95rpx" height="95rpx" border-radius="6rpx" :src="userData.avatar" /></view>
+				<view class="cell-item-right" @click="selectImg">
+					<u-image :fade="false" :show-loading="false" width="95rpx" height="95rpx" border-radius="6rpx" :src="userData.avatar" />
+				</view>
 			</view>
 			<view class="cell-item" @click="openPage('username')">
 				<text class="cell-title">{{i18n.userInfo.username}}</text>

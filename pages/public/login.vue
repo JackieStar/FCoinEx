@@ -7,11 +7,11 @@
 			<view class="welcome"><image mode="widthFix" src="/static/images/public/logo.png" class="logo"></image></view>
 			<view class="input-content">
 				<view class="input-item">
-					<u-image style="flex-shrink: 0;" :show-loading="false" src="/static/images/public/user.png" width="36rpx" height="38rpx" />
+					<u-image style="flex-shrink: 0;" :fade="false" :show-loading="false" src="/static/images/public/user.png" width="36rpx" height="38rpx" />
 					<input placeholder-style="color: #ACACAC" v-model="form.account" :placeholder="i18n.login.account" />
 				</view>
 				<view class="input-item">
-					<u-image style="flex-shrink: 0;" :show-loading="false" src="/static/images/public/password.png" width="36upx" height="42upx" />
+					<u-image style="flex-shrink: 0;" :fade="false" :show-loading="false" src="/static/images/public/password.png" width="36upx" height="42upx" />
 					<input
 						placeholder-style="color: #ACACAC"
 						v-if="!isOpenEyes"
@@ -33,8 +33,8 @@
 						@confirm="handleLogin"
 					/>
 					<view>
-						<u-image style="flex-shrink: 0;" :show-loading="false" v-if="isOpenEyes" src="/static/images/public/open_eyes.png" @click="handleChange(false)" width="33upx" height="21upx" />
-						<u-image style="flex-shrink: 0;" :show-loading="false" v-else src="/static/images/public/close_eyes.png" width="36rpx" @click="handleChange(true)" height="32rpx" />
+						<u-image style="flex-shrink: 0;" :fade="false" :show-loading="false" v-if="isOpenEyes" src="/static/images/public/open_eyes.png" @click="handleChange(false)" width="33upx" height="21upx" />
+						<u-image style="flex-shrink: 0;" :fade="false" :show-loading="false" v-else src="/static/images/public/close_eyes.png" width="36rpx" @click="handleChange(true)" height="32rpx" />
 					</view>
 				</view>
 			</view>
@@ -52,7 +52,7 @@
 		<view class="bottom-text">
 			<text @click="toRegist">{{ i18n.login.bottomTxt }}</text>
 		</view>
-		<view class="kf-icon"><u-image style="flex-shrink: 0;" :show-loading="false" @click="openPage('kf')" src="/static/images/home/kf.png" width="127rpx" height="127rpx" /></view>
+		<view class="kf-icon"><u-image :fade="false" :show-loading="false" @click="openPage('kf')" src="/static/images/home/kf.png" width="127rpx" height="127rpx" /></view>
 		<u-action-sheet :cancel-text="i18n.common.cancel" :border-radius="20" :list="langList" @click="clickLang" v-model="showLang"></u-action-sheet>
 	</view>
 </template>

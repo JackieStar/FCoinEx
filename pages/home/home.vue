@@ -98,7 +98,7 @@
 			</view> -->
 		</view>
 		<!-- 客服 -->
-		<view class="kf-icon"><u-image style="flex-shrink: 0;" :show-loading="false" @click="openPage('kf')" src="/static/images/home/kf.png" width="127rpx" height="127rpx" /></view>
+		<view class="kf-icon"><u-image style="flex-shrink: 0;" :show-loading="false" :fade="false" @click="openPage('kf')" src="/static/images/home/kf.png" width="127rpx" height="127rpx" /></view>
 		<!-- 签到 -->
 		<u-popup v-model="show" mode="center">
 			<view class="coupon-wrapper">

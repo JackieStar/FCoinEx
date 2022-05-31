@@ -39,21 +39,21 @@
 				<text class="input-item-title">{{ i18n.invit.tCode }}</text>
 				<view class="flex_left_box">
 					<text class="invite-code">{{ invitData.tcode }}</text>
-					<u-image :show-loading="false" @click="handleCopy(invitData.tcode)" src="/static/images/invit/copy.png" width="33upx" height="33upx" />
+					<u-image :fade="false" :show-loading="false" @click="handleCopy(invitData.tcode)" src="/static/images/invit/copy.png" width="33upx" height="33upx" />
 				</view>
 			</view>
 			<view class="input-item">
 				<text class="input-item-title">{{ i18n.invit.tLink }}</text>
 				<view class="flex_left_box">
 					<text class="invite-link">{{ invitData.tlink }}</text>
-					<u-image :show-loading="false" @click="handleCopy(invitData.tlink)" src="/static/images/invit/copy.png" width="33upx" height="33upx" />
+					<u-image :fade="false" :show-loading="false" @click="handleCopy(invitData.tlink)" src="/static/images/invit/copy.png" width="33upx" height="33upx" />
 				</view>
 			</view>
 		</view>
 		<view class="invite-btn flex_center_box" @click="handleShare">
 			<image class="btn-icon" src="../../static/images/invit/whatsapp@2x.png" mode=""></image>
 			<!-- <view class="text"> -->
-				<a class="text" href=" " data-action="share/whatsapp/share">{{ i18n.invit.title || '' }}</a>
+			<a class="text" href=" " data-action="share/whatsapp/share">{{ i18n.invit.title || '' }}</a>
 			<!-- </view> -->
 		</view>
 		<view class="invit-tips-wrapper">
@@ -62,11 +62,11 @@
 		<view class="list-bg">
 			<view class="tabs-wrapper">
 				<view class="tabs-item" @click="handleChange(1)">
-					<u-image :show-loading="false" v-if="tabIndex === 1" class="title-bg" src="/static/images/invit/tab-line.png" width="144upx" height="12upx" mode="" />
+					<u-image :show-loading="false" :fade="false" v-if="tabIndex === 1" class="title-bg" src="/static/images/invit/tab-line.png" width="144upx" height="12upx" mode="" />
 					<text :style="{ opacity: tabIndex === 1 ? '1' : '0.6', 'margin-top': tabIndex === 1 ? '' : '-10upx' }">{{ i18n.invit.myInvit }}</text>
 				</view>
 				<view class="tabs-item" @click="handleChange(2)">
-					<u-image v-if="tabIndex === 2" :show-loading="false" class="title-bg" src="/static/images/invit/tab-line.png" width="144upx" height="12upx" mode="" />
+					<u-image v-if="tabIndex === 2" :fade="false" :show-loading="false" class="title-bg" src="/static/images/invit/tab-line.png" width="144upx" height="12upx" mode="" />
 					<text :style="{ opacity: tabIndex === 2 ? '1' : '0.6', 'margin-top': tabIndex === 2 ? '' : '-10upx' }">{{ i18n.invit.tReward }}</text>
 				</view>
 			</view>
@@ -147,7 +147,7 @@ export default {
 			// whatsApp(contentId){
 			let share_url = this.invitData.tlink;
 			let share_title = this.i18n.invit.shareTitle;
-			console.log('share_title', share_title)
+			console.log('share_title', share_title);
 			location = 'whatsapp://send?text=' + encodeURIComponent(share_title) + encodeURIComponent(share_url) + '&via=lopscoop';
 			// }
 
@@ -288,7 +288,7 @@ page {
 		font-family: PingFang SC;
 		font-weight: 500;
 		color: #ffffff;
-		text-decoration:none
+		text-decoration: none;
 	}
 }
 

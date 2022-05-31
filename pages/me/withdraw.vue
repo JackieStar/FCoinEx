@@ -45,7 +45,7 @@
 				<view class="money-title">{{i18n.withdraw.minWithdrawMoney}}</view>
 				<view style="color: #666666">${{ withdrawInfo.withdraw_min_amount }}</view>
 			</view>
-			<view class="money-item">
+			<view class="money-item" style="border-bottom: none">
 				<view class="money-title">{{ i18n.withdraw.fee }}</view>
 				<view style="color: #666666">${{ withdraw_fee || '0'}}</view>
 			</view>

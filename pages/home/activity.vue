@@ -6,6 +6,10 @@
 				<view class="cell-item-right"><u-icon name="arrow-right" color="#999" size="17" /></view>
 			</view>
 		</view>
+		<view class="no-data-wrapper" v-if="helpList.length === 0">
+			<u-image src="/static/images/me/no_data.png" width="543rpx" height="481rpx" />
+			<!-- <view class="no-data">{{i18n.withdraw.tips3}}</view> -->
+		</view>
 	</view>
 </template>
 
@@ -46,6 +50,21 @@ export default {
 <style lang="scss" scoped>
 .container {
 	padding: 26rpx;
+	.no-data-wrapper {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		margin-top: 200rpx;
+		.no-data {
+			font-size: 30rpx;
+			font-family: PingFang SC;
+			font-weight: 500;
+			color: #333333;
+			margin-top: 20rpx;
+		}
+	}
 	.fast-cell-wrapper {
 		width: 698rpx;
 		height: 110rpx;

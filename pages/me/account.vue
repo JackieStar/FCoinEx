@@ -141,9 +141,9 @@ export default {
 					if (e.confirm) {
 						this.deleteReceiver({addr_id: item.id}).then(res => {
 							this.$api.msg(res.message)
-							let addrId = uni.getStorageSync('accountInfo').id
+							let addrId = uni.getStorageSync(`accountInfo-${item.user_id}`).id
 							if (addrId == item.id) {
-								uni.removeStorageSync('accountInfo')
+								uni.removeStorageSync(`accountInfo-${item.user_id}`)
 							}
 							this.getList()
 						})

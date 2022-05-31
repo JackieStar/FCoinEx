@@ -52,7 +52,7 @@
 						<view class="auth-image-box" @click="selectImg">
 							<image v-if="!auth_img" class="auth-image" src="../../static/images/auth/upload-cer.png"
 								mode=""></image>
-							<u-image v-if="auth_img" width="282rpx" height="163rpx" border-radius="4rpx"
+							<u-image :fade="false" :show-loading="false" v-if="auth_img" width="282rpx" height="163rpx" border-radius="4rpx"
 								:src="auth_img" />
 						</view>
 						<view v-if="status>=0" class="auth-status flex_left_box">
