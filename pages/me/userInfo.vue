@@ -13,7 +13,7 @@
 					<u-icon name="arrow-right" color="#999" size="17" />
 				</view>
 			</view>
-			<view class="cell-item">
+			<view class="cell-item" style="border-bottom: none">
 				<text class="cell-title">{{i18n.userInfo.phone}}</text>
 				<view class="cell-item-right">
 					<text class="cell-tips">{{userData.mobile}}</text>
@@ -30,14 +30,14 @@
 					<u-icon name="arrow-right" color="#999" size="17" />
 				</view>
 			</view>
-			<view class="cell-item" @click="openPage('password')">
+			<view class="cell-item" style="border-bottom: none" @click="openPage('password')">
 				<text class="cell-title">{{i18n.userInfo.password}}</text>
 				<view class="cell-item-right"><u-icon name="arrow-right" color="#999" size="17" /></view>
 			</view>
 		</view>
 		
 		<view class="fast-cell-wrapper" style="height: 110rpx;">
-			<view class="cell-item" @click="changeLang">
+			<view class="cell-item" style="border-bottom: none" @click="changeLang">
 				<text class="cell-title">{{i18n.userInfo.coin}}</text>
 				<view class="cell-item-right">
 					<text class="cell-tips" v-if="userData.currency">{{userData.currency.currency}}-{{userData.currency.symbol}}</text>

@@ -584,8 +584,7 @@
 	}
 
 	.popup-coin-section {
-		padding: 4upx 30upx 24upx;
-
+		padding: 30upx 30upx 24upx;
 		.s-header {
 			display: flex;
 			align-items: center;

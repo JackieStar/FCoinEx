@@ -5,22 +5,22 @@
 			<view class="user-wrapper">
 				<u-image style="flex-shrink: 0;" @click="openPage('user')" shape="circle" v-if="userData.avatar" :src="userData.avatar" width="102rpx"
 					height="102rpx" />
-				<u-image style="flex-shrink: 0;"  @click="openPage('user')" shape="circle" v-else src="../../static/images/user/avatar.png" width="102rpx"
+				<u-image style="flex-shrink: 0;"  @click="openPage('user')" shape="circle" v-else src="/static/images/user/avatar.png" width="102rpx"
 					height="102rpx" />
 				<view class="user-flex">
 					<view class="user-info">
 						<view class="user-name" @click="openPage('userInfo')">{{ userData.name || i18n.me.login }}</view>
 						<view class="user-invit" v-if="userData.tcode">
 							<text style="margin-right: 20rpx">{{i18n.me.tcode}}： {{userData.tcode}}</text>
-							<u-image @click="handleCopy(userData.tcode)" src="../../static/images/me/copy.png" width="21rpx"
+							<u-image @click="handleCopy(userData.tcode)" src="/static/images/me/copy.png" width="21rpx"
 								height="21rpx" />
 						</view>
 					</view>
 					<view class="user-rz" @click="openPage('authentication')">
 						<!-- <image class="" src="../../static/iamges/me/auth-bg.png" mode=""></image> -->
-						<image class="user-rz-icon" src="../../static/images/me/auth-icon.png" mode=""></image>
+						<image class="user-rz-icon" src="/static/images/me/auth-icon.png" mode=""></image>
 						<view class="user-rz-text flex_left_box">
-							{{i18n.auth.pageTitle}} <image class="rz-right" src="../../static/images/me/to-right.png" mode=""></image>
+							{{i18n.auth.pageTitle}} <image class="rz-right" src="/static/images/me/to-right.png"></image>
 						</view>
 					</view>
 				</view>
@@ -37,17 +37,17 @@
 			<view class="fast-wrapper">
 				<view class="fast-item" @click="openPage('recharge')">
 					<view class="fast-item-title">{{i18n.me.recharge}}</view>
-					<u-image class="fast-item-img" src="../../static/images/me/recharge.png" width="50rpx"
+					<u-image class="fast-item-img" src="/static/images/me/recharge.png" width="50rpx"
 						height="48rpx" />
 				</view>
 				<view class="fast-item" @click="openPage('withdraw')">
 					<view class="fast-item-title">{{i18n.me.withdraw}}</view>
-					<u-image class="fast-item-img" src="../../static/images/me/withdraw.png" width="45rpx"
+					<u-image class="fast-item-img" src="/static/images/me/withdraw.png" width="45rpx"
 						height="47rpx" />
 				</view>
 				<view class="fast-item" @click="openPage('setting')">
 					<view class="fast-item-title">{{i18n.me.setting}}</view>
-					<u-image class="fast-item-img" src="../../static/images/me/setting.png" width="48rpx"
+					<u-image class="fast-item-img" src="/static/images/me/setting.png" width="48rpx"
 						height="45rpx" />
 				</view>
 			</view>
@@ -55,28 +55,28 @@
 
 		<view class="fast-cell-wrapper">
 			<view class="cell-item" @click="openPage('userInfo')">
-				<u-image src="../../static/images/me/user_info.png" width="34rpx" height="30rpx" />
+				<u-image style="flex-shrink: 0;" :show-loading="false" src="/static/images/me/user_info.png" width="38rpx" height="32rpx" />
 				<view class="cell-item-right">
 					<text class="cell-title">{{i18n.me.userInfo}}</text>
 					<u-icon name="arrow-right" color="#999" size="17" />
 				</view>
 			</view>
 			<view class="cell-item" @click="openPage('wallet')">
-				<u-image src="../../static/images/me/j_l.png" width="29rpx" height="34rpx" />
+				<u-image style="flex-shrink: 0;" :show-loading="false" src="/static/images/me/j_l.png" width="32rpx" height="36rpx" />
 				<view class="cell-item-right">
 					<text class="cell-title">{{i18n.me.record}}</text>
 					<u-icon name="arrow-right" color="#999" size="17" />
 				</view>
 			</view>
 			<view class="cell-item" @click="openPage('fund')">
-				<u-image src="../../static/images/me/z_j.png" width="26rpx" height="31rpx" />
+				<u-image style="flex-shrink: 0;" :show-loading="false" src="/static/images/me/z_j.png" width="28rpx" height="32rpx" />
 				<view class="cell-item-right">
 					<text class="cell-title">{{i18n.me.fund}}</text>
 					<u-icon name="arrow-right" color="#999" size="17" />
 				</view>
 			</view>
 			<view class="cell-item" @click="openPage('kf')">
-				<u-image src="../../static/images/me/kf.png" width="27rpx" height="26rpx" />
+				<u-image style="flex-shrink: 0;" :show-loading="false" src="/static/images/me/kf.png" width="30rpx" height="28rpx" />
 				<view class="cell-item-right">
 					<text class="cell-title">{{i18n.me.kf}}</text>
 					<u-icon name="arrow-right" color="#999" size="17" />
@@ -85,21 +85,21 @@
 		</view>
 		<view class="fast-cell-wrapper" style="height: 315rpx;">
 			<view class="cell-item" @click="openPage('share')">
-				<u-image src="../../static/images/me/share.png" width="29rpx" height="33rpx" />
+				<u-image style="flex-shrink: 0;" :show-loading="false" src="/static/images/me/share.png" width="32rpx" height="38rpx" />
 				<view class="cell-item-right">
 					<text class="cell-title">{{i18n.me.share}}</text>
 					<u-icon name="arrow-right" color="#999" size="17" />
 				</view>
 			</view>
 			<view class="cell-item" @click="openPage('lottery')">
-				<u-image src="../../static/images/me/lottery.png" width="34rpx" height="34rpx" />
+				<u-image style="flex-shrink: 0;" :show-loading="false" src="/static/images/me/lottery.png" width="36rpx" height="36rpx" />
 				<view class="cell-item-right">
 					<text class="cell-title">{{i18n.me.lottery}}</text>
 					<u-icon name="arrow-right" color="#999" size="17" />
 				</view>
 			</view>
 			<view class="cell-item" @click="openPage('red')">
-				<u-image src="../../static/images/me/h_b.png" width="28rpx" height="31rpx" />
+				<u-image style="flex-shrink: 0;" :show-loading="false" src="/static/images/me/h_b.png" width="30rpx" height="32rpx" />
 				<view class="cell-item-right">
 					<text class="cell-title">{{i18n.me.redPacket}}</text>
 					<u-icon name="arrow-right" color="#999" size="17" />
@@ -108,14 +108,14 @@
 		</view>
 		<view class="fast-cell-wrapper" style="height: 210rpx;">
 			<view class="cell-item" @click="openPage('about')">
-				<u-image src="../../static/images/me/about_us.png" width="33rpx" height="33rpx" />
+				<u-image style="flex-shrink: 0;" :show-loading="false" src="/static/images/me/about_us.png" width="36rpx" height="36rpx" />
 				<view class="cell-item-right">
 					<text class="cell-title">{{i18n.me.about}}</text>
 					<u-icon name="arrow-right" color="#999" size="17" />
 				</view>
 			</view>
 			<view class="cell-item" @click="showLang = true">
-				<u-image src="../../static/images/me/lang.png" width="34rpx" height="34rpx" />
+				<u-image style="flex-shrink: 0;" :show-loading="false" src="/static/images/me/lang.png" width="36rpx" height="36rpx" />
 				<view class="cell-item-right">
 					<text class="cell-title">{{i18n.me.lang}}</text>
 					<u-icon name="arrow-right" color="#999" size="17" />

@@ -50,7 +50,7 @@
 		font-weight: 500;
 		color: #fff;
 		background: #333;
-		opacity: 0.6;
+		background-color:rgba(0,0,0,0.5);
 		border-radius: 14rpx;
 	}
 	.uni-swiper-msg swiper{
@@ -63,9 +63,5 @@
 	.uni-swiper-txt {
 		text-align: center;
 		height: 70rpx;
-	}
-	.notice{
-		margin-top: 2upx;
-		margin-right: 10upx;
 	}
 </style>

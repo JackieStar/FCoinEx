@@ -14,7 +14,7 @@
 				v-model="form.email_code"
 				:placeholder="i18n.updatePwd.emailCode"
 				maxlength="10"
-				style="padding-right: 150upx;"
+				style="padding-right: 30upx;"
 				type="text"
 			/>
 			<view>

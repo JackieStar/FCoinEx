@@ -1,6 +1,6 @@
 <template>
 	<view class="tips-container">
-		<image class="tips-icon" src="../../static/images/me/tips_icon.png" />
+		<image class="tips-icon" src="/static/images/me/tips_icon.png" />
 		<text>{{text}}</text>
 	</view>
 </template>

@@ -18,7 +18,7 @@
 			</view>
 		</view>
 		<view class="no-data-wrapper" v-if="accountList.length === 0">
-			<u-image src="../../static/images/me/no_data.png" width="543rpx" height="481rpx" />
+			<u-image src="/static/images/me/no_data.png" width="543rpx" height="481rpx" />
 			<view class="no-data">{{i18n.withdraw.tips3}}</view>
 		</view>
 		<view class="add-btn-wrapper">

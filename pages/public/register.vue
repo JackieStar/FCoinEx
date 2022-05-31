@@ -4,17 +4,17 @@
 			<view class="welcome">
 				<view class="txt">
 					<text class="title">{{ i18n.register.registrTitle }}</text>
-					<u-image src="../../static/images/public/title_bg.png" width="194rpx" height="18rpx" />
+					<u-image :show-loading="false" src="/static/images/public/title_bg.png" width="194rpx" height="18rpx" />
 					<text class="tips">{{ i18n.register.registrTips }}</text>
 				</view>
 			</view>
 			<view class="input-content">
 				<view class="input-item">
-					<u-image src="../../static/images/public/phone.png" width="29rpx" height="40rpx" />
+					<u-image style="flex-shrink: 0;" :show-loading="false" src="/static/images/public/phone.png" width="30rpx" height="40rpx" />
 					<input placeholder-style="color: #ACACAC" v-model="form.mobile" :placeholder="i18n.register.account" @input="inputChange" />
 				</view>
 				<view class="input-item">
-					<u-image src="../../static/images/public/email.png" width="34upx" height="26upx" />
+					<u-image style="flex-shrink: 0;" :show-loading="false" src="/static/images/public/email.png" width="38upx" height="28upx" />
 					<input placeholder-style="color: #ACACAC" v-model="form.email" :placeholder="i18n.register.email" @input="inputChange" />
 				</view>
 				<view class="input-item">
@@ -23,7 +23,7 @@
 						v-model="form.email_code"
 						:placeholder="i18n.register.emailCode"
 						maxlength="20"
-						style="padding-right: 100rpx;"
+						style="padding-right: 20rpx;"
 						type="text"
 						@input="inputChange"
 					/>
@@ -40,7 +40,7 @@
 					</view>
 				</view>
 				<view class="input-item">
-					<u-image src="../../static/images/public/password.png" width="28upx" height="32upx" />
+					<u-image style="flex-shrink: 0;" :show-loading="false" src="/static/images/public/password.png" width="30upx" height="34upx" />
 					<input
 						placeholder-style="color: #ACACAC"
 						type="password"
@@ -58,12 +58,12 @@
 						maxlength="20"
 					/>
 					<view>
-						<u-image v-if="isOpen" src="../../static/images/public/open_eyes.png" @click="handleChange(false)" width="36upx" height="32upx" />
-						<u-image v-else src="../../static/images/public/close_eyes.png" @click="handleChange(true)" width="36upx" height="32upx" />
+						<u-image style="flex-shrink: 0;" :show-loading="false" v-if="isOpen" src="/static/images/public/open_eyes.png" @click="handleChange(false)" width="36upx" height="32upx" />
+						<u-image style="flex-shrink: 0;" :show-loading="false" v-else src="/static/images/public/close_eyes.png" @click="handleChange(true)" width="36upx" height="32upx" />
 					</view>
 				</view>
 				<view class="input-item">
-					<u-image src="../../static/images/public/password.png" width="28upx" height="32upx" />
+					<u-image style="flex-shrink: 0;" :show-loading="false" src="/static/images/public/password.png" width="30upx" height="34upx" />
 					<input
 						placeholder-style="color: #ACACAC"
 						v-if="!isOpenEyes"
@@ -83,12 +83,12 @@
 						@input="inputChange"
 					/>
 					<view>
-						<u-image v-if="isOpenEyes" src="../../static/images/public/open_eyes.png" @click="handleChangeEyes(false)" width="36upx" height="32upx" />
-						<u-image v-else src="../../static/images/public/close_eyes.png" @click="handleChangeEyes(true)" width="36upx" height="32upx" />
+						<u-image style="flex-shrink: 0;" :show-loading="false" v-if="isOpenEyes" src="/static/images/public/open_eyes.png" @click="handleChangeEyes(false)" width="36upx" height="32upx" />
+						<u-image style="flex-shrink: 0;" :show-loading="false" v-else src="/static/images/public/close_eyes.png" @click="handleChangeEyes(true)" width="36upx" height="32upx" />
 					</view>
 				</view>
 				<view class="input-item">
-					<u-image src="../../static/images/public/invit.png" width="34upx" height="32upx" />
+					<u-image style="flex-shrink: 0;" :show-loading="false" src="/static/images/public/invit.png" width="34upx" height="32upx" />
 					<input
 						placeholder-style="color: #ACACAC"
 						type="text"

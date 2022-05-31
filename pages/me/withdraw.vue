@@ -4,7 +4,7 @@
 			<view class="slot-wrap"><view class="nav-btn" @click="openPage('list')"></view></view>
 		</u-navbar>
 		<view class="coin-wrapper" v-if="accountInfo" @click="openPage('add')">
-			<u-image style="flex-shrink: 0;" :src="accountInfo.icon" width="76rpx" height="76rpx" />
+			<u-image style="flex-shrink: 0;" :src="accountInfo.icon" width="78rpx" height="78rpx" />
 			<view class="account-info">
 				<view class="account-txt">
 					<view style="flex-shrink: 0;">{{i18n.withdraw.withdrawwAddr}}：</view>
@@ -363,7 +363,7 @@ export default {
 	width: 37rpx;
 	height: 42rpx;
 	margin-right: 44rpx;
-	background: url(../../static/images/me/list.png);
+	background: url(/static/images/me/list.png);
 	background-size: 100% 100%;
 }
 /deep/ .u-mode-center-box {
@@ -486,7 +486,7 @@ export default {
 		.top-img {
 			width: 116rpx;
 			height: 116rpx;
-			background: url(../../static/images/me/coupon_img.png);
+			background: url(/static/images/me/coupon_img.png);
 			background-size: 100% 100%;
 			z-index: 1000;
 			margin-bottom: -58rpx;

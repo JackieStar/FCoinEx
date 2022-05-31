@@ -47,7 +47,7 @@
 		</view>
 		<!-- 快速入口 -->
 		<view class="fast-wraper">
-			<view class="fast-item" @click="navTo('/pages/public/lottery')">
+			<view class="fast-item" @click="openPage('lottery')">
 				<image src="../../static/images/home/lottery.png" />
 				<view class="fast-item-name">{{ i18n.home.lottery }}</view>
 			</view>
@@ -98,7 +98,7 @@
 			</view> -->
 		</view>
 		<!-- 客服 -->
-		<view class="kf-icon"><u-image @click="openPage('kf')" src="../../static/images/home/kf.png" width="127rpx" height="127rpx" /></view>
+		<view class="kf-icon"><u-image style="flex-shrink: 0;" :show-loading="false" @click="openPage('kf')" src="/static/images/home/kf.png" width="127rpx" height="127rpx" /></view>
 		<!-- 签到 -->
 		<u-popup v-model="show" mode="center">
 			<view class="coupon-wrapper">
@@ -281,9 +281,20 @@ export default {
 					});
 				}
 			}
+			if (type === 'lottery') {
+				if (this.loginInfo.hasLogin) {
+					uni.navigateTo({
+						url: '/pages/public/lottery'
+					});
+				} else {
+					uni.navigateTo({
+						url: '/pages/public/login'
+					});
+				}
+			}
 			if (type === 'download') {
 				uni.navigateTo({
-					url: `/pages/user/webview?title='x'&url=${this.appData.app_download}`
+					url: `/pages/public/webview?url=${this.appData.app_download}`
 				});
 			}
 			if (type === 'help') {
