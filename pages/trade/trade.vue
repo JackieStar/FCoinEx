@@ -51,7 +51,7 @@
 
 		</view>
 		<Kline ref="line" :productName="productName" :list="line" :productData="productData" :price="priceInfo.price"
-			:rate="priceInfo.diff_rate" :productCode="productCode"></Kline>
+			 :productCode="productCode"></Kline>
 		<view class="handle-btn-wrapper flex_between_box">
 			<view class="rise-btn" @click="handleTransaction(1)">
 				{{ i18n.trade.rise }}

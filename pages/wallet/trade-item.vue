@@ -149,6 +149,9 @@
 			}
 			setTimeout(() => {
 				if (this.mode == 'hold') {
+					if(this.infoItem.remain_seconds==0){
+						this.$emit('handleGet')
+					}
 					this.clear = setInterval(this.countTime, 1 * 1000)
 				}
 			}, 300)
@@ -189,7 +192,9 @@
 					this.second = third
 					this.getProductPrice()
 				} else {
-					this.$emit('handleGet')
+					setTimeout(()=>{
+						this.$emit('handleGet')
+					},1000)
 					clearInterval(this.clear);
 				}
 				// console.log(d, h, m, s)
@@ -198,7 +203,10 @@
 				if (leftTime > 0) {
 					this.infoItem.remain_seconds--
 				} else {
-					this.$emit('handleGet')
+					setTimeout(()=>{
+						this.$emit('handleGet')
+					},1000)
+					
 					clearInterval(this.clear);
 				}
 			},

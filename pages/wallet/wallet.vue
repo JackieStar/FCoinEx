@@ -163,6 +163,7 @@
 			position: fixed;
 			top: 0;
 			/* #endif */
+			z-index: 40;
 		}
 
 		.trade-record-page {
