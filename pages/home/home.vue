@@ -776,12 +776,13 @@
 							background: #ff2121;
 							border-radius: 12rpx 12rpx 12rpx 0px;
 							font-size: 18rpx;
+							scale: 0.9;
 							font-family: PingFang SC;
 							font-weight: 400;
 							color: #ffffff;
 							position: absolute;
 							top: 12rpx;
-							right: -30rpx;
+							left: 82rpx;
 							z-index: 12;
 						}
 
