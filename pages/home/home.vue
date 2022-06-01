@@ -22,10 +22,10 @@
 		<view class="coin-wrapper">
 			<view class="coin-item" @click="navToTrade(item)" v-for="(item, i) in markets" :key="item.id">
 				<view class="coin-name">{{ item.name }}/USDT</view>
-				<view class="coin-price" v-if="item.diff_rate < 0" style="color: #E91B00">{{ item.price }}</view>
-				<view class="coin-price" v-else style="color: #00B809">+{{ item.price }}</view>
-				<view class="coin-price" v-if="item.diff_rate < 0" style="color: #E91B00">{{ item.diff_rate }}%</view>
-				<view class="coin-price" v-else style="color: #00B809">+{{ item.diff_rate }}%</view>
+				<view class="coin-price" v-if="item.diff_rate < 0" style="color: #CC4E58">{{ item.price }}</view>
+				<view class="coin-price" v-else style="color: #52AF7F">+{{ item.price }}</view>
+				<view class="coin-price" v-if="item.diff_rate < 0" style="color: #CC4E58">{{ item.diff_rate }}%</view>
+				<view class="coin-price" v-else style="color: #52AF7F">+{{ item.diff_rate }}%</view>
 			</view>
 		</view>
 		<!-- 跳转模块 -->
@@ -92,9 +92,9 @@
 					<!-- <view class="subtitle">{{ item.priceUsd }}</view> -->
 				</view>
 				<view class="col r">
-					<uni-tag size="large" v-if="item.diff_rate >= 0" :text="`+${item.diff_rate}%`" type="success">
+					<uni-tag size="large" v-if="item.diff_rate >= 0" :text="`+${item.diff_rate}%`" custom-style="background-color:#52AF7F;font-weight: 400;border: none">
 					</uni-tag>
-					<uni-tag size="large" v-else :text="`${item.diff_rate}%`" type="error"></uni-tag>
+					<uni-tag size="large" v-else :text="`${item.diff_rate}%`" custom-style="background-color:#CC4E58;font-weight: 400;border: none"></uni-tag>
 				</view>
 			</view>
 		</view>

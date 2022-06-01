@@ -9,8 +9,8 @@
 			<!-- <view class="subtitle">{{ item.priceUsd }}</view> -->
 		</view>
 		<view class="col r">
-			<uni-tag size="large" v-if="item.diff_rate >= 0" :text="`+${item.diff_rate}%`" type="success"></uni-tag>
-			<uni-tag size="large" v-else :text="`${item.diff_rate}%`" type="error"></uni-tag>
+			<uni-tag size="large" v-if="item.diff_rate >= 0" :text="`+${item.diff_rate}%`" custom-style="background-color:#52AF7F;font-weight: 400;border: none"></uni-tag>
+			<uni-tag size="large" v-else :text="`${item.diff_rate}%`" custom-style="background-color:#CC4E58;font-weight: 400;border: none"></uni-tag>
 		</view>
 	</view>
 </template>

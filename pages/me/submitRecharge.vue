@@ -4,12 +4,14 @@
 			<view class="flex_center_box">
 				<view class="recharge-img">{{ i18n.submitRecharge.rechargeImg }}</view>
 				<uni-file-picker disable-preview :del-icon="false" return-type="object" @select="select" :image-styles="imageStyles">
-					<u-image style="flex-shrink: 0;" :fade="false" :show-loading="false" src="/static/images/me/upload_img.png" width="129rpx" height="129rpx" />
+					<u-image style="flex-shrink: 0;" :fade="false" src="/static/images/me/upload_img.png" width="129rpx" height="129rpx" />
 				</uni-file-picker>
 			</view>
 			<view class="ex-img-wrapper" @click="handlePreview">
 				<text style="width: 120rpx; color: #212121; margin-right: 20upx;">{{ i18n.submitRecharge.exImg }}</text>
-				<image class="ex-img" :src="rechargeInfo.recharge_res_demo" />
+				<u-image :src="rechargeInfo.recharge_res_demo" width="112upx" height="224upx">
+					<u-loading slot="loading"></u-loading>
+				</u-image>
 			</view>
 		</view>
 		<view class="title-wrapper">
@@ -29,7 +31,7 @@
 			<c-tips v-for="(item, index) in rechargeInfo.note" :text="item" :key="index" />
 		</view>
 		<u-popup v-model="show" mode="top" length="100%" closeable>
-			<image class="recharge-res-demo" @click="show = false" :src="rechargeInfo.recharge_res_demo" mode=""></image>
+			<image class="recharge-res-demo" @click="show = false" :src="rechargeInfo.recharge_res_demo" mode="widthFix"></image>
 		</u-popup>
 		<view class="kf-icon"><u-image :fade="false" :show-loading="false" @click="openPage('kf')" src="/static/images/home/kf.png" width="127rpx" height="127rpx" /></view>
 	</view>
@@ -289,7 +291,8 @@ export default {
 }
 .recharge-res-demo {
 	width: 100%;
-	height: 100%;
+	// height: auto;
+	// height: 100%;
 }
 .kf-icon {
 	position: fixed;
