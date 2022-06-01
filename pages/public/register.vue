@@ -36,7 +36,8 @@
 							ref="uCode"
 							@change="codeChange"
 						></u-verification-code>
-						<view @tap="getCode" class="code-btn">{{ tips }}</view>
+						<view @tap="getCode" v-if="lang == 'zh-CN'" style="width: 180rpx" class="code-btn">{{ tips }}</view>
+						<view @tap="getCode" v-else style="width: 60rpx" class="code-btn">{{ tips }}</view>
 					</view>
 				</view>
 				<view class="input-item">
@@ -140,7 +141,8 @@ export default {
 				captchaCode: undefined,
 				token: undefined
 			},
-			isChecked: false
+			isChecked: false,
+			lang: null
 		};
 	},
 	onLoad(e) {
@@ -153,6 +155,7 @@ export default {
 		uni.setNavigationBarTitle({
 			title: this.i18n.register.title
 		});
+		this.lang = uni.getStorageSync('language');
 		this.getAppConfig()
 	},
 	methods: {
@@ -235,8 +238,8 @@ export default {
 							password: this.form.password
 						};
 						this.login(params).then(res => {
-							uni.navigateTo({
-								url: '/pages/public/lottery'
+							uni.switchTab({	
+								url: '/pages/home/home'
 							});
 						});
 					}, 1000);
@@ -363,8 +366,6 @@ export default {
 	}
 }
 .code-btn {
-	float: right;
-	width: 200upx;
 	text-align: right;
 	color: #0072FF;
 	font-size: 26upx;

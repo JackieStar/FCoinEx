@@ -201,7 +201,7 @@ export default {
 		getUserInfo() {
 			this.userInfo().then(res => {
 				this.userData = res.data;
-				if (!this.userData.certification_status) {
+				if (this.userData.certification_status != 1) {
 					this.show = true;
 					return;
 				}

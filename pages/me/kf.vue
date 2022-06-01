@@ -38,14 +38,13 @@ export default {
 			});
 		},
 		openPage(item) {
-			// #ifdef H5
-			window.open(item.link);
-			// #endif
-			// #ifndef H5
-			uni.navigateTo({
-				url: `/pages/public/webview?title=${item.name}&url=${item.link}`
-			});
-			// #endif
+			if (item.webview) {
+				uni.navigateTo({
+					url: `/pages/public/webview?title=${item.name}&url=${item.link}`
+				});
+			} else {
+				window.open(item.link);
+			}
 		}
 	}
 };

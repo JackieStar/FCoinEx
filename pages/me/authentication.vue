@@ -87,6 +87,11 @@
 				</view>
 			</view>
 		</view>
+		<!-- 客服 -->
+		<view class="kf-icon">
+			<u-image style="flex-shrink: 0;" :show-loading="false" :fade="false" @click="openPage()"
+				src="/static/images/home/kf.png" width="127rpx" height="127rpx" />
+		</view>
 	</view>
 </template>
 
@@ -225,6 +230,11 @@
 					this.getAuthInfo()
 				});
 			},
+			openPage() {
+				uni.navigateTo({
+					url: '/pages/me/kf'
+				});
+			}
 		}
 	};
 </script>
@@ -236,6 +246,11 @@
 
 	.index-page {
 		font-size: 0;
+	}
+	.kf-icon {
+		position: fixed;
+		bottom: 190upx;
+		right: 30upx;
 	}
 
 	.home-page-bg {

@@ -333,9 +333,7 @@
 					}
 				}
 				if (type === 'download') {
-					uni.navigateTo({
-						url: `/pages/public/webview?url=${this.appData.app_download}`
-					});
+					window.open(this.appData.app_download);
 				}
 				if (type === 'help') {
 					if (this.loginInfo.hasLogin) {
