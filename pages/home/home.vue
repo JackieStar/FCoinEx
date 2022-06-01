@@ -18,7 +18,7 @@
 			<view class="coin-item" @click="navToTrade(item)" v-for="(item, i) in markets" :key="item.id">
 				<view class="coin-name">{{ item.name }}/USDT</view>
 				<view class="coin-price" v-if="item.diff_rate < 0" style="color: #DB4254">{{ item.price }}</view>
-				<view class="coin-price" v-else style="color: #59C092">+{{ item.price }}</view>
+				<view class="coin-price" v-else style="color: #59C092">{{ item.price }}</view>
 				<view class="coin-price" v-if="item.diff_rate < 0" style="color: #DB4254">{{ item.diff_rate }}%</view>
 				<view class="coin-price" v-else style="color: #59C092">+{{ item.diff_rate }}%</view>
 			</view>
@@ -310,7 +310,12 @@ export default {
 				}
 			}
 			if (type === 'download') {
+				// #ifdef H5
 				window.open(this.appData.app_download);
+				// #endif
+				// #ifndef H5
+				plus.runtime.openURL(location);
+				// #endif
 			}
 			if (type === 'help') {
 				if (this.loginInfo.hasLogin) {
@@ -583,6 +588,7 @@ export default {
 			line-height: 30upx;
 			.col {
 				font-size: 28rpx;
+				font-weight: 600;
 				color: #212121;
 				flex: 1;
 			}
@@ -616,7 +622,7 @@ export default {
 				border-width: 0.5px;
 				border-style: solid;
 				border-color: #59C092;
-				width: 180upx;
+				width: 160upx;
 				height: 66upx;
 				display: flex;
 				justify-content: center;
@@ -633,7 +639,7 @@ export default {
 				border-width: 0.5px;
 				border-style: solid;
 				border-color: #DB4254;
-				width: 180upx;
+				width: 160upx;
 				height: 66upx;
 				display: flex;
 				justify-content: center;

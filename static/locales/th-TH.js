@@ -279,7 +279,8 @@ module.exports = {
 			saveSuccess: 'บันทึกรหัส QR สำเร็จแล้ว',
 			bottomSubmit: 'ซื้อ Tether(USDT)',
 			network: 'เครือข่ายเติมเงิน',
-			getAmount: 'จำนวนเงินที่ได้รับ'
+			getAmount: 'จำนวนเงินที่ได้รับ',
+			saveLoading: 'กำลังบันทึกรหัส QR'
 		},
 		submitRecharge: {
 			title: 'ส่งภาพหน้าจอการโอน',

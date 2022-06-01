@@ -279,7 +279,8 @@ module.exports = {
 			saveSuccess: 'QR code saved successfully',
 			bottomSubmit: 'Buy Tether(USDT)',
 			network: 'Network',
-			getAmount: 'Amount received'
+			getAmount: 'Amount received',
+			saveLoading: 'QR code is being saved'
 		},
 		submitRecharge: {
 			title: 'Deposit certificate submission',

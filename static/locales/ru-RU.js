@@ -279,7 +279,8 @@ module.exports = {
 			saveSuccess: 'QR-код успешно сохранен',
 			bottomSubmit: 'купить USDT',
 			network: 'сеть перезарядки',
-			getAmount: 'Ориентировочная сумма к получению'
+			getAmount: 'Ориентировочная сумма к получению',
+			saveLoading: 'QR-код сохраняется'
 		},
 		submitRecharge: {
 			title: 'Отправка ваучера на пополнение баланса',

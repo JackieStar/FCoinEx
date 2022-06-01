@@ -3,7 +3,7 @@
 		<view class="fast-cell-wrapper" v-for="(item, index) in kefuList" @click="openPage(item)" :key="item.id">
 			<view class="cell-item">
 				<view class="cell-item-left">
-					<u-image :show-loading="false" :fade="false" :src="item.icon" shape="circle" width="100rpx" height="100rpx" />
+					<u-image style="flex-shrink: 0;" :show-loading="false" :fade="false" :src="item.icon" shape="circle" width="100rpx" height="100rpx" />
 					<text class="cell-title">{{ item.name }}</text>
 				</view>
 				<view class="cell-item-right"><u-icon name="arrow-right" color="#999" size="17" /></view>
@@ -38,12 +38,13 @@ export default {
 			});
 		},
 		openPage(item) {
-			if (item.webview) {
+			if (item.webview == 1) {
 				uni.navigateTo({
 					url: `/pages/public/webview?title=${item.name}&url=${item.link}`
 				});
 			} else {
-				window.open(item.link);
+				plus.runtime.openURL(item.link)
+				// window.open(item.link);
 			}
 		}
 	}

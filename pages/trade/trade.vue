@@ -750,7 +750,7 @@
 		.rise-btn {
 			width: 320upx;
 			height: 96upx;
-			background: #00B809;
+			background: #59C092;
 			border-radius: 48upx;
 			text-align: center;
 			line-height: 96upx;
@@ -760,7 +760,7 @@
 		.down-btn {
 			width: 320upx;
 			height: 96upx;
-			background: #E91B00;
+			background: #DB4254;
 			border-radius: 48upx;
 			text-align: center;
 			line-height: 96upx;
@@ -893,10 +893,10 @@
 	}
 
 	.red-text {
-		color: #E91B00 !important;
+		color: #DB4254 !important;
 	}
 
 	.green-text {
-		color: #00B809 !important;
+		color: #59C092 !important;
 	}
 </style>

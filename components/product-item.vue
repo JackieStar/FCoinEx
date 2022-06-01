@@ -67,7 +67,7 @@ export default {
 		border-width: 0.5px;
 		border-style: solid;
 		border-color: #59c092;
-		width: 180upx;
+		width: 160upx;
 		height: 66upx;
 		display: flex;
 		justify-content: center;
@@ -84,7 +84,7 @@ export default {
 		border-width: 0.5px;
 		border-style: solid;
 		border-color: #db4254;
-		width: 180upx;
+		width: 160upx;
 		height: 66upx;
 		display: flex;
 		justify-content: center;

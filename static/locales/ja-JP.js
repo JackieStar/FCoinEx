@@ -279,7 +279,8 @@ module.exports = {
 			saveSuccess: 'QRコードが正常に保存されました',
 			bottomSubmit: 'USDTを購入するには',
 			network: 'ネットワーク',
-			getAmount: '受け取る見積もり額'
+			getAmount: '受け取る見積もり額',
+			saveLoading: 'QRコードを保存しています'
 		},
 		submitRecharge: {
 			title: 'バウチャーの提出を再充電する',

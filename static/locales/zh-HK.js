@@ -279,7 +279,8 @@ module.exports = {
 			saveSuccess: '二維碼保存成功',
 			bottomSubmit: '去購買USDT',
 			network: '充值網絡',
-			getAmount: '預計到賬金額'
+			getAmount: '預計到賬金額',
+			saveLoading: '二維碼保存中'
 		},
 		submitRecharge: {
 			title: '充值憑證提交',

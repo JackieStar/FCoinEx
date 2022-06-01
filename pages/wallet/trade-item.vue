@@ -415,11 +415,11 @@
 				}
 
 				.hold-up {
-					background-color: #00B809;
+					background-color: #59C092;
 				}
 
 				.hold-down {
-					background-color: #FF2F2F;
+					background-color: #DB4254;
 				}
 
 				.hold-up-amount {

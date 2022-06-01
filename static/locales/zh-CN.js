@@ -280,7 +280,8 @@ module.exports = {
 			saveSuccess: '二维码保存成功',
 			bottomSubmit: '去购买USDT',
 			network: '充值网络',
-			getAmount: '预计到账金额'
+			getAmount: '预计到账金额',
+			saveLoading: '二维码保存中'
 		},
 		submitRecharge: {
 			title: '充值凭证提交',
