@@ -251,6 +251,7 @@
 		position: fixed;
 		bottom: 190upx;
 		right: 30upx;
+		z-index: 1000;
 	}
 
 	.home-page-bg {
