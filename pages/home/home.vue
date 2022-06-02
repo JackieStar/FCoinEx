@@ -8,7 +8,7 @@
 		<!-- 头部轮播 -->
 		<view class="carousel-wrapper">
 			<swiper class="carousel" autoplay="true">
-				<swiper-item @click="openBanner(item.link)" v-for="(item, index) in carousels" :key="index" class="carousel-item"><image :src="item.banner" /></swiper-item>
+				<swiper-item @click="openBanner(item)" v-for="(item, index) in carousels" :key="index" class="carousel-item"><image :src="item.banner" /></swiper-item>
 			</swiper>
 		</view>
 		<!-- 公告 -->
@@ -81,7 +81,9 @@
 					<view class="subtitle">Vol {{ item.volume_format }}</view>
 				</view>
 				<view class="col r light">
-					${{ item.price }}
+					<!-- ${{ item.price }} -->
+					<view v-if="item.diff_rate < 0" style="color: #DB4254">${{ item.price }}</view>
+					<view v-else style="color: #59C092">${{ item.price }}</view>
 					<!-- <view class="subtitle">{{ item.priceUsd }}</view> -->
 				</view>
 				<view class="col r">
@@ -259,11 +261,14 @@ export default {
 				url: '/pages/trade/trade'
 			});
 		},
-		openBanner(link) {
-			if (type === 'download') {
+		openBanner(item) {
+			if (item.webview == 1) {
 				uni.navigateTo({
-					url: `/pages/public/webview?url=${link}`
+					url: `/pages/public/webview?title=${item.title}&url=${item.link}`
 				});
+			} else {
+				plus.runtime.openURL(item.link)
+				// window.open(item.link);
 			}
 		},
 		openPage(type) {

@@ -5,7 +5,8 @@
 			<view class="subtitle">Vol {{ item.volume_format }}</view>
 		</view>
 		<view class="col r light">
-			${{ item.price }}
+			<view v-if="item.diff_rate < 0" style="color: #DB4254">${{ item.price }}</view>
+			<view v-else style="color: #59C092">${{ item.price }}</view>
 			<!-- <view class="subtitle">{{ item.priceUsd }}</view> -->
 		</view>
 		<view class="col r">
