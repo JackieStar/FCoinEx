@@ -262,13 +262,20 @@ export default {
 			});
 		},
 		openBanner(item) {
-			if (item.webview == 1) {
+			if (item.webview == 1 && item.link) {
 				uni.navigateTo({
 					url: `/pages/public/webview?title=${item.title}&url=${item.link}`
 				});
 			} else {
-				plus.runtime.openURL(item.link)
-				// window.open(item.link);
+				if (item.link) {
+					// #ifdef H5
+					window.open(item.link);
+					// #endif
+					// #ifndef H5
+					plus.runtime.openURL(item.link);
+					// #endif
+				}
+				
 			}
 		},
 		openPage(type) {

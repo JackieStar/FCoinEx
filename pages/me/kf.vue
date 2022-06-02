@@ -43,7 +43,13 @@ export default {
 					url: `/pages/public/webview?title=${item.name}&url=${item.link}`
 				});
 			} else {
-				plus.runtime.openURL(item.link)
+				// #ifdef H5
+				window.open(item.link);
+				// #endif
+				// #ifndef H5
+				plus.runtime.openURL(item.link);
+				// #endif
+				// plus.runtime.openURL(item.link)
 				// window.open(item.link);
 			}
 		}
