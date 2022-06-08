@@ -102,6 +102,15 @@
         "router" : {
             "base" : "",
             "mode" : "history"
+        },
+        "template" : "template.h5.html",
+        "optimization" : {
+            "treeShaking" : {
+                "enable" : true
+            }
+        },
+        "devServer" : {
+            "https" : true
         }
     }
 }
