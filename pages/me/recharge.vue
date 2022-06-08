@@ -95,6 +95,9 @@ export default {
 	onShow() {
 		this.loadData();
 		this.getUserInfo();
+		uni.setNavigationBarTitle({
+			title: this.i18n.recharge.title
+		});
 	},
 	methods: {
 		...mapActions('wallet', ['getFinaceInfo']),

@@ -183,6 +183,9 @@ export default {
 		this.getMaketList();
 		this.getAppConfig();
 		this.clear = setInterval(this.getMaketList, 3000);
+		uni.setNavigationBarTitle({
+			title: this.i18n.tabBar.home
+		});
 	},
 	onHide() {
 		console.log('离开页面');

@@ -79,6 +79,9 @@ export default {
 	},
 	onShow() {
 		this.getAppConfig();
+		uni.setNavigationBarTitle({
+			title: this.i18n.login.title
+		});
 	},
 	methods: {
 		...mapActions('user', ['appConfig', 'login']),

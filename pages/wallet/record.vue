@@ -99,9 +99,9 @@
 			};
 		},
 		onShow() {
-			// uni.setNavigationBarTitle({
-			// 	title: this.i18n.record.rechargeList
-			// });
+			uni.setNavigationBarTitle({
+				title: this.i18n.record.rechargeList
+			});
 			this.typeName = this.i18n.common.type
 			this.selectList = [{
 					value: '',

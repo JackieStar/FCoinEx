@@ -247,6 +247,9 @@
 
 		},
 		onShow() {
+			uni.setNavigationBarTitle({
+				title: this.i18n.tabBar.trade
+			});
 			if (this.loginInfo.hasLogin) {
 				this.getUserInfo();
 			} else {

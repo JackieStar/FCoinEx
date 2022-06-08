@@ -46,6 +46,9 @@ export default {
 	onShow() {
 		this.getConfig();
 		this.lang = uni.getStorageSync('language');
+		uni.setNavigationBarTitle({
+			title: 'BitAntOx'
+		});
 	},
 	methods: {
 		...mapActions('lottery', ['lotteryConfig', 'lotteryDraw']),
