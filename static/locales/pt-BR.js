@@ -61,13 +61,13 @@ module.exports = {
 			login: '登录',
 			sign: 'sign up',
 			forget: 'forget password',
-			bottomTxt: 'BitAnt-Global Digital Investment Bank',
+			bottomTxt: 'BitAntOx-Global Digital Investment Bank',
 			loginSuccess: '登录成功'
 		},
 		register: {
 			title: '注册',
 			registrTitle: '创建新账号',
-			registrTips: '开始你在Bitantox的加密货币投资之旅吧',
+			registrTips: '开始你在BitAntOx的加密货币投资之旅吧',
 			account: 'Please fill in your phone number',
 			email: 'Please enter email address',
 			emailCode: 'Please enter email verification code',

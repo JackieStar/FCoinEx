@@ -62,13 +62,13 @@ module.exports = {
 			login: 'เข้าสู่ระบบ',
 			sign: 'ลงทะเบียน',
 			forget: 'ลืมรหัสผ่าน',
-			bottomTxt: 'BitAnt-ธนาคารเพื่อการลงทุนดิจิทัลระดับโลก',
+			bottomTxt: 'BitAntOx-ธนาคารเพื่อการลงทุนดิจิทัลระดับโลก',
 			loginSuccess: 'เข้าสู่ระบบสำเร็จ'
 		},
 		register: {
 			title: 'ลงทะเบียน',
 			registrTitle: 'สร้างบัญชีใหม่',
-			registrTips: 'เริ่มต้นเส้นทางการลงทุนของคุณด้วย Bitantox',
+			registrTips: 'เริ่มต้นเส้นทางการลงทุนของคุณด้วย BitAntOx',
 			account: 'กรุณากรอกหมายเลขโทรศัพท์',
 			email: 'กรุณากรอกอีเมล์ของคุณ',
 			emailCode: 'กรุณากรอกรหัสยืนยันอีเมล',

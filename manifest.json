@@ -1,6 +1,6 @@
 {
     "name" : "BitAntOx",
-    "appid" : "__UNI__6D29424",
+    "appid" : "__UNI__1E0CBEF",
     "description" : "",
     "versionName" : "1.0.0",
     "versionCode" : "100",
@@ -98,7 +98,7 @@
         }
     },
     "h5" : {
-        "title" : "BitAntOx",
+        "title" : "BitBork",
         "router" : {
             "base" : "",
             "mode" : "history"

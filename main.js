@@ -98,7 +98,7 @@ const upload = (successCallback, progressCallback)=>{
 		success: function (chooseImageRes) {
 			const tempFilePaths = chooseImageRes.tempFilePaths;
 			uni.showLoading({
-			    title: '正在上传中...'
+			    title: 'uploading...'
 			});
 			let token = uni.getStorageSync('token')
 			const uploadTask = uni.uploadFile({
@@ -110,7 +110,7 @@ const upload = (successCallback, progressCallback)=>{
 					uni.hideLoading()
 					let res = JSON.parse(response.data)
 					if(res.code === 200){
-						uni.showToast({title: '上传成功', duration: 2000, icon: 'none'});
+						uni.showToast({title: 'uploaded successfully', duration: 2000, icon: 'none'});
 					} else {
 						uni.showToast({title: res.msg, duration: 2000, icon: 'none'});
 					}
@@ -120,7 +120,7 @@ const upload = (successCallback, progressCallback)=>{
 				},
 				fail: function(error){
 					uni.hideLoading()
-					uni.showToast({title: '上传失败', duration: 2000, icon: 'none'});
+					uni.showToast({title: 'upload failed', duration: 2000, icon: 'none'});
 				}
 			});
 		

@@ -28,7 +28,7 @@ export default function $http(options) {
 		   })
 		   uni.showToast({
 		        icon: 'none',
-		        title: '登录已失效'
+		        title: 'Login has expired'
 		    });
 	   } else if(response.data.code === 200){
 		    resolve(response.data);
@@ -43,7 +43,7 @@ export default function $http(options) {
 	_config.fail = (response) => {
 		uni.showToast({
 		     icon: 'none',
-		     title: '系统异常,请稍后再试'
+		     title: 'System error, please try again later'
 		 });
 	}
     // 开始请求

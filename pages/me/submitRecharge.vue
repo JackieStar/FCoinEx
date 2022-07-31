@@ -14,14 +14,14 @@
 				</u-image>
 			</view>
 		</view>
-		<view class="title-wrapper">
+	<!-- 	<view class="title-wrapper">
 			<text>{{ i18n.submitRecharge.address }}</text>
 			<u-image :show-loading="false" :fade="false" class="title-bg" src="/static/images/me/title_bg.png" width="144rpx" height="12rpx" mode="" />
 		</view>
 		<view class="input-wrapper">
 			<input type="text" v-model="transfer_addr" placeholder-style="color: #B6B6B6;font-size: 26rpx;" :placeholder="i18n.submitRecharge.address" class="address-input" />
 			<view class="copy-btn" @click="handlePaste">{{ i18n.submitRecharge.copyBtn }}</view>
-		</view>
+		</view> -->
 		<view class="btn-wrapper" style="padding: 0 30upx;">
 			<view class="submit-btn" @click="handleSubmit">{{ i18n.submitRecharge.submitBtn }}</view>
 			<view class="close-btn" @click="openPage('close')">{{ i18n.submitRecharge.closeBtn }}</view>
@@ -133,7 +133,7 @@ export default {
 				coin_type: this.coin_type,
 				amount: this.amount,
 				transfer_img: this.transfer_img,
-				transfer_addr: this.transfer_addr
+				// transfer_addr: this.transfer_addr
 			};
 			this.financeRecharge(params).then(res => {
 				this.$u.toast(this.i18n.submitRecharge.rechargeSuccess);

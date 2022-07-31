@@ -29,14 +29,14 @@
 							{{item.coin_type}}
 						</view>
 					</view>
-					<view class="flex_left_box record-label-item">
+				<!-- 	<view class="flex_left_box record-label-item">
 						<view class="left-label">
 							{{i18n.record.receiver}}：
 						</view>
 						<view class="desc">
 							{{item.payer_account}}
 						</view>
-					</view>
+					</view> -->
 					<view class="flex_left_box record-label-item">
 						<view class="left-label">
 							{{i18n.record.create}}：

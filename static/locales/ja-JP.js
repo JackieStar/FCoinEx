@@ -62,13 +62,13 @@ module.exports = {
 			login: 'ログイン',
 			sign: '登録する',
 			forget: 'パスワードをお忘れですか',
-			bottomTxt: 'BitAnt - グローバルデジタル投資銀行',
+			bottomTxt: 'BitAntOx - グローバルデジタル投資銀行',
 			loginSuccess: 'ログイン成功'
 		},
 		register: {
 			title: '登録する',
 			registrTitle: '新しいアカウントを作成する',
-			registrTips: 'Bitantoxで暗号通貨投資の旅を始めましょう',
+			registrTips: 'BitAntOxで暗号通貨投資の旅を始めましょう',
 			account: '電話番号を入力してください',
 			email: 'メールアドレスを入力してください',
 			emailCode: 'メール確認コードを入力してください',

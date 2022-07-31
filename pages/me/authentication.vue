@@ -115,7 +115,7 @@ export default {
 			}
 		},
 		selectImg() {
-			if (this.status != -1 || this.status == 2) {
+			if (this.status != -1 && this.status != 2) {
 				return;
 			}
 			let _this = this;
