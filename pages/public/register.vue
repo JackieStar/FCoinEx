@@ -13,7 +13,7 @@
 					<u-image style="flex-shrink: 0;" :fade="false" :show-loading="false" src="/static/images/public/phone.png" width="30rpx" height="40rpx" />
 					<input placeholder-style="color: #ACACAC" v-model="form.mobile" :placeholder="i18n.register.account" @input="inputChange" />
 				</view>
-				<view class="input-item">
+				<!-- <view class="input-item">
 					<u-image style="flex-shrink: 0;" :fade="false" :show-loading="false" src="/static/images/public/email.png" width="38upx" height="28upx" />
 					<input placeholder-style="color: #ACACAC" v-model="form.email" :placeholder="i18n.register.email" @input="inputChange" />
 				</view>
@@ -39,7 +39,7 @@
 						<view @tap="getCode" v-if="lang == 'zh-CN'" style="width: 180rpx" class="code-btn">{{ tips }}</view>
 						<view @tap="getCode" v-else style="width: 60rpx" class="code-btn">{{ tips }}</view>
 					</view>
-				</view>
+				</view> -->
 				<view class="input-item">
 					<u-image style="flex-shrink: 0;" :fade="false" :show-loading="false" src="/static/images/public/password.png" width="30upx" height="34upx" />
 					<input
@@ -89,6 +89,31 @@
 					</view>
 				</view>
 				<view class="input-item">
+					<u-image style="flex-shrink: 0;" :fade="false" :show-loading="false" src="/static/images/public/password.png" width="30upx" height="34upx" />
+					<input
+						placeholder-style="color: #ACACAC"
+						v-if="!isOpenCash"
+						type="password"
+						v-model="form.cash_password"
+						:placeholder="i18n.register.cashPasswordPhSix"
+						maxlength="20"
+						@input="inputChange"
+					/>
+					<input
+						placeholder-style="color: #ACACAC"
+						v-else
+						type="text"
+						v-model="form.cash_password"
+						:placeholder="i18n.register.cashPasswordPhSix"
+						maxlength="20"
+						@input="inputChange"
+					/>
+					<view>
+						<u-image style="flex-shrink: 0;" :fade="false" :show-loading="false" v-if="isOpenCash" src="/static/images/public/open_eyes.png" @click="handleChangeCash(false)" width="36upx" height="32upx" />
+						<u-image style="flex-shrink: 0;" :fade="false" :show-loading="false" v-else src="/static/images/public/close_eyes.png" @click="handleChangeCash(true)" width="36upx" height="32upx" />
+					</view>
+				</view>
+				<view class="input-item">
 					<u-image style="flex-shrink: 0;" :fade="false" :show-loading="false" src="/static/images/public/invit.png" width="34upx" height="32upx" />
 					<input
 						placeholder-style="color: #ACACAC"
@@ -126,11 +151,13 @@ export default {
 				email: '',
 				password: '',
 				password_confirm: '',
+				cash_password: '',
 				tcode: '',
 				email_code: ''
 			},
 			isOpen: false,
 			isOpenEyes: false,
+			isOpenCash: false,
 			mobile: '',
 			password: '',
 			logining: false,
@@ -217,6 +244,9 @@ export default {
 		handleChangeEyes(type) {
 			this.isOpenEyes = type;
 		},
+		handleChangeCash(type) {
+			this.isOpenCash = type;
+		},
 		toRegist() {
 			if (this.form.password != this.form.password_confirm) {
 				this.$api.msg(this.i18n.toast.againPwdError);
@@ -234,7 +264,7 @@ export default {
 					setTimeout(() => {
 						this.logining = false;
 						let params = {
-							account: this.form.email,
+							account: this.form.mobile,
 							password: this.form.password
 						};
 						this.login(params).then(res => {

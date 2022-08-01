@@ -137,9 +137,10 @@ export default {
 			});
 		},
 		toForgetPassword() {
-			uni.navigateTo({
-				url: '/pages/public/forget'
-			});
+			this.$api.msg(this.i18n.toast.contactKf)
+			// uni.navigateTo({
+			// 	url: '/pages/public/forget'
+			// });
 		},
 		openPage(type) {
 			if (type === 'kf') {

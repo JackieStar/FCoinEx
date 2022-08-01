@@ -100,7 +100,7 @@ export default {
 		});
 	},
 	methods: {
-		...mapActions('wallet', ['getFinaceInfo']),
+		...mapActions('wallet', ['getFinaceInfo', 'financeRecharge']),
 		...mapActions('user', ['userInfo']),
 		...mapActions('common', ['exchange']),
 		//请求数据
@@ -169,9 +169,21 @@ export default {
 		// 确认充值
 		handleSubmit() {
 			this.show = false;
-			uni.navigateTo({
-				url: `/pages/me/submitRecharge?amount=${this.amount}&coin_type=${this.coinType.coin_type}`
+			let params = {
+				coin_type: this.coinType.coin_type,
+				amount: this.amount
+			};
+			this.financeRecharge(params).then(res => {
+				this.$u.toast(this.i18n.submitRecharge.rechargeSuccess);
+				setTimeout(() => {
+					uni.navigateTo({
+						url: '/pages/wallet/record'
+					});
+				}, 1500);
 			});
+			// uni.navigateTo({
+			// 	url: `/pages/me/submitRecharge?amount=${this.amount}&coin_type=${this.coinType.coin_type}`
+			// });
 		},
 		// 保存图片
 		saveImg(url) {

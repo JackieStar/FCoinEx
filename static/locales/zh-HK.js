@@ -79,7 +79,11 @@ module.exports = {
 			logining: '去登錄',
 			tips1: '我已同意',
 			tips2: '用戶協議和隱私政策',
-			tips3: '請勾選用戶協議'
+			tips3: '請勾選用戶協議',
+			cashPassword: '資金密碼',
+			cashPasswordPh: '請輸入資金密碼',
+			cashPasswordPhSix: '請輸入資金密碼（6位數字）',
+			six: '（6位數字）'
 		},
 		userInfo: {
 			title: '個人資料',
@@ -318,7 +322,8 @@ module.exports = {
 			copySuccess: '複製成功',
 			updateNameSuccess: '修改暱稱成功',
 			updateAvatarSuccess: '修改頭像成功',
-			noMore: '沒有更多數據'
+			noMore: '沒有更多數據',
+			contactKf: '忘記密碼請聯繫客服'
 		}
 	}
 }

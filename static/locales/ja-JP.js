@@ -79,7 +79,11 @@ module.exports = {
 			logining: 'ログインに移動',
 			tips1: '同意しました',
 			tips2: 'ユーザー契約とプライバシーポリシー',
-			tips3: 'ユーザー同意にチェックを入れてください'
+			tips3: 'ユーザー同意にチェックを入れてください',
+			cashPassword: '資金パスワード',
+			cashPasswordPh: 'ファンドのパスワードを入力してください',
+			cashPasswordPhSix: 'ファンドのパスワードを入力してください（6桁）',
+			six: '（6桁）'
 		},
 		userInfo: {
 			title: '個人情報',
@@ -318,7 +322,8 @@ module.exports = {
 			copySuccess: '正常にコピー',
 			updateNameSuccess: 'ニックネームを正常に変更する',
 			updateAvatarSuccess: 'アバターを正常に変更する',
-			noMore: 'これ以上のデータはありません'
+			noMore: 'これ以上のデータはありません',
+			contactKf: 'パスワードをお忘れの場合は、カスタマーサービスまでご連絡ください'
 		}
 	}
 }

@@ -24,7 +24,7 @@
 			:placeholder="i18n.updatePwd.newPwdAgain"
 			maxlength="10"
 		/>
-		<view class="input-wrapper">
+<!-- 		<view class="input-wrapper">
 			<input
 				class="input-item"
 				placeholder-style="color: #4F5B87; font-size: 26upx"
@@ -45,7 +45,7 @@
 				></u-verification-code>
 				<view @tap="getCode" class="code-btn">{{ tips }}</view>
 			</view>
-		</view>
+		</view> -->
 		<view @click="handleSubmit" class="confirm-btn">{{ i18n.updatePwd.btn }}</view>
 	</view>
 </template>

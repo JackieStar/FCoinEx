@@ -65,7 +65,7 @@
 			</view>
 		</view>
 		<!-- 分享页 -->
-		<view class="share-wrapper" @click="openPage('invit')"><image :src="appData.invite_banner" /></view>
+		<view v-if="appData.invite_banner" class="share-wrapper" @click="openPage('invit')"><image :src="appData.invite_banner" /></view>
 		<!-- 市值排行 -->
 		<view class="coin-section m-t">
 			<view class="s-header">

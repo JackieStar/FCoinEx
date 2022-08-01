@@ -25,10 +25,10 @@
 		</view>
 		<view class="user-info-title" style="margin-top: 90rpx;">{{i18n.userInfo.title2}}</view>
 		<view class="fast-cell-wrapper" style="height: 220rpx;">
-			<view class="cell-item" @click="openPage('email')">
-				<text class="cell-title">{{i18n.userInfo.email}}</text>
+			<view class="cell-item" @click="openPage('cashPassword')">
+				<text class="cell-title">{{i18n.register.cashPassword}}</text>
 				<view class="cell-item-right">
-					<text class="cell-tips">{{userData.email}}</text>
+					<!-- <text class="cell-tips">{{userData.email}}</text> -->
 					<u-icon name="arrow-right" color="#999" size="17" />
 				</view>
 			</view>
@@ -160,6 +160,11 @@ export default {
 			if (type === 'email') {
 				uni.navigateTo({
 					url: '/pages/public/updateEmail'
+				});
+			}
+			if (type === 'cashPassword') {
+				uni.navigateTo({
+					url: '/pages/public/cashPassword'
 				});
 			}
 			if (type === 'moblie') {

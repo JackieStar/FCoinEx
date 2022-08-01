@@ -92,10 +92,10 @@
 				<view class="coupon-btn" @click="handleConfirm">{{i18n.withdraw.submitBtn}}</view>
 			</view>
 		</u-popup>
-		<u-popup v-model="showModal" mode="bottom" class="password-modal" closeable :border-radius="20" height="660rpx">
+		<u-popup v-model="showModal" mode="bottom" class="password-modal" closeable :border-radius="20" height="460rpx">
 			<view class="modal-title">{{i18n.withdraw.safe}}</view>
-			<view class="modal-line-title">{{ i18n.withdraw.emailCode }}</view>
-			<view class="modal-input-wrapper">
+			<!-- <view class="modal-line-title">{{ i18n.withdraw.emailCode }}</view> -->
+			<!-- <view class="modal-input-wrapper">
 				<input
 					class="input-item"
 					placeholder-style="color: #818FA; font-size: 26upx"
@@ -116,14 +116,14 @@
 					></u-verification-code>
 					<view @tap="getCode" class="code-btn">{{ tips }}</view>
 				</view>
-			</view>
-			<view class="modal-line-title">{{ i18n.withdraw.loginPwd }}</view>
+			</view> -->
+			<view class="modal-line-title">{{ i18n.register.cashPassword }}</view>
 			<view class="modal-input-wrapper">
 				<input
 					class="input-item"
 					placeholder-style="color: #818FA; font-size: 26upx"
 					v-model="form.password"
-					:placeholder="i18n.withdraw.placeholder1"
+					:placeholder="i18n.register.cashPasswordPhSix"
 					type="password"
 				/>
 			</view>
@@ -260,10 +260,10 @@ export default {
 			this.getExchange()
 		},
 		handleSubmit() {
-			if (!this.form.email_code) {
-				this.$api.msg(this.i18n.withdraw.noEmailCode);
-				return;
-			}
+			// if (!this.form.email_code) {
+			// 	this.$api.msg(this.i18n.withdraw.noEmailCode);
+			// 	return;
+			// }
 			if (!this.form.password) {
 				this.$api.msg(this.i18n.withdraw.noPwd);
 				return;
@@ -630,7 +630,7 @@ export default {
 		align-items: center;
 		padding-left: 24rpx;
 		.input-item {
-			width: 468rpx;
+			width: 96%;
 			height: 74rpx;
 			background: #FFFFFF;
 			border: 1rpx solid #E9E9E9;

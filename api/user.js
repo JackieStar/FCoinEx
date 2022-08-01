@@ -32,6 +32,14 @@ export function updatePwd(data) {
 	})
 }
 //修改密码
+export function updateCashPwd(data) {
+	return request({
+		url: '/api/user/set-cash-password',
+		method: 'POST',
+		data: data
+	})
+}
+//修改密码
 export function resetPwd(data) {
 	return request({
 		url: '/api/reset-pwd',

@@ -9,6 +9,7 @@ import {
 	login,
 	logout,
 	updatePwd,
+	updateCashPwd,
 	resetPwd,
 	updateUserName,
 	updateEmail,
@@ -123,6 +124,17 @@ const user = {
 		}, data) {
 			return new Promise((resolve, reject) => {
 				updatePwd(data).then(res => {
+					resolve()
+				}).catch(error => {
+					reject(error)
+				})
+			})
+		},
+		updateCashPwd({
+			commit
+		}, data) {
+			return new Promise((resolve, reject) => {
+				updateCashPwd(data).then(res => {
 					resolve()
 				}).catch(error => {
 					reject(error)

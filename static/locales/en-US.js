@@ -79,7 +79,11 @@ module.exports = {
 			logining: 'Sign in',
 			tips1: 'I have agreed',
 			tips2: 'User Agreement and Privacy Policy',
-			tips3: 'Please tick User Agreement'
+			tips3: 'Please tick User Agreement',
+			cashPassword: 'Fund password',
+			cashPasswordPh: 'Please enter the fund password',
+			cashPasswordPhSix: 'Please enter the fund password (6 digits)',
+			six: '(6 digits)'
 		},
 		userInfo: {
 			title: 'Personal Information',
@@ -318,7 +322,8 @@ module.exports = {
 			copySuccess: 'Copy successfully',
 			updateNameSuccess: 'Modify nickname successfully',
 			updateAvatarSuccess: 'Modify the avatar successfully',
-			noMore: 'no more data'
+			noMore: 'no more data',
+			contactKf: 'Forgot your password, please contact customer service'
 		}
 	}
 }

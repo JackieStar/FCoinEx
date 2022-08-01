@@ -79,7 +79,11 @@ module.exports = {
 			logining: '去登录',
 			tips1: '我已同意',
 			tips2: '用户协议和隐私政策',
-			tips3: '请勾选用户协议'
+			tips3: '请勾选用户协议',
+			cashPassword: '资金密码',
+			cashPasswordPh: '请输入资金密码',
+			cashPasswordPhSix: '请输入资金密码（6位数字）',
+			six: '（6位数字）'
 		},
 		userInfo: {
 			title: '个人资料',
@@ -319,7 +323,8 @@ module.exports = {
 			copySuccess: '复制成功',
 			updateNameSuccess: '修改昵称成功',
 			updateAvatarSuccess: '修改头像成功',
-			noMore: '没有更多数据'
+			noMore: '没有更多数据',
+			contactKf: '忘记密码请联系客服'
 		}
 	}
 }
