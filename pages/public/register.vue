@@ -11,7 +11,7 @@
 			<view class="input-content">
 				<view class="input-item">
 					<u-image style="flex-shrink: 0;" :fade="false" :show-loading="false" src="/static/images/public/phone.png" width="30rpx" height="40rpx" />
-					<input placeholder-style="color: #ACACAC" v-model="form.mobile" :placeholder="i18n.register.account" @input="inputChange" />
+					<input placeholder-style="color: #ACACAC" v-model="form.mobile" :placeholder="i18n.register.account" />
 				</view>
 				<!-- <view class="input-item">
 					<u-image style="flex-shrink: 0;" :fade="false" :show-loading="false" src="/static/images/public/email.png" width="38upx" height="28upx" />
@@ -72,7 +72,6 @@
 						v-model="form.password_confirm"
 						:placeholder="i18n.register.passwordAgain"
 						maxlength="20"
-						@input="inputChange"
 					/>
 					<input
 						placeholder-style="color: #ACACAC"
@@ -81,7 +80,6 @@
 						v-model="form.password_confirm"
 						:placeholder="i18n.register.passwordAgain"
 						maxlength="20"
-						@input="inputChange"
 					/>
 					<view>
 						<u-image style="flex-shrink: 0;" :fade="false" :show-loading="false" v-if="isOpenEyes" src="/static/images/public/open_eyes.png" @click="handleChangeEyes(false)" width="36upx" height="32upx" />
@@ -93,20 +91,19 @@
 					<input
 						placeholder-style="color: #ACACAC"
 						v-if="!isOpenCash"
-						type="password"
+						password
+						type="number"
 						v-model="form.cash_password"
 						:placeholder="i18n.register.cashPasswordPhSix"
-						maxlength="20"
-						@input="inputChange"
+						maxlength="6"
 					/>
 					<input
 						placeholder-style="color: #ACACAC"
 						v-else
-						type="text"
+						type="number"
 						v-model="form.cash_password"
 						:placeholder="i18n.register.cashPasswordPhSix"
-						maxlength="20"
-						@input="inputChange"
+						maxlength="6"
 					/>
 					<view>
 						<u-image style="flex-shrink: 0;" :fade="false" :show-loading="false" v-if="isOpenCash" src="/static/images/public/open_eyes.png" @click="handleChangeCash(false)" width="36upx" height="32upx" />
@@ -148,12 +145,10 @@ export default {
 		return {
 			form: {
 				mobile: null,
-				email: '',
 				password: '',
 				password_confirm: '',
 				cash_password: '',
 				tcode: '',
-				email_code: ''
 			},
 			isOpen: false,
 			isOpenEyes: false,
@@ -192,10 +187,6 @@ export default {
 			this.appConfig().then(res => {
 				this.appData = res.data;
 			});
-		},
-		inputChange(e) {
-			const key = e.currentTarget.dataset.key;
-			this[key] = e.detail.value;
 		},
 		openPage(type) {
 			if (type === 'xieyi') {
@@ -272,7 +263,7 @@ export default {
 								url: '/pages/home/home'
 							});
 						});
-					}, 1000);
+					}, 2000);
 				})
 				.catch(error => {
 					this.logining = false;

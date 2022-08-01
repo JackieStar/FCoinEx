@@ -124,7 +124,9 @@
 					placeholder-style="color: #818FA; font-size: 26upx"
 					v-model="form.password"
 					:placeholder="i18n.register.cashPasswordPhSix"
-					type="password"
+					password
+					type="number"
+					maxlength="6"
 				/>
 			</view>
 			<view class="submit-btn" @click="handleSubmit">{{ i18n.updatePwd.btn }}</view>

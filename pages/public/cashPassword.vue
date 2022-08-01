@@ -2,7 +2,8 @@
 	<view class="container">
 		<input
 			class="input-item"
-			type="password"
+			password 
+			type="number"
 			placeholder-style="color: #4F5B87; font-size: 26upx"
 			v-model="form.old_password"
 			:placeholder="`${i18n.updatePwd.oldPwd}${i18n.register.six}`"
@@ -10,7 +11,8 @@
 		/>
 		<input
 			class="input-item"
-			type="password"
+			password
+			type="number"
 			placeholder-style="color: #4F5B87; font-size: 26upx"
 			v-model="form.password"
 			:placeholder="`${i18n.updatePwd.newPwd}${i18n.register.six}`"
@@ -18,7 +20,8 @@
 		/>
 		<input
 			class="input-item"
-			type="password"
+			type="number"
+			password
 			placeholder-style="color: #4F5B87; font-size: 26upx"
 			v-model="form.password_confirm"
 			:placeholder="`${i18n.updatePwd.newPwdAgain}${i18n.register.six}`"
